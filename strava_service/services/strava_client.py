@@ -1,9 +1,6 @@
 import os
 import requests
-from dotenv import set_key, find_dotenv
 from config import STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET, REDIRECT_URI
-
-env_path = find_dotenv()
 
 def get_auth_url():
     scope = "read,activity:read_all"
@@ -15,7 +12,6 @@ def get_auth_url():
     )
 
 def exchange_token_service(code: str):
-    """Exchange code for access & refresh tokens, save to .env"""
     payload = {
         "client_id": STRAVA_CLIENT_ID,
         "client_secret": STRAVA_CLIENT_SECRET,
@@ -25,10 +21,8 @@ def exchange_token_service(code: str):
     response = requests.post("https://www.strava.com/oauth/token", data=payload)
     response.raise_for_status()
     tokens = response.json()
-    
-    set_key(env_path, "STRAVA_REFRESH_TOKEN", tokens["refresh_token"])
-    set_key(env_path, "STRAVA_ACCESS_TOKEN", tokens["access_token"])
-    
+
+    # In Docker, just return tokens; don't try to write to .env
     return {
         "access_token": tokens["access_token"],
         "refresh_token": tokens["refresh_token"]
@@ -49,9 +43,7 @@ def refresh_access_token():
     response.raise_for_status()
     tokens = response.json()
     
-    set_key(env_path, "STRAVA_ACCESS_TOKEN", tokens["access_token"])
-    set_key(env_path, "STRAVA_REFRESH_TOKEN", tokens["refresh_token"])
-    
+    # Just return the new access token
     return tokens["access_token"]
 
 def validate_or_refresh_token():
@@ -69,7 +61,7 @@ def get_activities(limit: int = 5):
     access_token = get_access_token()
     url = f"https://www.strava.com/api/v3/athlete/activities?per_page={limit}&page=1"
     headers = {"Authorization": f"Bearer {access_token}"}
-    response = requests.get(url)
+    response = requests.get(url, headers=headers)
     if response.status_code == 401:
         access_token = refresh_access_token()
         headers["Authorization"] = f"Bearer {access_token}"

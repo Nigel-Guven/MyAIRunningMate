@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  strava_service:
+    build:
+      context: ..
+      dockerfile: .docker/Dockerfile.StravaAPI
+    container_name: strava_service
+    env_file:
+      - ../.env
+    ports:
+      - "8000:8000"
