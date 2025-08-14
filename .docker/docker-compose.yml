@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  strava_service:
+    build:
+      context: ../strava_service
+      dockerfile: Dockerfile.StravaAPI
+    container_name: strava_service
+    env_file:
+      - ../.env
+    ports:
+      - "8000:8000"
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  ai_agent_service:
+    build:
+      context: ../ai_agent_service
+      dockerfile: Dockerfile.AIAgent
+    container_name: ai_agent_service
+    env_file:
+      - ../.env
+    depends_on:
+      - strava_service
+    networks:
+      - app_network
+    restart: unless-stopped
+
+networks:
+  app_network:
+    driver: bridge
