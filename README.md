@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="documents/MyAIRunningMateLogo.png" alt="MyAIRunningMate Logo" width="400"/>
+</p>
+
 # 🏃‍♂️🏊 Strava Data Analysis – Microservices-Based Python Application
 
 > **AI-powered running & swimming analysis** with a modern microservices architecture – featuring Docker, Kubernetes, Terraform, Helm, Kafka, and more.
