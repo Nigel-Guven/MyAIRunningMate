@@ -3,7 +3,7 @@ version: "3.9"
 services:
   strava_service:
     build:
-      context: ../strava_service
+      context: ../running_mate_strava_service
       dockerfile: Dockerfile.StravaAPI
     container_name: strava_service
     env_file:
@@ -13,19 +13,33 @@ services:
     networks:
       - app_network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/strava/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   ai_agent_service:
     build:
-      context: ../ai_agent_service
+      context: ../running_mate_ai_agent_service
       dockerfile: Dockerfile.AIAgent
     container_name: ai_agent_service
     env_file:
       - ../.env
     depends_on:
       - strava_service
+    ports:
+      - "8001:8001"
     networks:
       - app_network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
 networks:
   app_network:
