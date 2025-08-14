@@ -13,7 +13,7 @@ The infrastructure leverages **cloud-native tooling** to ensure reliability and 
 ---
 
 ## 🏗 High-Level Architecture
-![Architecture Diagram](docs/architecture-diagram.png) <!-- Optional: Add diagram image -->
+![Architecture Diagram](documents/HighLevelArchitectureDiagram.png) <!-- Optional: Add diagram image -->
 
 **Key Components:**
 - **Frontend UI Service** – Desktop app for data visualization & AI feedback
