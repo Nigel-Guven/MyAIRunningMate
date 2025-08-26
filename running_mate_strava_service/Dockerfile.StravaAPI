@@ -2,19 +2,21 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install system dependencies for PostgreSQL client
+# Install system dependencies
 RUN apt-get update && apt-get install -y libpq-dev curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+
+# We're removing httpx and adding kafka-python back
+RUN pip install --no-cache-dir -r requirements.txt "fastapi[all]" uvicorn kafka-python python-dotenv
 
 # Copy the application code
 COPY . .
 
-# Set environment variable for database connection (optional, can also be in .env)
-ENV DATABASE_URL=postgresql://strava_user:strava_pass@postgres_service:5432/strava_db
+# Set environment variable for the Kafka broker URL
+ENV KAFKA_BROKER="kafka:9092"
 
 # Start FastAPI
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

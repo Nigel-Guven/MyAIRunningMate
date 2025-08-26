@@ -1,13 +1,23 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+import firebase_admin
+from firebase_admin import firestore
+from firebase_admin import credentials
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://strava_user:strava_pass@postgres_service:5432/strava_db")
+# Your Firebase Admin SDK credentials file path
+CREDENTIALS_FILE = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
-Base = declarative_base()
+# Initialize the Firebase Admin SDK with the service account credentials
+if not firebase_admin._apps:
+    try:
+        cred = credentials.Certificate(CREDENTIALS_FILE)
+        firebase_admin.initialize_app(cred)
+        print("Firebase Admin SDK initialized successfully.")
+    except Exception as e:
+        print(f"Error initializing Firebase Admin SDK: {e}")
+        # Consider a more robust error handling mechanism in production
 
-def init_db():
-    from .models import Activity
-    Base.metadata.create_all(bind=engine)
+def get_db():
+    """
+    Returns a Firestore client instance.
+    """
+    return firestore.client()

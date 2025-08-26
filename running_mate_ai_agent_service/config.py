@@ -3,6 +3,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Example: add any AI or DB keys here
-AI_MODEL_PATH = os.getenv("AI_MODEL_PATH", "models/default_model.pkl")
-STRAVA_SERVICE_URL = os.getenv("STRAVA_SERVICE_URL", "http://strava_service:8000")
+# Environment variables for Kafka broker and topics
+KAFKA_BROKER = os.getenv("KAFKA_BROKER", "kafka:9092")
+ACTIVITY_TOPIC = os.getenv("ACTIVITY_TOPIC", "activities_topic")
+INSIGHTS_TOPIC = os.getenv("INSIGHTS_TOPIC", "insights_topic")
+
+# API key for the Gemini API
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")

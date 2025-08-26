@@ -1,4 +1,7 @@
 def clean_activity(activity):
+    """
+    Cleans and formats a raw Strava activity dictionary for analysis.
+    """
     return {
         "name": activity.get("name"),
         "distance_km": round(activity.get("distance", 0) / 1000, 2),

@@ -1,20 +1,11 @@
-# Use a slim Python image
 FROM python:3.11-slim
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies for PostgreSQL client and building packages
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpq-dev \
-    postgresql-client \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements and install
+# Install Firebase Admin SDK and other necessary Python packages
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt firebase-admin
 
 # Copy the rest of the code
 COPY . ./
@@ -22,9 +13,7 @@ COPY . ./
 # Set environment variables (Kafka broker and topic)
 ENV KAFKA_BROKER=kafka:9092
 ENV ACTIVITY_TOPIC=activities_topic
+ENV INSIGHTS_TOPIC=insights_topic
 
-# Ensure the entrypoint script is executable
-RUN chmod +x ./scripts/entrypoint.sh
-
-# Command: run migrations then start consumer
-CMD ["./scripts/entrypoint.sh"]
+# Command to start the consumer
+CMD ["python", "main.py"]

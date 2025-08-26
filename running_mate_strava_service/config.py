@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv, find_dotenv
 
+# Use find_dotenv() for a more flexible way of loading the .env file
 env_path = find_dotenv()
 load_dotenv(env_path)
 

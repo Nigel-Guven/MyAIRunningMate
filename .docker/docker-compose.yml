@@ -11,6 +11,20 @@ services:
     networks:
       - app_network
 
+  pgadmin:
+    image: dpage/pgadmin4:7
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+      
+    depends_on:
+      - postgres_service
+    networks:
+      - app_network
+
   kafka:
     image: confluentinc/cp-kafka:7.4.1
     container_name: kafka

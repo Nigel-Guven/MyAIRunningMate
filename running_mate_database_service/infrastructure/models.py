@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Text
+from sqlalchemy import Column, BigInteger, Integer, String, Float, DateTime, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from .database import Base
 from datetime import datetime
@@ -6,7 +6,7 @@ from datetime import datetime
 class Activity(Base):
     __tablename__ = "activities"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(BigInteger, primary_key=True, index=True)
     name = Column(String, nullable=True)
     distance = Column(Float, nullable=True)
     moving_time = Column(Float, nullable=True)
@@ -28,7 +28,7 @@ class Activity(Base):
 class Insight(Base):
     __tablename__ = "insights"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(BigInteger, primary_key=True, index=True)
     activity_id = Column(Integer, ForeignKey("activities.id"), nullable=True)
     insight = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.now)
