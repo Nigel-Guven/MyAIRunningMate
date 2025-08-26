@@ -1,0 +1,136 @@
+{
+  "event": "Bremen Marathon",
+  "date": "October 5th",
+  "plan": [
+    {
+      "week": 0,
+      "days": {
+        "Monday, Jul 28": "Interval Run - 6 Km",
+        "Tuesday, Jul 29": "Strength",
+        "Wednesday, Jul 30": "Rest Day",
+        "Thursday, Jul 31": "5k Pace Run",
+        "Friday, Aug 1": "Rest Day",
+        "Saturday, Aug 2": "Rest Day",
+        "Sunday, Aug 3": "Rest Day"
+      },
+      "kms": 11
+    },
+    {
+      "week": 1,
+      "days": {
+        "Monday, Aug 4": "Rest Day",
+        "Tuesday, Aug 5": "Rest Day",
+        "Wednesday, Aug 6": "Rest Day",
+        "Thursday, Aug 7": "Long Run - 10 Km",
+        "Friday, Aug 8": "Rest Day",
+        "Saturday, Aug 9": "Rest Day",
+        "Sunday, Aug 10": "Rest Day"
+      },
+      "kms": 21
+    },
+    {
+      "week": 2,
+      "days": {
+        "Monday, Aug 11": "Hills 10, Intervals 4*400m",
+        "Tuesday, Aug 12": "Swimming 500m",
+        "Wednesday, Aug 13": "Fartlek 7k",
+        "Thursday, Aug 14": "Rest Day",
+        "Friday, Aug 15": "Rest Day",
+        "Saturday, Aug 16": "Long Run 16k",
+        "Sunday, Aug 17": "Recovery Swim"
+      },
+      "kms": 27
+    },
+    {
+      "week": 3,
+      "days": {
+        "Monday, Aug 18": "Rest Day",
+        "Tuesday, Aug 19": "Rest Day",
+        "Wednesday, Aug 20": "Rest Day",
+        "Thursday, Aug 21": "Tempo 8k",
+        "Friday, Aug 22": "Rest Day",
+        "Saturday, Aug 23": "Rest Day",
+        "Sunday, Aug 24": "Rest Day"
+      },
+      "kms": 8
+    },
+    {
+      "week": 4,
+      "days": {
+        "Monday, Aug 25": "1k Easy 5k Intervals",
+        "Tuesday, Aug 26": "Intervals 4*600m",
+        "Wednesday, Aug 27": "Rest Day",
+        "Thursday, Aug 28": "Tempo 5k",
+        "Friday, Aug 29": "Hills 15",
+        "Saturday, Aug 30": "Long Run 14k",
+        "Sunday, Aug 31": "Recovery 5k"
+      },
+      "kms": 26.4
+    },
+    {
+      "week": 5,
+      "days": {
+        "Monday, Sep 1": "Rest Day",
+        "Tuesday, Sep 2": "Intervals 6*400m",
+        "Wednesday, Sep 3": "Rest Day",
+        "Thursday, Sep 4": "Fartlek 25 min",
+        "Friday, Sep 5": "Hills 20",
+        "Saturday, Sep 6": "Long Run 16k",
+        "Sunday, Sep 7": "Recovery 5k + Swim 1km"
+      },
+      "kms": 27.4
+    },
+    {
+      "week": 6,
+      "days": {
+        "Monday, Sep 8": "Rest Day",
+        "Tuesday, Sep 9": "Intervals 5*800m",
+        "Wednesday, Sep 10": "Rest Day",
+        "Thursday, Sep 11": "Tempo 6k",
+        "Friday, Sep 12": "Rest Day",
+        "Saturday, Sep 13": "Long Run 18k",
+        "Sunday, Sep 14": "Recovery 6k"
+      },
+      "kms": 36
+    },
+    {
+      "week": 7,
+      "days": {
+        "Monday, Sep 15": "Rest Day",
+        "Tuesday, Sep 16": "Intervals 6*800m",
+        "Wednesday, Sep 17": "Rest Day",
+        "Thursday, Sep 18": "Fartlek 20 min",
+        "Friday, Sep 19": "Rest Day",
+        "Saturday, Sep 20": "Long Run 16k",
+        "Sunday, Sep 21": "Recovery 7k + Swim 1km"
+      },
+      "kms": 32
+    },
+    {
+      "week": 8,
+      "days": {
+        "Monday, Sep 22": "Rest Day",
+        "Tuesday, Sep 23": "Intervals 4*400m",
+        "Wednesday, Sep 24": "Rest Day",
+        "Thursday, Sep 25": "Tempo 4k",
+        "Friday, Sep 26": "Rest Day",
+        "Saturday, Sep 27": "Long Run 14k",
+        "Sunday, Sep 28": "Recovery 5k"
+      },
+      "kms": 24.4
+    },
+    {
+      "week": 9,
+      "days": {
+        "Monday, Sep 29": "Rest Day",
+        "Tuesday, Sep 30": "Intervals 4*400m",
+        "Wednesday, Oct 1": "Rest Day",
+        "Thursday, Oct 2": "Recovery 3k",
+        "Friday, Oct 3": "Rest Day",
+        "Saturday, Oct 4": "Rest Day",
+        "Sunday, Oct 5": "Race Day 21.1k"
+      },
+      "kms": 25.7
+    }
+  ]
+}

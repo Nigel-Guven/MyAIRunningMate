@@ -1,6 +1,66 @@
-version: "3.9"
-
 services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.1
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    restart: unless-stopped
+    networks:
+      - app_network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.1
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    restart: unless-stopped
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - app_network
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
+    depends_on:
+      - kafka
+    ports:
+      - "9000:9000"   # Access via http://localhost:9000
+    environment:
+      KAFKA_BROKERCONNECT: kafka:9092
+      JVM_OPTS: "-Xms32M -Xmx64M"
+    networks:
+      - app_network
+
+  postgres_service:
+    image: postgres:15
+    container_name: postgres_service
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: strava_user
+      POSTGRES_PASSWORD: strava_pass
+      POSTGRES_DB: strava_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U strava_user -d strava_db"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   strava_service:
     build:
       context: ../running_mate_strava_service
@@ -8,6 +68,9 @@ services:
     container_name: strava_service
     env_file:
       - ../.env
+    depends_on:
+      - kafka
+      - postgres_service
     ports:
       - "8000:8000"
     networks:
@@ -28,18 +91,49 @@ services:
     env_file:
       - ../.env
     depends_on:
+      - kafka
       - strava_service
+      - postgres_service
     ports:
       - "8001:8001"
     networks:
       - app_network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8001/"]
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 10s
+
+  database_service:
+    build:
+      context: ../running_mate_database_service
+      dockerfile: Dockerfile.RunningMateDb
+    container_name: database_service
+    environment:
+      POSTGRES_USER: strava_user
+      POSTGRES_PASSWORD: strava_pass
+      POSTGRES_DB: strava_db
+      KAFKA_BROKER: kafka:9092
+      ACTIVITY_TOPIC: activities_topic
+    depends_on:
+      - kafka
+      - postgres_service
+    ports:
+      - "8002:8002"
+    networks:
+      - app_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U strava_user -d strava_db"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  postgres_data:
 
 networks:
   app_network:
