@@ -2,17 +2,14 @@
   <img src="documents/MyAIRunningMateLogo.png" alt="MyAIRunningMate Logo" width="400"/>
 </p>
 
-# 🏃‍♂️🏊 Strava Data Analysis – Microservices-Based Python Application
+# 🏃‍♂️🏊 Strava Data Analysis – Python/React Application
 
-> **AI-powered running & swimming analysis** with a modern microservices architecture – featuring Docker, Kubernetes, Terraform, Helm, Kafka, and more.
+> **AI-powered running & swimming analysis**
 
 ---
 
 ## 📜 Overview
-This project is a **Python-based microservices architecture** designed to collect, process, and analyze exercise data from **Strava**, providing users with **personalized AI feedback** and **interactive visualizations**.  
-
-Each service is **independently deployable** and **containerized**, making it scalable and maintainable.  
-The infrastructure leverages **cloud-native tooling** to ensure reliability and modern development practices.
+This project is a **Python/React-based service** designed to collect, process, and analyze exercise data from **Strava**, providing users with **personalized AI feedback** and **interactive visualizations**.  
 
 ---
 
@@ -20,15 +17,30 @@ The infrastructure leverages **cloud-native tooling** to ensure reliability and 
 ![Architecture Diagram](documents/HighLevelArchitectureDiagram.png) <!-- Optional: Add diagram image -->
 
 **Key Components:**
-- **Frontend UI Service** – Desktop app for data visualization & AI feedback
-- **API Gateway** – Routes requests, handles authentication, API versioning
-- **Strava Data Collection Service** – Fetches raw workout data from Strava API
-- **Data Pipeline & Analytics Service** – Processes and stores workout metrics
-- **AI Agent Service** – Generates personalized feedback from processed data
-- **Data Visualization Service** – Produces charts and dashboards for the UI
-- **Supporting Infrastructure** – Databases, Kafka, monitoring tools
-
+- **Data Sources** - Strava, Google Sheets
+- **Frontend UI Service** – React UI for data visualization & AI feedback
+- **API Gateway** – FastAPI routes requests, rate limiting, handles authentication, API versioning
+- **Strava Ingestion Service** – Fetches raw workout data from Strava API
+- **Analytics Service** – Processes and stores workout metrics
+- **AI Insight Service** – Aggregated Metrics, Trends, Conversational, Insights, Recommendations
+- **Data Storage** – Postgres, monitoring tools
 ---
+
+Extra:
+Strava Async
+Google Sheets Async
+Analytics Recomputation
+AI Insight Generation
+Celery, RQ 
+Cron
+Frontend - 
+  Dashboard - Mileage, Training load, Pace Trends
+  Calendar - Planned vs Actual, Racing Countdown
+  AI Coach - Chat UI, Predefined prompts, weekly insights feed
+  Settings - Strava Connection, Sheet selection, Preferences
+Authentication/Security - JWT Auth, OAuth for Strava, Secret in env vars, Token refresh handling
+Key Architectural Principle -> System computes facts deterministically, Uses AI for interpretation and explanation - cheaper reliable impressive
+
 
 ## 🔍 Service Breakdown
 

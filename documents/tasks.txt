@@ -1,0 +1,13 @@
+Define Data Models
+What needs to be extracted from .fit 
+Docker Compose
+Create Tables 
+Calendar Contract
+Frontend Prototype
+Terraform
+Set Up Kubernetes
+
+
+
+
+
