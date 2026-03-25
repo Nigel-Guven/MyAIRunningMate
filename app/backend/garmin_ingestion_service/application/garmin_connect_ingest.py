@@ -66,7 +66,7 @@ def download_all_activities(client, download_dir: Path):
     for activity in tqdm(all_activities, desc="Downloading activities"):
         activity_id = activity["activityId"]
 
-        filename = download_dir / f"{activity_id}_ACTIVITY.fit"
+        filename = download_dir / f"{activity_id}.fit"
 
         if filename.exists():
             continue
@@ -84,8 +84,7 @@ def download_all_activities(client, download_dir: Path):
             print(f"Failed to download {activity_id}: {e}")
 
     print("Done!")
-    
-      
+       
 def unzip_bytes(zip_bytes: bytes) -> bytes:
     with io.BytesIO(zip_bytes) as bio:
         with zipfile.ZipFile(bio) as z:
