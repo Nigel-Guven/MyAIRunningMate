@@ -1,40 +1,4 @@
 services:
-  database_configuration:
-    image: postgres:16
-    container_name: running_mate_db
-    restart: always
-    environment:
-      POSTGRES_USER: running_mate
-      POSTGRES_PASSWORD: running_mate_password
-      POSTGRES_DB: running_mate
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: running_mate_pgadmin
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "8080:80"
-    depends_on:
-      - database_configuration
-  database_api:
-    build: ./running_mate_database_service
-    container_name: running_mate_db_api
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-    volumes:
-      - ./running_mate_database_service:/app
-    ports:
-      - "8000:8000"
-    depends_on:
-      - database_configuration
-    env_file:
-      - ./running_mate_database_service/.env
-
   garmin_sync:
     build: ./garmin_ingestion_service
     container_name: garmin_ingestion_service
@@ -45,5 +9,4 @@ services:
       - ../../data/garmin_activities:/app/data/garmin_activities
 
 volumes:
-  postgres_data:
   garmin_data:
