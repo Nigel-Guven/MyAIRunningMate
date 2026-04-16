@@ -17,18 +17,16 @@ def main():
     #client = Garmin(config.EMAIL, config.PASSWORD)
     #client.login()
     
-    config.DOWNLOAD_DIR.mkdir(exist_ok=True)
+    #config.DOWNLOAD_DIR.mkdir(exist_ok=True)
     
     #garmin_connect_ingest.download_all_activities(client, config.DOWNLOAD_DIR)
-
-    for file in Path(config.DOWNLOAD_DIR).glob("*.fit"):
+    BASE_DIR = Path(__file__).resolve().parents[3]
+    DOWNLOAD_DIR = BASE_DIR / "data" / "garmin_activities"
+    
+    for file in Path(DOWNLOAD_DIR).glob("*.fit"):
         activity = format_file(file)
-
-
-        sync_activity(activity)
+        print(activity)
 
 if __name__ == "__main__":
-    while True():
+    while True:
         main()
-        print("Sync complete. Sleeping for 1 hour")
-        time.sleep(3600)
