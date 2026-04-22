@@ -1,5 +1,7 @@
-using Microsoft.OpenApi.Models;
-using MyAIRunningMate.Service.Controllers; 
+using Microsoft.OpenApi;
+using MyAIRunningMate.Database.Repository;
+using MyAIRunningMate.Domain.Interfaces.Infrastructure;
+using MyAIRunningMate.Service.StravaAPI;
 using Supabase;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,21 +9,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(StravaController).Assembly);
 
-var supabaseUrl = builder.Configuration["Supabase:Url"] 
-                  ?? throw new InvalidOperationException("Supabase URL is missing.");
-var supabaseKey = builder.Configuration["Supabase:Key"] 
-                  ?? throw new InvalidOperationException("Supabase Key is missing.");
+builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddScoped(_ => new Supabase.Client(supabaseUrl, supabaseKey, new SupabaseOptions
-{
-    AutoRefreshToken = true,
-    AutoConnectRealtime = true
-}));
+var supabaseUrl = builder.Configuration["Supabase:Url"];
+var supabaseKey = builder.Configuration["Supabase:PublicKey"];
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(SupabaseRepository<>));
+builder.Services.AddScoped(_ => 
+    new Client(supabaseUrl!, supabaseKey, new SupabaseOptions
+    {
+        AutoConnectRealtime = true
+    }));
+
+builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
+builder.Services.AddScoped<ILapRepository, LapRepository>();
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 
 builder.Services.AddHttpClient();
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAIRunningMate API", Version = "v1" });

@@ -18,31 +18,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2b8d0fd-e703-4ca8-b12d-9bb0c6967c4f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/ActivityRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/BaseRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/LapRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/SessionRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/ActivityEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/LapEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/IActivityRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/IBaseRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/ILapRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/ISessionRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Class1.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Activities/Activity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/Activity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Activities/ActivityType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Activities/LapDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/LapDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/MyAIRunningMate.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/MyAIRunningMate.Domain.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Platform/GarminArtifactDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Platform/GarminArtifactDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Platform/StravaArtifactDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Platform/StravaArtifactDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/Class1.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/MyAIRunningMate.Service.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/MyAIRunningMate.Service.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.sln" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +173,7 @@
       <updated>1776873100962</updated>
       <workItem from="1776873101974" duration="403000" />
       <workItem from="1776873813683" duration="49000" />
-      <workItem from="1776873918818" duration="19873000" />
+      <workItem from="1776873918818" duration="20238000" />
     </task>
     <servers />
   </component>

@@ -6,4 +6,15 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.7" />
+      <PackageReference Include="supabase-csharp" Version="0.16.2" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MyAIRunningMate.Database\MyAIRunningMate.Database.csproj" />
+      <ProjectReference Include="..\MyAIRunningMate.Service\MyAIRunningMate.Service.csproj" />
+    </ItemGroup>
+
 </Project>
