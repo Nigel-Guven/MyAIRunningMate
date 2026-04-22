@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
@@ -6,6 +6,17 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.7" />
+        <PackageReference Include="supabase-csharp" Version="0.16.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\MyAIRunningMate.Database\MyAIRunningMate.Database.csproj" />
+        <ProjectReference Include="..\MyAIRunningMate.Service\MyAIRunningMate.Service.csproj" />
+    </ItemGroup>
+    
     <ItemGroup>
       <ProjectReference Include="..\MyAIRunningMate.Domain\MyAIRunningMate.Domain.csproj" />
     </ItemGroup>

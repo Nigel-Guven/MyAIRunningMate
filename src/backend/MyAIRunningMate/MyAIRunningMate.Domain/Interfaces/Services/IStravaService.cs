@@ -4,5 +4,6 @@ public interface IStravaService
 {
     string GetAuthorizationUrl();
     Task<bool> ExchangeCodeAndSaveTokens(string code);
-    Task SyncActivities(Guid userId);
+    Task GetAllActivities();
+    Task GetActivityById(string userId, string id);
 }

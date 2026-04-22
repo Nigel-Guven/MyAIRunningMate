@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi;
 using MyAIRunningMate.Database.Repository;
 using MyAIRunningMate.Domain.Interfaces.Infrastructure;
@@ -19,6 +22,12 @@ builder.Services.AddScoped(_ =>
     {
         AutoConnectRealtime = true
     }));
+
+builder.Services.AddHttpClient("Strava", client =>
+{
+    client.BaseAddress = new Uri("https://www.strava.com/api/v3/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 
 builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 builder.Services.AddScoped<ILapRepository, LapRepository>();
