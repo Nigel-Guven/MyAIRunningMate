@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\MyAIRunningMate.Domain\MyAIRunningMate.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
