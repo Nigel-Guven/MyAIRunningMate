@@ -17,6 +17,5 @@ class Activity:
     total_elevation_gain: Optional[float] = None
     average_pace_seconds_per_kilometre: Optional[float] = None
     training_effect: Optional[float] = None
-    v02_max: Optional[float] = None
     laps: List[Lap] = field(default_factory=list)
     

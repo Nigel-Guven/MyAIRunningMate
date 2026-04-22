@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAIRunningMate.Domain", "MyAIRunningMate.Domain\MyAIRunningMate.Domain.csproj", "{87960360-C5D9-4871-B900-9F0061F76055}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAIRunningMate.Application", "MyAIRunningMate.Application\MyAIRunningMate.Application.csproj", "{D1CF835F-6D65-4B84-BE45-DB6F36FA17D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAIRunningMate.Service", "MyAIRunningMate.Service\MyAIRunningMate.Service.csproj", "{076772B1-40CE-4868-8756-6C1D59F1777E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "local", "local", "{00EA97EE-2830-451C-BDC4-CB185CE29227}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87960360-C5D9-4871-B900-9F0061F76055}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87960360-C5D9-4871-B900-9F0061F76055}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87960360-C5D9-4871-B900-9F0061F76055}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87960360-C5D9-4871-B900-9F0061F76055}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1CF835F-6D65-4B84-BE45-DB6F36FA17D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1CF835F-6D65-4B84-BE45-DB6F36FA17D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1CF835F-6D65-4B84-BE45-DB6F36FA17D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1CF835F-6D65-4B84-BE45-DB6F36FA17D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{076772B1-40CE-4868-8756-6C1D59F1777E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{076772B1-40CE-4868-8756-6C1D59F1777E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{076772B1-40CE-4868-8756-6C1D59F1777E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{076772B1-40CE-4868-8756-6C1D59F1777E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
