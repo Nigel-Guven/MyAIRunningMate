@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Domain.Interfaces;
-using MyAIRunningMate.Domain.Interfaces.Infrastructure;
 
 namespace MyAIRunningMate.Service.StravaAPI;
 
@@ -9,16 +8,19 @@ namespace MyAIRunningMate.Service.StravaAPI;
 public class StravaController : ControllerBase
 {
     private readonly IStravaService _stravaService;
-    private readonly ISessionRepository _sessionRepository;
     
-    public StravaController(IStravaService stravaService, ISessionRepository sessionRepository)
+    public StravaController(IStravaService stravaService)
     {
         _stravaService = stravaService;
-        _sessionRepository = sessionRepository;
     }
 
     [HttpGet("connect")]
-    public IActionResult Connect() => Redirect(_stravaService.GetAuthorizationUrl());
+    public IActionResult Connect()
+    {
+        var state = Guid.NewGuid().ToString();
+        var authUrl = _stravaService.GetAuthorizationUrl(state);
+        return Redirect(authUrl);
+    }
 
     [HttpGet("callback")]
     public async Task<IActionResult> Callback([FromQuery] string code)

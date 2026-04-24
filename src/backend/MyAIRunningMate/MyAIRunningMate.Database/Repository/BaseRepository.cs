@@ -22,7 +22,6 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
 
     public async Task<T?> GetById(object id)
     {
-        // Use Operator.Equals (requires 'using static Postgrest.Constants')
         return await _supabase.From<T>()
             .Filter("id", Constants.Operator.Equals, id)
             .Single();
