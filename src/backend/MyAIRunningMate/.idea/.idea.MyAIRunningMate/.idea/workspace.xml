@@ -19,24 +19,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2b8d0fd-e703-4ca8-b12d-9bb0c6967c4f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Strava/UserContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/IUserContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Aggregates/AggregateArtifactDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Service/Responses/StravaAthlete.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Service/Responses/StravaTokenResponse.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/MapDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/StravaResourceDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/AggregateArtifactDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Strava/StravaService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Strava/StravaService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/BaseRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/BaseRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/SessionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/SessionRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/ActivityEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/ActivityEntity.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/SessionEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/SessionEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/ISessionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/ISessionRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityAggregatorService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityAggregatorService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IStravaService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IStravaService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/MyAIRunningMate.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/MyAIRunningMate.Domain.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/MyAIRunningMate.Service.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/MyAIRunningMate.Service.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/Activity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityType.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/LapDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/LapDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Platform/GarminArtifactDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Platform/StravaArtifactDto.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +60,11 @@
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceMapEntity.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/IUserContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Mappers/AggregateArtifactMapper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityAggregatorService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/MapDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/StravaResourceDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Models/AggregateArtifactDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/appsettings.json" root0="FORCE_HIGHLIGHTING" />
@@ -207,7 +207,7 @@
       <workItem from="1776873813683" duration="49000" />
       <workItem from="1776873918818" duration="23531000" />
       <workItem from="1777016747174" duration="15186000" />
-      <workItem from="1777044164886" duration="1154000" />
+      <workItem from="1777044164886" duration="3402000" />
     </task>
     <servers />
   </component>

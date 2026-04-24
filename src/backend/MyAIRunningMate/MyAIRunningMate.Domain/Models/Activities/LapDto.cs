@@ -1,4 +1,4 @@
-namespace MyAIRunningMate.Domain.Activities;
+namespace MyAIRunningMate.Domain.Models.Activities;
 
 public class LapDto
 {

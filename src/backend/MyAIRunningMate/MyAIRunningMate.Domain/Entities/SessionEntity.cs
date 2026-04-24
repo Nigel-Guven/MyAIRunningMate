@@ -6,6 +6,9 @@ namespace MyAIRunningMate.Domain.Entities;
 [Table("session")]
 public class SessionEntity : BaseModel
 {
+    [PrimaryKey("id")]
+    public Guid Id { get; set; }
+    
     [PrimaryKey("user_id")]
     public Guid UserId { get; set; }
     

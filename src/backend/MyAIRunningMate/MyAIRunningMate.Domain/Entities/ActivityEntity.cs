@@ -39,6 +39,9 @@ public class ActivityEntity : BaseModel
     [Column("training_effect")]
     public double TrainingEffect { get; set; }
     
+    [Column("strava_resource_id")]
+    public Guid StravaResourceId { get; set; }
+    
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
 }
