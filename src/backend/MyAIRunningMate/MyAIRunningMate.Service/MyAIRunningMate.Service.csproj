@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\MyAIRunningMate.Application\MyAIRunningMate.Application.csproj" />
         <ProjectReference Include="..\MyAIRunningMate.Database\MyAIRunningMate.Database.csproj" />
         <ProjectReference Include="..\MyAIRunningMate.Service\MyAIRunningMate.Service.csproj" />
     </ItemGroup>

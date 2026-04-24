@@ -8,6 +8,9 @@ public class SessionEntity : BaseModel
 {
     [PrimaryKey("user_id")]
     public Guid UserId { get; set; }
+    
+    [Column("athlete_id")]
+    public long AthleteId { get; set; }
 
     [Column("access_token")]
     public string AccessToken { get; set; }

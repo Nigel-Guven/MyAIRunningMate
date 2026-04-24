@@ -19,17 +19,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2b8d0fd-e703-4ca8-b12d-9bb0c6967c4f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Strava/UserContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/IUserContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Aggregates/AggregateArtifactDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Service/Responses/StravaAthlete.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Service/Responses/StravaTokenResponse.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Strava/StravaService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Strava/StravaService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/ActivityRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/ActivityRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/BaseRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/BaseRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/LapRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/LapRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceMapRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceMapRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/IActivityRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/IActivityRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/ILapRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/ILapRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceMapRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceMapRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/SessionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/SessionRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/SessionEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/SessionEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/ISessionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/ISessionRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityAggregatorService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityAggregatorService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IStravaService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IStravaService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/MyAIRunningMate.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/MyAIRunningMate.Domain.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/MyAIRunningMate.Service.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/MyAIRunningMate.Service.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +55,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Application/Strava/UserContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/LapRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/SessionRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceMapRepository.cs" root0="FORCE_HIGHLIGHTING" />
@@ -55,9 +63,11 @@
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceMapEntity.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/IUserContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityAggregatorService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/appsettings.json" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4,
@@ -68,32 +78,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "cidr.known.project.marker": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "Config"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;Config&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.MyAIRunningMate: http">
     <configuration name="MyAIRunningMate.Application" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -196,7 +206,8 @@
       <workItem from="1776873101974" duration="403000" />
       <workItem from="1776873813683" duration="49000" />
       <workItem from="1776873918818" duration="23531000" />
-      <workItem from="1777016747174" duration="12085000" />
+      <workItem from="1777016747174" duration="15186000" />
+      <workItem from="1777044164886" duration="1154000" />
     </task>
     <servers />
   </component>
@@ -223,17 +234,17 @@
           <option name="timeStamp" value="3" />
         </breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs</url>
-          <line>41</line>
-          <properties documentPath="B:\Documents\My Github\MyAIRunningMate\src\backend\MyAIRunningMate\MyAIRunningMate.Service\StravaAPI\StravaController.cs" containingFunctionPresentation="Method 'GetActivities'">
+          <url>file://$PROJECT_DIR$/MyAIRunningMate.Application/Strava/UserContext.cs</url>
+          <line>6</line>
+          <properties documentPath="B:\Documents\My Github\MyAIRunningMate\src\backend\MyAIRunningMate\MyAIRunningMate.Application\Strava\UserContext.cs" containingFunctionPresentation="Constructor 'UserContext'">
             <startOffsets>
-              <option value="1130" />
+              <option value="165" />
             </startOffsets>
             <endOffsets>
-              <option value="1170" />
+              <option value="218" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="4" />
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

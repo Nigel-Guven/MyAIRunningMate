@@ -6,8 +6,13 @@ namespace MyAIRunningMate.Database.Repository;
 
 public class SessionRepository(Client supabase) : BaseRepository<SessionEntity>(supabase), ISessionRepository
 {
-    public Task GetSessionByUserId(Guid userId)
+    public async Task<SessionEntity?> GetSessionByUserId(Guid userId)
     {
-        throw new NotImplementedException();
+        return await GetById(userId);
+    }
+
+    public async Task SaveSession(SessionEntity session)
+    {
+        await Upsert(session);
     }
 }

@@ -1,134 +1,70 @@
+using System.Net.Http.Json;
 using Microsoft.Extensions.Configuration;
 using MyAIRunningMate.Domain.Entities;
-using MyAIRunningMate.Domain.Interfaces;
 using MyAIRunningMate.Domain.Interfaces.Infrastructure.Strava;
+using MyAIRunningMate.Domain.Interfaces.Services;
+using MyAIRunningMate.Domain.Responses;
 
-namespace MyAIRunningMate.Service;
+namespace MyAIRunningMate.Application.Strava;
 
 public class StravaService : IStravaService
 {
     private readonly IConfiguration _config;
     private readonly ISessionRepository _sessionRepository;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public StravaService(ISessionRepository sessionRepository, IConfiguration config)
+    public StravaService(ISessionRepository sessionRepository, IConfiguration config, IHttpClientFactory httpClientFactory)
     {
         _sessionRepository = sessionRepository;
         _config = config;
+        _httpClientFactory = httpClientFactory;
     }
 
-    public string GetAuthorizationUrl(string state) 
+    public string GetAuthorizationUrl(string state)
     {
         var clientId = _config["Strava:ClientId"];
-        
-        var redirectUri = "http://localhost:5000/api/strava/callback"; 
+        var redirectUri = _config["Strava:CallbackUrl"];
         var scope = "read,activity:read_all";
 
         return $"https://www.strava.com/oauth/authorize?" +
                $"client_id={clientId}&" +
                $"response_type=code&" +
-               $"redirect_uri={Uri.EscapeDataString(redirectUri)}&" +
+               $"redirect_uri={Uri.EscapeDataString(redirectUri!)}&" +
                $"approval_prompt=auto&" +
-               $"scope={scope}";
+               $"scope={scope}&" +
+               $"state={state}";
     }
 
-    public async Task<bool> ExchangeCodeAndSaveTokens(string code)
+    public async Task<bool> ExchangeCodeAndSaveTokens(string code, Guid userId)
     {
         var client = _httpClientFactory.CreateClient("Strava");
         
-        var requestData = new FormUrlEncodedContent(new[]
-        {
+        var requestData = new FormUrlEncodedContent([
             new KeyValuePair<string, string>("client_id", _config["Strava:ClientId"]!),
             new KeyValuePair<string, string>("client_secret", _config["Strava:ClientSecret"]!),
             new KeyValuePair<string, string>("code", code),
             new KeyValuePair<string, string>("grant_type", "authorization_code")
-        });
-    
-        var response = await client.PostAsync("https://www.strava.com/api/v3/oauth/token", requestData);
-    
-        if (response.IsSuccessStatusCode)
-        {
-            var tokenData = await response.Content.ReadFromJsonAsync<StravaTokenResponse>();
+        ]);
+
+        var response = await client.PostAsync("https://www.strava.com/oauth/token", requestData);
         
-            var session = new SessionEntity
-            {
-                UserId = userId,
-                AccessToken = tokenData.access_token,
-                RefreshToken = tokenData.refresh_token,
-                ExpiresAt = tokenData.expires_at,
-                UpdatedAt = DateTime.UtcNow
-            };
+        if (!response.IsSuccessStatusCode) 
+            return false;
 
-            await _sessionRepository.From<SessionEntity>().Upsert(session);
-            return true;
-        }
-        return false;
-    }
-
-    private async Task<string> GetValidAccessToken(Guid userId)
-    {
-        var session = await _sessionRepository.From<SessionEntity>()
-            .Where(x => x.UserId == userId)
-            .Single();
-
-        // Buffer of 5 minutes to be safe
-        if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 300 >= session.ExpiresAt)
-        {
-            // Call Strava Refresh Endpoint
-            var client = _httpClientFactory.CreateClient();
-            var refreshData = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("client_id", _config["Strava:ClientId"]!),
-                new KeyValuePair<string, string>("client_secret", _config["Strava:ClientSecret"]!),
-                new KeyValuePair<string, string>("grant_type", "refresh_token"),
-                new KeyValuePair<string, string>("refresh_token", session.RefreshToken)
-            });
-
-            var response = await client.PostAsync("https://www.strava.com/api/v3/oauth/token", refreshData);
-            var newToken = await response.Content.ReadFromJsonAsync<StravaTokenResponse>();
-
-            session.AccessToken = newToken.access_token;
-            session.RefreshToken = newToken.refresh_token;
-            session.ExpiresAt = newToken.expires_at;
-            await _sessionRepository.From<SessionEntity>().Upsert(session);
+        var tokenData = await response.Content.ReadFromJsonAsync<StravaTokenResponse>();
         
-            return newToken.access_token;
-        }
+        if (tokenData == null) return false;
 
-        return session.AccessToken;
-    }
-    
-    private async Task<string> GetValidToken(Guid userId)
-    {
-        var session = await _sessionRepository.GetSessionByUserId(userId);
-
-        // If token expires in less than 5 minutes, refresh it now
-        if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 300 >= session.ExpiresAt)
+        var session = new SessionEntity
         {
-            return await RefreshToken(session);
-        }
+            UserId = userId,
+            AccessToken = tokenData.AccessToken,
+            RefreshToken = tokenData.RefreshToken,
+            ExpiresAt = tokenData.ExpiresIn,
+            UpdatedAt = DateTime.UtcNow
+        };
 
-        return session.AccessToken;
-    }
-
-    private async Task<string> RefreshToken(SessionEntity session)
-    {
-        var client = _httpClientFactory.CreateClient();
-        var content = new FormUrlEncodedContent(new[]
-        {
-            new KeyValuePair<string, string>("client_id", _config["Strava:ClientId"]),
-            new KeyValuePair<string, string>("client_secret", _config["Strava:ClientSecret"]),
-            new KeyValuePair<string, string>("grant_type", "refresh_token"),
-            new KeyValuePair<string, string>("refresh_token", session.RefreshToken)
-        });
-
-        var response = await client.PostAsync("https://www.strava.com/oauth/token", content);
-        var data = await response.Content.ReadFromJsonAsync<StravaTokenResponse>();
-
-        session.AccessToken = data.AccessToken;
-        session.RefreshToken = data.RefreshToken;
-        session.ExpiresAt = data.ExpiresAt;
-    
-        await _sessionRepository.UpsertSession(session);
-        return data.AccessToken;
+        await _sessionRepository.SaveSession(session);
+        return true;
     }
 }

@@ -4,5 +4,7 @@ namespace MyAIRunningMate.Domain.Interfaces.Infrastructure.Strava;
 
 public interface ISessionRepository : IBaseRepository<SessionEntity> 
 {
-    Task GetSessionByUserId(Guid userId);
+    Task<SessionEntity?> GetSessionByUserId(Guid userId);
+    Task SaveSession(SessionEntity session);
+    
 }
