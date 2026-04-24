@@ -35,20 +35,4 @@ public class StravaController : ControllerBase
     
         return BadRequest("Failed to exchange Strava tokens.");
     }
-    
-    [HttpGet("activities")]
-    public async Task<IActionResult> GetActivities()
-    {
-        await _stravaService.GetAllActivities();
-        return Ok("Connected");
-    }
-    
-    [HttpGet("activities/{id}")]
-    public async Task<IActionResult> GetActivityById([FromQuery] string id)
-    {
-        var userId = Guid.Parse(Request.Headers["X-User-Id"]);
-
-        var activity = await _stravaService.GetActivityById(userId, id);
-        return Ok("Connected");
-    }
 }

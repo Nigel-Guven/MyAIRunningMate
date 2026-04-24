@@ -1,17 +1,12 @@
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using Microsoft.Extensions.Configuration;
 using MyAIRunningMate.Domain.Entities;
 using MyAIRunningMate.Domain.Interfaces;
-using MyAIRunningMate.Domain.Interfaces.Infrastructure;
 using MyAIRunningMate.Domain.Interfaces.Infrastructure.Strava;
-using MyAIRunningMate.Domain.Platform;
 
 namespace MyAIRunningMate.Service;
 
 public class StravaService : IStravaService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
     private readonly IConfiguration _config;
     private readonly ISessionRepository _sessionRepository;
 
@@ -100,20 +95,6 @@ public class StravaService : IStravaService
         }
 
         return session.AccessToken;
-    }
-    
-    public async Task SyncActivities(Guid userId)
-    {
-        var accessToken = await GetValidAccessToken(userId);
-        var client = _httpClientFactory.CreateClient();
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-        var response = await client.GetAsync("https://www.strava.com/api/v3/athlete/activities");
-    
-        if (response.IsSuccessStatusCode)
-        {
-            var activities = await response.Content.ReadFromJsonAsync<List<StravaActivityDto>>();
-        }
     }
     
     private async Task<string> GetValidToken(Guid userId)

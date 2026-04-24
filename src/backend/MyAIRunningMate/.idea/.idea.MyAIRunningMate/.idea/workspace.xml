@@ -19,24 +19,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2b8d0fd-e703-4ca8-b12d-9bb0c6967c4f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceMapRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceMapEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceMapRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Strava/StravaService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Strava/StravaService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/ActivityRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/ActivityRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/BaseRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/BaseRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/LapRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/LapRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/SessionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/SessionRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/IActivityRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/IActivityRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/ILapRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/ILapRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/ISessionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/ISessionRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IStravaService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IStravaService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceMapRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceMapRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/IActivityRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/IActivityRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/ILapRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/ILapRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceMapRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceMapRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,7 +196,7 @@
       <workItem from="1776873101974" duration="403000" />
       <workItem from="1776873813683" duration="49000" />
       <workItem from="1776873918818" duration="23531000" />
-      <workItem from="1777016747174" duration="8014000" />
+      <workItem from="1777016747174" duration="12085000" />
     </task>
     <servers />
   </component>
