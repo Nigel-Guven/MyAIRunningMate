@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAIRunningMate.Application
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAIRunningMate.Service", "MyAIRunningMate.Service\MyAIRunningMate.Service.csproj", "{076772B1-40CE-4868-8756-6C1D59F1777E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "local", "local", "{00EA97EE-2830-451C-BDC4-CB185CE29227}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAIRunningMate.Database", "MyAIRunningMate.Database\MyAIRunningMate.Database.csproj", "{BF501431-124E-4432-9379-66DB4ABF3A18}"
 EndProject
 Global
