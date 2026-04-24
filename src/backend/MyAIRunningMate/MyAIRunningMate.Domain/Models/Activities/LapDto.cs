@@ -2,9 +2,9 @@ namespace MyAIRunningMate.Domain.Models.Activities;
 
 public class LapDto
 {
-    Guid LapId { get; set; }
-    int LapNumber { get; set; }
-    double Distance { get; set; }
-    double Duration { get; set; }
-    int AverageHeartRate { get; set; }
+    public Guid LapId { get; set; }
+    public int LapNumber { get; set; }
+    public double Distance { get; set; }
+    public double Duration { get; set; }
+    public int AverageHeartRate { get; set; }
 }

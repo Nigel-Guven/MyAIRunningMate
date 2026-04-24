@@ -17,6 +17,5 @@ public class StravaResourceDto
     public long PersonalRecordCount { get; set; }
     public double ElevationLow { get; set; }
     public double ElevationHigh { get; set; }
-    public Guid MapId { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public MapDto Map { get; set; }
 }

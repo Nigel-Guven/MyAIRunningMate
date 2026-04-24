@@ -1,4 +1,4 @@
-namespace MyAIRunningMate.Domain.Activities;
+namespace MyAIRunningMate.Domain.Models.Activities;
 
 public class ActivityDto
 {
@@ -14,5 +14,5 @@ public class ActivityDto
     public double AverageSecondPerKilometre { get; set; }
     public double TrainingEffect { get; set; }
     public Guid StravaResourceId { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public IEnumerable<LapDto> Laps { get; set; }
 }

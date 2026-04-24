@@ -19,20 +19,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2b8d0fd-e703-4ca8-b12d-9bb0c6967c4f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/MapDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/StravaResourceDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/AggregateArtifactDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/ActivityEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/ActivityEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/SessionEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/SessionEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityAggregatorService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityAggregatorService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/Activity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityType.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorMapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Mappers/AggregateArtifactMapper.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityAggregatorService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IAggregatorMapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/LapDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/LapDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Platform/GarminArtifactDto.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Platform/StravaArtifactDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/MapDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/MapDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/StravaResourceDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/StravaResourceDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/AggregateArtifactDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/AggregateArtifactDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,7 +203,7 @@
       <workItem from="1776873813683" duration="49000" />
       <workItem from="1776873918818" duration="23531000" />
       <workItem from="1777016747174" duration="15186000" />
-      <workItem from="1777044164886" duration="3402000" />
+      <workItem from="1777044164886" duration="6609000" />
     </task>
     <servers />
   </component>
@@ -215,6 +211,17 @@
     <option name="version" value="3" />
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

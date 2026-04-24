@@ -1,4 +1,5 @@
 using Microsoft.OpenApi;
+using MyAIRunningMate.Application.Aggregations;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Database.Repository;
 using MyAIRunningMate.Domain.Interfaces;
@@ -37,6 +38,7 @@ builder.Services.AddScoped<IStravaResourceMapRepository, StravaResourceMapReposi
 builder.Services.AddScoped<IStravaResourceRepository, StravaResourceRepository>();
 
 builder.Services.AddScoped<IStravaService, StravaService>();
+builder.Services.AddScoped<IAggregatorMapper, AggregatorMapper>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserContext, UserContext>();
