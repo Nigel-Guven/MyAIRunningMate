@@ -1,5 +1,5 @@
 using MyAIRunningMate.Domain.Entities;
-using MyAIRunningMate.Domain.Interfaces.Infrastructure;
+using MyAIRunningMate.Domain.Interfaces.Infrastructure.Garmin;
 using Supabase;
 
 namespace MyAIRunningMate.Database.Repository;

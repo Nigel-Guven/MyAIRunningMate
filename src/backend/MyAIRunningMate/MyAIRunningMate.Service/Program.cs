@@ -4,6 +4,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi;
 using MyAIRunningMate.Database.Repository;
 using MyAIRunningMate.Domain.Interfaces.Infrastructure;
+using MyAIRunningMate.Domain.Interfaces.Infrastructure.Garmin;
+using MyAIRunningMate.Domain.Interfaces.Infrastructure.Strava;
 using MyAIRunningMate.Service.StravaAPI;
 using Supabase;
 
