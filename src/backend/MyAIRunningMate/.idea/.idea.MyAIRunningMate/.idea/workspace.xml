@@ -19,16 +19,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2b8d0fd-e703-4ca8-b12d-9bb0c6967c4f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileParserService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IFitFileParserService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/GarminFitController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Strava/UserContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Strava/UserContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/MyAIRunningMate.Service.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/MyAIRunningMate.Service.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.sln" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/MyAIRunningMate.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/MyAIRunningMate.Domain.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DpaMonitoringSettings">
+    <option name="firstShow" value="false" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -41,24 +46,24 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileParserService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Application/Strava/UserContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/LapRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/SessionRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceMapRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceRepository.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceMapEntity.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/IUserContext.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Mappers/AggregateArtifactMapper.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityAggregatorService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IFitFileParserService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/MapDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/StravaResourceDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Models/AggregateArtifactDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/GarminFitController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/appsettings.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0efed8c47158423ab39c9d0252e8365da3c00/ed/7b6ce36a/MesgBroadcaster.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4,
@@ -71,6 +76,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;.NET Project.MyAIRunningMate.Service.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
@@ -95,28 +101,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.MyAIRunningMate: http">
-    <configuration name="MyAIRunningMate.Application" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="ENV_FILE_PATHS" value="" />
-      <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="AUTO_ATTACH_CHILDREN" value="0" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" />
-      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
-      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
-      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
-      <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration name="MyAIRunningMate.Service" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -138,54 +123,6 @@
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="MyAIRunningMate: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/MyAIRunningMate.Web/MyAIRunningMate.Web.csproj" />
-      <option name="LAUNCH_PROFILE_TFM" value="net10.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="http" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
-      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
-      <option name="SEND_DEBUG_REQUEST" value="1" />
-      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
-      <option name="AUTO_ATTACH_CHILDREN" value="0" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
-    <configuration name="MyAIRunningMate: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/MyAIRunningMate.Web/MyAIRunningMate.Web.csproj" />
-      <option name="LAUNCH_PROFILE_TFM" value="net10.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="https" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
-      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
-      <option name="SEND_DEBUG_REQUEST" value="1" />
-      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
-      <option name="AUTO_ATTACH_CHILDREN" value="0" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
-    <configuration name="WebApplication1: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/WebApplication1/WebApplication1.csproj" />
-      <option name="LAUNCH_PROFILE_TFM" value="net10.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="https" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
-      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
-      <option name="SEND_DEBUG_REQUEST" value="1" />
-      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
-      <option name="AUTO_ATTACH_CHILDREN" value="0" />
-      <option name="MIXED_MODE_DEBUG" value="0" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -198,7 +135,8 @@
       <workItem from="1776873813683" duration="49000" />
       <workItem from="1776873918818" duration="23531000" />
       <workItem from="1777016747174" duration="15186000" />
-      <workItem from="1777044164886" duration="8719000" />
+      <workItem from="1777044164886" duration="13060000" />
+      <workItem from="1777058304016" duration="8178000" />
     </task>
     <servers />
   </component>
@@ -237,16 +175,29 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/MyAIRunningMate.Application/Strava/UserContext.cs</url>
-          <line>5</line>
+          <line>6</line>
           <properties documentPath="B:\Documents\My Github\MyAIRunningMate\src\backend\MyAIRunningMate\MyAIRunningMate.Application\Strava\UserContext.cs" containingFunctionPresentation="Constructor 'UserContext'">
             <startOffsets>
-              <option value="132" />
+              <option value="165" />
             </startOffsets>
             <endOffsets>
-              <option value="185" />
+              <option value="218" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs</url>
+          <line>22</line>
+          <properties documentPath="B:\Documents\My Github\MyAIRunningMate\src\backend\MyAIRunningMate\MyAIRunningMate.Service\StravaAPI\StravaController.cs" containingFunctionPresentation="Method 'Connect'">
+            <startOffsets>
+              <option value="619" />
+            </startOffsets>
+            <endOffsets>
+              <option value="657" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
