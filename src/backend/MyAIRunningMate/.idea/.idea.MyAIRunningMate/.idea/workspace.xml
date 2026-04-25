@@ -19,13 +19,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2b8d0fd-e703-4ca8-b12d-9bb0c6967c4f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileParserService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IFitFileParserService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/GarminFitController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/MyAIRunningMate.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/MyAIRunningMate.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/MyAIRunningMate.Domain.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/garmin_fit_cleaner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileParserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileParserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.sln" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +35,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JSON File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -136,7 +133,7 @@
       <workItem from="1776873918818" duration="23531000" />
       <workItem from="1777016747174" duration="15186000" />
       <workItem from="1777044164886" duration="13060000" />
-      <workItem from="1777058304016" duration="8178000" />
+      <workItem from="1777058304016" duration="8516000" />
     </task>
     <servers />
   </component>
