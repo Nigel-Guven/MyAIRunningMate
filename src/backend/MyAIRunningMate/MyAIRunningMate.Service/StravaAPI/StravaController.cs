@@ -5,7 +5,7 @@ using MyAIRunningMate.Domain.Interfaces.Services;
 namespace MyAIRunningMate.Service.StravaAPI;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/strava")]
 public class StravaController : ControllerBase
 {
     private readonly IStravaService _stravaService;

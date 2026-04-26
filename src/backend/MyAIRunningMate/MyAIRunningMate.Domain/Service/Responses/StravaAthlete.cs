@@ -1,4 +1,4 @@
-namespace MyAIRunningMate.Domain.Responses;
+namespace MyAIRunningMate.Domain.Service.Responses;
 
 public class StravaAthlete
 {

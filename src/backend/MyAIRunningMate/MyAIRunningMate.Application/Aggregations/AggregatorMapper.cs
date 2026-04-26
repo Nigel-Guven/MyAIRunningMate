@@ -139,7 +139,7 @@ public class AggregatorMapper : IAggregatorMapper
             TotalElevationGain = entity.TotalElevationGain,
             AverageSecondPerKilometre = entity.AverageSecondPerKilometre,
             TrainingEffect = entity.TrainingEffect,
-            StravaResourceId = entity.StravaResourceId,
+            StravaResourceId = entity.StravaResourceId ?? null,
             Laps = laps != null && laps.Any() ? laps : null
         };
     }

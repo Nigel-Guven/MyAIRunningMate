@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using MyAIRunningMate.Domain.Interfaces.Client;
 using MyAIRunningMate.Domain.Interfaces.Services;
 
 namespace MyAIRunningMate.Service.GarminFitAPI;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/fitfile")]
 public class FitFileController : ControllerBase
 {
     private readonly IFitFileService _fitFileService;

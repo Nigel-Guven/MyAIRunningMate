@@ -22,7 +22,7 @@ public class PythonApiClient : IPythonApiClient
 
         form.Add(streamContent, "file", fileName);
 
-        var response = await _httpClient.PostAsync("fit_file/upload", form);
+        var response = await _httpClient.PostAsync("api/fit_file/upload", form);
         response.EnsureSuccessStatusCode();
         
         return await response.Content.ReadFromJsonAsync<ActivityDto>() 

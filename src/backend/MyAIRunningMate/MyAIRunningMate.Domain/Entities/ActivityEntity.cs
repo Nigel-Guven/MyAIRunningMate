@@ -31,7 +31,7 @@ public class ActivityEntity : BaseModel
     public int MaxHeartRate { get; set; }
     
     [Column("total_elevation_gain")]
-    public double TotalElevationGain { get; set; }
+    public double? TotalElevationGain { get; set; }
     
     [Column("avg_seconds_per_km")]
     public double AverageSecondPerKilometre { get; set; }
@@ -40,7 +40,7 @@ public class ActivityEntity : BaseModel
     public double TrainingEffect { get; set; }
     
     [Column("strava_resource_id")]
-    public Guid StravaResourceId { get; set; }
+    public Guid? StravaResourceId { get; set; }
     
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }

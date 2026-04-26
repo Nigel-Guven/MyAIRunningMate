@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using MyAIRunningMate.Domain.Entities;
 using MyAIRunningMate.Domain.Interfaces.Infrastructure.Strava;
 using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Responses;
+using MyAIRunningMate.Domain.Service.Responses;
 
 namespace MyAIRunningMate.Application.Strava;
 
@@ -37,7 +37,7 @@ public class StravaService : IStravaService
 
     public async Task<bool> ExchangeCodeAndSaveTokens(string code, Guid userId)
     {
-        var client = _httpClientFactory.CreateClient("Strava");
+        var stravaClient = _httpClientFactory.CreateClient("Strava");
         
         var requestData = new FormUrlEncodedContent([
             new KeyValuePair<string, string>("client_id", _config["Strava:ClientId"]!),
@@ -46,7 +46,7 @@ public class StravaService : IStravaService
             new KeyValuePair<string, string>("grant_type", "authorization_code")
         ]);
 
-        var response = await client.PostAsync("https://www.strava.com/oauth/token", requestData);
+        var response = await stravaClient.PostAsync("https://www.strava.com/oauth/token", requestData);
         
         if (!response.IsSuccessStatusCode) 
             return false;
@@ -58,10 +58,11 @@ public class StravaService : IStravaService
         var session = new SessionEntity
         {
             UserId = userId,
+            AthleteId = tokenData.Athlete.AthleteId,
             AccessToken = tokenData.AccessToken,
             RefreshToken = tokenData.RefreshToken,
-            ExpiresAt = tokenData.ExpiresIn,
-            UpdatedAt = DateTime.UtcNow
+            ExpiresAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + tokenData.ExpiresIn,
+            UpdatedAt = DateTime.UtcNow,
         };
 
         await _sessionRepository.SaveSession(session);

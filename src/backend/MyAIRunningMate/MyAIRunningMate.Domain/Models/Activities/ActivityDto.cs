@@ -36,7 +36,7 @@ public class ActivityDto
     [JsonPropertyName("training_effect")]
     public double TrainingEffect { get; set; }
     
-    public Guid StravaResourceId { get; set; }
+    public Guid? StravaResourceId { get; set; }
     
     [JsonPropertyName("laps")]
     public IEnumerable<LapDto> Laps { get; set; }

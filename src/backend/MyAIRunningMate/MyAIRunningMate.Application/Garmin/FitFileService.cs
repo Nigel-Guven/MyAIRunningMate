@@ -25,6 +25,12 @@ public class FitFileService : IFitFileService
         await using var stream = file.OpenReadStream();
         var activityDto = await _pythonApiClient.UploadFitFileAsync(stream, file.FileName);
 
+        var existing = await _activityRepository.ActivityExistsByGarminId(activityDto.GarminActivityId);
+        if (existing)
+        {
+            throw new TaskCanceledException($"An activity already exists with this Garmin Activity ID. {activityDto.GarminActivityId}");
+        }
+        
         if (activityDto == null) throw new Exception("Parser returned no data.");
         
         var activityId = Guid.NewGuid();
@@ -61,10 +67,10 @@ public class FitFileService : IFitFileService
             DistanceMetres = dto.DistanceMetres,
             AverageHeartRate = dto.AverageHeartRate,
             MaxHeartRate = dto.MaxHeartRate,
-            TotalElevationGain = dto.TotalElevationGain ?? 0.0,
+            TotalElevationGain = dto.TotalElevationGain,
             AverageSecondPerKilometre = dto.AverageSecondPerKilometre,
             TrainingEffect = dto.TrainingEffect,
-            StravaResourceId = Guid.Empty,
+            StravaResourceId = null,
         };
     }
 }
