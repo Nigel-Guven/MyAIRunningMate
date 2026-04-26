@@ -11,11 +11,13 @@ public class FitFileService : IFitFileService
 {
     private readonly IPythonApiClient _pythonApiClient;
     private readonly IActivityRepository _activityRepository;
+    private readonly ILapRepository _lapRepository;
 
-    public FitFileService(IPythonApiClient pythonApiClient, IActivityRepository activityRepository)
+    public FitFileService(IPythonApiClient pythonApiClient, IActivityRepository activityRepository, ILapRepository lapRepository)
     {
         _pythonApiClient = pythonApiClient;
         _activityRepository = activityRepository;
+        _lapRepository = lapRepository;
     }
     
     public async Task<ActivityDto> ProcessAndStoreFitFileAsync(IFormFile file)
@@ -25,20 +27,29 @@ public class FitFileService : IFitFileService
 
         if (activityDto == null) throw new Exception("Parser returned no data.");
         
-        activityDto.ActivityId = Guid.NewGuid();
-        foreach (var lap in activityDto.Laps)
+        var activityId = Guid.NewGuid();
+        activityDto.ActivityId = activityId;
+        
+        var activityEntity = MapToActivityEntity(activityDto);
+        await _activityRepository.Insert(activityEntity);
+
+        if (!activityDto.Laps.Any()) return activityDto;
+        var lapEntities = activityDto.Laps.Select(l => new LapEntity
         {
-            lap.LapId = Guid.NewGuid();
-        }
+            LapId = Guid.NewGuid(),
+            ActivityId = activityId, 
+            LapNumber = l.LapNumber,
+            DistanceMetres = l.Distance,
+            DurationSeconds = l.Duration,
+            AverageHeartRate = l.AverageHeartRate
+        }).ToList();
 
-        var entity = MapToEntity(activityDto);
-
-        await _activityRepository.Insert(entity); 
+        await _lapRepository.BulkInsert(lapEntities);
 
         return activityDto;
     }
 
-    private static ActivityEntity MapToEntity(ActivityDto dto)
+    private static ActivityEntity MapToActivityEntity(ActivityDto dto)
     {
         return new ActivityEntity
         {
@@ -54,7 +65,6 @@ public class FitFileService : IFitFileService
             AverageSecondPerKilometre = dto.AverageSecondPerKilometre,
             TrainingEffect = dto.TrainingEffect,
             StravaResourceId = Guid.Empty,
-            CreatedAt =  DateTime.UtcNow,
         };
     }
 }

@@ -19,17 +19,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2b8d0fd-e703-4ca8-b12d-9bb0c6967c4f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Client/PythonApiClient.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Client/IPythonApiClient.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IFitFileService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/GarminFitAPI/FitFileController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorMapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/LapDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/LapDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.sln" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +135,7 @@
       <workItem from="1776873918818" duration="23531000" />
       <workItem from="1777016747174" duration="15186000" />
       <workItem from="1777044164886" duration="13060000" />
-      <workItem from="1777058304016" duration="17690000" />
+      <workItem from="1777058304016" duration="18698000" />
     </task>
     <servers />
   </component>
@@ -206,19 +197,6 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileService.cs</url>
-          <line>28</line>
-          <properties documentPath="B:\Documents\My Github\MyAIRunningMate\src\backend\MyAIRunningMate\MyAIRunningMate.Application\Garmin\FitFileService.cs" containingFunctionPresentation="Method 'ProcessAndStoreFitFileAsync'">
-            <startOffsets>
-              <option value="1089" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1126" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
