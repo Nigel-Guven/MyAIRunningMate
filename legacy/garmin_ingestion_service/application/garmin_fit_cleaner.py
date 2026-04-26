@@ -1,5 +1,4 @@
 from fitparse import FitFile
-from datetime import datetime
 
 from domain.lap import Lap
 from domain.activity import Activity
