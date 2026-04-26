@@ -20,9 +20,10 @@ Deep Dive (Activity Details)
 - AI Coach
 
 Ingestion Lab (Uploader)
-- Drag and Drop .fit file Uploader
-- Progress 
-- Display Quick Stats
+- Drag and Drop .fit file Uploader ✅
+- Progress Bar ✅
+- Display Quick Stats ✅
+- Tell the difference between ACTUALLY INGESTED vs ALREADY_EXISTS
 
 Analytics Vault (Best Efforts/Annual Totals)
 - Monthly/Yearly comparisons

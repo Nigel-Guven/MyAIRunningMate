@@ -1,7 +1,7 @@
 // src/types/activity.ts
 export interface ActivityResult {
-  idx: number;
-  id: string;
+  id: number;
+  garmin_id: string;
   garmin_activity_id: string;
   start_time: string;
   type: string;
