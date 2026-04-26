@@ -7,7 +7,7 @@ public class AggregateArtifactDto
     public Guid ActivityId { get; set; }
     public Guid ResourceId { get; set; }
     public string GarminActivityId { get; set; }
-    public string StravaId { get; set; }
+    public string? StravaId { get; set; }
     public string Name { get; set; }
     public string ExerciseType { get; set; }
     public DateTime StartDate { get; set; }

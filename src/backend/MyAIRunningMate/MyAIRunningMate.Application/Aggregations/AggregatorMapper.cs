@@ -25,6 +25,36 @@ public class AggregatorMapper : IAggregatorMapper
         _stravaResourceRepository = stravaRepo;
         _stravaResourceMapRepository = mapRepo;
     }
+    
+    public async Task<IEnumerable<AggregateArtifactDto>> GetMonthlyAggregates(DateTime byMonth)
+    {
+        var activities = await _activityRepository.GetAllActivitiesByMonth(byMonth);
+        
+        var stravaIds = activities
+            .Where(a => a.StravaResourceId != null)
+            .Select(a => a.StravaResourceId!.Value)
+            .ToList();
+        
+        var stravaResources = await _stravaResourceRepository.GetAllStravaResourcesByIds(stravaIds);
+
+        var stravaLookup = stravaResources.ToDictionary(s => s.ResourceId, s => s);
+        
+        var aggregates = activities.Select(activity => 
+        {
+            StravaResourceEntity? stravaEntity = null;
+            if (activity.StravaResourceId.HasValue)
+            {
+                stravaLookup.TryGetValue(activity.StravaResourceId.Value, out stravaEntity);
+            }
+
+            var garminDto = MapGarminActivityDto(activity, null); 
+            var stravaDto = stravaEntity != null ? MapStravaResourceDto(stravaEntity, null) : null;
+
+            return CreateAggregateArtifactDto(garminDto, stravaDto!);
+        });
+
+        return aggregates;
+    }
 
     public async Task<AggregateArtifactDto?> GetAggregateActivity(Guid activityId)
     {

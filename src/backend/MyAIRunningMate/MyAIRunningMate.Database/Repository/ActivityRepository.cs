@@ -13,9 +13,9 @@ public class ActivityRepository(Client supabase) : BaseRepository<ActivityEntity
         return await GetAll();
     }
 
-    public async Task<IEnumerable<ActivityEntity>> GetAllActivitiesByMonth(DateTime month)
+    public async Task<IEnumerable<ActivityEntity>> GetAllActivitiesByMonth(DateTime byMonth)
     {
-        var startOfMonth = new DateTime(month.Year, month.Month, 1, 0, 0, 0, DateTimeKind.Utc);
+        var startOfMonth = new DateTime(byMonth.Year, byMonth.Month, 1, 0, 0, 0, DateTimeKind.Utc);
         
         var startOfNextMonth = startOfMonth.AddMonths(1);
 
