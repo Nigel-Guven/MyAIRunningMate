@@ -15,4 +15,4 @@ async def upload_fit(file: UploadFile = File(...)):
 
     activity = process_fit_file(file)
 
-    return activity
+    return ActivitySchema.model_validate(activity, from_attributes=True)

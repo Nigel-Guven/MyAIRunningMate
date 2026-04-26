@@ -2,11 +2,10 @@ from pathlib import Path
 from fitparse import FitFile
 from domain.models.lap import Lap
 from domain.models.activity import Activity
-from schemas.activity_schema import ActivitySchema
 
 def format_file(file):
     fitfile = FitFile(file.file)
-    return clean_fit_file(fitfile, file.name)
+    return clean_fit_file(fitfile, file.filename)
 
 def extract_activity_id(filename: str) -> str:
     name = Path(filename).stem  # removes .fit
@@ -48,4 +47,5 @@ def clean_fit_file(fitfile, filename) -> dict:
         ))
         lap_number += 1
 
-    return ActivitySchema.model_validate(activity_data, from_attributes=True)
+    return activity_data
+    
