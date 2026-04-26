@@ -19,8 +19,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2b8d0fd-e703-4ca8-b12d-9bb0c6967c4f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/ActivityAPI/ActivityController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Client/PythonApiClient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Client/IPythonApiClient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IFitFileService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/GarminFitAPI/FitFileController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorMapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/ActivityDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/LapDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/LapDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.sln" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,20 +51,23 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Application/Activity/ActivityService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Application/Strava/UserContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Client/PythonApiClient.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/LapRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/SessionRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceMapRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceMapEntity.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Client/IPythonApiClient.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/IUserContext.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IActivityService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IFitFileService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/MapDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Models/Activities/StravaResourceDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Domain/Models/AggregateArtifactDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/ActivityAPI/ActivityController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/GarminFitAPI/FitFileController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/StravaAPI/StravaController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MyAIRunningMate.Service/appsettings.json" root0="FORCE_HIGHLIGHTING" />
@@ -132,7 +144,7 @@
       <workItem from="1776873918818" duration="23531000" />
       <workItem from="1777016747174" duration="15186000" />
       <workItem from="1777044164886" duration="13060000" />
-      <workItem from="1777058304016" duration="12219000" />
+      <workItem from="1777058304016" duration="17690000" />
     </task>
     <servers />
   </component>
@@ -194,6 +206,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/MyAIRunningMate.Application/Garmin/FitFileService.cs</url>
+          <line>28</line>
+          <properties documentPath="B:\Documents\My Github\MyAIRunningMate\src\backend\MyAIRunningMate\MyAIRunningMate.Application\Garmin\FitFileService.cs" containingFunctionPresentation="Method 'ProcessAndStoreFitFileAsync'">
+            <startOffsets>
+              <option value="1089" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1126" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

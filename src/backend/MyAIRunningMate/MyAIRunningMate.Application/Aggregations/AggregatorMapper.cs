@@ -83,7 +83,7 @@ public class AggregatorMapper : IAggregatorMapper
             ElapsedTime = stravaActivityDto.ElapsedTime,
             AverageCadence =  stravaActivityDto.AverageCadence,
             AverageSecondPerKilometre =  garminActivityDto.AverageSecondPerKilometre,
-            TotalElevationGain = garminActivityDto.TotalElevationGain,
+            TotalElevationGain = garminActivityDto.TotalElevationGain ?? 0.0,
             ElevationLow = stravaActivityDto.ElevationLow,
             ElevationHigh = stravaActivityDto.ElevationHigh,
             DurationSeconds = garminActivityDto.DurationSeconds,

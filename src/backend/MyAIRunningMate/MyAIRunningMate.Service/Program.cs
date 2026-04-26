@@ -1,8 +1,11 @@
 using Microsoft.OpenApi;
 using MyAIRunningMate.Application.Aggregations;
+using MyAIRunningMate.Application.Garmin;
 using MyAIRunningMate.Application.Strava;
+using MyAIRunningMate.Client;
 using MyAIRunningMate.Database.Repository;
 using MyAIRunningMate.Domain.Interfaces;
+using MyAIRunningMate.Domain.Interfaces.Client;
 using MyAIRunningMate.Domain.Interfaces.Infrastructure.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Infrastructure.Strava;
 using MyAIRunningMate.Domain.Interfaces.Services;
@@ -31,20 +34,24 @@ builder.Services.AddHttpClient("Strava", client =>
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
+builder.Services.AddHttpClient<IPythonApiClient, PythonApiClient>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:8000/");
+});
+
 builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 builder.Services.AddScoped<ILapRepository, LapRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IStravaResourceMapRepository, StravaResourceMapRepository>();
 builder.Services.AddScoped<IStravaResourceRepository, StravaResourceRepository>();
 
+builder.Services.AddScoped<IFitFileService, FitFileService>();
 builder.Services.AddScoped<IStravaService, StravaService>();
 builder.Services.AddScoped<IAggregatorMapper, AggregatorMapper>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserContext, UserContext>();
 
-
-builder.Services.AddHttpClient();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAIRunningMate API", Version = "v1" });
