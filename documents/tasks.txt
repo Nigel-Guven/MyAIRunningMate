@@ -1,3 +1,46 @@
+Website
+
+Command Center (Home)
+- Best Efforts
+- Goal Progress
+- Weight
+- Next Event Countdown
+- AI Briefing
+
+Activity Matrix (Calendar)
+- Past Tiles
+- Future Tiles
+- Metric Hover
+- Visual Coloring for Running, Swimming, Rest day, Volume based like Hiking, Kayak, etc, 
+- Future tiles are planned by Gemini API given constraints
+
+Deep Dive (Activity Details)
+- Merged View
+- Maps and Laps
+- AI Coach
+
+Ingestion Lab (Uploader)
+- Drag and Drop .fit file Uploader
+- Progress 
+- Display Quick Stats
+
+Analytics Vault (Best Efforts/Annual Totals)
+- Monthly/Yearly comparisons
+- Totals
+- Data Graphs
+
+Nexus AIRunningMate
+- Speak directly to Gemini API
+
+Strava Connect
+
+
+
+
+
+
+
+
 Define Data Models
 What needs to be extracted from .fit 
 Docker Compose
