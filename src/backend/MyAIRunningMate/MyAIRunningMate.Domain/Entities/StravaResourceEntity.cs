@@ -25,7 +25,7 @@ public class StravaResourceEntity : BaseModel
     public double TotalElevationGain { get; set; }
     
     [Column("average_cadence")]
-    public double AverageCadence { get; set; }
+    public double? AverageCadence { get; set; }
     
     [Column("type")]
     public string Type { get; set; }
@@ -52,7 +52,7 @@ public class StravaResourceEntity : BaseModel
     public double ElevationHigh { get; set; }
     
     [Column("map_id")]
-    public Guid MapId { get; set; }
+    public Guid? MapId { get; set; }
     
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }

@@ -12,5 +12,6 @@ public interface IAggregatorMapper
     ActivityDto MapGarminActivityDto(ActivityEntity entity, IEnumerable<LapDto> laps);
     LapDto MapLapDto(LapEntity entity);
     MapDto MapMapResourceDto(StravaResourceMapEntity entity);
+    Task<IEnumerable<AggregateArtifactDto>> GetMonthlyAggregates(DateTime byMonth);
 
 }

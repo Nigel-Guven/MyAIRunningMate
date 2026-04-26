@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Domain.Interfaces.Infrastructure.Garmin;
+using MyAIRunningMate.Domain.Interfaces.Services;
+using MyAIRunningMate.Domain.Models;
 using MyAIRunningMate.Domain.Models.Activities;
 
 namespace MyAIRunningMate.Service.ActivityAPI;
@@ -8,22 +10,24 @@ namespace MyAIRunningMate.Service.ActivityAPI;
 [Route("api/activity")]
 public class ActivityController : ControllerBase
 {
-    private readonly IActivityRepository _activityRepository;
 
-    public ActivityController(IActivityRepository activityRepository)
+    private readonly IAggregatorMapper _aggregatorMapper;
+
+    public ActivityController(IAggregatorMapper aggregatorMapper)
     {
-        _activityRepository = activityRepository;
+        _aggregatorMapper = aggregatorMapper;
     }
     
     [HttpGet("monthly")]
-    public async Task<ActionResult<IEnumerable<ActivityDto>>> GetMonthlyActivities([FromQuery] int month, [FromQuery] int year)
+    public async Task<ActionResult<IEnumerable<AggregateArtifactDto>>> GetMonthlyActivities([FromQuery] int month, [FromQuery] int year)
     {
         var queryDate = new DateTime(year, month, 1);
         
         try
         {
-            var activities = await _activityRepository.GetAllActivitiesByMonth(queryDate);
-            return Ok(activities);
+            var aggregates = await _aggregatorMapper.GetMonthlyAggregates(queryDate);
+
+            return Ok(aggregates);
         }
         catch (Exception ex)
         {

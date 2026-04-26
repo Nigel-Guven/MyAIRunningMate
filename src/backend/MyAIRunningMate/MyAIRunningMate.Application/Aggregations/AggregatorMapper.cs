@@ -103,31 +103,37 @@ public class AggregatorMapper : IAggregatorMapper
         return new AggregateArtifactDto()
         {
             ActivityId = garminActivityDto.ActivityId,
-            ResourceId = stravaActivityDto.ResourceId,
             GarminActivityId = garminActivityDto.GarminActivityId,
-            StravaId = stravaActivityDto.StravaId,
-            Name = stravaActivityDto.Name,
-            ExerciseType = stravaActivityDto.Type,
-            StartDate = stravaActivityDto.StartDate,
             StartTime = garminActivityDto.StartTime,
-            ElapsedTime = stravaActivityDto.ElapsedTime,
-            AverageCadence =  stravaActivityDto.AverageCadence,
-            AverageSecondPerKilometre =  garminActivityDto.AverageSecondPerKilometre,
-            TotalElevationGain = garminActivityDto.TotalElevationGain ?? 0.0,
-            ElevationLow = stravaActivityDto.ElevationLow,
-            ElevationHigh = stravaActivityDto.ElevationHigh,
-            DurationSeconds = garminActivityDto.DurationSeconds,
             DistanceMetres = garminActivityDto.DistanceMetres,
+            DurationSeconds = garminActivityDto.DurationSeconds,
+            TrainingEffect = garminActivityDto.TrainingEffect,
+            AverageSecondPerKilometre = garminActivityDto.AverageSecondPerKilometre,
             AverageHeartRate = garminActivityDto.AverageHeartRate,
             MaxHeartRate = garminActivityDto.MaxHeartRate,
-            TrainingEffect = garminActivityDto.TrainingEffect,
-            AchievementCount = stravaActivityDto.AchievementCount,
-            KudosCount = stravaActivityDto.KudosCount,
-            PersonalRecordCount =  stravaActivityDto.PersonalRecordCount,
-            AthleteCount = stravaActivityDto.AthleteCount,
-            Map = stravaActivityDto.Map,
             Laps = garminActivityDto.Laps,
             
+            ResourceId = stravaActivityDto?.ResourceId ?? Guid.Empty,
+            StravaId = stravaActivityDto?.StravaId,
+            Name = stravaActivityDto?.Name ?? "Unnamed Activity",
+            
+            ExerciseType = stravaActivityDto?.Type ?? garminActivityDto.ExerciseType ?? "Unknown",
+
+            StartDate = stravaActivityDto?.StartDate ?? garminActivityDto.StartTime,
+        
+
+            ElapsedTime = stravaActivityDto?.ElapsedTime,
+            AverageCadence = stravaActivityDto?.AverageCadence,
+            TotalElevationGain = garminActivityDto.TotalElevationGain ?? stravaActivityDto?.TotalElevationGain ?? 0.0,
+            ElevationLow = stravaActivityDto?.ElevationLow,
+            ElevationHigh = stravaActivityDto?.ElevationHigh,
+
+            AchievementCount = stravaActivityDto?.AchievementCount ?? 0,
+            KudosCount = stravaActivityDto?.KudosCount ?? 0,
+            PersonalRecordCount = stravaActivityDto?.PersonalRecordCount ?? 0,
+            AthleteCount = stravaActivityDto?.AthleteCount ?? 0,
+        
+            Map = stravaActivityDto?.Map
         };
     }
 
@@ -141,7 +147,7 @@ public class AggregatorMapper : IAggregatorMapper
             ElapsedTime = stravaResourceEntity.ElapsedTime,
             DistanceMetres = stravaResourceEntity.DistanceMetres,
             TotalElevationGain = stravaResourceEntity.TotalElevationGain,
-            AverageCadence = stravaResourceEntity.AverageCadence,
+            AverageCadence = stravaResourceEntity.AverageCadence ?? 0.0,
             Type = stravaResourceEntity.Type,
             StartDate = stravaResourceEntity.StartDate,
             AchievementCount = stravaResourceEntity.AchievementCount,

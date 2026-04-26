@@ -22,10 +22,10 @@
     <list default="true" id="f2b8d0fd-e703-4ca8-b12d-9bb0c6967c4f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MyAIRunningMate/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorMapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/ActivityRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/ActivityRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Database/Repository/StravaResourceRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/IActivityRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Garmin/IActivityRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Infrastructure/Strava/IStravaResourceRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Entities/StravaResourceEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IAggregatorMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Interfaces/Services/IAggregatorMapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/AggregateArtifactDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Domain/Models/AggregateArtifactDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyAIRunningMate.Service/ActivityAPI/ActivityController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MyAIRunningMate.Service/ActivityAPI/ActivityController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -300,6 +300,32 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/MyAIRunningMate.Service/ActivityAPI/ActivityController.cs</url>
+          <line>27</line>
+          <properties documentPath="B:\Documents\My Github\MyAIRunningMate\src\backend\MyAIRunningMate\MyAIRunningMate.Service\ActivityAPI\ActivityController.cs" containingFunctionPresentation="Method 'GetMonthlyActivities'">
+            <startOffsets>
+              <option value="824" />
+            </startOffsets>
+            <endOffsets>
+              <option value="897" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/MyAIRunningMate.Application/Aggregations/AggregatorMapper.cs</url>
+          <line>37</line>
+          <properties documentPath="B:\Documents\My Github\MyAIRunningMate\src\backend\MyAIRunningMate\MyAIRunningMate.Application\Aggregations\AggregatorMapper.cs" containingFunctionPresentation="Method 'GetMonthlyAggregates'">
+            <startOffsets>
+              <option value="1440" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1532" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

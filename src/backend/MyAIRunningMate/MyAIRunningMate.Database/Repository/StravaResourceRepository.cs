@@ -18,7 +18,7 @@ public class StravaResourceRepository(Client supabase) : BaseRepository<StravaRe
 
         var result = await _supabase
             .From<StravaResourceEntity>()
-            .Filter("resource_id", Constants.Operator.In, stravaIds)
+            .Filter("id", Constants.Operator.In, stravaIds)
             .Get();
 
         return result.Models;

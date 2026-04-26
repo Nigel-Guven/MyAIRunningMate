@@ -8,9 +8,9 @@ export interface AggregateArtifactDto {
   startDate: string; 
   startTime: string;
   elapsedTime: number;
-  averageCadence: number;
+  averageCadence: number | null;
   averageSecondPerKilometre: number;
-  totalElevationGain: number;
+  totalElevationGain: number | null;
   elevationLow: number;
   elevationHigh: number;
   durationSeconds: number;
