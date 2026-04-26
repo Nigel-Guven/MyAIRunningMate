@@ -18,7 +18,7 @@ def extract_activity_id(filename: str) -> str:
 def clean_fit_file(fitfile, filename) -> dict:
     
     activity_data = Activity()
-    activity_data.id = extract_activity_id(filename)
+    activity_data.garmin_id = extract_activity_id(filename)
     
     for record in fitfile.get_messages("session"):
         activity_data.date = record.get_value("start_time")

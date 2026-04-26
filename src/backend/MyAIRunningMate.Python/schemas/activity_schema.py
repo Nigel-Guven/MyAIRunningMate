@@ -4,7 +4,7 @@ from datetime import datetime
 from .lap_schema import LapSchema
 
 class ActivitySchema(BaseModel):
-    id: str
+    garmin_id: str
     date: Optional[datetime]
     type: Optional[str]
     duration_seconds: Optional[float]

@@ -25,10 +25,18 @@ public class FitFileService : IFitFileService
         await using var stream = file.OpenReadStream();
         var activityDto = await _pythonApiClient.UploadFitFileAsync(stream, file.FileName);
 
-        var existing = await _activityRepository.ActivityExistsByGarminId(activityDto.GarminActivityId);
-        if (existing)
+        var existingActivity = await _activityRepository.ActivityExistsByGarminId(activityDto.GarminActivityId); 
+        
+        if (existingActivity != null)
         {
-            throw new TaskCanceledException($"An activity already exists with this Garmin Activity ID. {activityDto.GarminActivityId}");
+            return new ActivityDto
+            {
+                GarminActivityId = activityDto.GarminActivityId,
+                ExerciseType = activityDto.ExerciseType,
+                StartTime = activityDto.StartTime,
+                DistanceMetres = activityDto.DistanceMetres,
+                TrainingEffect = activityDto.TrainingEffect
+            };
         }
         
         if (activityDto == null) throw new Exception("Parser returned no data.");

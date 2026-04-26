@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Domain.Interfaces.Services;
+using MyAIRunningMate.Domain.Models.Files;
 
 namespace MyAIRunningMate.Service.GarminFitAPI;
 
@@ -15,13 +16,15 @@ public class FitFileController : ControllerBase
     }
 
     [HttpPost("upload")]
-    public async Task<IActionResult> UploadFitFile(IFormFile? file)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadFitFile([FromForm] FitFileUploadRequest request)
     {
-        if (file == null || file.Length == 0) return BadRequest("File is empty.");
+        if (request.File == null || request.File.Length == 0) 
+            return BadRequest("File is empty.");
 
         try 
         {
-            var result = await _fitFileService.ProcessAndStoreFitFileAsync(file);
+            var result = await _fitFileService.ProcessAndStoreFitFileAsync(request.File);
             return Ok(result);
         }
         catch (Exception ex)

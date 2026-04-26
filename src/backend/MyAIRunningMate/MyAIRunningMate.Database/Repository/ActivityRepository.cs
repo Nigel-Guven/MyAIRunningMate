@@ -43,13 +43,13 @@ public class ActivityRepository(Client supabase) : BaseRepository<ActivityEntity
         return result.Models;
     }
 
-    public async Task<bool> ActivityExistsByGarminId(string garminId)
+    public async Task<ActivityEntity?> ActivityExistsByGarminId(string garminId)
     {
         var result = await _supabase
             .From<ActivityEntity>()
             .Where(x => x.GarminActivityId == garminId)
             .Get();
 
-        return result.Models.Count > 0;
+        return result.Models.FirstOrDefault();
     }
 }

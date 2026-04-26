@@ -7,5 +7,5 @@ public interface IActivityRepository : IBaseRepository<ActivityEntity>
     Task<IEnumerable<ActivityEntity>> GetAllActivities();
     Task<IEnumerable<ActivityEntity>> GetAllActivitiesByMonth(DateTime month);
     Task<IEnumerable<ActivityEntity>> GetAllActivitiesByDay(DateTime day);
-    Task<bool> ActivityExistsByGarminId(string garminId);
+    Task<ActivityEntity?> ActivityExistsByGarminId(string garminId);
 }

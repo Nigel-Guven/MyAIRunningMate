@@ -4,12 +4,13 @@ namespace MyAIRunningMate.Domain.Models.Activities;
 
 public class ActivityDto
 {
+    [JsonPropertyName("activity_id")]
     public Guid ActivityId { get; set; }
     
-    [JsonPropertyName("id")]
+    [JsonPropertyName("garmin_id")]
     public string GarminActivityId { get; set; }
     
-    [JsonPropertyName("date")]
+    [JsonPropertyName("start_time")]
     public DateTime StartTime { get; set; }
     
     [JsonPropertyName("type")]
@@ -36,6 +37,7 @@ public class ActivityDto
     [JsonPropertyName("training_effect")]
     public double TrainingEffect { get; set; }
     
+    [JsonPropertyName("strava_resource_id")]
     public Guid? StravaResourceId { get; set; }
     
     [JsonPropertyName("laps")]

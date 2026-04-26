@@ -7,8 +7,8 @@ from domain.models.lap import Lap
 
 @dataclass
 class Activity:
-    id: Optional[str] = None
-    date: Optional[str] = None
+    garmin_id: Optional[str] = None
+    start_time: Optional[str] = None
     type: Optional[str] = None
     duration_seconds: Optional[float] = None
     distance_metres: Optional[float] = None

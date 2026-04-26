@@ -61,7 +61,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // Standard React port
+        policy.WithOrigins("http://localhost:5173")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -79,12 +79,7 @@ else
     app.UseHttpsRedirection();
 }
 
-app.UseHttpsRedirection();
-
 app.UseCors("AllowReactApp");
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
