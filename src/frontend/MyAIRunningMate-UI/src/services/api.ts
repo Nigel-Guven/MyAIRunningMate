@@ -20,3 +20,10 @@ export const uploadFitFile = async (
 
   return response.data;
 };
+
+export const getMonthlyActivities = async (month: number, year: number): Promise<AggregateArtifactDto[]> => {
+  const response = await axios.get<AggregateArtifactDto[]>(`${API_BASE_URL}/activity/monthly`, {
+    params: { month, year }
+  });
+  return response.data;
+};

@@ -1,4 +1,3 @@
-// src/types/activity.ts
 export interface ActivityResult {
   id: number;
   garmin_id: string;
