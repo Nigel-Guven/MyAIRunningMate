@@ -1,8 +1,15 @@
+using System.Text.Json.Serialization;
+
 namespace MyAIRunningMate.Domain.Service.Responses;
 
 public class StravaAthlete
 {
+    [JsonPropertyName("id")]
     public long AthleteId { get; set; }
+    
+    [JsonPropertyName("firstName")]
     public string FirstName { get; set; }
+    
+    [JsonPropertyName("lastName")]
     public string LastName { get; set; }
 }

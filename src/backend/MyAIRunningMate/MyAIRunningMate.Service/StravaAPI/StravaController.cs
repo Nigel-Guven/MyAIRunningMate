@@ -20,12 +20,14 @@ public class StravaController : ControllerBase
     [HttpGet("connect")]
     public IActionResult Connect()
     {
-        var userId = _userContext.GetUserId();
+        //var userId = _userContext.GetUserId();
+        
+        var userId = Guid.Parse("00000000-0000-0000-0000-000000000000");
         
         Response.Cookies.Append("strava-auth-user", userId.ToString(), new CookieOptions 
         { 
             HttpOnly = true, 
-            Secure = true, 
+            Secure = false, 
             SameSite = SameSiteMode.Lax,
             Expires = DateTimeOffset.UtcNow.AddMinutes(5) 
         });
@@ -53,6 +55,6 @@ public class StravaController : ControllerBase
     
         Response.Cookies.Delete("strava-auth-user");
         
-        return Redirect("http://localhost:3000/dashboard?sync=success");
+        return Redirect("http://localhost:5173/dashboard?sync=success");
     }
 }
