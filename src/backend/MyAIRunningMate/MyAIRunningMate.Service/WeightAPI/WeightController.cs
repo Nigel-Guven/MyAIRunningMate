@@ -59,7 +59,7 @@ public class WeightController : ControllerBase
         }
     }
     
-    public WeightEntity MapWeightResourceDto(WeightDto dto)
+    private WeightEntity MapWeightResourceDto(WeightDto dto)
     {
         if (dto == null) return null;
         

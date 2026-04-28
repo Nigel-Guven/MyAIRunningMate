@@ -1,14 +1,11 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Domain.Models.Activities;
+namespace MyAIRunningMate.Domain.Service.Responses;
 
-public class StravaResourceDto
+public class StravaApiEventResponse
 {
-    [JsonPropertyName("resource_id")]
-    public Guid ResourceId { get; set; }
-    
     [JsonPropertyName("id")]
-    public string StravaId { get; set; }
+    public long StravaId { get; set; }
     
     [JsonPropertyName("name")]
     public string Name { get; set; }
@@ -43,12 +40,14 @@ public class StravaResourceDto
     [JsonPropertyName("pr_count")]
     public long PersonalRecordCount { get; set; }
     
-    [JsonPropertyName("elev_high")]
+    [JsonPropertyName("elev_low")]
     public double ElevationLow { get; set; }
     
-    [JsonPropertyName("elev_low")]
+    [JsonPropertyName("elev_high")]
     public double ElevationHigh { get; set; }
     
     [JsonPropertyName("map")]
-    public MapDto Map { get; set; }
+    public StravaApiMap Map { get; set; }
+    
+    public string? SummaryPolyline => Map?.SummaryPolyline;
 }

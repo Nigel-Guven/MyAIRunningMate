@@ -4,8 +4,8 @@ namespace MyAIRunningMate.Domain.Models.Activities;
 
 public class LapDto
 {
+    [JsonPropertyName("lap_id")]
     public Guid LapId { get; set; }
-    
     [JsonPropertyName("lap")]
     public int LapNumber { get; set; }
     [JsonPropertyName("distance_metres")]

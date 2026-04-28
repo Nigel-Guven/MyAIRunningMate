@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Microsoft.Extensions.Configuration;
 using MyAIRunningMate.Domain.Entities;
@@ -67,5 +68,29 @@ public class StravaService : IStravaService
 
         await _sessionRepository.SaveSession(session);
         return true;
+    }
+
+    public async Task<IEnumerable<StravaApiEventResponse>> GetLatestStravaActivities(Guid userId, int amount)
+    {
+        var session = await _sessionRepository.GetSessionByUserId(userId);
+        
+        if (session == null) return Enumerable.Empty<StravaApiEventResponse>();
+        
+        // TODO: Add logic here to check session.ExpiresAt and call RefreshToken if necessary
+        
+        var stravaClient = _httpClientFactory.CreateClient("Strava");
+
+        stravaClient.DefaultRequestHeaders.Authorization = 
+            new AuthenticationHeaderValue("Bearer", session.AccessToken);
+        
+        var response = await stravaClient.GetAsync($"https://www.strava.com/api/v3/athlete/activities?per_page={amount}");
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            return Enumerable.Empty<StravaApiEventResponse>();
+        }
+        
+        var activities = await response.Content.ReadFromJsonAsync<IEnumerable<StravaApiEventResponse>>();
+        return activities ?? Enumerable.Empty<StravaApiEventResponse>();
     }
 }
