@@ -5,6 +5,7 @@ import { CalendarPage } from './pages/CalendarPage';
 import { UploadPage } from './pages/UploadPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { NexusPage } from './pages/NexusPage';
+import { WeightPage } from './pages/WeightPage';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/upload" element={<UploadPage />} />
           <Route path="/goals" element={<AnalyticsPage />} />
           <Route path="/nexus" element={<NexusPage />} />
+          <Route path="/weight" element={<WeightPage />} />
         </Routes>
       </MainLayout>
     </BrowserRouter>

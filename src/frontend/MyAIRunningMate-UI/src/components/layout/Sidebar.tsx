@@ -6,6 +6,7 @@ const menuItems = [
   { label: 'Ingestion Lab', href: '/upload', icon: '📤' },
   { label: 'Analytics Vault', href: '/goals', icon: '🎯' },
   { label: 'Nexus AI Mate', href: '/nexus', icon: '🎯' },
+  { label: 'Weight Tracker', href: '/weight', icon: '🎯' },
 ];
 
 export const Sidebar = () => {
