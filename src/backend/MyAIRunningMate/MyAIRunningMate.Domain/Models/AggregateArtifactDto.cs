@@ -1,5 +1,7 @@
 using MyAIRunningMate.Domain.Models.Activities;
 
+namespace MyAIRunningMate.Domain.Models;
+
 public class AggregateArtifactDto
 {
     public Guid ActivityId { get; set; }

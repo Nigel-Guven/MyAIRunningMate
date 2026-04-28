@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using MyAIRunningMate.Domain.Interfaces.Infrastructure.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Models;
-using MyAIRunningMate.Domain.Models.Activities;
 
 namespace MyAIRunningMate.Service.ActivityAPI;
 
