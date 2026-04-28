@@ -21,7 +21,7 @@ def clean_fit_file(fitfile, filename) -> dict:
     activity_data.garmin_id = extract_activity_id(filename)
     
     for record in fitfile.get_messages("session"):
-        activity_data.date = record.get_value("start_time")
+        activity_data.start_time = record.get_value("start_time")
         activity_data.type = record.get_value("sport")
         activity_data.duration_seconds = record.get_value("total_elapsed_time")
         activity_data.distance_metres = record.get_value("total_distance")
@@ -29,7 +29,6 @@ def clean_fit_file(fitfile, filename) -> dict:
         activity_data.max_heart_rate = record.get_value("max_heart_rate")
         activity_data.total_elevation_gain = record.get_value("total_ascent")
         activity_data.training_effect = record.get_value("total_training_effect")
-        activity_data.v02_max = record.get_value("enhanced_avg_respiration_rate")
 
         if activity_data.distance_metres and activity_data.duration_seconds:
             distance_km = activity_data.distance_metres / 1000

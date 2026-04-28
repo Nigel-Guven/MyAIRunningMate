@@ -5,7 +5,7 @@ from .lap_schema import LapSchema
 
 class ActivitySchema(BaseModel):
     garmin_id: str
-    date: Optional[datetime]
+    start_time: Optional[datetime]
     type: Optional[str]
     duration_seconds: Optional[float]
     distance_metres: Optional[float]
@@ -13,6 +13,5 @@ class ActivitySchema(BaseModel):
     max_heart_rate: Optional[int]
     total_elevation_gain: Optional[float]
     training_effect: Optional[float]
-    v02_max: Optional[float]
     average_pace_seconds_per_kilometre: Optional[float]
     laps: List[LapSchema]
