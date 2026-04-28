@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace MyAIRunningMate.Domain.Models.Activities;
 
-public class MapDto
+public class GeomapDto
 {
     [JsonPropertyName("map_id")]
     public Guid MapId { get; set; }

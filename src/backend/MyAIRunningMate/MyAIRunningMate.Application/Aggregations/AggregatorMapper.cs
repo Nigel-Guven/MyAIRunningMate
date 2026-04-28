@@ -73,7 +73,7 @@ public class AggregatorMapper : IAggregatorMapper
         var lapEntities = await lapsTask;
         var stravaEntity = await stravaTask;
 
-        MapDto? mapDto = null;
+        GeomapDto? mapDto = null;
 
         if (stravaEntity != null)
         {
@@ -133,11 +133,11 @@ public class AggregatorMapper : IAggregatorMapper
             PersonalRecordCount = stravaActivityDto?.PersonalRecordCount ?? 0,
             AthleteCount = stravaActivityDto?.AthleteCount ?? 0,
         
-            Map = stravaActivityDto?.Map
+            Map = stravaActivityDto?.Geomap
         };
     }
 
-    public StravaResourceDto MapStravaResourceDto(StravaResourceEntity stravaResourceEntity, MapDto map)
+    public StravaResourceDto MapStravaResourceDto(StravaResourceEntity stravaResourceEntity, GeomapDto geomap)
     {
         return new StravaResourceDto()
         {
@@ -156,7 +156,7 @@ public class AggregatorMapper : IAggregatorMapper
             PersonalRecordCount = stravaResourceEntity.PersonalRecordCount,
             ElevationHigh = stravaResourceEntity.ElevationHigh,
             ElevationLow = stravaResourceEntity.ElevationLow,
-            Map = map
+            Geomap = geomap
         };
     }
 
@@ -194,11 +194,11 @@ public class AggregatorMapper : IAggregatorMapper
         };
     }
 
-    public MapDto MapMapResourceDto(StravaResourceMapEntity entity)
+    public GeomapDto MapMapResourceDto(StravaGeoMapEntity entity)
     {
         if (entity == null) return null;
         
-        return new MapDto()
+        return new GeomapDto()
         {
             MapId = entity.MapId,
             MapPolyline = entity.MapPolyline,

@@ -8,10 +8,10 @@ public interface IAggregatorMapper
 {
     Task<AggregateArtifactDto?> GetAggregateActivity(Guid activityId);
     AggregateArtifactDto CreateAggregateArtifactDto(ActivityDto garminActivityDto, StravaResourceDto stravaActivityDto);
-    StravaResourceDto MapStravaResourceDto(StravaResourceEntity stravaResourceEntity, MapDto maps);
+    StravaResourceDto MapStravaResourceDto(StravaResourceEntity stravaResourceEntity, GeomapDto geomaps);
     ActivityDto MapGarminActivityDto(ActivityEntity entity, IEnumerable<LapDto> laps);
     LapDto MapLapDto(LapEntity entity);
-    MapDto MapMapResourceDto(StravaResourceMapEntity entity);
+    GeomapDto MapMapResourceDto(StravaGeoMapEntity entity);
     Task<IEnumerable<AggregateArtifactDto>> GetMonthlyAggregates(DateTime byMonth);
 
 }

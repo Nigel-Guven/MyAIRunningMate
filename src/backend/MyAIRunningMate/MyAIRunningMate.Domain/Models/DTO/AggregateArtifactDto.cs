@@ -30,6 +30,6 @@ public class AggregateArtifactDto
     public long? AthleteCount { get; set; }
     public long? PersonalRecordCount { get; set; }
     
-    public MapDto? Map { get; set; }
+    public GeomapDto? Map { get; set; }
     public IEnumerable<LapDto> Laps { get; set; }
 }

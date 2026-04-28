@@ -58,17 +58,4 @@ public class WeightController : ControllerBase
             return StatusCode(500, $"Database error: {ex.Message}");
         }
     }
-    
-    private WeightEntity MapWeightResourceDto(WeightDto dto)
-    {
-        if (dto == null) return null;
-        
-        return new WeightEntity()
-        {
-            WeightId = dto.WeightId,
-            WeightPounds = dto.WeightInPounds,
-            UserId = dto.UserId,
-            CreatedAt =  dto.CreatedAt,
-        };
-    }
 }

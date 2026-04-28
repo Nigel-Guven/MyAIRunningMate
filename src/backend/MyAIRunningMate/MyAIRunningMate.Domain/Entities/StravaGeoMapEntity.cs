@@ -4,7 +4,7 @@ using Supabase.Postgrest.Models;
 namespace MyAIRunningMate.Domain.Entities;
 
 [Table("strava_resource")]
-public class StravaResourceMapEntity : BaseModel
+public class StravaGeoMapEntity : BaseModel
 {
     [Column("id")]
     public Guid MapId { get; set; }

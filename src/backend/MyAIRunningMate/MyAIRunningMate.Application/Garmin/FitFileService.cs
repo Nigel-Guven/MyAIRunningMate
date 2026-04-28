@@ -70,7 +70,7 @@ public class FitFileService : IFitFileService
                 if (!string.IsNullOrEmpty(match.Map?.SummaryPolyline))
                 {
                     mapId = Guid.NewGuid();
-                    var mapEntity = new StravaResourceMapEntity
+                    var mapEntity = new StravaGeoMapEntity
                     {
                         MapId = mapId.Value,
                         MapPolyline = match.Map.SummaryPolyline,
