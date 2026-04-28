@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Models;
 using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Service.ActivityAPI;

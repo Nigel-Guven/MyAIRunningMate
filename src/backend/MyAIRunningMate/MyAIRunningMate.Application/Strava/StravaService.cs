@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using MyAIRunningMate.Domain.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
 using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Providers.Strava.Responses;
+using MyAIRunningMate.Domain.Providers.StravaAPI.Responses;
 
 namespace MyAIRunningMate.Application.Strava;
 
