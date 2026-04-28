@@ -50,5 +50,5 @@ public class StravaResourceDto
     public double ElevationHigh { get; set; }
     
     [JsonPropertyName("map")]
-    public GeomapDto Geomap { get; set; }
+    public StravaGeomapDto StravaGeomap { get; set; }
 }

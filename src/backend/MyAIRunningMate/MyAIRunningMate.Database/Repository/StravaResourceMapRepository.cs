@@ -4,9 +4,9 @@ using Supabase;
 
 namespace MyAIRunningMate.Database.Repository;
 
-public class StravaResourceMapRepository(Client supabase) : BaseRepository<StravaGeoMapEntity>(supabase), IStravaResourceMapRepository
+public class StravaResourceMapRepository(Client supabase) : BaseRepository<StravaGeomapEntity>(supabase), IStravaResourceMapRepository
 {
-    public async Task<StravaGeoMapEntity> GetMapById(Guid mapId)
+    public async Task<StravaGeomapEntity> GetMapById(Guid mapId)
     {
         return await GetById(mapId);
     }

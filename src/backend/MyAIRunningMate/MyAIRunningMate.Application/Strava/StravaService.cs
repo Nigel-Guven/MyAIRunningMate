@@ -52,7 +52,7 @@ public class StravaService : IStravaService
         if (!response.IsSuccessStatusCode) 
             return false;
 
-        var tokenData = await response.Content.ReadFromJsonAsync<StravaTokenResponse>();
+        var tokenData = await response.Content.ReadFromJsonAsync<StravaAPITokenResponse>();
         
         if (tokenData == null) return false;
 

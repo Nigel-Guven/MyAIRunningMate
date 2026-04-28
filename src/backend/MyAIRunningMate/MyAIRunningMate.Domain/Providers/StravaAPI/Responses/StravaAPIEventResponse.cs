@@ -47,7 +47,7 @@ public class StravaApiEventResponse
     public double ElevationHigh { get; set; }
     
     [JsonPropertyName("map")]
-    public StravaApiMap Map { get; set; }
+    public StravaAPIGeomap Geomap { get; set; }
     
-    public string? SummaryPolyline => Map?.SummaryPolyline;
+    public string? SummaryPolyline => Geomap?.SummaryPolyline;
 }

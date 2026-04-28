@@ -4,7 +4,6 @@ using MyAIRunningMate.Application.Garmin;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Client;
 using MyAIRunningMate.Database.Repository;
-using MyAIRunningMate.Domain.Interfaces;
 using MyAIRunningMate.Domain.Interfaces.Client;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
@@ -50,7 +49,7 @@ builder.Services.AddScoped<IWeightRepository, WeightRepository>();
 
 builder.Services.AddScoped<IFitFileService, FitFileService>();
 builder.Services.AddScoped<IStravaService, StravaService>();
-builder.Services.AddScoped<IAggregatorMapper, AggregatorMapper>();
+builder.Services.AddScoped<IAggregatorMapper, CalendarService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserContext, UserContext>();

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace MyAIRunningMate.Domain.Models.DTO;
 
-public class GeomapDto
+public class StravaGeomapDto
 {
     [JsonPropertyName("map_id")]
     public Guid MapId { get; set; }

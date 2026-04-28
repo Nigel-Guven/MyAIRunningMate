@@ -2,7 +2,7 @@ using MyAIRunningMate.Domain.Entities;
 
 namespace MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 
-public interface IStravaResourceMapRepository : IBaseRepository<StravaGeoMapEntity> 
+public interface IStravaResourceMapRepository : IBaseRepository<StravaGeomapEntity> 
 {
-    Task<StravaGeoMapEntity> GetMapById(Guid mapId);
+    Task<StravaGeomapEntity> GetMapById(Guid mapId);
 }

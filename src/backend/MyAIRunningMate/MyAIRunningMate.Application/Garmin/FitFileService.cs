@@ -67,13 +67,13 @@ public class FitFileService : IFitFileService
                 stravaResourceId = Guid.NewGuid();
                 Guid? mapId = null;
                 
-                if (!string.IsNullOrEmpty(match.Map?.SummaryPolyline))
+                if (!string.IsNullOrEmpty(match.Geomap?.SummaryPolyline))
                 {
                     mapId = Guid.NewGuid();
-                    var mapEntity = new StravaGeoMapEntity
+                    var mapEntity = new StravaGeomapEntity
                     {
                         MapId = mapId.Value,
-                        MapPolyline = match.Map.SummaryPolyline,
+                        MapPolyline = match.Geomap.SummaryPolyline,
                     };
                     
                     await _mapRepository.Insert(mapEntity);
