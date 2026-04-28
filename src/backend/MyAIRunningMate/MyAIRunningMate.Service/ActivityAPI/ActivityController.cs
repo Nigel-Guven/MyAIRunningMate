@@ -9,7 +9,7 @@ namespace MyAIRunningMate.Service.ActivityAPI;
 public class ActivityController : ControllerBase
 {
 
-    private readonly IAggregatorMapper _aggregatorMapper;
+    private readonly IC _aggregatorMapper;
 
     public ActivityController(IAggregatorMapper aggregatorMapper)
     {
