@@ -1,5 +1,5 @@
 using MyAIRunningMate.Domain.Entities;
-using MyAIRunningMate.Domain.Models.Activities;
+using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Domain.Mappers;
 

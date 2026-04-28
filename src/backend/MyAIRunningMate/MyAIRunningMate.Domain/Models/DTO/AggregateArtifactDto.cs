@@ -1,6 +1,4 @@
-using MyAIRunningMate.Domain.Models.Activities;
-
-namespace MyAIRunningMate.Domain.Models;
+namespace MyAIRunningMate.Domain.Models.DTO;
 
 public class AggregateArtifactDto
 {

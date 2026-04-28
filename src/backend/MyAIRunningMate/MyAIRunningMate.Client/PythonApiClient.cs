@@ -1,6 +1,6 @@
 using System.Net.Http.Json;
 using MyAIRunningMate.Domain.Interfaces.Client;
-using MyAIRunningMate.Domain.Models.Activities;
+using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Client;
 

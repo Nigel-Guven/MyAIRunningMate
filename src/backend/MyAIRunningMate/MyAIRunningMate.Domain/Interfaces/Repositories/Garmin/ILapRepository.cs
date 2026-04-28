@@ -1,6 +1,6 @@
 using MyAIRunningMate.Domain.Entities;
 
-namespace MyAIRunningMate.Domain.Interfaces.Infrastructure.Garmin;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 
 public interface ILapRepository : IBaseRepository<LapEntity> 
 {

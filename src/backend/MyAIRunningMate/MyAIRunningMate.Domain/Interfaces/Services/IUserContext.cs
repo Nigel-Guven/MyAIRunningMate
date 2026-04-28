@@ -1,4 +1,4 @@
-namespace MyAIRunningMate.Domain.Interfaces;
+namespace MyAIRunningMate.Domain.Interfaces.Services;
 
 public interface IUserContext
 {

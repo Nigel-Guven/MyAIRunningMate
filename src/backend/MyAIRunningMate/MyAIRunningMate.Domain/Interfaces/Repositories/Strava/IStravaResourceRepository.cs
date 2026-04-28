@@ -1,6 +1,6 @@
 using MyAIRunningMate.Domain.Entities;
 
-namespace MyAIRunningMate.Domain.Interfaces.Infrastructure.Strava;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 
 public interface IStravaResourceRepository : IBaseRepository<StravaResourceEntity> 
 {

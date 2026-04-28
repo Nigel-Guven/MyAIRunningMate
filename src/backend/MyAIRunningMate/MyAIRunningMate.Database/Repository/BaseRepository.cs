@@ -1,4 +1,4 @@
-using MyAIRunningMate.Domain.Interfaces.Infrastructure;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
 using Supabase.Postgrest;
 using Supabase.Postgrest.Models;
 using Client = Supabase.Client;

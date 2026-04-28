@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Domain.Entities;
-using MyAIRunningMate.Domain.Interfaces.Infrastructure;
-using MyAIRunningMate.Domain.Models.Activities;
+using MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
+using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Service.WeightAPI;
 

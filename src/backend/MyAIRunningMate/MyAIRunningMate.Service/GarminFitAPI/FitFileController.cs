@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Models.Files;
+using MyAIRunningMate.Domain.Models.Requests;
 
 namespace MyAIRunningMate.Service.GarminFitAPI;
 

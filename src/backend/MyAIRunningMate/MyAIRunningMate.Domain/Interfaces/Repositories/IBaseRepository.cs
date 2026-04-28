@@ -1,7 +1,7 @@
 
 using Supabase.Postgrest.Models;
 
-namespace MyAIRunningMate.Domain.Interfaces.Infrastructure;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
 public interface IBaseRepository<T> where T : BaseModel, new()
 {

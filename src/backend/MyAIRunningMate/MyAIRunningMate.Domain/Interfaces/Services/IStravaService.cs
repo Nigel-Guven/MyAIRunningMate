@@ -1,5 +1,4 @@
-using MyAIRunningMate.Domain.Models.Activities;
-using MyAIRunningMate.Domain.Service.Responses;
+using MyAIRunningMate.Domain.Providers.Strava.Responses;
 
 namespace MyAIRunningMate.Domain.Interfaces.Services;
 

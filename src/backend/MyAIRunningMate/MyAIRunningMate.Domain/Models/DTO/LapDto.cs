@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Domain.Models.Activities;
+namespace MyAIRunningMate.Domain.Models.DTO;
 
 public class LapDto
 {

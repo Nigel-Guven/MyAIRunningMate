@@ -1,4 +1,4 @@
-using MyAIRunningMate.Domain.Models.Activities;
+using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Domain.Interfaces.Client;
 

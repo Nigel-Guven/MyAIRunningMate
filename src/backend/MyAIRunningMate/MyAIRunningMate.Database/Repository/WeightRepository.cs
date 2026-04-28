@@ -1,5 +1,5 @@
 using MyAIRunningMate.Domain.Entities;
-using MyAIRunningMate.Domain.Interfaces.Infrastructure;
+using MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
 using Supabase.Postgrest;
 using Client = Supabase.Client;
 

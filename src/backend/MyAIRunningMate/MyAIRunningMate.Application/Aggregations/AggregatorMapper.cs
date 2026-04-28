@@ -1,9 +1,9 @@
 using MyAIRunningMate.Domain.Entities;
-using MyAIRunningMate.Domain.Interfaces.Infrastructure.Garmin;
-using MyAIRunningMate.Domain.Interfaces.Infrastructure.Strava;
+using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
+using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Models;
-using MyAIRunningMate.Domain.Models.Activities;
+using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Application.Aggregations;
 

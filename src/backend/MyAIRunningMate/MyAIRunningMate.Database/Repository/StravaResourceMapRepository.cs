@@ -1,5 +1,5 @@
 using MyAIRunningMate.Domain.Entities;
-using MyAIRunningMate.Domain.Interfaces.Infrastructure.Strava;
+using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 using Supabase;
 
 namespace MyAIRunningMate.Database.Repository;
