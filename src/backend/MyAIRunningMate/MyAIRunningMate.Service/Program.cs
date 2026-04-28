@@ -49,7 +49,9 @@ builder.Services.AddScoped<IWeightRepository, WeightRepository>();
 
 builder.Services.AddScoped<IFitFileService, FitFileService>();
 builder.Services.AddScoped<IStravaService, StravaService>();
-builder.Services.AddScoped<IAggregatorMapper, CalendarService>();
+builder.Services.AddScoped<IActivityViewService, ActivityViewService>();
+builder.Services.AddScoped<ICalendarService, CalendarService>();
+builder.Services.AddScoped<IIngestionPipelineService, IngestionPipelineService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserContext, UserContext>();

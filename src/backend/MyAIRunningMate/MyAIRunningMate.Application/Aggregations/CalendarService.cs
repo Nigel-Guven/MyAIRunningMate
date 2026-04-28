@@ -15,7 +15,7 @@ public class CalendarService : ICalendarService
         _activityRepository = activityRepo;
     }
     
-    public async Task<IEnumerable<CalendarViewDto>> GetMonthlyTiles(DateTime byMonth)
+    public async Task<IEnumerable<CalendarViewDto>> GetMonthlyCalendarViews(DateTime byMonth)
     {
         var activities = await _activityRepository.GetAllActivitiesByMonth(byMonth);
         

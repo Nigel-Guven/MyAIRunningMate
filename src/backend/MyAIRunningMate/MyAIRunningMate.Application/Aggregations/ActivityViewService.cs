@@ -27,7 +27,7 @@ public class ActivityViewService : IActivityViewService
     }
     
 
-    public async Task<AggregateArtifactDto?> GetAggregateActivity(Guid activityId)
+    public async Task<AggregateArtifactDto?> CreateAggregateActivityDto(Guid activityId)
     {
         var activityEntity = await _activityRepository.GetById(activityId);
     
