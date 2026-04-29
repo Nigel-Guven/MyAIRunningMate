@@ -1,11 +1,11 @@
 using MyAIRunningMate.Domain.Entities;
 using MyAIRunningMate.Domain.Models.DTO;
+using MyAIRunningMate.Domain.Providers.PythonFitApi.Responses;
 
 namespace MyAIRunningMate.Domain.Mappers;
 
 public static class ActivityMapper
 {
-    // DTO -> Entity
     public static ActivityEntity ToEntity(this ActivityDto dto) => new()
     {
         ActivityId = dto.ActivityId,
@@ -21,8 +21,7 @@ public static class ActivityMapper
         TrainingEffect = dto.TrainingEffect,
         StravaResourceId = dto.StravaResourceId,
     };
-
-    // Entity -> DTO
+    
     public static ActivityDto ToDto(this ActivityEntity entity, IEnumerable<LapEntity>? lapEntities = null) => new()
     {
         ActivityId = entity.ActivityId,
@@ -38,5 +37,20 @@ public static class ActivityMapper
         TrainingEffect = entity.TrainingEffect,
         StravaResourceId = entity.StravaResourceId,
         Laps = lapEntities?.Select(l => l.ToDto()) ?? Enumerable.Empty<LapDto>()
+    };
+    
+    public static ActivityDto ToDto(this PythonAPIActivityResponse response) => new()
+    {
+        GarminActivityId = response.GarminId,
+        StartTime = response.StartTime,
+        ExerciseType = response.Type,
+        DurationSeconds = response.DurationSeconds,
+        DistanceMetres = response.DistanceMetres,
+        AverageHeartRate = response.AverageHeartRate,
+        MaxHeartRate = response.MaxHeartRate,
+        TotalElevationGain = response.TotalElevationGain,
+        TrainingEffect = response.TrainingEffect,
+        AverageSecondPerKilometre = response.AverageSecondPerKilometre,
+        Laps = response.Laps.Select(rl => rl.ToDto()),
     };
 }

@@ -8,13 +8,13 @@ using MyAIRunningMate.Domain.Providers.StravaAPI.Responses;
 
 namespace MyAIRunningMate.Application.Strava;
 
-public class StravaService : IStravaService
+public class StravaApiService : IStravaAPIService
 {
     private readonly IConfiguration _config;
     private readonly ISessionRepository _sessionRepository;
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public StravaService(ISessionRepository sessionRepository, IConfiguration config, IHttpClientFactory httpClientFactory)
+    public StravaApiService(ISessionRepository sessionRepository, IConfiguration config, IHttpClientFactory httpClientFactory)
     {
         _sessionRepository = sessionRepository;
         _config = config;

@@ -1,7 +1,7 @@
 using Microsoft.OpenApi;
-using MyAIRunningMate.Application.Aggregations;
 using MyAIRunningMate.Application.Garmin;
 using MyAIRunningMate.Application.Strava;
+using MyAIRunningMate.Application.UserInterface;
 using MyAIRunningMate.Client;
 using MyAIRunningMate.Database.Repository;
 using MyAIRunningMate.Domain.Interfaces.Client;
@@ -47,8 +47,13 @@ builder.Services.AddScoped<IStravaResourceMapRepository, StravaResourceMapReposi
 builder.Services.AddScoped<IStravaResourceRepository, StravaResourceRepository>();
 builder.Services.AddScoped<IWeightRepository, WeightRepository>();
 
-builder.Services.AddScoped<IFitFileService, FitFileService>();
-builder.Services.AddScoped<IStravaService, StravaService>();
+
+builder.Services.AddScoped<IStravaAPIService, StravaApiService>();
+builder.Services.AddScoped<IUserContext, UserContext>();
+builder.Services.AddScoped<ILinkProviderService, LinkProviderService>();
+builder.Services.AddScoped<IActivityService, ActivityService>();
+builder.Services.AddScoped<IStravaResourceService, StravaResourceService>();
+
 builder.Services.AddScoped<IActivityViewService, ActivityViewService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();
 builder.Services.AddScoped<IIngestionPipelineService, IngestionPipelineService>();

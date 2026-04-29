@@ -1,5 +1,6 @@
 using MyAIRunningMate.Domain.Entities;
 using MyAIRunningMate.Domain.Models.DTO;
+using MyAIRunningMate.Domain.Providers.StravaAPI.Responses;
 
 namespace MyAIRunningMate.Domain.Mappers;
 
@@ -41,5 +42,24 @@ public static class StravaResourceMapper
         PersonalRecordCount = dto.PersonalRecordCount,
         ElevationLow = dto.ElevationLow,
         ElevationHigh = dto.ElevationHigh,
+    };
+    
+    public static StravaResourceDto ToDto(this StravaApiEventResponse response, Guid stravaResourceId) => new()
+    {
+        ResourceId = stravaResourceId,
+        StravaId = response.StravaId.ToString(),
+        Name = response.Name,
+        ElapsedTime = response.ElapsedTime,
+        DistanceMetres = response.DistanceMetres,
+        TotalElevationGain = response.TotalElevationGain,
+        AverageCadence = response.AverageCadence,
+        Type = response.Type,
+        StartDate = response.StartDate,
+        AchievementCount = response.AchievementCount,
+        KudosCount = response.KudosCount,
+        AthleteCount = response.AthleteCount,
+        PersonalRecordCount = response.PersonalRecordCount,
+        ElevationLow = response.ElevationLow,
+        ElevationHigh = response.ElevationHigh,
     };
 }

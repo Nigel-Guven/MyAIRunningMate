@@ -1,5 +1,6 @@
 using MyAIRunningMate.Domain.Entities;
 using MyAIRunningMate.Domain.Models.DTO;
+using MyAIRunningMate.Domain.Providers.PythonFitApi.Responses;
 
 namespace MyAIRunningMate.Domain.Mappers;
 
@@ -21,5 +22,13 @@ public static class LapMapper
         DistanceMetres = dto.Distance,
         DurationSeconds = dto.Duration,
         AverageHeartRate = dto.AverageHeartRate,
+    };
+    
+    public static LapDto ToDto(this PythonAPILap response) => new()
+    {
+        LapNumber = response.LapNumber,
+        Distance = response.Distance,
+        Duration = response.Duration,
+        AverageHeartRate = response.AverageHeartRate,
     };
 }

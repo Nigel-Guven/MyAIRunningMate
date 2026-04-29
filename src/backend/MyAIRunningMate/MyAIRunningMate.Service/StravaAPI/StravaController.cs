@@ -7,12 +7,12 @@ namespace MyAIRunningMate.Service.StravaAPI;
 [Route("api/strava")]
 public class StravaController : ControllerBase
 {
-    private readonly IStravaService _stravaService;
+    private readonly IStravaAPIService _stravaApiService;
     private readonly IUserContext _userContext;
     
-    public StravaController(IStravaService stravaService, IUserContext userContext)
+    public StravaController(IStravaAPIService stravaApiService, IUserContext userContext)
     {
-        _stravaService = stravaService;
+        _stravaApiService = stravaApiService;
         _userContext = userContext;
     }
     
@@ -32,7 +32,7 @@ public class StravaController : ControllerBase
         });
         
         var state = Guid.NewGuid().ToString();
-        return Redirect(_stravaService.GetAuthorizationUrl(state));
+        return Redirect(_stravaApiService.GetAuthorizationUrl(state));
     }
 
     [HttpGet("callback")]
@@ -45,7 +45,7 @@ public class StravaController : ControllerBase
     
         var userId = Guid.Parse(userIdString);
         
-        var success = await _stravaService.ExchangeCodeAndSaveTokens(code, userId);
+        var success = await _stravaApiService.ExchangeCodeAndSaveTokens(code, userId);
 
         if (!success)
         {

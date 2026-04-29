@@ -1,5 +1,6 @@
 using MyAIRunningMate.Domain.Entities;
 using MyAIRunningMate.Domain.Models.DTO;
+using MyAIRunningMate.Domain.Providers.StravaAPI.Responses;
 
 namespace MyAIRunningMate.Domain.Mappers;
 
@@ -15,5 +16,10 @@ public static class StravaGeomapMapper
     {
         MapId = dto.MapId,
         MapPolyline = dto.MapPolyline,
+    };
+    
+    public static StravaGeomapDto ToDto(this StravaAPIGeomap response) => new()
+    {
+        MapPolyline = response.SummaryPolyline
     };
 }

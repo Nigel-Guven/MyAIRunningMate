@@ -8,23 +8,23 @@ namespace MyAIRunningMate.Service.GarminFitAPI;
 [Route("api/fitfile")]
 public class FitFileController : ControllerBase
 {
-    private readonly IFitFileService _fitFileService;
+    private readonly IIngestionPipelineService _ingestionPipelineService;
 
-    public FitFileController(IFitFileService fitFileService)
+    public FitFileController(IIngestionPipelineService ingestionPipelineService)
     {
-        _fitFileService = fitFileService;
+        _ingestionPipelineService = ingestionPipelineService;
     }
 
     [HttpPost("upload")]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> UploadFitFile([FromForm] FitFileUploadRequest request)
     {
-        if (request.File == null || request.File.Length == 0) 
+        if (request.File.Length == 0) 
             return BadRequest("File is empty.");
 
         try 
         {
-            var result = await _fitFileService.ProcessAndStoreFitFileAsync(request.File);
+            var result = await _ingestionPipelineService.ProcessFitFileAsync(request.File, Guid.NewGuid());
             return Ok(result);
         }
         catch (Exception ex)

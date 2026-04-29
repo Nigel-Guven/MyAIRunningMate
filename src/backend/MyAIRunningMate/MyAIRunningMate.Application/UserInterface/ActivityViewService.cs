@@ -5,7 +5,7 @@ using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Mappers;
 using MyAIRunningMate.Domain.Models.DTO;
 
-namespace MyAIRunningMate.Application.Aggregations;
+namespace MyAIRunningMate.Application.UserInterface;
 
 public class ActivityViewService : IActivityViewService
 {
