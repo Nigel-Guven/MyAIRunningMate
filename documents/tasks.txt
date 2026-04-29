@@ -1,23 +1,28 @@
 Website
 
+Login 
+- User and password
+- Syncs to Supabase
+- Auth flow across the entire system
+
 Command Center (Home)
-- Best Efforts
-- Goal Progress
-- Weight
-- Next Event Countdown
-- AI Briefing
+- Best Efforts -> Must be manually updated and stored
+- Weekly volume -> Show last weeks data
+- Weight -> Get latest weight recording and display
+- Next Event Countdown -> Need an events table
+- AI Briefing -> Gemini API input here small summary
 
 Activity Matrix (Calendar)
-- Past Tiles
-- Future Tiles
-- Metric Hover
+- Past Tiles ✅
+- Future Tiles made by Gemini provided constraints
+- Red tiles for events
+- Clickable tiles to deep view aggregate
 - Visual Coloring for Running, Swimming, Rest day, Volume based like Hiking, Kayak, etc, 
-- Future tiles are planned by Gemini API given constraints
 
 Deep Dive (Activity Details)
 - Merged View
 - Maps and Laps
-- AI Coach
+- AI Feedback button
 
 Ingestion Lab (Uploader)
 - Drag and Drop .fit file Uploader ✅
@@ -33,7 +38,11 @@ Analytics Vault (Best Efforts/Annual Totals)
 Nexus AIRunningMate
 - Speak directly to Gemini API
 
-Strava Connect
+Weight Tracker
+- Update UI for this 
+- Input historical data
+- Test working flow
+
 
 
 
