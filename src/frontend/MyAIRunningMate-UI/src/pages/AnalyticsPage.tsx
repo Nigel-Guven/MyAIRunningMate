@@ -1,4 +1,3 @@
-// src/pages/AnalyticsPage.tsx
 export const AnalyticsPage = () => {
   return (
     <div className="space-y-8">

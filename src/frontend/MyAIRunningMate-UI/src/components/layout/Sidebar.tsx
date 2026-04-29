@@ -20,7 +20,7 @@ export const Sidebar = () => {
         {menuItems.map((item) => (
           <NavLink
             key={item.href}
-            to={item.href} // Use 'to' instead of 'href'
+            to={item.href}
             className={({ isActive }) => `
               flex items-center gap-3 rounded-lg px-3 py-2 transition-all
               ${isActive 

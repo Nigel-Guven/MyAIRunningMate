@@ -2,9 +2,10 @@ import { useEffect, useState, useMemo } from 'react';
 import { getMonthlyActivities } from '../services/api';
 import { getActivityStyles } from '../components/calendar/styles';
 import type { AggregateArtifactDto } from '../types/aggregateArtifact';
+import type { CalendarViewResult } from '../types/calendarView';
 
 export const CalendarPage = () => {
-  const [activities, setActivities] = useState<AggregateArtifactDto[]>([]);
+  const [activities, setActivities] = useState<CalendarViewResult[]>([]);
   const [viewDate, setViewDate] = useState(new Date(2026, 3, 1)); // Starts at April 2026
   const [isLoading, setIsLoading] = useState(false)
 
@@ -87,8 +88,8 @@ export const CalendarPage = () => {
             key={`${viewDate.toISOString()}-${day}`} 
             day={day} 
             activities={activities.filter(a => {
-              const actDate = new Date(a.startTime);
-              // Validate the full date context, not just the day number
+              const actDate = new Date(a.start_time);
+              
               return (
                 actDate.getDate() === day &&
                 actDate.getMonth() === viewDate.getMonth() &&
@@ -102,7 +103,7 @@ export const CalendarPage = () => {
   );
 };
 
-const DayCell = ({ day, activities }: { day: number, activities: AggregateArtifactDto[] }) => {
+const DayCell = ({ day, activities }: { day: number, activities: CalendarViewResult[] }) => {
   const hasActivity = activities.length > 0;
 
   return (
@@ -117,24 +118,24 @@ const DayCell = ({ day, activities }: { day: number, activities: AggregateArtifa
       </span>
       <div className="mt-2 space-y-1">
         {activities.map(act => (
-          <ActivityTile key={act.garminActivityId} act={act} />
+          <ActivityTile key={act.activity_id} act={act} />
         ))}
       </div>
     </div>
   );
 };
 
-const ActivityTile = ({ act }: { act: AggregateArtifactDto }) => {
-  const colorClasses = getActivityStyles(act.exerciseType);
+const ActivityTile = ({ act }: { act: CalendarViewResult }) => {
+  const colorClasses = getActivityStyles(act.type);
 
   return (
     <div className={`p-1.5 rounded border cursor-pointer transition-colors ${colorClasses} hover:brightness-125`}>
       <div className="flex justify-between items-start">
-        <span className="text-[9px] font-black uppercase truncate">{act.exerciseType}</span>
+        <span className="text-[9px] font-black uppercase truncate">{act.type}</span>
       </div>
-      <p className="text-xs font-bold">{(act.distanceMetres / 1000).toFixed(1)}k</p>
+      <p className="text-xs font-bold">{(act.distance_metres / 1000).toFixed(1)}k</p>
       <div className="text-[8px] opacity-70 mt-0.5 font-medium">
-        TE {act.trainingEffect.toFixed(1)}
+        TE {act.training_effect.toFixed(1)}
       </div>
     </div>
   );

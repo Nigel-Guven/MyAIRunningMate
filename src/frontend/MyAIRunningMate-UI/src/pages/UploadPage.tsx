@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { uploadFitFile } from '../services/api';
-import type { ActivityResult } from '../types/activity';
+import type { IngestionViewResult } from '../types/ingestionView';
 
 export const UploadPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState<'idle' | 'uploading' | 'processing' | 'success' | 'error'>('idle');
-  const [result, setResult] = useState<ActivityResult | null>(null);
+  const [result, setResult] = useState<IngestionViewResult | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
