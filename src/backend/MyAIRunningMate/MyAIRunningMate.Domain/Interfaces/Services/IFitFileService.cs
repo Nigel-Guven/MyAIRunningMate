@@ -5,5 +5,5 @@ namespace MyAIRunningMate.Domain.Interfaces.Services;
 
 public interface IFitFileService
 {
-    Task<ActivityDto> ProcessAndStoreFitFileAsync(IFormFile file);
+    Task<IngestionViewDto> ProcessAndStoreFitFileAsync(IFormFile file);
 }

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Models.DTO;
 
-namespace MyAIRunningMate.Service.CalendarController;
+namespace MyAIRunningMate.Service.CalendarAPI;
 
 [ApiController]
 [Route("api/calendar")]

@@ -1,6 +1,7 @@
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using MyAIRunningMate.Domain.Interfaces.Client;
-using MyAIRunningMate.Domain.Models.DTO;
+using MyAIRunningMate.Domain.Providers.PythonFitApi.Responses;
 
 namespace MyAIRunningMate.Client;
 
@@ -13,19 +14,32 @@ public class PythonApiClient : IPythonApiClient
         _httpClient = httpClient;
     }
 
-    public async Task<ActivityDto> UploadFitFileAsync(Stream fileStream, string fileName)
+    public async Task<PythonAPIActivityResponse> UploadFitFileAsync(Stream fileStream, string fileName)
     {
-        using var form = new MultipartFormDataContent();
-        
-        var streamContent = new StreamContent(fileStream);
-        streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+        try
+        {
+            using var form = new MultipartFormDataContent();
+            
+            var streamContent = new StreamContent(fileStream);
+            streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            form.Add(streamContent, "file", fileName);
 
-        form.Add(streamContent, "file", fileName);
+            var response = await _httpClient.PostAsync("api/fit_file/upload", form);
 
-        var response = await _httpClient.PostAsync("api/fit_file/upload", form);
-        response.EnsureSuccessStatusCode();
-        
-        return await response.Content.ReadFromJsonAsync<ActivityDto>() 
-               ?? throw new Exception("Failed to deserialize Python response.");
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"Python API returned {response.StatusCode}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<PythonAPIActivityResponse>();
+
+            return result ?? throw new InvalidOperationException("Python API returned an empty response.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
     }
 }

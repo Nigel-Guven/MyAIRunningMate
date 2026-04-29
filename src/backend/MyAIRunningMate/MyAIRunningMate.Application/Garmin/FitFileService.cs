@@ -4,6 +4,7 @@ using MyAIRunningMate.Domain.Interfaces.Client;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 using MyAIRunningMate.Domain.Interfaces.Services;
+using MyAIRunningMate.Domain.Mappers;
 using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Application.Garmin;
@@ -33,22 +34,23 @@ public class FitFileService : IFitFileService
         _stravaService = stravaService;
     }
     
-    public async Task<ActivityDto> ProcessAndStoreFitFileAsync(IFormFile file)
+    public async Task<IngestionViewDto> ProcessAndStoreFitFileAsync(IFormFile file)
     {
         await using var stream = file.OpenReadStream();
-        var activityDto = await _pythonApiClient.UploadFitFileAsync(stream, file.FileName);
+        var response = await _pythonApiClient.UploadFitFileAsync(stream, file.FileName);
         
-        var existingActivity = await _activityRepository.ActivityExistsByGarminId(activityDto.GarminActivityId); 
+        var existingActivity = await _activityRepository.ActivityExistsByGarminId(response.GarminId); 
         
         if (existingActivity != null)
         {
-            return new ActivityDto
+            return new IngestionViewDto()
             {
-                GarminActivityId = activityDto.GarminActivityId,
-                ExerciseType = activityDto.ExerciseType,
-                StartTime = activityDto.StartTime,
-                DistanceMetres = activityDto.DistanceMetres,
-                TrainingEffect = activityDto.TrainingEffect
+                GarminActivityId = response.GarminId,
+                StartTime = response.StartTime,
+                ExerciseType = response.Type,
+                DurationSeconds =  response.DurationSeconds,
+                DistanceMetres = response.DistanceMetres,
+                TrainingEffect =  response.TrainingEffect,
             };
         }
         
@@ -113,8 +115,8 @@ public class FitFileService : IFitFileService
         
         var activityId = Guid.NewGuid();
         activityDto.ActivityId = activityId;
-        
-        var activityEntity = MapToActivityEntity(activityDto, stravaResourceId.Value);
+
+        var activityEntity = activityDto.ToEntity(); // MapToActivityEntity(activityDto, stravaResourceId.Value);
         await _activityRepository.Insert(activityEntity);
 
         if (!activityDto.Laps.Any()) return activityDto;
@@ -131,24 +133,5 @@ public class FitFileService : IFitFileService
         await _lapRepository.BulkInsert(lapEntities);
 
         return activityDto;
-    }
-
-    private static ActivityEntity MapToActivityEntity(ActivityDto dto, Guid stravaResourceId)
-    {
-        return new ActivityEntity
-        {
-            ActivityId = Guid.NewGuid(),
-            GarminActivityId = dto.GarminActivityId,
-            StartTime = dto.StartTime,
-            ExerciseType = dto.ExerciseType,
-            DurationSeconds = dto.DurationSeconds,
-            DistanceMetres = dto.DistanceMetres,
-            AverageHeartRate = dto.AverageHeartRate,
-            MaxHeartRate = dto.MaxHeartRate,
-            TotalElevationGain = dto.TotalElevationGain,
-            AverageSecondPerKilometre = dto.AverageSecondPerKilometre,
-            TrainingEffect = dto.TrainingEffect,
-            StravaResourceId = stravaResourceId,
-        };
     }
 }

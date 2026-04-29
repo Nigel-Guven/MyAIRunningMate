@@ -1,12 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Domain.Models.DTO;
+namespace MyAIRunningMate.Domain.Providers.PythonFitApi.Responses;
 
-public class LapDto
+public class PythonAPILap
 {
-    [JsonPropertyName("lap_id")]
-    public Guid LapId { get; set; }
-    
     [JsonPropertyName("lap")]
     public int LapNumber { get; set; }
     
@@ -18,4 +15,5 @@ public class LapDto
     
     [JsonPropertyName("average_heart_rate")]
     public int AverageHeartRate { get; set; }
+}
 }

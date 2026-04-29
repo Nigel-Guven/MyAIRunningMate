@@ -1,12 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Domain.Providers.PythonFitApi.Responses;
+namespace MyAIRunningMate.Domain.Models.DTO;
 
-public class ActivityFitResponse
+public class IngestionViewDto
 {
-    [JsonPropertyName("activity_id")]
-    public Guid ActivityId { get; set; }
-    
     [JsonPropertyName("garmin_id")]
     public string GarminActivityId { get; set; }
     
@@ -15,6 +12,9 @@ public class ActivityFitResponse
     
     [JsonPropertyName("type")]
     public string ExerciseType { get; set; }
+    
+    [JsonPropertyName("duration_seconds")]
+    public double DurationSeconds { get; set; }
     
     [JsonPropertyName("distance_metres")]
     public double DistanceMetres { get; set; }

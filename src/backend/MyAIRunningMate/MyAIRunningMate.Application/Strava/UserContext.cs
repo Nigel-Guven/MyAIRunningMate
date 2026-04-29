@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using MyAIRunningMate.Domain.Interfaces;
 using MyAIRunningMate.Domain.Interfaces.Services;
 
 namespace MyAIRunningMate.Application.Strava;
