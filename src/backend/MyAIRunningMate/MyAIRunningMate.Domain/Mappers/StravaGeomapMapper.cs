@@ -1,6 +1,6 @@
 using MyAIRunningMate.Domain.Entities;
 using MyAIRunningMate.Domain.Models.DTO;
-using MyAIRunningMate.Domain.Providers.StravaAPI.Responses;
+using MyAIRunningMate.Domain.Providers.StravaApi.Responses;
 
 namespace MyAIRunningMate.Domain.Mappers;
 

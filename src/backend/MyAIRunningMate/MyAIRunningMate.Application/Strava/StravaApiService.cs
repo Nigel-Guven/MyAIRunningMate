@@ -3,7 +3,7 @@ using MyAIRunningMate.Domain.Interfaces.Client;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
 using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Mappers;
-using MyAIRunningMate.Domain.Providers.StravaAPI.Responses;
+using MyAIRunningMate.Domain.Providers.StravaApi.Responses;
 
 namespace MyAIRunningMate.Application.Strava;
 
