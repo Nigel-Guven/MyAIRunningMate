@@ -131,7 +131,6 @@ const ActivityTile = ({ act }: { act: AggregateArtifactDto }) => {
     <div className={`p-1.5 rounded border cursor-pointer transition-colors ${colorClasses} hover:brightness-125`}>
       <div className="flex justify-between items-start">
         <span className="text-[9px] font-black uppercase truncate">{act.exerciseType}</span>
-        {act.stravaId && <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />}
       </div>
       <p className="text-xs font-bold">{(act.distanceMetres / 1000).toFixed(1)}k</p>
       <div className="text-[8px] opacity-70 mt-0.5 font-medium">

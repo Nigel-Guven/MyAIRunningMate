@@ -7,12 +7,12 @@ namespace MyAIRunningMate.Application.Strava;
 public class LinkProviderService : ILinkProviderService
 {
     private readonly IStravaResourceService _stravaResourceService;
-    private readonly IStravaAPIService _stravaApiService;
+    private readonly IStravaApiService _stravaApiService;
     private const int Amount = 5;
     
     public LinkProviderService(
         IStravaResourceService stravaResourceService,
-        IStravaAPIService stravaApiService)
+        IStravaApiService stravaApiService)
     {
         _stravaResourceService = stravaResourceService;
         _stravaApiService = stravaApiService;

@@ -11,7 +11,7 @@ public class SessionDto
     public Guid UserId { get; set; }
     
     [JsonPropertyName("athlete_id")]
-    public long AthleteId { get; set; }
+    public long? AthleteId { get; set; }
 
     [JsonPropertyName("access_token")]
     public string AccessToken { get; set; }

@@ -3,6 +3,7 @@ using MyAIRunningMate.Application.Garmin;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.UserInterface;
 using MyAIRunningMate.Client;
+using MyAIRunningMate.Client.Strava;
 using MyAIRunningMate.Database.Repository;
 using MyAIRunningMate.Domain.Interfaces.Client;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
@@ -29,10 +30,9 @@ builder.Services.AddScoped(_ =>
         AutoConnectRealtime = true
     }));
 
-builder.Services.AddHttpClient("Strava", client =>
+builder.Services.AddHttpClient<IStravaApiClient, StravaApiClient>(client =>
 {
-    client.BaseAddress = new Uri("https://www.strava.com/api/v3/");
-    client.DefaultRequestHeaders.Add("Accept", "application/json");
+    client.BaseAddress = new Uri("https://www.strava.com/");
 });
 
 builder.Services.AddHttpClient<IPythonApiClient, PythonApiClient>(client =>
@@ -48,7 +48,7 @@ builder.Services.AddScoped<IStravaResourceRepository, StravaResourceRepository>(
 builder.Services.AddScoped<IWeightRepository, WeightRepository>();
 
 
-builder.Services.AddScoped<IStravaAPIService, StravaApiService>();
+builder.Services.AddScoped<IStravaApiService, StravaApiService>();
 builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<ILinkProviderService, LinkProviderService>();
 builder.Services.AddScoped<IActivityService, ActivityService>();

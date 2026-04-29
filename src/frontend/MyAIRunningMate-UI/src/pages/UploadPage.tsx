@@ -170,7 +170,6 @@ export const UploadPage = () => {
 
       </div>
 
-      {/* Info Grid - Maintained from your version */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <div className="rounded-xl border border-slate-800 p-4 bg-slate-900/30">
           <span className="text-blue-400 font-bold text-xs uppercase">Step 1</span>

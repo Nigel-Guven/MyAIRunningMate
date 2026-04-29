@@ -2,10 +2,10 @@ using MyAIRunningMate.Domain.Providers.StravaAPI.Responses;
 
 namespace MyAIRunningMate.Domain.Interfaces.Services;
 
-public interface IStravaAPIService
+public interface IStravaApiService
 {
     string GetAuthorizationUrl(string state);
-    Task<bool> ExchangeCodeAndSaveTokens(string code, Guid userId);
+    Task<bool> ExchangeAndSave(string code, Guid userId);
     Task<IEnumerable<StravaApiEventResponse>> GetLatestStravaActivities(Guid userId, int amount);
-    
+
 }

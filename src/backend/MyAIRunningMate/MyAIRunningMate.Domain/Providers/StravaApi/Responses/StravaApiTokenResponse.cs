@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace MyAIRunningMate.Domain.Providers.StravaAPI.Responses;
 
-public class StravaAPITokenResponse
+public class StravaApiTokenResponse
 {
     [JsonPropertyName("access_token")]
     public string AccessToken { get; set; } = string.Empty;
@@ -14,5 +14,5 @@ public class StravaAPITokenResponse
     public long ExpiresIn { get; set; }
     
     [JsonPropertyName("athlete")]
-    public StravaAPIAthlete? Athlete { get; set; }
+    public StravaApiAthlete? Athlete { get; set; }
 }

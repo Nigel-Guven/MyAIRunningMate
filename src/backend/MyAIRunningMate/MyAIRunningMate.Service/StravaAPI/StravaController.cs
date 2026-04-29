@@ -7,53 +7,44 @@ namespace MyAIRunningMate.Service.StravaAPI;
 [Route("api/strava")]
 public class StravaController : ControllerBase
 {
-    private readonly IStravaAPIService _stravaApiService;
+    private readonly IStravaApiService _stravaApiService;
     private readonly IUserContext _userContext;
+    private readonly IConfiguration _configuration;
     
-    public StravaController(IStravaAPIService stravaApiService, IUserContext userContext)
+    public StravaController(IStravaApiService stravaApiService, IUserContext userContext, IConfiguration configuration)
     {
         _stravaApiService = stravaApiService;
         _userContext = userContext;
+        _configuration = configuration;
     }
     
     [HttpGet("connect")]
     public IActionResult Connect()
     {
         //var userId = _userContext.GetUserId();
-        
         var userId = Guid.Parse("00000000-0000-0000-0000-000000000000");
         
-        Response.Cookies.Append("strava-auth-user", userId.ToString(), new CookieOptions 
-        { 
-            HttpOnly = true, 
-            Secure = false, 
-            SameSite = SameSiteMode.Lax,
-            Expires = DateTimeOffset.UtcNow.AddMinutes(5) 
-        });
+        var state = userId.ToString();
         
-        var state = Guid.NewGuid().ToString();
         return Redirect(_stravaApiService.GetAuthorizationUrl(state));
     }
 
     [HttpGet("callback")]
     public async Task<IActionResult> Callback([FromQuery] string code, [FromQuery] string state)
     {
-        if (!Request.Cookies.TryGetValue("strava-auth-user", out var userIdString))
+        if (string.IsNullOrEmpty(state) || !Guid.TryParse(state, out var userId))
         {
-            return Unauthorized("Session expired. Please try connecting again.");
+            return BadRequest("Invalid state parameter.");
         }
-    
-        var userId = Guid.Parse(userIdString);
         
-        var success = await _stravaApiService.ExchangeCodeAndSaveTokens(code, userId);
+        var success = await _stravaApiService.ExchangeAndSave(code, userId);
 
         if (!success)
         {
             return BadRequest("Failed to exchange tokens with Strava.");
         }
-    
-        Response.Cookies.Delete("strava-auth-user");
         
-        return Redirect("http://localhost:5173/dashboard?sync=success");
+        var frontendUrl = _configuration["Frontend:DashboardUrl"] ?? "http://localhost:5173/dashboard";
+        return Redirect($"{frontendUrl}?sync=success");
     }
 }

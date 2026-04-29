@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace MyAIRunningMate.Domain.Providers.StravaAPI.Responses;
 
-public class StravaAPIAthlete
+public class StravaApiAthlete
 {
     [JsonPropertyName("id")]
     public long AthleteId { get; set; }

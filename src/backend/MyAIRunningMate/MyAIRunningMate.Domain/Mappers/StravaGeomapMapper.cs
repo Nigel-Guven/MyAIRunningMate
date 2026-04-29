@@ -18,7 +18,7 @@ public static class StravaGeomapMapper
         MapPolyline = dto.MapPolyline,
     };
     
-    public static StravaGeomapDto ToDto(this StravaAPIGeomap response) => new()
+    public static StravaGeomapDto ToDto(this StravaApiGeomap response) => new()
     {
         MapPolyline = response.SummaryPolyline
     };
