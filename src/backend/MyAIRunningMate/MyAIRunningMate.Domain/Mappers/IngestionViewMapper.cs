@@ -11,8 +11,8 @@ public static class IngestionViewMapper
         StartTime = entity.StartTime,
         ExerciseType = entity.ExerciseType,
         DurationSeconds = entity.DurationSeconds,
-        DistanceMetres = entity.DistanceMetres,
-        TrainingEffect = entity.TrainingEffect,
+        DistanceMetres = entity.DistanceMetres ?? 0.0,
+        TrainingEffect = entity.TrainingEffect ?? 0.0,
     };
     
     public static IngestionViewDto ToIngestionView(this ActivityDto entity) => new()

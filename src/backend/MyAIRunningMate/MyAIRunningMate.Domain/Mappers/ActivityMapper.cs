@@ -29,12 +29,12 @@ public static class ActivityMapper
         StartTime = entity.StartTime,
         ExerciseType = entity.ExerciseType,
         DurationSeconds = entity.DurationSeconds,
-        DistanceMetres = entity.DistanceMetres,
+        DistanceMetres = entity.DistanceMetres ?? 0.0,
         AverageHeartRate = entity.AverageHeartRate,
         MaxHeartRate = entity.MaxHeartRate,
         TotalElevationGain = entity.TotalElevationGain,
-        AverageSecondPerKilometre = entity.AverageSecondPerKilometre,
-        TrainingEffect = entity.TrainingEffect,
+        AverageSecondPerKilometre = entity.AverageSecondPerKilometre ?? 0.0,
+        TrainingEffect = entity.TrainingEffect ?? 0.0,
         StravaResourceId = entity.StravaResourceId,
         Laps = lapEntities?.Select(l => l.ToDto()) ?? Enumerable.Empty<LapDto>()
     };

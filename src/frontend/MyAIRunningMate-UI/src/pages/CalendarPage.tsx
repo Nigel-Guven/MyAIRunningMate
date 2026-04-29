@@ -1,7 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { getMonthlyActivities } from '../services/api';
 import { getActivityStyles } from '../components/calendar/styles';
-import type { AggregateArtifactDto } from '../types/aggregateArtifact';
 import type { CalendarViewResult } from '../types/calendarView';
 
 export const CalendarPage = () => {

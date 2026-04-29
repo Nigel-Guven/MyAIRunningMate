@@ -22,7 +22,7 @@ public class ActivityEntity : BaseModel
     public double DurationSeconds { get; set; }
     
     [Column("distance_metres")]
-    public double DistanceMetres { get; set; }
+    public double? DistanceMetres { get; set; }
     
     [Column("avg_heart_rate")]
     public int AverageHeartRate { get; set; }
@@ -34,10 +34,10 @@ public class ActivityEntity : BaseModel
     public double? TotalElevationGain { get; set; }
     
     [Column("avg_seconds_per_km")]
-    public double AverageSecondPerKilometre { get; set; }
+    public double? AverageSecondPerKilometre { get; set; }
     
     [Column("training_effect")]
-    public double TrainingEffect { get; set; }
+    public double? TrainingEffect { get; set; }
     
     [Column("strava_resource_id")]
     public Guid? StravaResourceId { get; set; }

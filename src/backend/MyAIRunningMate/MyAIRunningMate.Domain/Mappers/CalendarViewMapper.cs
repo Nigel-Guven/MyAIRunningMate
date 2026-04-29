@@ -8,10 +8,10 @@ public static class CalendarViewMapper
     public static CalendarViewDto ToDto(this ActivityEntity entity) => new()
     {
         ActivityId = entity.ActivityId,
-        DistanceMetres =  entity.DistanceMetres,
+        DistanceMetres =  entity.DistanceMetres ?? 0.0,
         StartTime = entity.StartTime,
         DurationSeconds =  entity.DurationSeconds,
         ExerciseType =  entity.ExerciseType,
-        TrainingEffect =  entity.TrainingEffect,
+        TrainingEffect =  entity.TrainingEffect ?? 0.0,
     };
 }
