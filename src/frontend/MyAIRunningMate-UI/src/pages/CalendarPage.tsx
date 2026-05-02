@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { getMonthlyActivities } from '../services/api';
+import { getMonthlyActivities } from '../services/calendarService';
 import { getActivityStyles } from '../components/calendar/styles';
 import type { CalendarViewResult } from '../types/calendarView';
 

@@ -21,8 +21,7 @@ public class StravaController : ControllerBase
     [HttpGet("connect")]
     public IActionResult Connect()
     {
-        //var userId = _userContext.GetUserId();
-        var userId = Guid.Parse("00000000-0000-0000-0000-000000000000");
+        var userId = _userContext.GetUserId();
         
         var state = userId.ToString();
         
@@ -47,4 +46,24 @@ public class StravaController : ControllerBase
         var frontendUrl = _configuration["Frontend:DashboardUrl"] ?? "http://localhost:5173/dashboard";
         return Redirect($"{frontendUrl}?sync=success");
     }
+    
+    /*[HttpGet("activities")]
+    public async Task<IActionResult> GetActivities([FromQuery] int amount = 10)
+    {
+        try
+        {
+            var userId = _userContext.GetUserId();
+            var activities = await _stravaApiService.GetLatestStravaActivities(userId, amount);
+            
+            return Ok(activities);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Failed to load activities", error = ex.Message });
+        }
+    }*/
 }

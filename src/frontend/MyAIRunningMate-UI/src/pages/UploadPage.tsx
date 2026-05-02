@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { uploadFitFile } from '../services/api';
+import { uploadFitFile } from '../services/ingestionService';
 import type { IngestionViewResult } from '../types/ingestionView';
 
 export const UploadPage = () => {

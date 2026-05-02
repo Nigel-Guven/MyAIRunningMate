@@ -1,3 +1,6 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using MyAIRunningMate.Application.Garmin;
 using MyAIRunningMate.Application.Strava;
@@ -15,6 +18,26 @@ using MyAIRunningMate.Service.StravaAPI;
 using Supabase;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
 
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(StravaController).Assembly);
@@ -40,6 +63,8 @@ builder.Services.AddHttpClient<IPythonApiClient, PythonApiClient>(client =>
     client.BaseAddress = new Uri("http://localhost:8000/");
 });
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 builder.Services.AddScoped<ILapRepository, LapRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
@@ -47,7 +72,7 @@ builder.Services.AddScoped<IStravaResourceMapRepository, StravaResourceMapReposi
 builder.Services.AddScoped<IStravaResourceRepository, StravaResourceRepository>();
 builder.Services.AddScoped<IWeightRepository, WeightRepository>();
 
-
+builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IStravaApiService, StravaApiService>();
 builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<ILinkProviderService, LinkProviderService>();
@@ -58,8 +83,7 @@ builder.Services.AddScoped<IActivityViewService, ActivityViewService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();
 builder.Services.AddScoped<IIngestionPipelineService, IngestionPipelineService>();
 
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IUserContext, UserContext>();
+
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -89,6 +113,7 @@ else
 }
 
 app.UseCors("AllowReactApp");
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

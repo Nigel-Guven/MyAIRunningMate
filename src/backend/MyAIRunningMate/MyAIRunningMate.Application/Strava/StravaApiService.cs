@@ -13,6 +13,8 @@ public class StravaApiService : IStravaApiService
     private readonly ISessionRepository _sessionRepository;
     private readonly IConfiguration _config; 
 
+    private static readonly Guid DeveloperUserId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+    
     public StravaApiService(IStravaApiClient client, ISessionRepository sessionRepository, IConfiguration config)
     {
         _client = client;
@@ -49,12 +51,12 @@ public class StravaApiService : IStravaApiService
     public async Task<IEnumerable<StravaApiEventResponse>> GetLatestStravaActivities(Guid userId, int amount)
     {
         var session = await _sessionRepository.GetSessionByUserId(userId);
-        if (session == null) return Enumerable.Empty<StravaApiEventResponse>();
+        if (session == null || string.IsNullOrEmpty(session.AccessToken)) 
+            return Enumerable.Empty<StravaApiEventResponse>();
 
         var currentToken = session.AccessToken;
         var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-        // Check if token is expired (60s buffer)
         if (session.ExpiresAt < (now + 60))
         {
             var newToken = await _client.RefreshTokenAsync(session.RefreshToken);
