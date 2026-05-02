@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional
 
-
 @dataclass
 class Lap:
     lap: Optional[int] = None

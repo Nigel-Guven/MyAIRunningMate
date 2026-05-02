@@ -1,9 +1,6 @@
-
 from dataclasses import dataclass, field
 from typing import List, Optional
-
 from domain.models.lap import Lap
-
 
 @dataclass
 class Activity:
@@ -18,4 +15,3 @@ class Activity:
     average_pace_seconds_per_kilometre: Optional[float] = None
     training_effect: Optional[float] = None
     laps: List[Lap] = field(default_factory=list)
-    
