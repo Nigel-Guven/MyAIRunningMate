@@ -1,8 +1,6 @@
 export interface LapDto {
-  lapId: string;
-  activityId: string;
-  lapNumber: number;
-  distanceMetres: number;
-  durationSeconds: number;
-  averageHeartRate: number;
+  lap_number: number;
+  distance_metres: number;
+  duration_seconds: number;
+  average_heart_rate: number;
 }

@@ -16,18 +16,13 @@ export function LoginPage() {
     try {
       const credentials = { email, password };
 
-      // Make the API call to session/login
       const response = await apiClient.post('session/login', credentials);
-
-      // Extract properties matching the new controller response
       const { token, user_id, is_strava_connected } = response.data;
 
-      // Store in Local Storage
       localStorage.setItem('token', token);
       localStorage.setItem('userId', user_id);
       localStorage.setItem('is_strava_connected', String(is_strava_connected));
 
-      // Set global headers
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
       window.location.href = '/home';
