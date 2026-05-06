@@ -1,9 +1,8 @@
 using Microsoft.Extensions.Configuration;
-using MyAIRunningMate.Domain.Interfaces.Client;
+using MyAIRunningMate.Client.Strava;
+using MyAIRunningMate.Client.Strava.Responses;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
 using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Mappers;
-using MyAIRunningMate.Domain.Providers.StravaApi.Responses;
 
 namespace MyAIRunningMate.Application.Strava;
 

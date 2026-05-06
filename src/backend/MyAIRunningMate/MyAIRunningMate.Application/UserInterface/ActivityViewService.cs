@@ -3,6 +3,7 @@ using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Mappers;
+using MyAIRunningMate.Domain.Models;
 using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Application.UserInterface;
@@ -44,7 +45,7 @@ public class ActivityViewService : IActivityViewService
         var lapEntities = await lapsTask;
         var stravaEntity = await stravaTask;
 
-        StravaGeomapDto? mapDto = null;
+        StravaGeomap? mapDto = null;
 
         if (stravaEntity != null)
         {
@@ -54,7 +55,7 @@ public class ActivityViewService : IActivityViewService
         
         var garminDto = activityEntity.ToDto(lapEntities);
 
-        StravaResourceDto? stravaDto = null;
+        StravaResource? stravaDto = null;
         
         if (stravaEntity != null)
         {
@@ -62,6 +63,6 @@ public class ActivityViewService : IActivityViewService
             stravaDto.StravaGeomap = mapDto;
         }
 
-        return AggregateArtifactMapper.ToDto(garminDto, stravaDto);
+        return AggregateArtifactViewMapper.ToDto(garminDto, stravaDto);
     }
 }

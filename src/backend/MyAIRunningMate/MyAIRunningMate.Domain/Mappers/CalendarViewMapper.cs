@@ -1,3 +1,4 @@
+using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Domain.Entities;
 using MyAIRunningMate.Domain.Models.DTO;
 

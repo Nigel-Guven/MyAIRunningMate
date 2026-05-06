@@ -1,6 +1,5 @@
-using MyAIRunningMate.Domain.Entities;
+using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
-using Supabase;
 
 namespace MyAIRunningMate.Database.Repository;
 
@@ -43,13 +42,14 @@ public class ActivityRepository(Client supabase) : BaseRepository<ActivityEntity
         return result.Models;
     }
 
-    public async Task<ActivityEntity?> ActivityExistsByGarminId(string garminId)
+    public async Task<bool> ActivityExistsByGarminId(string garminId)
     {
         var result = await _supabase
             .From<ActivityEntity>()
             .Where(x => x.GarminActivityId == garminId)
+            .Limit(1)
             .Get();
 
-        return result.Models.FirstOrDefault();
+        return result.Models.Any();
     }
 }

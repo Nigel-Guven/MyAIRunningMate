@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Domain.Models.DTO;
+namespace MyAIRunningMate.Contracts.Views;
 
 public class IngestionViewDto
 {

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyAIRunningMate.Contracts.Login.Requests;
+using MyAIRunningMate.Contracts.Login.Responses;
 using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Providers.MyAIRunningMateApi;
 
 namespace MyAIRunningMate.Service.SessionAPI;
 

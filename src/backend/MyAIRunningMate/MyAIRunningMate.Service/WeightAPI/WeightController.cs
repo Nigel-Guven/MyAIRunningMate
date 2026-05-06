@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using MyAIRunningMate.Domain.Entities;
+using MyAIRunningMate.Contracts.Weight;
+using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
+using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Service.WeightAPI;
@@ -10,35 +12,43 @@ namespace MyAIRunningMate.Service.WeightAPI;
 public class WeightController : ControllerBase
 {
     private readonly IWeightRepository _weightRepository;
+    private readonly IUserContext _userContext;
 
-    public WeightController(IWeightRepository weightRepository)
+    public WeightController(IWeightRepository weightRepository,  IUserContext userContext)
     {
         _weightRepository = weightRepository;
+        _userContext =  userContext;
     }
     
     [HttpGet("latest")]
-    public async Task<IActionResult> GetLatestSingleWeight([FromQuery] Guid userId)
+    public async Task<IActionResult> GetLatestSingleWeight()
     {
-        if (userId == Guid.Empty) return BadRequest("Invalid User ID.");
+        var userId = _userContext.GetUserId();
+        
+        if (userId == Guid.Empty) return BadRequest("User Id is required.");
 
         var result = await _weightRepository.GetLatestWeight(userId);
         return Ok(result.FirstOrDefault());
     }
 
     [HttpGet("history")]
-    public async Task<IActionResult> GetLatestMultipleWeights([FromQuery] Guid userId)
+    public async Task<IActionResult> GetLatestMultipleWeights()
     {
-        if (userId == Guid.Empty) return BadRequest("Invalid User ID.");
+        var userId = _userContext.GetUserId();
+        
+        if (userId == Guid.Empty) return BadRequest("User Id is required.");
 
         var result = await _weightRepository.Get20LatestWeights(userId);
         return Ok(result);
     }
     
     [HttpPost("log_weight")]
-    public async Task<IActionResult> LogWeight([FromBody] WeightDto request)
+    public async Task<IActionResult> LogWeight([FromBody] WeightRequest request)
     {
+        var userId = _userContext.GetUserId();
+        
         if (request.WeightInPounds <= 0) return BadRequest("Weight must be greater than 0.");
-        if (request.UserId == Guid.Empty) return BadRequest("User ID is required.");
+        if (userId == Guid.Empty ) return BadRequest("User ID is required.");
 
         try 
         {
@@ -46,7 +56,7 @@ public class WeightController : ControllerBase
             {
                 WeightId = request.WeightId == Guid.Empty ? Guid.NewGuid() : request.WeightId,
                 WeightPounds = request.WeightInPounds,
-                UserId = request.UserId,
+                UserId = userId,
                 CreatedAt = request.CreatedAt == default ? DateTime.UtcNow : request.CreatedAt
             };
 

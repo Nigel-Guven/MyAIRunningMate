@@ -1,4 +1,4 @@
-namespace MyAIRunningMate.Domain.Models.Requests;
+namespace MyAIRunningMate.Contracts.Login.Requests;
 
 public class LoginRequest
 {

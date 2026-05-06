@@ -1,3 +1,4 @@
+using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Mappers;

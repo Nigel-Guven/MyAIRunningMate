@@ -1,4 +1,4 @@
-using MyAIRunningMate.Domain.Entities;
+using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 using Supabase;
 

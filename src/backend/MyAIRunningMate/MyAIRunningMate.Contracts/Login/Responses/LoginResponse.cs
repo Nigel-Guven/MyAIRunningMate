@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Domain.Providers.MyAIRunningMateApi;
+namespace MyAIRunningMate.Contracts.Login.Responses;
 
 public class LoginResponse
 {

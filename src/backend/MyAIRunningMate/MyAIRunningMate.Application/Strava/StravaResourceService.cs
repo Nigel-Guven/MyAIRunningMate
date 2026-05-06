@@ -1,6 +1,7 @@
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Mappers;
+using MyAIRunningMate.Domain.Models;
 using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Application.Strava;
@@ -18,9 +19,9 @@ public class StravaResourceService : IStravaResourceService
         _stravaResourceMapRepository = stravaResourceMapRepository;
     }
     
-    public async Task SaveStravaResourceAndMaps(StravaResourceDto stravaResourceDto, StravaGeomapDto? mapDto)
+    public async Task SaveStravaResourceAndMaps(StravaResource stravaResource, StravaGeomap? mapDto)
     {
-        var stravaResourceEntity = stravaResourceDto.ToEntity();
+        var stravaResourceEntity = stravaResource.ToEntity();
 
         if (mapDto != null)
         {

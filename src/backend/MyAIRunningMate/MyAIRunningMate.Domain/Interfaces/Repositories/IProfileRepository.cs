@@ -1,4 +1,4 @@
-using MyAIRunningMate.Domain.Entities;
+using MyAIRunningMate.Database.Entities;
 
 namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 

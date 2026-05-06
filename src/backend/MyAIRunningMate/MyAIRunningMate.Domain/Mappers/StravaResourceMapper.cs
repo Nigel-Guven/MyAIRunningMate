@@ -6,7 +6,7 @@ namespace MyAIRunningMate.Domain.Mappers;
 
 public static class StravaResourceMapper
 {
-    public static StravaResourceDto ToDto(this StravaResourceEntity entity) => new()
+    public static StravaResource ToDto(this StravaResourceEntity entity) => new()
     {
         ResourceId =  entity.ResourceId,
         StravaId =  entity.StravaId,
@@ -25,7 +25,7 @@ public static class StravaResourceMapper
         ElevationHigh =  entity.ElevationHigh,
     };
 
-    public static StravaResourceEntity ToEntity(this StravaResourceDto dto) => new()
+    public static StravaResourceEntity ToEntity(this StravaResource dto) => new()
     {
         ResourceId = dto.ResourceId,
         StravaId = dto.StravaId,
@@ -44,7 +44,7 @@ public static class StravaResourceMapper
         ElevationHigh = dto.ElevationHigh,
     };
     
-    public static StravaResourceDto ToDto(this StravaApiEventResponse response, Guid stravaResourceId) => new()
+    public static StravaResource ToDto(this StravaApiEventResponse response, Guid stravaResourceId) => new()
     {
         ResourceId = stravaResourceId,
         StravaId = response.StravaId.ToString(),

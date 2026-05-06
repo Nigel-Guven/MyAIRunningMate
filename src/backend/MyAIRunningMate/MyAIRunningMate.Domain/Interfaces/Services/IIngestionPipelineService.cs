@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Domain.Interfaces.Services;

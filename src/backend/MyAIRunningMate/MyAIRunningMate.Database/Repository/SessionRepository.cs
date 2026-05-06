@@ -1,4 +1,4 @@
-using MyAIRunningMate.Domain.Entities;
+using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
 using Supabase.Postgrest;
 using Client = Supabase.Client;

@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Http;
-using MyAIRunningMate.Domain.Interfaces.Client;
+using Microsoft.Extensions.Logging;
+using MyAIRunningMate.Application.Activities;
+using MyAIRunningMate.Application.Extensions;
+using MyAIRunningMate.Application.LinkProvider;
+using MyAIRunningMate.Application.Mappers;
+using MyAIRunningMate.Client.Python;
+using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Mappers;
-using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Application.UserInterface;
 
@@ -11,37 +15,55 @@ public class IngestionPipelineService : IIngestionPipelineService
     private readonly IPythonApiClient _pythonClient;
     private readonly ILinkProviderService _linkProviderService;
     private readonly IActivityService _activityService;
+    private readonly ILogger<IngestionPipelineService> _logger;
     
     public IngestionPipelineService(
         IPythonApiClient pythonApiClient, 
         ILinkProviderService linkProviderService,
-        IActivityService activityService)
+        IActivityService activityService, 
+        ILogger<IngestionPipelineService> logger)
     {
         _pythonClient = pythonApiClient;
         _linkProviderService = linkProviderService;
         _activityService = activityService;
+        _logger = logger;
     }
     
     public async Task<IngestionViewDto> ProcessFitFileAsync(IFormFile file, Guid userId)
     {
         await using var stream = file.OpenReadStream();
-        var activityResponse = await _pythonClient.UploadFitFileAsync(stream, file.FileName);
+        var response = await _pythonClient.UploadFitFileAsync(stream, file.FileName);
 
-        var existing = await _activityService.CheckDuplicateAsync(activityResponse.GarminId);
-        if (existing != null) return existing.ToIngestionView();
+        var activity = response.ToActivity();
+        //activity.UserId = userId;
+        
+        var activityExists = await _activityService.CheckDuplicateAsync(activity.GarminActivityId);
+
+        if (activityExists)
+        {
+            return activity.ToIngestionView();
+        }
 
         Guid? stravaResourceId = null;
-        try 
+        
+        try
         {
-            stravaResourceId = await _linkProviderService.FindAndLinkMatchAsync(activityResponse);
+            stravaResourceId = await _linkProviderService.FindAndLinkMatchAsync(activity);
+            if (!GuidEx.IsGuid(stravaResourceId))
+            {
+                _logger.LogError("Failed to link Strava match for activity {GarminActivityId}. Received invalid Guid.", activity.GarminActivityId);
+                throw new InvalidOperationException("Invalid Strava resource ID returned.");
+            }
+                
+            await _activityService.SaveActivityAndLaps(activity, stravaResourceId);
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.LogError(ex, "Critical Failure: Failed to link Strava match for activity {GarminActivityId}.", activity.GarminActivityId);
+            throw;
         }
 
-        await _activityService.SaveActivityAndLaps(activityResponse, stravaResourceId);
-
-        return activityDto.ToIngestionView();
+        return activity.ToIngestionView();
+        
     }
 }

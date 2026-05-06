@@ -28,6 +28,6 @@ public class AggregateArtifactViewDto
     public long? AthleteCount { get; set; }
     public long? PersonalRecordCount { get; set; }
     
-    public StravaGeomapDto? Map { get; set; }
+    public StravaGeomap? Map { get; set; }
     public IEnumerable<LapDto> Laps { get; set; }
 }

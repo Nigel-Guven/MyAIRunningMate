@@ -1,4 +1,5 @@
 using MyAIRunningMate.Domain.Entities;
+using MyAIRunningMate.Domain.Models;
 using MyAIRunningMate.Domain.Models.DTO;
 using MyAIRunningMate.Domain.Providers.StravaApi.Responses;
 
@@ -6,7 +7,7 @@ namespace MyAIRunningMate.Domain.Mappers;
 
 public static class SessionMapper
 {
-    public static SessionDto ToDto(this SessionEntity entity) => new()
+    public static Session ToDto(this SessionEntity entity) => new()
     {
         UserId = entity.UserId,
         AthleteId = entity.AthleteId,
@@ -16,7 +17,7 @@ public static class SessionMapper
         UpdatedAt = entity.UpdatedAt,
     };
 
-    public static SessionEntity ToEntity(this SessionDto dto) => new()
+    public static SessionEntity ToEntity(this Session dto) => new()
     {
         UserId = dto.UserId,
         AthleteId = dto.AthleteId,

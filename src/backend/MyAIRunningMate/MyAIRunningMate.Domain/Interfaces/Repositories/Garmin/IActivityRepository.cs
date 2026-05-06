@@ -1,9 +1,11 @@
-using MyAIRunningMate.Domain.Entities;
+
+
+using MyAIRunningMate.Database.Entities;
 
 namespace MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 
 public interface IActivityRepository : IBaseRepository<ActivityEntity> 
 {
     Task<IEnumerable<ActivityEntity>> GetAllActivitiesByMonth(DateTime byMonth);
-    Task<ActivityEntity?> ActivityExistsByGarminId(string garminId);
+    Task<bool> ActivityExistsByGarminId(string garminId);
 }
