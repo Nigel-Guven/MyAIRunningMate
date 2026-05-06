@@ -16,7 +16,7 @@ public class ActivityViewController : ControllerBase
     }
     
     [HttpGet("monthly")]
-    public async Task<ActionResult<AggregateArtifactDto>> GetActivityView([FromQuery] Guid activityId)
+    public async Task<ActionResult<AggregateArtifactViewDto>> GetActivityView([FromQuery] Guid activityId)
     {
         if (activityId == Guid.Empty)
         {

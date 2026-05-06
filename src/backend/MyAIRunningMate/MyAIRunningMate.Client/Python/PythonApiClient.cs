@@ -1,9 +1,8 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using MyAIRunningMate.Domain.Interfaces.Client;
-using MyAIRunningMate.Domain.Providers.PythonFitApi.Responses;
+using MyAIRunningMate.Client.Python.Responses;
 
-namespace MyAIRunningMate.Client;
+namespace MyAIRunningMate.Client.Python;
 
 public class PythonApiClient : IPythonApiClient
 {
@@ -14,7 +13,7 @@ public class PythonApiClient : IPythonApiClient
         _httpClient = httpClient;
     }
 
-    public async Task<PythonAPIActivityResponse> UploadFitFileAsync(Stream fileStream, string fileName)
+    public async Task<PythonApiActivityResponse> UploadFitFileAsync(Stream fileStream, string fileName)
     {
         try
         {
@@ -32,7 +31,7 @@ public class PythonApiClient : IPythonApiClient
                 throw new HttpRequestException($"Python API returned {response.StatusCode}");
             }
 
-            var result = await response.Content.ReadFromJsonAsync<PythonAPIActivityResponse>();
+            var result = await response.Content.ReadFromJsonAsync<PythonApiActivityResponse>();
 
             return result ?? throw new InvalidOperationException("Python API returned an empty response.");
         }

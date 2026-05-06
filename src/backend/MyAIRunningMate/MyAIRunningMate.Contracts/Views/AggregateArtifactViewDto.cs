@@ -1,6 +1,6 @@
 namespace MyAIRunningMate.Domain.Models.DTO;
 
-public class AggregateArtifactDto
+public class AggregateArtifactViewDto
 {
     public Guid? ActivityId { get; set; }
     public Guid? ResourceId { get; set; } 

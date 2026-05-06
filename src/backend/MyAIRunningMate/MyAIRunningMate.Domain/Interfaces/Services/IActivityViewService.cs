@@ -4,5 +4,5 @@ namespace MyAIRunningMate.Domain.Interfaces.Services;
 
 public interface IActivityViewService
 {
-    Task<AggregateArtifactDto?> CreateAggregateActivityDto(Guid activityId);
+    Task<AggregateArtifactViewDto?> CreateAggregateActivityDto(Guid activityId);
 }

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Domain.Providers.StravaApi.Responses;
+namespace MyAIRunningMate.Client.Strava.Responses;
 
 public class StravaApiEventResponse
 {

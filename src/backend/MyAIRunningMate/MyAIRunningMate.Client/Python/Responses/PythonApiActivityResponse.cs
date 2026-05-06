@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Domain.Providers.PythonFitApi.Responses;
+namespace MyAIRunningMate.Client.Python.Responses;
 
-public class PythonAPIActivityResponse
+public class PythonApiActivityResponse
 {
     [JsonPropertyName("garmin_id")]
     public string GarminId { get; set; }
@@ -35,5 +35,5 @@ public class PythonAPIActivityResponse
     public double AverageSecondPerKilometre { get; set; }
     
     [JsonPropertyName("laps")]
-    public IEnumerable<PythonAPILap> Laps { get; set; }
+    public IEnumerable<PythonApiLap> Laps { get; set; }
 }

@@ -16,7 +16,7 @@ public class CalendarController : ControllerBase
     }
     
     [HttpGet("monthly")]
-    public async Task<ActionResult<IEnumerable<AggregateArtifactDto>>> GetMonthlyCalendarViews([FromQuery] int month, [FromQuery] int year)
+    public async Task<ActionResult<IEnumerable<AggregateArtifactViewDto>>> GetMonthlyCalendarViews([FromQuery] int month, [FromQuery] int year)
     {
         var queryDate = new DateTime(year, month, 1);
         

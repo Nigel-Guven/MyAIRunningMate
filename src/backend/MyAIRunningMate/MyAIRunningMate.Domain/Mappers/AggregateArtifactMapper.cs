@@ -4,7 +4,7 @@ namespace MyAIRunningMate.Domain.Mappers;
 
 public static class AggregateArtifactMapper
 {
-    public static AggregateArtifactDto ToDto(ActivityDto garminActivityDto,
+    public static AggregateArtifactViewDto ToDto(ActivityDto garminActivityDto,
         StravaResourceDto stravaActivityDto) => new()
     {
         ActivityId = garminActivityDto?.ActivityId ?? null,

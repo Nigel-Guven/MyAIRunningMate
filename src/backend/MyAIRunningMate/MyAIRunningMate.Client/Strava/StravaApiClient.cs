@@ -1,8 +1,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Microsoft.Extensions.Configuration;
-using MyAIRunningMate.Domain.Interfaces.Client;
-using MyAIRunningMate.Domain.Providers.StravaApi.Responses;
+using MyAIRunningMate.Client.Strava.Responses;
 
 namespace MyAIRunningMate.Client.Strava;
 

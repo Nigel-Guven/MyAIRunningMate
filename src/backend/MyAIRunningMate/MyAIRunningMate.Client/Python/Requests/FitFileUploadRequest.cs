@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MyAIRunningMate.Domain.Models.Requests;
+namespace MyAIRunningMate.Client.Python.Requests;
 
 public class FitFileUploadRequest
 {

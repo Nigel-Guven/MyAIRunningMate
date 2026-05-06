@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Domain.Providers.PythonFitApi.Responses;
+namespace MyAIRunningMate.Client.Python.Responses;
 
-public class PythonAPILap
+public class PythonApiLap
 {
     [JsonPropertyName("lap")]
     public int LapNumber { get; set; }
