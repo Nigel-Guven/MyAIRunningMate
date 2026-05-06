@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using MyAIRunningMate.Application.UserInterface;
 using MyAIRunningMate.Client.Python.Requests;
 using MyAIRunningMate.Domain.Interfaces.Services;
+using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.GarminFitAPI;
 
@@ -24,8 +26,11 @@ public class FitFileController : ControllerBase
 
         try 
         {
-            var result = await _ingestionPipelineService.ProcessFitFileAsync(request.File, Guid.NewGuid());
-            return Ok(result);
+            var ingestionView = await _ingestionPipelineService.ProcessFitFileAsync(request.File, Guid.NewGuid());
+
+            var dto = ingestionView.ToIngestionViewDto();
+            
+            return Ok(dto);
         }
         catch (Exception ex)
         {

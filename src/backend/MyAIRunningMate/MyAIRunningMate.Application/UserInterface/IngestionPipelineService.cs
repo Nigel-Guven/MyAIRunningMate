@@ -1,13 +1,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MyAIRunningMate.Application.Activities;
-using MyAIRunningMate.Application.Extensions;
 using MyAIRunningMate.Application.LinkProvider;
-using MyAIRunningMate.Application.Models;
+using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Client.Python;
-using MyAIRunningMate.Contracts.Views;
-using MyAIRunningMate.Domain.Interfaces.Services;
 
 namespace MyAIRunningMate.Application.UserInterface;
 
@@ -33,7 +30,7 @@ public class IngestionPipelineService : IIngestionPipelineService
         _logger = logger;
     }
     
-    public async Task<IngestionViewDto> ProcessFitFileAsync(IFormFile file, Guid userId)
+    public async Task<IngestionView> ProcessFitFileAsync(IFormFile file, Guid userId)
     {
         await using var stream = file.OpenReadStream();
         var response = await _pythonClient.UploadFitFileAsync(stream, file.FileName);

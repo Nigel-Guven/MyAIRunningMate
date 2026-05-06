@@ -1,9 +1,6 @@
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
-using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Mappers;
-
-namespace MyAIRunningMate.Application.UserInterface;
+namespace MyAIRunningMate.Application.Calendar;
 
 public class CalendarService : ICalendarService
 {
@@ -15,11 +12,11 @@ public class CalendarService : ICalendarService
         _activityRepository = activityRepo;
     }
 
-    public async Task<IEnumerable<CalendarViewDto>> GetMonthlyCalendarViews(DateTime byMonth)
+    public async Task<IEnumerable<CalendarView>> GetMonthlyCalendarViews(DateTime byMonth)
     {
         var activities = await _activityRepository.GetAllActivitiesByMonth(byMonth);
     
-        var calendarViews = activities.Select(a => a.ToCalendarViewDto());
+        var calendarViews = activities.Select(a => a.ToCalendarView());
 
         return calendarViews;
     }

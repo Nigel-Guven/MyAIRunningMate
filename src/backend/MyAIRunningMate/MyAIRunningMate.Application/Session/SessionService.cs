@@ -1,10 +1,9 @@
+using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Contracts.Login.Responses;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
-using MyAIRunningMate.Domain.Interfaces.Services;
 
-namespace MyAIRunningMate.Application.Strava;
+namespace MyAIRunningMate.Application.Session;
 
 public class SessionService : ISessionService
 {
@@ -25,7 +24,7 @@ public class SessionService : ISessionService
         _supabaseClient = supabaseClient;
     }
     
-    public async Task<LoginResponse> LoginAsync(string email, string password)
+    public async Task<SessionResult> LoginAsync(string email, string password)
     {
         var sessionResponse = await _supabaseClient.Auth.SignIn(email, password);
         
@@ -49,11 +48,11 @@ public class SessionService : ISessionService
             (!string.IsNullOrEmpty(sessionEntity.AccessToken) || 
             !string.IsNullOrEmpty(sessionEntity.RefreshToken));
         
-        return new LoginResponse
+        return new SessionResult()
         {
             Token = sessionResponse.AccessToken,
             UserId = userId,
-            IsStravaConnected = isStravaConnected
+            IsStravaConnected = isStravaConnected,
         };
     }
 

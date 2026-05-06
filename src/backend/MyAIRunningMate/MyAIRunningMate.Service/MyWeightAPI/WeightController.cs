@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Weight;
-using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Domain.DatabaseEntities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
 
-namespace MyAIRunningMate.Service.WeightAPI;
+namespace MyAIRunningMate.Service.MyWeightAPI;
 
 [ApiController]
 [Route("api/weight")]

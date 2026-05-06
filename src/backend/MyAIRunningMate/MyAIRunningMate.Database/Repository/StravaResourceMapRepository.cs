@@ -1,4 +1,4 @@
-using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Domain.DatabaseEntities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 
 namespace MyAIRunningMate.Database.Repository;

@@ -1,10 +1,10 @@
-using MyAIRunningMate.Contracts.Login.Responses;
+using MyAIRunningMate.Application.Models;
 
-namespace MyAIRunningMate.Domain.Interfaces.Services;
+namespace MyAIRunningMate.Application.Session;
 
 public interface ISessionService
 {
-    Task<LoginResponse> LoginAsync(string email, string password);
+    Task<SessionResult> LoginAsync(string email, string password);
     Task LogoutAsync();
     Task<bool> HasStravaConnectionAsync(Guid userId);
 }

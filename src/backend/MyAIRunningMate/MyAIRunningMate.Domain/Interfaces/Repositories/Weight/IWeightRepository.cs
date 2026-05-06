@@ -1,4 +1,4 @@
-using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Domain.DatabaseEntities;
 
 namespace MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
 

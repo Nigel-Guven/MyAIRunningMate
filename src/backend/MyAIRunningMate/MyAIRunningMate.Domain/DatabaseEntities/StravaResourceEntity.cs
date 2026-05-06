@@ -1,7 +1,7 @@
 using Supabase.Postgrest.Attributes;
 using Supabase.Postgrest.Models;
 
-namespace MyAIRunningMate.Database.Entities;
+namespace MyAIRunningMate.Domain.DatabaseEntities;
 
 [Table("strava_resource")]
 public class StravaResourceEntity : BaseModel

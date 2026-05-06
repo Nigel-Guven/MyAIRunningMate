@@ -1,11 +1,8 @@
-using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Application.Models.ViewObjects;
-using MyAIRunningMate.Contracts.Views;
-using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Domain.DatabaseEntities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Mappers;
 
 namespace MyAIRunningMate.Application.UserInterface;
 
@@ -29,7 +26,7 @@ public class ActivityViewService : IActivityViewService
     }
     
 
-    public async Task<AggregateArtifactViewDto?> CreateAggregateActivityDto(Guid activityId)
+    public async Task<AggregateArtifactView> CreateAggregateActivity(Guid activityId)
     {
         var activityEntity = await _activityRepository.GetById(activityId);
     
@@ -65,6 +62,6 @@ public class ActivityViewService : IActivityViewService
         var activityView = activityEntity.ToActivityView();
         var lapViews = lapEntities.Select(l => l.ToLapView());
 
-        return AggregateArtifactViewMapper.ToAggregateArtifactViewDto(activityView, lapViews, stravaResourceView, mapView);
+        return AggregateArtifactViewMapper.ToAggregateArtifactView(activityView, lapViews, stravaResourceView, mapView);
     }
 }

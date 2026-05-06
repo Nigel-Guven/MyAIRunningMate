@@ -1,7 +1,7 @@
 using MyAIRunningMate.Client.Strava.Responses;
-using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Domain.DatabaseEntities;
 
-namespace MyAIRunningMate.Database.Mappings;
+namespace MyAIRunningMate.Database.DbEntityMappings;
 
 public static class SessionEntityMapper
 {

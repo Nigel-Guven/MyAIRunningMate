@@ -1,11 +1,11 @@
-using MyAIRunningMate.Application.Models;
+using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Contracts.Views;
 
-namespace MyAIRunningMate.Application.UserInterface;
+namespace MyAIRunningMate.Service.ViewMappers;
 
-public static class IngestionViewMapper
+public static class IngestionViewDtoMapper
 {
-    public static IngestionViewDto ToIngestionView(this Activity activity) => new()
+    public static IngestionViewDto ToIngestionViewDto(this IngestionView activity) => new()
     {
         GarminActivityId = activity.GarminActivityId,
         StartTime = activity.StartTime,

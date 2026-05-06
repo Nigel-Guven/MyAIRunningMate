@@ -1,11 +1,11 @@
+using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Contracts.Views;
-using MyAIRunningMate.Database.Entities;
 
-namespace MyAIRunningMate.Domain.Mappers;
+namespace MyAIRunningMate.Service.ViewMappers;
 
-public static class CalendarViewMapper
+public static class CalendarViewDtoMapper
 {
-    public static CalendarViewDto ToCalendarViewDto(this ActivityEntity entity) => new()
+    public static CalendarViewDto ToCalendarViewDto(this CalendarView entity) => new()
     {
         ActivityId = entity.ActivityId,
         StartTime = entity.StartTime,

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using MyAIRunningMate.Application.Calendar;
 using MyAIRunningMate.Contracts.Views;
-using MyAIRunningMate.Domain.Interfaces.Services;
+using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.CalendarAPI;
 
@@ -22,9 +23,11 @@ public class CalendarController : ControllerBase
         
         try
         {
-            var aggregates = await _calendarService.GetMonthlyCalendarViews(queryDate);
+            var calendarViews = await _calendarService.GetMonthlyCalendarViews(queryDate);
 
-            return Ok(aggregates);
+            var dtos = calendarViews.Select(cview => cview.ToCalendarViewDto());
+            
+            return Ok(dtos);
         }
         catch (Exception ex)
         {
