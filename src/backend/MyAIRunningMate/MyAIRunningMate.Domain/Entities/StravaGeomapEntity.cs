@@ -3,7 +3,7 @@ using Supabase.Postgrest.Models;
 
 namespace MyAIRunningMate.Domain.Entities;
 
-[Table("strava_resource")]
+[Table("strava_resource_map")]
 public class StravaGeomapEntity : BaseModel
 {
     [Column("id")]

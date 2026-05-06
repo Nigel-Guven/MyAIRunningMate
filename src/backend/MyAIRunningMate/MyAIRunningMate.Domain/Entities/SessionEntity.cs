@@ -19,7 +19,7 @@ public class SessionEntity : BaseModel
     public string RefreshToken { get; set; }
 
     [Column("expires_at")]
-    public long ExpiresAt { get; set; }
+    public long? ExpiresAt { get; set; }
     
     [Column("updated_at")]
     public DateTime UpdatedAt { get; set; }

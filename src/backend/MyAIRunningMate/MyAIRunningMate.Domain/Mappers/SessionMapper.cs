@@ -12,7 +12,7 @@ public static class SessionMapper
         AthleteId = entity.AthleteId,
         AccessToken =  entity.AccessToken,
         RefreshToken = entity.RefreshToken,
-        ExpiresAt = entity.ExpiresAt,
+        ExpiresAt = entity.ExpiresAt ?? 0,
         UpdatedAt = entity.UpdatedAt,
     };
 

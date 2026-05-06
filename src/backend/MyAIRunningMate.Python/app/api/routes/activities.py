@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from services.activity_cleaner_service import process_fit_file
-from schemas.activity_schema import ActivitySchema
+from app.services.activity_cleaner_service import process_fit_file
+from app.schemas.activity_schema import ActivitySchema
 
 router = APIRouter(prefix="", tags=["activities"])
 

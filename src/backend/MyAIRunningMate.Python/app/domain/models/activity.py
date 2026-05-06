@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
-from domain.models.lap import Lap
+from app.domain.models.lap import Lap
 
 @dataclass
 class Activity:

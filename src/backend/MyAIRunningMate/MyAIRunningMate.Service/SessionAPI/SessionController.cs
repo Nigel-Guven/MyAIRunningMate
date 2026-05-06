@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Models.Requests;
+using MyAIRunningMate.Domain.Providers.MyAIRunningMateApi;
 
 namespace MyAIRunningMate.Service.SessionAPI;
 
@@ -18,14 +19,23 @@ public class SessionController : ControllerBase
     
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
-        var success = await _sessionService.LoginAsync(request.Email, request.Password);
+        var token = await _sessionService.LoginAsync(request.Email, request.Password);
         
-        if (!success)
-            return BadRequest("Could not create session");
+        if (token == null)
+            return BadRequest(new { message = "Could not create session" });
+        
+        var isStravaConnected = await _sessionService.HasStravaConnectionAsync(token.UserId);
 
-        return Ok(new { message = "Session created successfully" });
+        var response = new LoginResponse
+        {
+            Token = token.Token,
+            UserId = token.UserId,
+            IsStravaConnected = isStravaConnected
+        };
+
+        return Ok(response); 
     }
     
     [HttpPost("logout")]

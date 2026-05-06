@@ -7,7 +7,7 @@ public static class AggregateArtifactMapper
     public static AggregateArtifactDto ToDto(ActivityDto garminActivityDto,
         StravaResourceDto stravaActivityDto) => new()
     {
-        ActivityId = garminActivityDto.ActivityId,
+        ActivityId = garminActivityDto?.ActivityId ?? null,
         GarminActivityId = garminActivityDto.GarminActivityId,
         StartTime = garminActivityDto.StartTime,
         DistanceMetres = garminActivityDto.DistanceMetres,

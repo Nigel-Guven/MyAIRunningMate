@@ -5,7 +5,7 @@ namespace MyAIRunningMate.Domain.Models.DTO;
 public class ActivityDto
 {
     [JsonPropertyName("activity_id")]
-    public Guid ActivityId { get; set; }
+    public Guid? ActivityId { get; set; }
     
     [JsonPropertyName("garmin_id")]
     public string GarminActivityId { get; set; }

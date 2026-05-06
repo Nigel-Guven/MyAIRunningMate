@@ -18,9 +18,16 @@ public class StravaResourceService : IStravaResourceService
         _stravaResourceMapRepository = stravaResourceMapRepository;
     }
     
-    public async Task SaveStravaResourceAndMaps(StravaResourceDto stravaResourceDto, StravaGeomapDto mapDto)
+    public async Task SaveStravaResourceAndMaps(StravaResourceDto stravaResourceDto, StravaGeomapDto? mapDto)
     {
-        await _stravaResourceRepository.Insert(stravaResourceDto.ToEntity());
-        await _stravaResourceMapRepository.Insert(mapDto.ToEntity());
+        var stravaResourceEntity = stravaResourceDto.ToEntity();
+
+        if (mapDto != null)
+        {
+            stravaResourceEntity.MapId = mapDto.MapId;
+            await _stravaResourceMapRepository.Insert(mapDto.ToEntity());
+        }
+        
+        await _stravaResourceRepository.Insert(stravaResourceEntity);
     }
 }

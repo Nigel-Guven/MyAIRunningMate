@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Domain.Interfaces.Services;
 
@@ -22,10 +23,11 @@ public class StravaController : ControllerBase
     public IActionResult Connect()
     {
         var userId = _userContext.GetUserId();
-        
         var state = userId.ToString();
         
-        return Redirect(_stravaApiService.GetAuthorizationUrl(state));
+        var authorizationUrl = _stravaApiService.GetAuthorizationUrl(state);
+
+        return Ok(new { url = authorizationUrl });
     }
 
     [HttpGet("callback")]
@@ -35,35 +37,31 @@ public class StravaController : ControllerBase
         {
             return BadRequest("Invalid state parameter.");
         }
-        
-        var success = await _stravaApiService.ExchangeAndSave(code, userId);
 
-        if (!success)
-        {
-            return BadRequest("Failed to exchange tokens with Strava.");
-        }
-        
-        var frontendUrl = _configuration["Frontend:DashboardUrl"] ?? "http://localhost:5173/dashboard";
-        return Redirect($"{frontendUrl}?sync=success");
-    }
-    
-    /*[HttpGet("activities")]
-    public async Task<IActionResult> GetActivities([FromQuery] int amount = 10)
-    {
         try
         {
-            var userId = _userContext.GetUserId();
-            var activities = await _stravaApiService.GetLatestStravaActivities(userId, amount);
-            
-            return Ok(activities);
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            return Unauthorized(new { message = ex.Message });
+            var success = await _stravaApiService.ExchangeAndSave(code, userId);
+
+            if (!success)
+            {
+                return BadRequest("Failed to exchange tokens with Strava. Please check your credentials and try again.");
+            }
+        
+            var frontendUrl = _configuration["Frontend:DashboardUrl"] ?? "http://localhost:5173/home";
+            return Redirect($"{frontendUrl}?sync=success");
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Failed to load activities", error = ex.Message });
+            // Log the exception in your console / logger window
+            Console.WriteLine($"[ERROR] Exception during Strava callback: {ex.Message}");
+            Console.WriteLine(ex.StackTrace);
+
+            // Return a 500 response to inspect the error in the browser network tab, instead of an empty response.
+            return StatusCode(500, new 
+            { 
+                message = "An error occurred while processing your authorization.", 
+                details = ex.Message 
+            });
         }
-    }*/
+    }
 }

@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAIRunningMate.Database", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAIRunningMate.Client", "MyAIRunningMate.Client\MyAIRunningMate.Client.csproj", "{9A46A923-03D2-4493-A053-82B6A5A88197}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAIRunningMate.Contracts", "MyAIRunningMate.Contracts\MyAIRunningMate.Contracts.csproj", "{467ABB19-F726-41AD-A199-0A095E321E8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{9A46A923-03D2-4493-A053-82B6A5A88197}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A46A923-03D2-4493-A053-82B6A5A88197}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A46A923-03D2-4493-A053-82B6A5A88197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{467ABB19-F726-41AD-A199-0A095E321E8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{467ABB19-F726-41AD-A199-0A095E321E8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{467ABB19-F726-41AD-A199-0A095E321E8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{467ABB19-F726-41AD-A199-0A095E321E8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

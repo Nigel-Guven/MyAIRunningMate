@@ -1,7 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 from typing import List, Optional
 from datetime import datetime
-from schemas.lap_schema import LapSchema
+from app.schemas.lap_schema import LapSchema
 
 class ActivitySchema(BaseModel):
     garmin_id: str

@@ -25,25 +25,22 @@ public class IngestionPipelineService : IIngestionPipelineService
     public async Task<IngestionViewDto> ProcessFitFileAsync(IFormFile file, Guid userId)
     {
         await using var stream = file.OpenReadStream();
-        var pythonResponse = await _pythonClient.UploadFitFileAsync(stream, file.FileName);
-        
-        var activityDto = pythonResponse.ToDto();
+        var activityResponse = await _pythonClient.UploadFitFileAsync(stream, file.FileName);
 
-        var existing = await _activityService.CheckDuplicateAsync(activityDto.GarminActivityId);
+        var existing = await _activityService.CheckDuplicateAsync(activityResponse.GarminId);
         if (existing != null) return existing.ToIngestionView();
-
 
         Guid? stravaResourceId = null;
         try 
         {
-            stravaResourceId = await _linkProviderService.FindAndLinkMatchAsync(activityDto);
+            stravaResourceId = await _linkProviderService.FindAndLinkMatchAsync(activityResponse);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
 
-        await _activityService.SaveActivityAndLaps(activityDto, stravaResourceId);
+        await _activityService.SaveActivityAndLaps(activityResponse, stravaResourceId);
 
         return activityDto.ToIngestionView();
     }

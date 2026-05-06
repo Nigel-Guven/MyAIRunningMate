@@ -1,7 +1,7 @@
 from pathlib import Path
 from fitparse import FitFile
-from domain.models.lap import Lap
-from domain.models.activity import Activity
+from app.domain.models.lap import Lap
+from app.domain.models.activity import Activity
 
 def format_file(file_obj) -> Activity:
     fitfile = FitFile(file_obj.file)

@@ -24,7 +24,8 @@ public class StravaApiClient : IStravaApiClient
             ["client_id"] = _config["Strava:ClientId"]!,
             ["client_secret"] = _config["Strava:ClientSecret"]!,
             ["code"] = code,
-            ["grant_type"] = "authorization_code"
+            ["grant_type"] = "authorization_code",
+            ["redirect_uri"] = _config["Strava:CallbackUrl"]!
         });
     }
 

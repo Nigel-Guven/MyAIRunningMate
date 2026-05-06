@@ -2,7 +2,7 @@ namespace MyAIRunningMate.Domain.Models.DTO;
 
 public class AggregateArtifactDto
 {
-    public Guid ActivityId { get; set; }
+    public Guid? ActivityId { get; set; }
     public Guid? ResourceId { get; set; } 
     public string GarminActivityId { get; set; }
     public string? StravaId { get; set; }

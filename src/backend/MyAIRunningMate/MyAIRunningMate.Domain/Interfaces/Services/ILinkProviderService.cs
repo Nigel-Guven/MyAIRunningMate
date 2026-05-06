@@ -1,8 +1,8 @@
-using MyAIRunningMate.Domain.Models.DTO;
+using MyAIRunningMate.Domain.Providers.PythonFitApi.Responses;
 
 namespace MyAIRunningMate.Domain.Interfaces.Services;
 
 public interface ILinkProviderService
 {
-    Task<Guid?> FindAndLinkMatchAsync(ActivityDto activity);
+    Task<Guid?> FindAndLinkMatchAsync(PythonAPIActivityResponse activityResponse);
 }

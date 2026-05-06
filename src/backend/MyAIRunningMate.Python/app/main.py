@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import activities
-
+from app.api.routes import activities
 
 app = FastAPI(
     title="My AI Running Mate Python API",

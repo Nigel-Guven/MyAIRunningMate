@@ -12,8 +12,6 @@ public class StravaApiService : IStravaApiService
     private readonly IStravaApiClient _client;
     private readonly ISessionRepository _sessionRepository;
     private readonly IConfiguration _config; 
-
-    private static readonly Guid DeveloperUserId = Guid.Parse("00000000-0000-0000-0000-000000000001");
     
     public StravaApiService(IStravaApiClient client, ISessionRepository sessionRepository, IConfiguration config)
     {
@@ -39,13 +37,24 @@ public class StravaApiService : IStravaApiService
 
     public async Task<bool> ExchangeAndSave(string code, Guid userId)
     {
-        var tokenData = await _client.ExchangeCodeAsync(code);
-        if (tokenData == null) return false;
+        try
+        {
+            var tokenData = await _client.ExchangeCodeAsync(code);
+            if (tokenData == null) 
+            {
+                Console.WriteLine("[ERROR] Strava returned a null token response.");
+                return false;
+            }
 
-        var session = tokenData.ToEntity(userId);
-
-        await _sessionRepository.SaveSession(session);
-        return true;
+            var session = tokenData.ToEntity(userId);
+            await _sessionRepository.SaveSession(session);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[ERROR] Exception in ExchangeAndSave: {ex.Message}");
+            return false;
+        }
     }
     
     public async Task<IEnumerable<StravaApiEventResponse>> GetLatestStravaActivities(Guid userId, int amount)

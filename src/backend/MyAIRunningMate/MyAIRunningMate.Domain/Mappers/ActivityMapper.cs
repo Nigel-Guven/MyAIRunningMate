@@ -8,7 +8,6 @@ public static class ActivityMapper
 {
     public static ActivityEntity ToEntity(this ActivityDto dto) => new()
     {
-        ActivityId = dto.ActivityId,
         GarminActivityId = dto.GarminActivityId,
         StartTime = dto.StartTime,
         ExerciseType = dto.ExerciseType,

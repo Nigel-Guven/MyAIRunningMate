@@ -20,7 +20,7 @@ function ProtectedLayout() {
   return (
     <MainLayout>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/upload" element={<UploadPage />} />
         <Route path="/goals" element={<AnalyticsPage />} />
