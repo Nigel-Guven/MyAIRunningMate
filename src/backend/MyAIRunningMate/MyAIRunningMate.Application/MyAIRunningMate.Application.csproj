@@ -21,7 +21,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Garmin\" />
+      <Compile Remove="Mappers\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Mappers\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Mappers\**" />
     </ItemGroup>
 
 </Project>

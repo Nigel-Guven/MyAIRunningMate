@@ -6,6 +6,7 @@ using Microsoft.OpenApi;
 using MyAIRunningMate.Application.Activities;
 using MyAIRunningMate.Application.LinkProvider;
 using MyAIRunningMate.Application.Strava;
+using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Application.UserInterface;
 using MyAIRunningMate.Client;
 using MyAIRunningMate.Client.Python;

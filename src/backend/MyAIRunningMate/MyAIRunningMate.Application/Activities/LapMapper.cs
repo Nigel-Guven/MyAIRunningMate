@@ -1,7 +1,7 @@
+using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Client.Python.Responses;
-using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Application.Mappers;
+namespace MyAIRunningMate.Application.Activities;
 
 public static class LapMapper
 {

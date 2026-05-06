@@ -1,7 +1,8 @@
+using MyAIRunningMate.Application.Models;
 
 namespace MyAIRunningMate.Application.LinkProvider;
 
 public interface ILinkProviderService
 {
-    Task<Guid?> FindAndLinkMatchAsync(Models.Activity activity);
+    Task<StravaResource?> FindAndLinkMatchAsync(Activity activity);
 }

@@ -16,7 +16,6 @@
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\MyAIRunningMate.Contracts\MyAIRunningMate.Contracts.csproj" />
         <ProjectReference Include="..\MyAIRunningMate.Database\MyAIRunningMate.Database.csproj" />
     </ItemGroup>
 

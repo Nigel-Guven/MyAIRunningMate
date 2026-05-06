@@ -1,4 +1,5 @@
 using MyAIRunningMate.Application.Models;
+using MyAIRunningMate.Database.Mappings;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 
 namespace MyAIRunningMate.Application.Activities;
@@ -24,7 +25,7 @@ public class ActivityService : IActivityService
     public async Task SaveActivityAndLaps(Activity activity, Guid? stravaResourceId)
     {
         var activityEntity = activity.ToActivityEntity(stravaResourceId);
-        var lapEntities = activity.Laps.Select(l => l.ToEntity()).ToList();
+        var lapEntities = activity.Laps.Select(l => l.ToLapEntity()).ToList();
         
         await _activityRepository.Insert(activityEntity);
 

@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Mvc;
-using MyAIRunningMate.Domain.Interfaces.Services;
+using MyAIRunningMate.Application.Strava;
+using MyAIRunningMate.Application.User;
 
 namespace MyAIRunningMate.Service.StravaAPI;
 

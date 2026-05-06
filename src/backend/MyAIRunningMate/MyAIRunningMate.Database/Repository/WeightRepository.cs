@@ -1,15 +1,14 @@
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
 using Supabase.Postgrest;
-using Client = Supabase.Client;
 
 namespace MyAIRunningMate.Database.Repository;
 
-public class WeightRepository(Client supabase) : BaseRepository<WeightEntity>(supabase), IWeightRepository
+public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightEntity>(supabase), IWeightRepository
 {
     public async Task<IEnumerable<WeightEntity>> Get20LatestWeights(Guid userId)
     {
-        var result = await _supabase.From<WeightEntity>()
+        var result = await Supabase.From<WeightEntity>()
             .Filter("user_id", Constants.Operator.Equals, userId)
             .Order("created_at", Constants.Ordering.Descending) 
             .Limit(20)                                  
@@ -20,7 +19,7 @@ public class WeightRepository(Client supabase) : BaseRepository<WeightEntity>(su
 
     public async Task<IEnumerable<WeightEntity>> GetLatestWeight(Guid userId)
     {
-        var result = await _supabase.From<WeightEntity>()
+        var result = await Supabase.From<WeightEntity>()
             .Filter("user_id", Constants.Operator.Equals, userId)
             .Order("created_at", Constants.Ordering.Descending) 
             .Limit(1)                                  

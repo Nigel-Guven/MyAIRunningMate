@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using MyAIRunningMate.Client.Strava;
 using MyAIRunningMate.Client.Strava.Responses;
+using MyAIRunningMate.Database.Mappings;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
-using MyAIRunningMate.Domain.Interfaces.Services;
 
 namespace MyAIRunningMate.Application.Strava;
 
@@ -45,7 +45,7 @@ public class StravaApiService : IStravaApiService
                 return false;
             }
 
-            var session = tokenData.ToEntity(userId);
+            var session = tokenData.ToSessionEntity(userId);
             await _sessionRepository.SaveSession(session);
             return true;
         }

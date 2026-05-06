@@ -1,11 +1,10 @@
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 using Supabase.Postgrest;
-using Client = Supabase.Client;
 
 namespace MyAIRunningMate.Database.Repository;
 
-public class StravaResourceRepository(Client supabase) : BaseRepository<StravaResourceEntity>(supabase), IStravaResourceRepository
+public class StravaResourceRepository(Supabase.Client supabase) : BaseRepository<StravaResourceEntity>(supabase), IStravaResourceRepository
 {
     public async Task<StravaResourceEntity> GetStravaResourceById(Guid stravaId)
     {
@@ -16,7 +15,7 @@ public class StravaResourceRepository(Client supabase) : BaseRepository<StravaRe
     {
         if (!stravaIds.Any()) return new List<StravaResourceEntity>();
 
-        var result = await _supabase
+        var result = await Supabase
             .From<StravaResourceEntity>()
             .Filter("id", Constants.Operator.In, stravaIds)
             .Get();

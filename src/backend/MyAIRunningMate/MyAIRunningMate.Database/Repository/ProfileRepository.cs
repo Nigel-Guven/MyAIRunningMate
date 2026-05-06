@@ -1,13 +1,12 @@
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using Supabase.Postgrest;
-using Client = Supabase.Client;
 
 namespace MyAIRunningMate.Database.Repository;
 
-public class ProfileRepository(Client supabase) : BaseRepository<ProfileEntity>(supabase), IProfileRepository
+public class ProfileRepository(Supabase.Client supabase) : BaseRepository<ProfileEntity>(supabase), IProfileRepository
 {
-    private readonly Client _supabase = supabase;
+    private readonly Supabase.Client _supabase = supabase;
     
     public async Task<ProfileEntity?> GetByIdAsync(Guid userId)
     {

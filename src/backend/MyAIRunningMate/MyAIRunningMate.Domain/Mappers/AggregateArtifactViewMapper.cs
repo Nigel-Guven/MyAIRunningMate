@@ -1,44 +1,44 @@
-using MyAIRunningMate.Domain.Models;
-using MyAIRunningMate.Domain.Models.DTO;
+using MyAIRunningMate.Application.Models.ViewObjects;
+using MyAIRunningMate.Contracts.Views;
 
 namespace MyAIRunningMate.Domain.Mappers;
 
 public static class AggregateArtifactViewMapper
 {
-    public static AggregateArtifactViewDto ToDto(Activity garminActivity,
-        StravaResource stravaActivity) => new()
+    public static AggregateArtifactViewDto ToAggregateArtifactViewDto(
+        ActivityView activityView, 
+        IEnumerable<LapView> lapViews,
+        StravaResourceView stravaResourceView,
+        StravaGeomapView stravaGeomapView) => new()
     {
-        ActivityId = garminActivity?.ActivityId ?? null,
-        GarminActivityId = garminActivity.GarminActivityId,
-        StartTime = garminActivity.StartTime,
-        DistanceMetres = garminActivity.DistanceMetres,
-        DurationSeconds = garminActivity.DurationSeconds,
-        TrainingEffect = garminActivity.TrainingEffect,
-        AverageSecondPerKilometre = garminActivity.AverageSecondPerKilometre,
-        AverageHeartRate = garminActivity.AverageHeartRate,
-        MaxHeartRate = garminActivity.MaxHeartRate,
-        Laps = garminActivity.Laps,
+        ActivityId = activityView.ActivityId,
+        GarminActivityId = activityView.GarminActivityId,
+        StartTime = activityView.StartTime,
+        DistanceMetres = activityView.DistanceMetres?? 0.0,
+        DurationSeconds = activityView.DurationSeconds,
+        TrainingEffect = activityView.TrainingEffect ?? 0.0,
+        AverageSecondPerKilometre = activityView.AverageSecondPerKilometre ?? 0.0,
+        AverageHeartRate = activityView.AverageHeartRate,
+        MaxHeartRate = activityView.MaxHeartRate,
+        Laps = lapViews,
             
-        ResourceId = stravaActivity?.ResourceId ?? Guid.Empty,
-        StravaId = stravaActivity?.StravaId,
-        Name = stravaActivity?.Name ?? "Unnamed Activity",
+        ResourceId = stravaResourceView?.ResourceId ?? Guid.Empty,
+        StravaId = stravaResourceView?.StravaId,
+        Name = stravaResourceView?.Name ?? "Unnamed Activity",
             
-        ExerciseType = stravaActivity?.Type ?? garminActivity.ExerciseType ?? "Unknown",
+        ExerciseType = activityView.ExerciseType ?? "Unknown",
 
-        StartDate = stravaActivity?.StartDate ?? garminActivity.StartTime,
+        ElapsedTime = stravaResourceView?.ElapsedTime,
+        AverageCadence = stravaResourceView?.AverageCadence,
+        TotalElevationGain = activityView.TotalElevationGain ?? 0.0,
+        ElevationLow = stravaResourceView?.ElevationLow,
+        ElevationHigh = stravaResourceView?.ElevationHigh,
+
+        AchievementCount = stravaResourceView?.AchievementCount ?? 0,
+        KudosCount = stravaResourceView?.KudosCount ?? 0,
+        PersonalRecordCount = stravaResourceView?.PersonalRecordCount ?? 0,
+        AthleteCount = stravaResourceView?.AthleteCount ?? 0,
         
-
-        ElapsedTime = stravaActivity?.ElapsedTime,
-        AverageCadence = stravaActivity?.AverageCadence,
-        TotalElevationGain = garminActivity.TotalElevationGain ?? stravaActivity?.TotalElevationGain ?? 0.0,
-        ElevationLow = stravaActivity?.ElevationLow,
-        ElevationHigh = stravaActivity?.ElevationHigh,
-
-        AchievementCount = stravaActivity?.AchievementCount ?? 0,
-        KudosCount = stravaActivity?.KudosCount ?? 0,
-        PersonalRecordCount = stravaActivity?.PersonalRecordCount ?? 0,
-        AthleteCount = stravaActivity?.AthleteCount ?? 0,
-        
-        Map = stravaActivity?.StravaGeomap
+        Map = stravaGeomapView
     };
 }

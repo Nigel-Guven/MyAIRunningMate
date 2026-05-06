@@ -1,3 +1,4 @@
+using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Login.Responses;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;

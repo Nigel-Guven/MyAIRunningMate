@@ -3,7 +3,8 @@ using Microsoft.Extensions.Logging;
 using MyAIRunningMate.Application.Activities;
 using MyAIRunningMate.Application.Extensions;
 using MyAIRunningMate.Application.LinkProvider;
-using MyAIRunningMate.Application.Mappers;
+using MyAIRunningMate.Application.Models;
+using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Client.Python;
 using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Domain.Interfaces.Services;
@@ -15,17 +16,20 @@ public class IngestionPipelineService : IIngestionPipelineService
     private readonly IPythonApiClient _pythonClient;
     private readonly ILinkProviderService _linkProviderService;
     private readonly IActivityService _activityService;
+    private readonly IStravaResourceService _stravaResourceService;
     private readonly ILogger<IngestionPipelineService> _logger;
     
     public IngestionPipelineService(
         IPythonApiClient pythonApiClient, 
         ILinkProviderService linkProviderService,
         IActivityService activityService, 
+        IStravaResourceService stravaResourceService,
         ILogger<IngestionPipelineService> logger)
     {
         _pythonClient = pythonApiClient;
         _linkProviderService = linkProviderService;
         _activityService = activityService;
+        _stravaResourceService = stravaResourceService;
         _logger = logger;
     }
     
@@ -43,19 +47,18 @@ public class IngestionPipelineService : IIngestionPipelineService
         {
             return activity.ToIngestionView();
         }
-
-        Guid? stravaResourceId = null;
         
         try
         {
-            stravaResourceId = await _linkProviderService.FindAndLinkMatchAsync(activity);
-            if (!GuidEx.IsGuid(stravaResourceId))
+            var stravaResource = await _linkProviderService.FindAndLinkMatchAsync(activity);
+            if (stravaResource == null)
             {
-                _logger.LogError("Failed to link Strava match for activity {GarminActivityId}. Received invalid Guid.", activity.GarminActivityId);
-                throw new InvalidOperationException("Invalid Strava resource ID returned.");
+                _logger.LogError("Failed to link Strava match for activity {GarminActivityId}. Couldn't find a match.", activity.GarminActivityId);
+                throw new InvalidOperationException("No Strava resource returned.");
             }
-                
-            await _activityService.SaveActivityAndLaps(activity, stravaResourceId);
+  
+            var stravaEntityId  = await _stravaResourceService.SaveStravaResourceAndMap(stravaResource);
+            await _activityService.SaveActivityAndLaps(activity, stravaEntityId);
         }
         catch (Exception ex)
         {

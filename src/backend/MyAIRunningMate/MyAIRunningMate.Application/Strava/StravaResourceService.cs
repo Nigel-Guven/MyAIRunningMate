@@ -1,8 +1,6 @@
+using MyAIRunningMate.Application.Models;
+using MyAIRunningMate.Database.Mappings;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
-using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Mappers;
-using MyAIRunningMate.Domain.Models;
-using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Application.Strava;
 
@@ -19,16 +17,23 @@ public class StravaResourceService : IStravaResourceService
         _stravaResourceMapRepository = stravaResourceMapRepository;
     }
     
-    public async Task SaveStravaResourceAndMaps(StravaResource stravaResource, StravaGeomap? mapDto)
+    public async Task<Guid> SaveStravaResourceAndMap(StravaResource stravaResource)
     {
-        var stravaResourceEntity = stravaResource.ToEntity();
-
-        if (mapDto != null)
+        var resourceId = Guid.NewGuid();
+        
+        var stravaResourceEntity = stravaResource.ToStravaResourceEntity(resourceId);
+        
+        if (stravaResource.StravaGeomap != null)
         {
-            stravaResourceEntity.MapId = mapDto.MapId;
-            await _stravaResourceMapRepository.Insert(mapDto.ToEntity());
+            var mapId = Guid.NewGuid();
+            var stravaMapResourceEntity = stravaResource.StravaGeomap.ToStravaGeomapEntity(mapId);
+            
+            await _stravaResourceMapRepository.Insert(stravaMapResourceEntity);
+            await _stravaResourceRepository.Insert(stravaResourceEntity);
         }
         
         await _stravaResourceRepository.Insert(stravaResourceEntity);
+
+        return resourceId;
     }
 }

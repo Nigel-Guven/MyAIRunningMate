@@ -1,12 +1,11 @@
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
-using Supabase;
 
 namespace MyAIRunningMate.Database.Repository;
 
-public class LapRepository(Client supabase) : BaseRepository<LapEntity>(supabase), ILapRepository
+public class LapRepository(Supabase.Client supabase) : BaseRepository<LapEntity>(supabase), ILapRepository
 {
-    private readonly Client _supabase = supabase;
+    private readonly Supabase.Client _supabase = supabase;
     
     public async Task<IEnumerable<LapEntity>> GetAllLaps()
     {

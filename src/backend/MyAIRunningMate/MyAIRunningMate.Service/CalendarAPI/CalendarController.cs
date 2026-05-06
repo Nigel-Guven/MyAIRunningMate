@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Domain.Interfaces.Services;
-using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Service.CalendarAPI;
 
@@ -16,7 +16,7 @@ public class CalendarController : ControllerBase
     }
     
     [HttpGet("monthly")]
-    public async Task<ActionResult<IEnumerable<AggregateArtifactViewDto>>> GetMonthlyCalendarViews([FromQuery] int month, [FromQuery] int year)
+    public async Task<ActionResult<IEnumerable<CalendarViewDto>>> GetMonthlyCalendarViews([FromQuery] int month, [FromQuery] int year)
     {
         var queryDate = new DateTime(year, month, 1);
         

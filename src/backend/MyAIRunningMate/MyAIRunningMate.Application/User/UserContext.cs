@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MyAIRunningMate.Domain.Interfaces.Services;
 
-namespace MyAIRunningMate.Application.Strava;
+namespace MyAIRunningMate.Application.User;
 
 public class UserContext : IUserContext
 {

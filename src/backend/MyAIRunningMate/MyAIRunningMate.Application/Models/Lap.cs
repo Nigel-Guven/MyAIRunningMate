@@ -1,6 +1,4 @@
-using System.Text.Json.Serialization;
-
-namespace MyAIRunningMate.Domain.Models;
+namespace MyAIRunningMate.Application.Models;
 
 public class Lap
 {

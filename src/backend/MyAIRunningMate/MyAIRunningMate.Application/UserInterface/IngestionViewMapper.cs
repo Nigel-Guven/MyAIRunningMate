@@ -1,7 +1,7 @@
 using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Contracts.Views;
 
-namespace MyAIRunningMate.Application.Mappers;
+namespace MyAIRunningMate.Application.UserInterface;
 
 public static class IngestionViewMapper
 {

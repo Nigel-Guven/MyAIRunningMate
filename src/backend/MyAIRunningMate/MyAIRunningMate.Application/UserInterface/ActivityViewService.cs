@@ -1,10 +1,11 @@
-using MyAIRunningMate.Domain.Entities;
+using MyAIRunningMate.Application.Models;
+using MyAIRunningMate.Application.Models.ViewObjects;
+using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Domain.Mappers;
-using MyAIRunningMate.Domain.Models;
-using MyAIRunningMate.Domain.Models.DTO;
 
 namespace MyAIRunningMate.Application.UserInterface;
 
@@ -45,24 +46,25 @@ public class ActivityViewService : IActivityViewService
         var lapEntities = await lapsTask;
         var stravaEntity = await stravaTask;
 
-        StravaGeomap? mapDto = null;
+        StravaResourceView stravaResourceView = null;
+        StravaGeomapView? mapView = null;
 
         if (stravaEntity != null)
         {
-            var mapEntity = await _stravaResourceMapRepository.GetMapById(stravaEntity.ResourceId);
-            mapDto = mapEntity?.ToDto();
+            stravaResourceView = stravaEntity.ToStravaResourceView();
+            
+            
+            if (stravaEntity.MapId != null)
+            {
+                var mapEntity = await _stravaResourceMapRepository.GetMapById(stravaEntity.ResourceId);
+                mapView = mapEntity.ToMapView();
+            }
+            
         }
         
-        var garminDto = activityEntity.ToDto(lapEntities);
+        var activityView = activityEntity.ToActivityView();
+        var lapViews = lapEntities.Select(l => l.ToLapView());
 
-        StravaResource? stravaDto = null;
-        
-        if (stravaEntity != null)
-        {
-            stravaDto = stravaEntity.ToDto();
-            stravaDto.StravaGeomap = mapDto;
-        }
-
-        return AggregateArtifactViewMapper.ToDto(garminDto, stravaDto);
+        return AggregateArtifactViewMapper.ToAggregateArtifactViewDto(activityView, lapViews, stravaResourceView, mapView);
     }
 }

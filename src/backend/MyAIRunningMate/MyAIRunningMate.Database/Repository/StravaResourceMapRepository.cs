@@ -1,10 +1,9 @@
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
-using Supabase;
 
 namespace MyAIRunningMate.Database.Repository;
 
-public class StravaResourceMapRepository(Client supabase) : BaseRepository<StravaGeomapEntity>(supabase), IStravaResourceMapRepository
+public class StravaResourceMapRepository(Supabase.Client supabase) : BaseRepository<StravaGeomapEntity>(supabase), IStravaResourceMapRepository
 {
     public async Task<StravaGeomapEntity> GetMapById(Guid mapId)
     {

@@ -1,6 +1,6 @@
+using MyAIRunningMate.Client.Strava.Responses;
 
-
-namespace MyAIRunningMate.Domain.Interfaces.Services;
+namespace MyAIRunningMate.Application.Strava;
 
 public interface IStravaApiService
 {

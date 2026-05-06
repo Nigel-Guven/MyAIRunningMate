@@ -3,9 +3,9 @@ using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 
 namespace MyAIRunningMate.Database.Repository;
 
-public class ActivityRepository(Client supabase) : BaseRepository<ActivityEntity>(supabase), IActivityRepository
+public class ActivityRepository(Supabase.Client supabase) : BaseRepository<ActivityEntity>(supabase), IActivityRepository
 {
-    private readonly Client _supabase = supabase;
+    private readonly Supabase.Client _supabase = supabase;
 
     public async Task<IEnumerable<ActivityEntity>> GetAllActivities()
     {
