@@ -1,5 +1,0 @@
-garminconnect
-fitparse
-requests
-python-dotenv
-tqdm
