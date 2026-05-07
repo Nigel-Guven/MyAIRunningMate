@@ -6,7 +6,7 @@ using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Client.Python;
 
-namespace MyAIRunningMate.Application.UserInterface;
+namespace MyAIRunningMate.Application.IngestionPipeline;
 
 public class IngestionPipelineService : IIngestionPipelineService
 {

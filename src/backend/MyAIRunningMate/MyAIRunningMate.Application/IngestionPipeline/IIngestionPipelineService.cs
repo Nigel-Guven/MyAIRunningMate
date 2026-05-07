@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using MyAIRunningMate.Application.Models.ViewObjects;
 
-namespace MyAIRunningMate.Application.UserInterface;
+namespace MyAIRunningMate.Application.IngestionPipeline;
 
 public interface IIngestionPipelineService
 {

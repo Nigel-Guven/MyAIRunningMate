@@ -25,10 +25,16 @@ public class ActivityService : IActivityService
     public async Task SaveActivityAndLaps(Activity activity, Guid? stravaResourceId)
     {
         var activityEntity = activity.ToActivityEntity(stravaResourceId);
-        var lapEntities = activity.Laps.Select(l => l.ToLapEntity()).ToList();
         
-        await _activityRepository.Insert(activityEntity);
+        var result = await _activityRepository.Insert(activityEntity);
 
+        var lapEntities = activity.Laps.Select(l => 
+        {
+            var entity = l.ToLapEntity();
+            entity.ActivityId = result.ActivityId;
+            return entity;
+        }).ToList();
+        
         await _lapRepository.BulkInsert(lapEntities);
     }
 }

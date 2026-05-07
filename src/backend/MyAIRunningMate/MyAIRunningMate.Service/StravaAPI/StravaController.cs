@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.User;

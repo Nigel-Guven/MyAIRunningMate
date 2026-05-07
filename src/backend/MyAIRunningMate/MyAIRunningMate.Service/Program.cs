@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.OpenApi;
 using MyAIRunningMate.Application.Activities;
 using MyAIRunningMate.Application.Calendar;
+using MyAIRunningMate.Application.IngestionPipeline;
 using MyAIRunningMate.Application.LinkProvider;
 using MyAIRunningMate.Application.Session;
 using MyAIRunningMate.Application.Strava;
