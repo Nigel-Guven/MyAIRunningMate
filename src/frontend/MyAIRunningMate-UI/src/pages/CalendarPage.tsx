@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { getMonthlyActivities } from '../services/calendarService';
 import { getActivityStyles } from '../components/calendar/styles';
 import type { CalendarViewResult } from '../types/calendarView';
+import { useNavigate } from 'react-router';
 
 export const CalendarPage = () => {
   const [activities, setActivities] = useState<CalendarViewResult[]>([]);
@@ -125,10 +126,14 @@ const DayCell = ({ day, activities }: { day: number, activities: CalendarViewRes
 };
 
 const ActivityTile = ({ act }: { act: CalendarViewResult }) => {
+  const navigate = useNavigate();
   const colorClasses = getActivityStyles(act.type);
 
   return (
-    <div className={`p-1.5 rounded border cursor-pointer transition-colors ${colorClasses} hover:brightness-125`}>
+    <div 
+      onClick={() => navigate(`/activity/${act.activity_id}`)}
+      className={`p-1.5 rounded border cursor-pointer transition-colors ${colorClasses} hover:brightness-125`}
+    >
       <div className="flex justify-between items-start">
         <span className="text-[9px] font-black uppercase truncate">{act.type}</span>
       </div>

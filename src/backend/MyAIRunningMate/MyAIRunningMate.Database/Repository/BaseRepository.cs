@@ -18,7 +18,7 @@ public abstract class BaseRepository<T>(Supabase.Client supabase) : IBaseReposit
     public async Task<T?> GetById(object id)
     {
         return await Supabase.From<T>()
-            .Filter("id", Constants.Operator.Equals, id)
+            .Filter("id", Constants.Operator.Equals, id.ToString())
             .Single();
     }
 

@@ -1,11 +1,11 @@
 import type { LapDto } from "./lap";
 import type { MapDto } from "./map";
 
-export interface AggregateArtifactDto {
+export interface AggregateArtifactViewDto {
   activity_id: string;
   resource_id: string;
   garmin_activity_id: string;
-  strava_id: string | null;
+  strava_id: string | "null";
   name: string;
   exercise_type: string;
   start_time: string;

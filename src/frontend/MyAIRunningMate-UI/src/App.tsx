@@ -7,6 +7,7 @@ import { AnalyticsPage } from './pages/AnalyticsPage';
 import { NexusPage } from './pages/NexusPage';
 import { WeightPage } from './pages/WeightPage';
 import { LoginPage } from './pages/LoginPage';
+import { ActivityDeepDivePage } from './pages/ActivityDeepDivePage';
 
 const isAuthenticated = () => {
   return !!localStorage.getItem('token');
@@ -22,6 +23,7 @@ function ProtectedLayout() {
       <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/activity/:id" element={<ActivityDeepDivePage />} />
         <Route path="/upload" element={<UploadPage />} />
         <Route path="/goals" element={<AnalyticsPage />} />
         <Route path="/nexus" element={<NexusPage />} />

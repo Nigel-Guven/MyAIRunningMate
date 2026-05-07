@@ -53,8 +53,12 @@ public class ActivityViewService : IActivityViewService
             
             if (stravaEntity.MapId != null)
             {
-                var mapEntity = await _stravaResourceMapRepository.GetMapById(stravaEntity.ResourceId);
-                mapView = mapEntity.ToMapView();
+                var mapEntity = await _stravaResourceMapRepository.GetMapById(stravaEntity.MapId.Value);
+                
+                if (mapEntity != null) 
+                {
+                    mapView = mapEntity.ToMapView();
+                }
             }
             
         }
