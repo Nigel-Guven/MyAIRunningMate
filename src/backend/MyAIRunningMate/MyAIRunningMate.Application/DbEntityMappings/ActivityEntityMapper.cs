@@ -1,7 +1,7 @@
 using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Domain.DatabaseEntities;
 
-namespace MyAIRunningMate.Database.DbEntityMappings;
+namespace MyAIRunningMate.Application.DbEntityMappings;
 
 public static class ActivityEntityMapper
 {

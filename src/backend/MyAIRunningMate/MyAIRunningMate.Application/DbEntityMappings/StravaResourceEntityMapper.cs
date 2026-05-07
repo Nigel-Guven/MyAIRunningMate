@@ -1,13 +1,12 @@
 using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Domain.DatabaseEntities;
 
-namespace MyAIRunningMate.Database.DbEntityMappings;
+namespace MyAIRunningMate.Application.DbEntityMappings;
 
 public static class StravaResourceEntityMapper
 {
-    public static StravaResourceEntity ToStravaResourceEntity(this StravaResource resource, Guid resourceId, Guid? mapId = null) => new()
+    public static StravaResourceEntity ToStravaResourceEntity(this StravaResource resource, Guid? mapId = null) => new()
     {
-        ResourceId = resourceId,
         StravaId =  resource.StravaId,
         Name = resource.Name,
         ElapsedTime =  resource.ElapsedTime,

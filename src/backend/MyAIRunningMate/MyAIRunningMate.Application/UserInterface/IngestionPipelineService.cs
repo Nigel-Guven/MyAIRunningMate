@@ -38,9 +38,7 @@ public class IngestionPipelineService : IIngestionPipelineService
         var activity = response.ToActivity();
         //activity.UserId = userId;
         
-        var activityExists = await _activityService.CheckDuplicateAsync(activity.GarminActivityId);
-
-        if (activityExists)
+        if (await _activityService.CheckDuplicateAsync(activity.GarminActivityId))
         {
             return activity.ToIngestionView();
         }

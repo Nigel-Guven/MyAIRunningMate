@@ -24,7 +24,11 @@ public abstract class BaseRepository<T>(Supabase.Client supabase) : IBaseReposit
 
     public async Task<T> Insert(T entity)
     {
-        var result = await Supabase.From<T>().Insert(entity);
+
+        var result = await Supabase
+            .From<T>()
+            .Insert(entity, new QueryOptions { Returning = QueryOptions.ReturnType.Representation });
+
         return result.Model ?? throw new Exception($"Failed to insert entity {typeof(T).Name}.");
     }
 

@@ -1,5 +1,5 @@
+using MyAIRunningMate.Application.DbEntityMappings;
 using MyAIRunningMate.Application.Models;
-using MyAIRunningMate.Database.DbEntityMappings;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 
 namespace MyAIRunningMate.Application.Activities;

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
+using MyAIRunningMate.Application.DbEntityMappings;
 using MyAIRunningMate.Client.Strava;
 using MyAIRunningMate.Client.Strava.Responses;
-using MyAIRunningMate.Database.DbEntityMappings;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
 
 namespace MyAIRunningMate.Application.Strava;
