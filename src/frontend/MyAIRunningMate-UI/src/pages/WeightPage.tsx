@@ -1,91 +1,117 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import axios from 'axios';
+import { getWeightHistory, logWeight } from '../services/weightService';
 import type { WeightEntry } from '../types/weight';
-
+import { WeightTooltip } from '../components/layout/WeightToolTip';
 
 export const WeightPage = () => {
   const [weights, setWeights] = useState<WeightEntry[]>([]);
   const [newWeight, setNewWeight] = useState('');
-  const userId = "00000000-0000-0000-0000-000000000000"; // Your hardcoded test ID
 
-  const fetchWeights = async () => {
+  const loadData = async () => {
     try {
-      const response = await axios.get(`http://localhost:7001/api/weight/history?userId=${userId}`);
-      // Reverse the array so the oldest is on the left of the chart, newest on the right
-      setWeights(response.data.reverse());
+      const data = await getWeightHistory();
+      setWeights(data);
     } catch (err) {
-      console.error("Error fetching weight data", err);
+      console.error("Vault Access Error: Could not retrieve history");
     }
   };
 
-  useEffect(() => { fetchWeights(); }, []);
+  useEffect(() => { loadData(); }, []);
 
   const handleLogWeight = async (e: React.FormEvent) => {
     e.preventDefault();
+    const val = parseFloat(newWeight);
+    if (isNaN(val) || val <= 0) return;
+
     try {
-      await axios.post('http://localhost:7001/api/weight/log', {
-        weight_pounds: parseFloat(newWeight),
-        user_id: userId,
-        created_at: new Date().toISOString()
-      });
+      await logWeight(val);
       setNewWeight('');
-      fetchWeights(); // Refresh the list and chart
+      await loadData();
     } catch (err) {
-      alert("Failed to log weight");
+      alert("Encryption Error: Could not commit data to vault");
     }
   };
 
-  const latestWeight = weights.length > 0 ? weights[weights.length - 1].weight_pounds : '--';
+  const weightDiff = weights.length > 1 
+    ? (weights[weights.length - 1].weight_pounds - weights[0].weight_pounds).toFixed(1) 
+    : '0.0';
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h2>Weight Tracking</h2>
+    <div className="space-y-8 text-white">
+      <h2 className="text-3xl font-bold">Weight Vault</h2>
 
-      {/* Hero Stat */}
-      <div style={{ background: '#f4f4f4', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem', textAlign: 'center' }}>
-        <p style={{ margin: 0, fontSize: '0.9rem', color: '#666' }}>Latest Weight</p>
-        <h1 style={{ margin: 0, fontSize: '3rem' }}>{latestWeight} <span style={{ fontSize: '1.2rem' }}>lbs</span></h1>
-      </div>
 
-      {/* Input Form */}
-      <form onSubmit={handleLogWeight} style={{ marginBottom: '2rem', display: 'flex', gap: '10px' }}>
-        <input
-          type="number"
-          step="0.1"
-          placeholder="Enter weight in lbs"
-          value={newWeight}
-          onChange={(e) => setNewWeight(e.target.value)}
-          style={{ padding: '8px', flex: 1, borderRadius: '4px', border: '1px solid #ccc' }}
-        />
-        <button type="submit" style={{ padding: '8px 16px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-          Log Weight
-        </button>
-      </form>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Chart Section */}
+        <div className="lg:col-span-2 p-6 rounded-xl bg-slate-900 border border-slate-800">
+          <h3 className="text-slate-500 text-xs font-bold uppercase mb-6">Historical Trend</h3>
+          <div className="h-80 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={weights}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#1e293b" />
+                <XAxis 
+                  dataKey="created_at" 
+                  tickFormatter={(str) => new Date(str).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} 
+                  fontSize={10}
+                  tick={{ fill: '#64748b' }}
+                  axisLine={false}
+                  tickLine={false}
+                  minTickGap={20} // Prevents dates from overlapping
+                />
+                <YAxis 
+                  domain={['dataMin - 2', 'dataMax + 2']} 
+                  fontSize={10} 
+                  tick={{ fill: '#64748b' }}
+                  axisLine={false}
+                />
+                <Tooltip 
+                  content={<WeightTooltip />} 
+                  cursor={{ stroke: '#1e293b', strokeWidth: 2 }} // Added a subtle vertical line on hover
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="weight_pounds" 
+                  stroke="#38bdf8" 
+                  strokeWidth={2} 
+                  dot={{ fill: '#38bdf8', r: 3 }} 
+                  activeDot={{ r: 5, strokeWidth: 0 }} 
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
 
-      {/* Chart */}
-      <div style={{ height: '300px', width: '100%', background: 'white', padding: '1rem', borderRadius: '8px', border: '1px solid #eee' }}>
-        <h3>Last 20 Entries</h3>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={weights}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis 
-                dataKey="created_at" 
-                tickFormatter={(str) => new Date(str).toLocaleDateString()} 
-                fontSize={12}
-            />
-            <YAxis domain={['auto', 'auto']} fontSize={12} />
-            <Tooltip />
-            <Line 
-                type="monotone" 
-                dataKey="weight_pounds" 
-                stroke="#007bff" 
-                strokeWidth={2} 
-                dot={{ r: 4 }} 
-                activeDot={{ r: 6 }} 
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {/* Input Section */}
+        <div className="p-6 rounded-xl bg-slate-900 border border-slate-800">
+          <h3 className="text-slate-500 text-xs font-bold uppercase mb-6">New Entry</h3>
+          <form onSubmit={handleLogWeight} className="space-y-4">
+            <div>
+              <label className="block text-sm text-slate-400 mb-2">Weight (lbs)</label>
+              <input
+                type="number"
+                step="0.1"
+                required
+                placeholder="0.0"
+                value={newWeight}
+                onChange={(e) => setNewWeight(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-sky-500 transition-colors"
+              />
+            </div>
+            <button 
+              type="submit" 
+              className="w-full py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-lg transition-all"
+            >
+              Commit to Vault
+            </button>
+          </form>
+          
+          <div className="mt-8 pt-8 border-t border-slate-800 text-center">
+             <p className="text-slate-500 text-xs italic">
+                Logs are timestamped automatically by the server.
+             </p>
+          </div>
+        </div>
       </div>
     </div>
   );

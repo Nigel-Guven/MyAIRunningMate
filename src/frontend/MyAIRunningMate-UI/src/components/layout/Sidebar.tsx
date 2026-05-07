@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router';
-// Adjust the import path if your assets folder is located elsewhere
 import appLogo from '../../assets/applogo.png';
 
 const menuItems = [
@@ -16,12 +15,10 @@ export const Sidebar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear user session from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('is_strava_connected');
 
-    // Redirect to login page
     navigate('/login');
   };
 

@@ -9,7 +9,7 @@ public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightE
     public async Task<IEnumerable<WeightEntity>> Get20LatestWeights(Guid userId)
     {
         var result = await Supabase.From<WeightEntity>()
-            .Filter("user_id", Constants.Operator.Equals, userId)
+            .Filter("user_id", Constants.Operator.Equals, userId.ToString())
             .Order("created_at", Constants.Ordering.Descending) 
             .Limit(20)                                  
             .Get();
@@ -20,7 +20,7 @@ public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightE
     public async Task<IEnumerable<WeightEntity>> GetLatestWeight(Guid userId)
     {
         var result = await Supabase.From<WeightEntity>()
-            .Filter("user_id", Constants.Operator.Equals, userId)
+            .Filter("user_id", Constants.Operator.Equals, userId.ToString())
             .Order("created_at", Constants.Ordering.Descending) 
             .Limit(1)                                  
             .Get();

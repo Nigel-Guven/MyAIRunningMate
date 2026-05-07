@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Application.Weight;
@@ -6,6 +7,7 @@ using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.MyWeightAPI;
 
+[Authorize]
 [ApiController]
 [Route("api/weight")]
 public class WeightController : ControllerBase
