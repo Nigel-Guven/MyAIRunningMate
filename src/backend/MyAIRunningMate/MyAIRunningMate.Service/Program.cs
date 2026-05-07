@@ -11,6 +11,7 @@ using MyAIRunningMate.Application.Session;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Application.UserInterface;
+using MyAIRunningMate.Application.Weight;
 using MyAIRunningMate.Client.Python;
 using MyAIRunningMate.Client.Strava;
 using MyAIRunningMate.Database.Repository;
@@ -114,6 +115,7 @@ builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<ILinkProviderService, LinkProviderService>();
 builder.Services.AddScoped<IActivityService, ActivityService>();
 builder.Services.AddScoped<IStravaResourceService, StravaResourceService>();
+builder.Services.AddScoped<IWeightService, WeightService>();
 
 builder.Services.AddScoped<IActivityViewService, ActivityViewService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();

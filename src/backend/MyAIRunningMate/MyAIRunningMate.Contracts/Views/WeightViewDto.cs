@@ -11,5 +11,5 @@ public class WeightViewDto
     public Guid UserId { get; set; }
     
     [JsonPropertyName("created_at")]
-    public DateTime CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 }

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.User;
+using MyAIRunningMate.Application.Weight;
 using MyAIRunningMate.Contracts.Weight;
-using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
+using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.MyWeightAPI;
 
@@ -10,12 +10,12 @@ namespace MyAIRunningMate.Service.MyWeightAPI;
 [Route("api/weight")]
 public class WeightController : ControllerBase
 {
-    private readonly IWeightRepository _weightRepository;
+    private readonly IWeightService _weightService;
     private readonly IUserContext _userContext;
 
-    public WeightController(IWeightRepository weightRepository,  IUserContext userContext)
+    public WeightController(IWeightService weightService,  IUserContext userContext)
     {
-        _weightRepository = weightRepository;
+        _weightService = weightService;
         _userContext =  userContext;
     }
     
@@ -23,22 +23,25 @@ public class WeightController : ControllerBase
     public async Task<IActionResult> GetLatestSingleWeight()
     {
         var userId = _userContext.GetUserId();
-        
-        if (userId == Guid.Empty) return BadRequest("User Id is required.");
+        if (userId == Guid.Empty) return Unauthorized();
 
-        var result = await _weightRepository.GetLatestWeight(userId);
-        return Ok(result.FirstOrDefault());
+        var result = await _weightService.GetLatestWeightAsync(userId);
+
+        var dto = result.ToWeightViewDto();
+        return Ok(dto);
     }
 
     [HttpGet("history")]
     public async Task<IActionResult> GetLatestMultipleWeights()
     {
         var userId = _userContext.GetUserId();
-        
-        if (userId == Guid.Empty) return BadRequest("User Id is required.");
+        if (userId == Guid.Empty) return Unauthorized();
 
-        var result = await _weightRepository.Get20LatestWeights(userId);
-        return Ok(result);
+        var weightEntities = await _weightService.GetWeightHistoryAsync(userId);
+        
+        var dtos = weightEntities.Select(entity => entity.ToWeightViewDto()).ToList();
+        
+        return Ok(dtos);
     }
     
     [HttpPost("log_weight")]
@@ -47,20 +50,17 @@ public class WeightController : ControllerBase
         var userId = _userContext.GetUserId();
         
         if (request.WeightInPounds <= 0) return BadRequest("Weight must be greater than 0.");
-        if (userId == Guid.Empty ) return BadRequest("User ID is required.");
+        if (userId == Guid.Empty) return Unauthorized();
 
         try 
         {
-            var entity = new WeightEntity
-            {
-                WeightId = request.WeightId == Guid.Empty ? Guid.NewGuid() : request.WeightId,
-                WeightPounds = request.WeightInPounds,
-                UserId = userId,
-                CreatedAt = request.CreatedAt == default ? DateTime.UtcNow : request.CreatedAt
-            };
-
-            await _weightRepository.LogLatestWeight(entity);
-            return Ok(entity);
+            await _weightService.LogWeightAsync(request.WeightInPounds, userId);
+            
+            return Ok();
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

@@ -6,7 +6,7 @@ namespace MyAIRunningMate.Domain.DatabaseEntities;
 [Table("weight")]
 public class WeightEntity: BaseModel
 {
-        [PrimaryKey("id")]
+        [PrimaryKey("id", shouldInsert: false)]
         public Guid WeightId { get; set; }
 
         [Column("weight_pounds")]
@@ -15,6 +15,6 @@ public class WeightEntity: BaseModel
         [Column("user_id")]
         public Guid UserId { get; set; }
         
-        [Column("created_at")]
-        public DateTime CreatedAt { get; set; }
+        [Column("created_at", ignoreOnInsert: true)]
+        public DateTime? CreatedAt { get; set; }
 }

@@ -1,15 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Domain.Models.DTO;
+namespace MyAIRunningMate.Application.Models;
 
 public class Weight
 {
-    [JsonPropertyName("weight_id")]
-    public Guid WeightId { get; set; }
-    
     [JsonPropertyName("weight_pounds")]
     public double WeightInPounds { get; set; }
-    
-    [JsonPropertyName("created_at")]
-    public DateTime CreatedAt { get; set; }
 }
