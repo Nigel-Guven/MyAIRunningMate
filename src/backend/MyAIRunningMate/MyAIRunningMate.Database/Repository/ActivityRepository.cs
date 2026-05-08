@@ -42,11 +42,11 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
         return result.Models;
     }
 
-    public async Task<bool> ActivityExistsByGarminId(string garminId)
+    public async Task<bool> ActivityExistsByGarminId(string garminId, Guid userId)
     {
         var result = await _supabase
             .From<ActivityEntity>()
-            .Where(x => x.GarminActivityId == garminId)
+            .Where(x => x.GarminActivityId == garminId && x.UserId == userId)
             .Limit(1)
             .Get();
 

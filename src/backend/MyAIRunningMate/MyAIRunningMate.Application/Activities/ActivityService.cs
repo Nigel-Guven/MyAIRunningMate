@@ -17,14 +17,14 @@ public class ActivityService : IActivityService
         _lapRepository = lapRepository;
     }
     
-    public async Task<bool> CheckDuplicateAsync(string garminActivityId)
+    public async Task<bool> CheckDuplicateAsync(string garminActivityId, Guid userId)
     {
-        return await _activityRepository.ActivityExistsByGarminId(garminActivityId);
+        return await _activityRepository.ActivityExistsByGarminId(garminActivityId, userId);
     }
 
-    public async Task SaveActivityAndLaps(Activity activity, Guid? stravaResourceId)
+    public async Task SaveActivityAndLaps(Activity activity, Guid? stravaResourceId, Guid userId)
     {
-        var activityEntity = activity.ToActivityEntity(stravaResourceId);
+        var activityEntity = activity.ToActivityEntity(stravaResourceId, userId);
         
         var result = await _activityRepository.Insert(activityEntity);
 

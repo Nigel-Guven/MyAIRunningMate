@@ -5,8 +5,9 @@ namespace MyAIRunningMate.Application.DbEntityMappings;
 
 public static class ActivityEntityMapper
 {
-    public static ActivityEntity ToActivityEntity(this Activity activity, Guid? stravaResourceId) => new()
+    public static ActivityEntity ToActivityEntity(this Activity activity, Guid? stravaResourceId, Guid userId) => new()
     {
+        UserId = userId,
         GarminActivityId = activity.GarminActivityId,
         StartTime = activity.StartTime,
         ExerciseType = activity.ExerciseType,

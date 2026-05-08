@@ -5,7 +5,7 @@ namespace MyAIRunningMate.Application.Activities;
 
 public interface IActivityService
 {
-    Task<bool> CheckDuplicateAsync(string garminActivityId);
+    Task<bool> CheckDuplicateAsync(string garminActivityId, Guid userId);
 
-    Task SaveActivityAndLaps(Activity activity, Guid? stravaResourceId);
+    Task SaveActivityAndLaps(Activity activity, Guid? stravaResourceId, Guid userId);
 }

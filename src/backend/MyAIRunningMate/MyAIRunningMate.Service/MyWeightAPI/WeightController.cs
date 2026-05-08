@@ -50,8 +50,6 @@ public class WeightController : ControllerBase
     public async Task<IActionResult> LogWeight([FromBody] WeightRequest request)
     {
         var userId = _userContext.GetUserId();
-        
-        if (request.WeightInPounds <= 0) return BadRequest("Weight must be greater than 0.");
         if (userId == Guid.Empty) return Unauthorized();
 
         try 

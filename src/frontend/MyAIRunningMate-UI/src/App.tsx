@@ -15,7 +15,7 @@ const isAuthenticated = () => {
 
 function ProtectedLayout() {
   if (!isAuthenticated()) {
-    return <Navigate to="/login" replace />;
+    return <Route path="/" element={<Navigate to="/login" replace />} />;
   }
 
   return (

@@ -36,9 +36,8 @@ public class IngestionPipelineService : IIngestionPipelineService
         var response = await _pythonClient.UploadFitFileAsync(stream, file.FileName);
 
         var activity = response.ToActivity();
-        //activity.UserId = userId;
         
-        if (await _activityService.CheckDuplicateAsync(activity.GarminActivityId))
+        if (await _activityService.CheckDuplicateAsync(activity.GarminActivityId, userId))
         {
             return activity.ToIngestionView();
         }
@@ -53,7 +52,7 @@ public class IngestionPipelineService : IIngestionPipelineService
             }
   
             var stravaEntityId  = await _stravaResourceService.SaveStravaResourceAndMap(stravaResource);
-            await _activityService.SaveActivityAndLaps(activity, stravaEntityId);
+            await _activityService.SaveActivityAndLaps(activity, stravaEntityId, userId);
         }
         catch (Exception ex)
         {

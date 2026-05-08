@@ -8,6 +8,9 @@ public class ActivityEntity : BaseModel
 {
     [PrimaryKey("id")]
     public Guid ActivityId { get; set; }
+    
+    [Column("user_id")]
+    public Guid UserId { get; set; }
 
     [Column("garmin_activity_id")]
     public string GarminActivityId { get; set; }

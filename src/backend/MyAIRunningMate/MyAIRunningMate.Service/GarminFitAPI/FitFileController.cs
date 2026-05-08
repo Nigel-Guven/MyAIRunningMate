@@ -1,21 +1,24 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.IngestionPipeline;
-using MyAIRunningMate.Application.UserInterface;
+using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Client.Python.Requests;
-using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.GarminFitAPI;
 
+[Authorize]
 [ApiController]
 [Route("api/fitfile")]
 public class FitFileController : ControllerBase
 {
     private readonly IIngestionPipelineService _ingestionPipelineService;
+    private readonly IUserContext _userContext;
 
-    public FitFileController(IIngestionPipelineService ingestionPipelineService)
+    public FitFileController(IIngestionPipelineService ingestionPipelineService,  IUserContext userContext)
     {
         _ingestionPipelineService = ingestionPipelineService;
+        _userContext = userContext;
     }
 
     [HttpPost("upload")]
@@ -25,9 +28,12 @@ public class FitFileController : ControllerBase
         if (request.File.Length == 0) 
             return BadRequest("File is empty.");
 
+        var userId = _userContext.GetUserId();
+        if (userId == Guid.Empty) return Unauthorized();
+        
         try 
         {
-            var ingestionView = await _ingestionPipelineService.ProcessFitFileAsync(request.File, Guid.NewGuid());
+            var ingestionView = await _ingestionPipelineService.ProcessFitFileAsync(request.File, userId);
 
             var dto = ingestionView.ToIngestionViewDto();
             
