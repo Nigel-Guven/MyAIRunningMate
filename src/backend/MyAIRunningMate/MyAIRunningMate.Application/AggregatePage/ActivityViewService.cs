@@ -1,38 +1,38 @@
+using MyAIRunningMate.Application.Activities;
 using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Domain.DatabaseEntities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
-using MyAIRunningMate.Domain.Interfaces.Services;
 
-namespace MyAIRunningMate.Application.UserInterface;
+namespace MyAIRunningMate.Application.AggregatePage;
 
 public class ActivityViewService : IActivityViewService
 {
-    private readonly IActivityRepository _activityRepository;
+    private readonly IActivityService _activityService;
     private readonly ILapRepository _lapRepository;
     private readonly IStravaResourceRepository _stravaResourceRepository;
     private readonly IStravaResourceMapRepository _stravaResourceMapRepository;
     
     public ActivityViewService(
-        IActivityRepository activityRepo,
+        IActivityService activityService,
         ILapRepository lapRepo,
         IStravaResourceRepository stravaRepo,
         IStravaResourceMapRepository mapRepo)
     {
-        _activityRepository = activityRepo;
+        _activityService = activityService;
         _lapRepository = lapRepo;
         _stravaResourceRepository = stravaRepo;
         _stravaResourceMapRepository = mapRepo;
     }
     
 
-    public async Task<AggregateArtifactView> CreateAggregateActivity(Guid activityId)
+    public async Task<AggregateArtifactView> CreateAggregateActivity(Guid activityId, Guid userId)
     {
-        var activityEntity = await _activityRepository.GetById(activityId);
+        var activityEntity = await _activityService.GetByActivityIdAndUserIdAsync(activityId, userId);
     
         if (activityEntity == null) return null;
         
-        var lapsTask = _lapRepository.GetAllLapsByActivityId(activityId);
+        var lapsTask = _lapRepository.GetAllLapsByActivityId(activityEntity.ActivityId);
         
         var stravaTask = activityEntity.StravaResourceId != null 
             ? _stravaResourceRepository.GetById(activityEntity.StravaResourceId) 

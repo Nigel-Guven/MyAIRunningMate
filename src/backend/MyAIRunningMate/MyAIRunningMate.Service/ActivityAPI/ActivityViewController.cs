@@ -1,24 +1,32 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyAIRunningMate.Application.AggregatePage;
+using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Views;
-using MyAIRunningMate.Domain.Interfaces.Services;
 using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.ActivityAPI;
 
+[Authorize]
 [ApiController]
 [Route("api/activity")]
 public class ActivityViewController : ControllerBase
 {
     private readonly IActivityViewService _activityViewService;
+    private readonly IUserContext _userContext;
     
-    public ActivityViewController(IActivityViewService activityViewService)
+    public ActivityViewController(IActivityViewService activityViewService, UserContext userContext)
     {
         _activityViewService = activityViewService;
+        _userContext = userContext;
     }
     
     [HttpGet("aggregate")]
     public async Task<ActionResult<AggregateArtifactViewDto>> GetActivityView([FromQuery] Guid activityId)
     {
+        var userId = _userContext.GetUserId();
+        if (userId == Guid.Empty) return Unauthorized();
+        
         if (activityId == Guid.Empty)
         {
             return BadRequest("Activity ID is required");
@@ -26,7 +34,7 @@ public class ActivityViewController : ControllerBase
         
         try
         {
-            var aggregate = await _activityViewService.CreateAggregateActivity(activityId);
+            var aggregate = await _activityViewService.CreateAggregateActivity(activityId, userId);
 
             var dto = AggregateArtifactViewDtoMapper.ToAggregateArtifactViewDto(aggregate);
             

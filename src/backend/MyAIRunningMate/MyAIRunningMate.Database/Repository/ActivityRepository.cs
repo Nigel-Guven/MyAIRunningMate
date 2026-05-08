@@ -34,4 +34,16 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
 
         return result.Models.Any();
     }
+
+    public async Task<ActivityEntity?> GetActivityByActivityId(Guid activityId, Guid userId)
+    {
+        var result = await _supabase
+            .From<ActivityEntity>()
+            .Where(x => x.ActivityId == activityId)
+            .Where(x => x.UserId == userId)
+            .Limit(1)
+            .Get();
+
+        return result.Model;
+    }
 }

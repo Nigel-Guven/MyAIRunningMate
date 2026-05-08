@@ -1,5 +1,6 @@
 using MyAIRunningMate.Application.DbEntityMappings;
 using MyAIRunningMate.Application.Models;
+using MyAIRunningMate.Domain.DatabaseEntities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 
 namespace MyAIRunningMate.Application.Activities;
@@ -15,6 +16,13 @@ public class ActivityService : IActivityService
     {
         _activityRepository = activityRepository;
         _lapRepository = lapRepository;
+    }
+
+    public async Task<ActivityEntity?> GetByActivityIdAndUserIdAsync(Guid activityId, Guid userId)
+    {
+        var activityEntity = await _activityRepository.GetActivityByActivityId(activityId, userId);
+        
+        return activityEntity;
     }
     
     public async Task<bool> CheckDuplicateAsync(string garminActivityId, Guid userId)

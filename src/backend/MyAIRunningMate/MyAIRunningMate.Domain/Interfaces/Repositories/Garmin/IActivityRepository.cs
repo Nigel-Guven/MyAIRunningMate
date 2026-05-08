@@ -6,4 +6,5 @@ public interface IActivityRepository : IBaseRepository<ActivityEntity>
 {
     Task<IEnumerable<ActivityEntity>> GetAllActivitiesByMonth(DateTime byMonth, Guid userId);
     Task<bool> ActivityExistsByGarminId(string garminId, Guid userId);
+    Task<ActivityEntity?> GetActivityByActivityId(Guid activityId, Guid userId);
 }

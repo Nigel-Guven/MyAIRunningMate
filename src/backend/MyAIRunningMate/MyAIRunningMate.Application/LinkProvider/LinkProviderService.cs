@@ -1,7 +1,6 @@
 using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Domain.Interfaces.Services;
 
 namespace MyAIRunningMate.Application.LinkProvider;
 

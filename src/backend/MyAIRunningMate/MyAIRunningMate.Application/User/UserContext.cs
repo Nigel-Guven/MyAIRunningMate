@@ -4,7 +4,6 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using MyAIRunningMate.Domain.Interfaces.Services;
 
 namespace MyAIRunningMate.Application.User;
 
