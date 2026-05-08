@@ -25,8 +25,8 @@ public class EventEntity : BaseModel
     public string EventType { get; set; }
     
     [Column("event_url")]
-    public string EventUrl { get; set; }
+    public string? EventUrl { get; set; }
     
     [Column("event_info")]
-    public string EventInfo { get; set; }
+    public string? EventInfo { get; set; }
 }
