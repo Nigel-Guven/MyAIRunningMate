@@ -12,9 +12,9 @@ public class CalendarService : ICalendarService
         _activityRepository = activityRepo;
     }
 
-    public async Task<IEnumerable<CalendarView>> GetMonthlyCalendarViews(DateTime byMonth)
+    public async Task<IEnumerable<CalendarView>> GetMonthlyCalendarViews(DateTime byMonth, Guid userId)
     {
-        var activities = await _activityRepository.GetAllActivitiesByMonth(byMonth);
+        var activities = await _activityRepository.GetAllActivitiesByMonth(byMonth, userId);
     
         var calendarViews = activities.Select(a => a.ToCalendarView());
 

@@ -7,12 +7,7 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
 {
     private readonly Supabase.Client _supabase = supabase;
 
-    public async Task<IEnumerable<ActivityEntity>> GetAllActivities()
-    {
-        return await GetAll();
-    }
-
-    public async Task<IEnumerable<ActivityEntity>> GetAllActivitiesByMonth(DateTime byMonth)
+    public async Task<IEnumerable<ActivityEntity>> GetAllActivitiesByMonth(DateTime byMonth, Guid userId)
     {
         var startOfMonth = new DateTime(byMonth.Year, byMonth.Month, 1, 0, 0, 0, DateTimeKind.Utc);
         
@@ -22,21 +17,7 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
             .From<ActivityEntity>()
             .Where(x => x.StartTime >= startOfMonth)
             .Where(x => x.StartTime < startOfNextMonth)
-            .Get();
-
-        return result.Models;
-    }
-    
-    public async Task<IEnumerable<ActivityEntity>> GetAllActivitiesByDay(DateTime day)
-    {
-        var startOfDay = DateTime.SpecifyKind(day.Date, DateTimeKind.Utc);
-        
-        var startOfNextDay  = startOfDay.AddDays(1);
-
-        var result = await _supabase
-            .From<ActivityEntity>()
-            .Where(x => x.StartTime >= startOfDay)
-            .Where(x => x.StartTime < startOfNextDay)
+            .Where(x => x.UserId == userId)
             .Get();
 
         return result.Models;
@@ -46,7 +27,8 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
     {
         var result = await _supabase
             .From<ActivityEntity>()
-            .Where(x => x.GarminActivityId == garminId && x.UserId == userId)
+            .Where(x => x.GarminActivityId == garminId)
+            .Where(x => x.UserId == userId)
             .Limit(1)
             .Get();
 

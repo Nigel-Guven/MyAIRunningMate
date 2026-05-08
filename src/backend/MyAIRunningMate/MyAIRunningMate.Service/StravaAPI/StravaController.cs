@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.User;
 
 namespace MyAIRunningMate.Service.StravaAPI;
+
 
 [ApiController]
 [Route("api/strava")]
@@ -19,10 +21,13 @@ public class StravaController : ControllerBase
         _configuration = configuration;
     }
     
+    [Authorize]
     [HttpGet("connect")]
     public IActionResult Connect()
     {
         var userId = _userContext.GetUserId();
+        if (userId == Guid.Empty) return Unauthorized();
+        
         var state = userId.ToString();
         
         var authorizationUrl = _stravaApiService.GetAuthorizationUrl(state);
@@ -52,11 +57,9 @@ public class StravaController : ControllerBase
         }
         catch (Exception ex)
         {
-            // Log the exception in your console / logger window
             Console.WriteLine($"[ERROR] Exception during Strava callback: {ex.Message}");
             Console.WriteLine(ex.StackTrace);
 
-            // Return a 500 response to inspect the error in the browser network tab, instead of an empty response.
             return StatusCode(500, new 
             { 
                 message = "An error occurred while processing your authorization.", 
