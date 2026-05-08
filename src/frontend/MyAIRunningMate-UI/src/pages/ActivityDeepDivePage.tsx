@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { getActivityDetail } from '../services/activityService';
 import type { AggregateArtifactViewDto } from '../types/aggregateArtifactView';
@@ -121,9 +121,4 @@ const formatDuration = (sec: number) => {
     const m = Math.floor((sec % 3600) / 60);
     const s = Math.floor(sec % 60);
     return h > 0 ? `${h}h ${m}m ${s}s` : `${m}m ${s}s`;
-};
-
-const formatPace = (speed: number) => {
-    // Basic conversion logic for pace visualization
-    return `${speed.toFixed(2)} m/s`; 
 };
