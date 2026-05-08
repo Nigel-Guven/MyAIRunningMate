@@ -5,7 +5,9 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.OpenApi;
 using MyAIRunningMate.Application.Activities;
 using MyAIRunningMate.Application.AggregatePage;
+using MyAIRunningMate.Application.BestEfforts;
 using MyAIRunningMate.Application.Calendar;
+using MyAIRunningMate.Application.Events;
 using MyAIRunningMate.Application.IngestionPipeline;
 using MyAIRunningMate.Application.LinkProvider;
 using MyAIRunningMate.Application.Session;
@@ -115,6 +117,8 @@ builder.Services.AddScoped<ILinkProviderService, LinkProviderService>();
 builder.Services.AddScoped<IActivityService, ActivityService>();
 builder.Services.AddScoped<IStravaResourceService, StravaResourceService>();
 builder.Services.AddScoped<IWeightService, WeightService>();
+builder.Services.AddScoped<IBestEffortService, BestEffortService>();
+builder.Services.AddScoped<IEventService, EventService>();
 
 builder.Services.AddScoped<IActivityViewService, ActivityViewService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();

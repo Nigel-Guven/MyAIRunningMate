@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyAIRunningMate.Application.BestEfforts;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.BestEffort;
 using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.BestEffortsAPI;
 
@@ -11,10 +13,12 @@ namespace MyAIRunningMate.Service.BestEffortsAPI;
 [Route("api/best_efforts")]
 public class BestEffortsController : ControllerBase
 {
+    private readonly IBestEffortService _bestEffortsService;
     private readonly IUserContext _userContext;
     
-    public BestEffortsController(IUserContext userContext)
+    public BestEffortsController(IBestEffortService bestEffortService, IUserContext userContext)
     {
+        _bestEffortsService = bestEffortService;
         _userContext = userContext;
     }
     
@@ -26,7 +30,7 @@ public class BestEffortsController : ControllerBase
         
         try
         {
-            var bestEfforts = await _bestEffortsService.GetAllBestEfforts();
+            var bestEfforts = await _bestEffortsService.GetAllBestEfforts(userId);
 
             var dtos = bestEfforts.Select(bestEffort => bestEffort.ToBestEffortViewDto());
             
@@ -46,7 +50,7 @@ public class BestEffortsController : ControllerBase
 
         try
         {
-            await _bestEffortsService.UpdateBestEffot(request.DistanceMetres, request.NewPersonalRecordDate, request.NewPersonalRecordTime, userId);
+            await _bestEffortsService.UpdateBestEffort(request.DistanceLabel, request.NewPersonalRecordDate, request.NewPersonalRecordTime, userId);
             
             return Ok();
         }
