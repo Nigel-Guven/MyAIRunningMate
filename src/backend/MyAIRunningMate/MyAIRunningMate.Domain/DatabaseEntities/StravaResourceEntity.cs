@@ -53,7 +53,4 @@ public class StravaResourceEntity : BaseModel
     
     [Column("map_id")]
     public Guid? MapId { get; set; }
-    
-    [Column("created_at")]
-    public DateTime CreatedAt { get; set; }
 }

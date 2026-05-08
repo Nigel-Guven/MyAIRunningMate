@@ -11,7 +11,4 @@ public class StravaGeomapEntity : BaseModel
     
     [Column("summary_polyline")]
     public string MapPolyline { get; set; }
-    
-    [Column("created_at", ignoreOnInsert: true)]
-    public DateTime? CreatedAt { get; set; }
 }

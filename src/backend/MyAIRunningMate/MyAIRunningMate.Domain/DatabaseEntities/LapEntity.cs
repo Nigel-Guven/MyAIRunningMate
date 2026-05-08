@@ -23,7 +23,4 @@ public class LapEntity : BaseModel
     
     [Column("avg_heart_rate")]
     public int AverageHeartRate { get; set; }
-    
-    [Column("created_at", ignoreOnInsert: true)]
-    public DateTime? CreatedAt { get; set; }
 }
