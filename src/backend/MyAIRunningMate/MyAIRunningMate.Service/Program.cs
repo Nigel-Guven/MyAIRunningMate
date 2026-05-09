@@ -18,6 +18,8 @@ using MyAIRunningMate.Client.Python;
 using MyAIRunningMate.Client.Strava;
 using MyAIRunningMate.Database.Repository;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Interfaces.Repositories.BestEfforts;
+using MyAIRunningMate.Domain.Interfaces.Repositories.Events;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
@@ -27,7 +29,6 @@ using Supabase;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Ensure settings exist
 var supabaseUrl = builder.Configuration["Supabase:Url"];
 var supabaseKey = builder.Configuration["Supabase:PublicKey"];
 
@@ -109,6 +110,8 @@ builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IStravaResourceMapRepository, StravaResourceMapRepository>();
 builder.Services.AddScoped<IStravaResourceRepository, StravaResourceRepository>();
 builder.Services.AddScoped<IWeightRepository, WeightRepository>();
+builder.Services.AddScoped<IBestEffortsRepository, BestEffortsRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
 
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IStravaApiService, StravaApiService>();

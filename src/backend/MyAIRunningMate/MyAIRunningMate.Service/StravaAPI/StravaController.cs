@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyAIRunningMate.Application.Session;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.User;
 
@@ -11,12 +12,17 @@ namespace MyAIRunningMate.Service.StravaAPI;
 public class StravaController : ControllerBase
 {
     private readonly IStravaApiService _stravaApiService;
+    private readonly ISessionService _sessionService;
     private readonly IUserContext _userContext;
     private readonly IConfiguration _configuration;
     
-    public StravaController(IStravaApiService stravaApiService, IUserContext userContext, IConfiguration configuration)
+    public StravaController(IStravaApiService stravaApiService, 
+        ISessionService sessionService, 
+        IUserContext userContext, 
+        IConfiguration configuration)
     {
         _stravaApiService = stravaApiService;
+        _sessionService = sessionService;
         _userContext = userContext;
         _configuration = configuration;
     }
@@ -52,7 +58,7 @@ public class StravaController : ControllerBase
                 return BadRequest("Failed to exchange tokens with Strava. Please check your credentials and try again.");
             }
         
-            var frontendUrl = _configuration["Frontend:DashboardUrl"] ?? "http://localhost:5173/home";
+            var frontendUrl = _configuration["Frontend:DashboardUrl"] ?? "http://localhost:5173/upload";
             return Redirect($"{frontendUrl}?sync=success");
         }
         catch (Exception ex)
@@ -66,5 +72,17 @@ public class StravaController : ControllerBase
                 details = ex.Message 
             });
         }
+    }
+    
+    [Authorize]
+    [HttpGet("status")]
+    public async Task<IActionResult> StravaStatus()
+    {
+        var userId = _userContext.GetUserId();
+        if (userId == Guid.Empty) return Unauthorized();
+        
+        var isConnected = await _sessionService.HasStravaConnectionAsync(userId);
+        
+        return Ok(new { isStravaConnected = isConnected });
     }
 }

@@ -1,62 +1,7 @@
-import { useState, useEffect } from 'react';
-import { apiClient } from '../services/apiClient';
 import logo from '../assets/applogo.png';
 
 export const HomePage = () => {
-  const [syncMessage, setSyncMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   
-  // Get initial connection state from localStorage safely
-  const [is_strava_connected, setIsStravaConnected] = useState(() => {
-    return localStorage.getItem('is_strava_connected') === 'true';
-  });
-
-  useEffect(() => {
-    // 1. Ensure the Authorization header is set on page load or refresh
-    const token = localStorage.getItem('token');
-    if (token) {
-      apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    }
-
-    // 2. Read the query parameters from the native URL window object
-    const params = new URLSearchParams(window.location.search);
-    
-    if (params.get('sync') === 'success') {
-      setSyncMessage('Successfully connected to Strava!');
-      localStorage.setItem('is_strava_connected', 'true');
-      setIsStravaConnected(true);
-      
-      // Clean up the URL in the browser bar to prevent re-triggering on refresh
-      const cleanUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, cleanUrl);
-    }
-  }, []);
-
-  const handleConnect = async () => {
-    setIsLoading(true);
-    setSyncMessage('');
-    
-    try {
-      // 3. Changed '/strava/connect' to 'strava/connect' to avoid baseURL stripping
-      const response = await apiClient.get('strava/connect');
-      
-      // Redirect browser to the Strava URL
-      if (response.data && response.data.url) {
-        window.location.href = response.data.url;
-      } else {
-        setSyncMessage('Failed to generate connection URL.');
-        setIsLoading(false);
-      }
-    } catch (error) {
-      const err = error as any;
-      setSyncMessage(
-        err.response?.data?.message || 
-        'Authorization failed. Please check your login status.'
-      );
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="space-y-8">
       {/* Header Section */}
@@ -76,31 +21,6 @@ export const HomePage = () => {
             <p className="text-2xl font-mono text-blue-400">78.5 kg</p>
           </div>
           
-          <div className="flex flex-col items-end gap-1">
-            <button
-              onClick={handleConnect}
-              disabled={isLoading}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition disabled:opacity-50 ${
-                is_strava_connected 
-                  ? 'bg-green-600 text-white hover:bg-green-700' 
-                  : 'bg-orange-600 text-white hover:bg-orange-700'
-              }`}
-            >
-              {isLoading ? (
-                <span className="animate-pulse">Redirecting...</span>
-              ) : is_strava_connected ? (
-                <span>✅ Connected (Reconnect)</span>
-              ) : (
-                <span>🔗 Connect Strava</span>
-              )}
-            </button>
-            
-            {syncMessage && (
-              <p className="text-xs text-green-400 font-medium">
-                {syncMessage}
-              </p>
-            )}
-          </div>
         </div>
       </div>
 

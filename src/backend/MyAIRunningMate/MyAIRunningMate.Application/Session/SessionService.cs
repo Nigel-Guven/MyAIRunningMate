@@ -74,6 +74,20 @@ public class SessionService : ISessionService
     public async Task<bool> HasStravaConnectionAsync(Guid userId)
     {
         var session = await _sessionRepository.GetSessionByUserId(userId);
-        return session != null && !string.IsNullOrEmpty(session.AccessToken);
+        
+        if (session == null || string.IsNullOrEmpty(session.AccessToken))
+            return false;
+        
+        if (session.ExpiresAt.HasValue)
+        {
+            var currentTimeSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+            if (currentTimeSeconds >= session.ExpiresAt.Value)
+            {
+                return false; 
+            }
+        }
+
+        return true;
     }
 }
