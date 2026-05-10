@@ -1,16 +1,7 @@
-import { apiClient } from './client';
+import type { LoginRequest, LoginResponse} from '../../types/login/auth.types';
+import { http } from './http';
 import { API_ENDPOINTS } from './endpoints';
 
 export const authApi = {
-    login: async (email: string, password: string) => {
-        const response = await apiClient.post(
-            API_ENDPOINTS.session.login,
-            {
-                email,
-                password,
-            }
-        );
-
-        return response.data;
-    },
+    login: (credentials: LoginRequest) => http.post<LoginResponse>( API_ENDPOINTS.session.login, credentials ),
 };

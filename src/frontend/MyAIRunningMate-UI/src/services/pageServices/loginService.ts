@@ -1,0 +1,32 @@
+import { authApi } from '../api/auth.api';
+import { authStorage } from '../api/authStorage';
+
+export const loginService = {
+  login: async (
+    email: string,
+    password: string
+  ) => {
+    const response = await authApi.login({
+      email,
+      password,
+    });
+
+    authStorage.set(
+      response.token,
+      response.user_id,
+      response.is_strava_connected
+    );
+
+    return response;
+  },
+
+  logout: () => {
+    authStorage.clear();
+
+    window.location.href = '/login';
+  },
+
+  isAuthenticated: () => {
+    return !!authStorage.getToken();
+  },
+};
