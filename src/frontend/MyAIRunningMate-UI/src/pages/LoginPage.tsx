@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import logo from '../assets/applogo.png';
-import { loginService } from '../services/pageServices/login.service';
+import { loginService } from '../services/api/login/login.service';
 
 export function LoginPage() {
   const navigate = useNavigate();

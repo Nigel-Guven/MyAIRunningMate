@@ -1,5 +1,5 @@
-import { authApi } from '../api/auth.api';
-import { authStorage } from '../api/authStorage';
+import { authApi } from '../login/login.api';
+import { authStorage } from '../config/authStorage';
 
 export const loginService = {
   login: async (

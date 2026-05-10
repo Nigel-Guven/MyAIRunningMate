@@ -1,4 +1,4 @@
-export interface CalendarViewResult {
+export interface CalendarViewDto {
   activity_id: string;
   start_time: string;
   type: string;

@@ -1,4 +1,4 @@
-export interface IngestionViewResult {
+export interface IngestionViewDto {
   garmin_id: string;
   start_time: string;
   type: string;
