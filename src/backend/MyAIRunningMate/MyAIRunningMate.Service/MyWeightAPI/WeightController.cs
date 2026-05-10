@@ -9,7 +9,7 @@ namespace MyAIRunningMate.Service.MyWeightAPI;
 
 [Authorize]
 [ApiController]
-[Route("api/weight")]
+[Route(ApiRoutes.WeightRoot)]
 public class WeightController : ControllerBase
 {
     private readonly IWeightService _weightService;
@@ -21,7 +21,7 @@ public class WeightController : ControllerBase
         _userContext =  userContext;
     }
     
-    [HttpGet("latest")]
+    [HttpGet(ApiRoutes.WeightLatest)]
     public async Task<IActionResult> GetLatestSingleWeight()
     {
         var userId = _userContext.GetUserId();
@@ -33,7 +33,7 @@ public class WeightController : ControllerBase
         return Ok(dto);
     }
 
-    [HttpGet("history")]
+    [HttpGet(ApiRoutes.WeightHistory)]
     public async Task<IActionResult> GetLatestMultipleWeights()
     {
         var userId = _userContext.GetUserId();
@@ -46,7 +46,7 @@ public class WeightController : ControllerBase
         return Ok(dtos);
     }
     
-    [HttpPost("log_weight")]
+    [HttpPost(ApiRoutes.WeightLog)]
     public async Task<IActionResult> LogWeight([FromBody] WeightRequest request)
     {
         var userId = _userContext.GetUserId();

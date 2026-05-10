@@ -5,23 +5,23 @@ using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Client.Python.Requests;
 using MyAIRunningMate.Service.ViewMappers;
 
-namespace MyAIRunningMate.Service.GarminFitAPI;
+namespace MyAIRunningMate.Service.IngestionAPI;
 
 [Authorize]
 [ApiController]
-[Route("api/fitfile")]
-public class FitFileController : ControllerBase
+[Route(ApiRoutes.IngestionRoot)]
+public class IngestionController : ControllerBase
 {
     private readonly IIngestionPipelineService _ingestionPipelineService;
     private readonly IUserContext _userContext;
 
-    public FitFileController(IIngestionPipelineService ingestionPipelineService,  IUserContext userContext)
+    public IngestionController(IIngestionPipelineService ingestionPipelineService,  IUserContext userContext)
     {
         _ingestionPipelineService = ingestionPipelineService;
         _userContext = userContext;
     }
 
-    [HttpPost("upload")]
+    [HttpPost(ApiRoutes.IngestionFileUpload)]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> UploadFitFile([FromForm] FitFileUploadRequest request)
     {

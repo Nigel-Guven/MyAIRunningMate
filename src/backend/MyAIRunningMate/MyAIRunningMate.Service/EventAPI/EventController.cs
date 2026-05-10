@@ -6,7 +6,7 @@ using MyAIRunningMate.Service.ViewMappers;
 namespace MyAIRunningMate.Service.EventAPI;
 
 [ApiController]
-[Route("api/events")]
+[Route(ApiRoutes.EventsRoot)]
 public class EventController : ControllerBase
 {
     private readonly IEventService _eventService;
@@ -17,7 +17,7 @@ public class EventController : ControllerBase
     }
     
     
-    [HttpGet("events")]
+    [HttpGet(ApiRoutes.EventsUpcoming)]
     public async Task<ActionResult<IEnumerable<EventViewDto>>> GetRacingEvents()
     {
         const int numberOfEvents = 5;
@@ -36,7 +36,7 @@ public class EventController : ControllerBase
         }
     }
     
-    [HttpGet("single")]
+    [HttpGet(ApiRoutes.EventsPrimary)]
     public async Task<ActionResult<IEnumerable<EventViewDto>>> GetPrimaryEvent()
     {
         Guid mainEvent = Guid.Parse("a080be41-370f-4ba0-9d29-6fa1db55072e");

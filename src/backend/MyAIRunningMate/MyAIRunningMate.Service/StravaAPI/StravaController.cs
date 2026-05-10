@@ -8,7 +8,7 @@ namespace MyAIRunningMate.Service.StravaAPI;
 
 
 [ApiController]
-[Route("api/strava")]
+[Route(ApiRoutes.StravaRoot)]
 public class StravaController : ControllerBase
 {
     private readonly IStravaApiService _stravaApiService;
@@ -28,7 +28,7 @@ public class StravaController : ControllerBase
     }
     
     [Authorize]
-    [HttpGet("connect")]
+    [HttpGet(ApiRoutes.StravaConnect)]
     public IActionResult Connect()
     {
         var userId = _userContext.GetUserId();
@@ -41,7 +41,7 @@ public class StravaController : ControllerBase
         return Ok(new { url = authorizationUrl });
     }
 
-    [HttpGet("callback")]
+    [HttpGet(ApiRoutes.StravaCallback)]
     public async Task<IActionResult> Callback([FromQuery] string code, [FromQuery] string state)
     {
         if (string.IsNullOrEmpty(state) || !Guid.TryParse(state, out var userId))
@@ -75,7 +75,7 @@ public class StravaController : ControllerBase
     }
     
     [Authorize]
-    [HttpGet("status")]
+    [HttpGet(ApiRoutes.StravaStatus)]
     public async Task<IActionResult> StravaStatus()
     {
         var userId = _userContext.GetUserId();
