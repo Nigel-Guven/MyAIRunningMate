@@ -1,5 +1,5 @@
-import { http } from './http';
-import { API_ENDPOINTS } from './endpoints';
+import { http } from '../config/http';
+import { API_ENDPOINTS } from '../config/endpoints';
 
 export interface StravaConnectResponse {
   url: string;

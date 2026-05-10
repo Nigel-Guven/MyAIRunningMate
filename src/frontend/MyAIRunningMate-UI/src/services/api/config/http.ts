@@ -11,6 +11,19 @@ export const http = {
       return response.data;
   },
 
+  postWithConfig: async <T>(
+    url: string,
+    body?: unknown,
+    config = {}
+  ): Promise<T> => {
+    const res = await apiClient.post<T>(
+      url,
+      body,
+      config
+    );
+    return res.data;
+  },
+
   put: async <T>(url: string, body?: unknown) => {
       const response = await apiClient.put<T>(url, body);
       return response.data;

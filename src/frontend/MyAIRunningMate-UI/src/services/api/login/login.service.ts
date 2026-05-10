@@ -1,4 +1,4 @@
-import { authApi } from '../login/login.api';
+import { loginApi } from '../login/login.api';
 import { authStorage } from '../config/authStorage';
 
 export const loginService = {
@@ -6,7 +6,7 @@ export const loginService = {
     email: string,
     password: string
   ) => {
-    const response = await authApi.login({
+    const response = await loginApi.login({
       email,
       password,
     });
