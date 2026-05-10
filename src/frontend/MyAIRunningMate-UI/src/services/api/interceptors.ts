@@ -1,9 +1,9 @@
 import { apiClient } from './client';
-import { tokenStorage } from './authStorage';
+import { authStorage } from '../api/authStorage';
 
 apiClient.interceptors.request.use(
   (config) => {
-    const token = tokenStorage.get();
+    const token = authStorage.get();
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -25,7 +25,7 @@ apiClient.interceptors.response.use(
     ) {
       originalRequest._retry = true;
 
-      tokenStorage.clear();
+      authStorage.clear();
 
       window.location.href = '/login';
     }

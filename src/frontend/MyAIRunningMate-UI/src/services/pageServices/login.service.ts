@@ -27,6 +27,6 @@ export const loginService = {
   },
 
   isAuthenticated: () => {
-    return !!authStorage.getToken();
+    return !!authStorage.get();
   },
 };
