@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { getActivityDetail } from '../services/activityService';
+import { getActivityDetail } from '../services/pageServices/activityService';
 import type { AggregateArtifactViewDto } from '../types/aggregateArtifactView';
 
 export const ActivityDeepDivePage = () => {

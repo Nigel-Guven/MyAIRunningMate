@@ -9,7 +9,7 @@ namespace MyAIRunningMate.Service.CalendarAPI;
 
 [Authorize]
 [ApiController]
-[Route(ApiRoutes.CalendarRoot)]
+[Route("api/calendar")]
 public class CalendarController : ControllerBase
 {
     private readonly ICalendarService _calendarService;
@@ -21,7 +21,7 @@ public class CalendarController : ControllerBase
         _userContext = userContext;
     }
     
-    [HttpGet(ApiRoutes.CalendarDisplay)]
+    [HttpGet("display")]
     public async Task<ActionResult<IEnumerable<CalendarViewDto>>> GetMonthlyCalendarViews([FromQuery] int month, [FromQuery] int year)
     {
         var userId = _userContext.GetUserId();

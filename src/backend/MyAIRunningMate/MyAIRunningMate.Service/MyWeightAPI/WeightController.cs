@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Application.Weight;
+using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Contracts.Weight;
 using MyAIRunningMate.Service.ViewMappers;
 
@@ -9,7 +10,7 @@ namespace MyAIRunningMate.Service.MyWeightAPI;
 
 [Authorize]
 [ApiController]
-[Route(ApiRoutes.WeightRoot)]
+[Route("api/weight")]
 public class WeightController : ControllerBase
 {
     private readonly IWeightService _weightService;
@@ -21,8 +22,8 @@ public class WeightController : ControllerBase
         _userContext =  userContext;
     }
     
-    [HttpGet(ApiRoutes.WeightLatest)]
-    public async Task<IActionResult> GetLatestSingleWeight()
+    [HttpGet("latest")]
+    public async Task<ActionResult<WeightViewDto>> GetLatestSingleWeight()
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
@@ -33,8 +34,8 @@ public class WeightController : ControllerBase
         return Ok(dto);
     }
 
-    [HttpGet(ApiRoutes.WeightHistory)]
-    public async Task<IActionResult> GetLatestMultipleWeights()
+    [HttpGet("history")]
+    public async Task<ActionResult<IEnumerable<WeightViewDto>>> GetLatestMultipleWeights()
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
@@ -46,7 +47,7 @@ public class WeightController : ControllerBase
         return Ok(dtos);
     }
     
-    [HttpPost(ApiRoutes.WeightLog)]
+    [HttpPost("log_weight")]
     public async Task<IActionResult> LogWeight([FromBody] WeightRequest request)
     {
         var userId = _userContext.GetUserId();

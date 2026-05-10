@@ -7,7 +7,7 @@ using MyAIRunningMate.Contracts.Login.Responses;
 namespace MyAIRunningMate.Service.SessionAPI;
 
 [ApiController]
-[Route(ApiRoutes.SessionRoot)]
+[Route("api/session")]
 public class SessionController : ControllerBase
 {
     private readonly ISessionService _sessionService;
@@ -18,7 +18,7 @@ public class SessionController : ControllerBase
     }
     
     [AllowAnonymous]
-    [HttpPost(ApiRoutes.SessionLogin)]
+    [HttpPost("login")]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
         var session = await _sessionService.LoginAsync(request.Email, request.Password);
@@ -38,7 +38,7 @@ public class SessionController : ControllerBase
         return Ok(response); 
     }
     
-    [HttpPost(ApiRoutes.SessionLogout)]
+    [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
         try

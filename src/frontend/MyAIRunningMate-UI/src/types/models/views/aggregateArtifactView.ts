@@ -1,5 +1,5 @@
-import type { LapDto } from "./lap";
-import type { MapDto } from "./map";
+import type { LapDto } from "../valueObjects/lap";
+import type { MapDto } from "../valueObjects/map";
 
 export interface AggregateArtifactViewDto {
   activity_id: string;

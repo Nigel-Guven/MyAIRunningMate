@@ -9,7 +9,7 @@ namespace MyAIRunningMate.Service.ActivityAPI;
 
 [Authorize]
 [ApiController]
-[Route(ApiRoutes.ActivityViewRoot)]
+[Route("api/activity")]
 public class ActivityViewController : ControllerBase
 {
     private readonly IActivityViewService _activityViewService;
@@ -21,7 +21,7 @@ public class ActivityViewController : ControllerBase
         _userContext = userContext;
     }
     
-    [HttpGet(ApiRoutes.ActivityViewAggregate)]
+    [HttpGet("aggregate")]
     public async Task<ActionResult<AggregateArtifactViewDto>> GetActivityView([FromQuery] Guid activityId)
     {
         var userId = _userContext.GetUserId();

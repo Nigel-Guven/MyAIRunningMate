@@ -10,7 +10,7 @@ namespace MyAIRunningMate.Service.BestEffortsAPI;
 
 [Authorize]
 [ApiController]
-[Route(ApiRoutes.BestEffortsRoot)]
+[Route("api/best_efforts")]
 public class BestEffortsController : ControllerBase
 {
     private readonly IBestEffortService _bestEffortsService;
@@ -22,7 +22,7 @@ public class BestEffortsController : ControllerBase
         _userContext = userContext;
     }
     
-    [HttpGet(ApiRoutes.BestEffortsAll)]
+    [HttpGet("all_efforts")]
     public async Task<ActionResult<IEnumerable<BestEffortViewDto>>> GetAllBestEfforts()
     {
         var userId = _userContext.GetUserId();
@@ -42,7 +42,7 @@ public class BestEffortsController : ControllerBase
         }
     }
     
-    [HttpPost(ApiRoutes.BestEffortsUpdate)]
+    [HttpPost("update")]
     public async Task<ActionResult> UpdateBestEffort([FromBody] BestEffortRequest request)
     {
         var userId = _userContext.GetUserId();

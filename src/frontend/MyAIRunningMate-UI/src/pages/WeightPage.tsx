@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { getWeightHistory, logWeight } from '../services/weightService';
-import type { WeightEntry } from '../types/weight';
-import { WeightTooltip } from '../components/layout/WeightToolTip';
+import type { WeightViewDto } from '../types/weightView';
+import { WeightTooltip } from '../components/layout/WeightTooltip';
 
 export const WeightPage = () => {
-  const [weights, setWeights] = useState<WeightEntry[]>([]);
+  const [weights, setWeights] = useState<WeightViewDto[]>([]);
   const [newWeight, setNewWeight] = useState('');
 
   const loadData = async () => {

@@ -9,7 +9,7 @@ namespace MyAIRunningMate.Service.IngestionAPI;
 
 [Authorize]
 [ApiController]
-[Route(ApiRoutes.IngestionRoot)]
+[Route("api/ingestion")]
 public class IngestionController : ControllerBase
 {
     private readonly IIngestionPipelineService _ingestionPipelineService;
@@ -21,7 +21,7 @@ public class IngestionController : ControllerBase
         _userContext = userContext;
     }
 
-    [HttpPost(ApiRoutes.IngestionFileUpload)]
+    [HttpPost("upload")]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> UploadFitFile([FromForm] FitFileUploadRequest request)
     {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { formatDateLong } from '../../services/helpers/dateFormatter' // Adjust path as needed
 
 export const WeightTooltip = ({ active, payload, label }: any) => {
