@@ -6,12 +6,16 @@ import { DayCell } from '../components/calendar/Daycell';
 
 export const CalendarPage = () => {
   const [activities, setActivities] = useState<CalendarViewDto[]>([]);
-  const [viewDate, setViewDate] = useState(new Date(2026, 3, 1)); // Starts at April 2026
+  const [viewDate, setViewDate] = useState(() => { const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1);
+  });
   const [isLoading, setIsLoading] = useState(false)
 
 
   useEffect(() => {
     let active = true;
+
+    setActivities([]);
 
     const load = async () => {
 
@@ -64,6 +68,8 @@ export const CalendarPage = () => {
         CalendarViewDto[]
       >();
 
+      if (activities.length === 0) return map;
+
       activities.forEach((activity) => {
 
         const day = new Date(
@@ -84,6 +90,7 @@ export const CalendarPage = () => {
     }, [activities]);
 
   const navigateMonth = (direction: number) => {
+    setActivities([]);
     setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + direction, 1));
   };
 
@@ -120,6 +127,7 @@ export const CalendarPage = () => {
       </div>
 
       <div
+        key={`${viewDate.getFullYear()}-${viewDate.getMonth()}`}
         className={`grid grid-cols-7 gap-2 transition-opacity duration-300 ${
           isLoading
             ? 'opacity-40 pointer-events-none'

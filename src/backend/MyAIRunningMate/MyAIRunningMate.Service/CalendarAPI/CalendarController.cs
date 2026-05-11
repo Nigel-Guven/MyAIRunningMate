@@ -33,7 +33,7 @@ public class CalendarController : ControllerBase
         {
             var calendarViews = await _calendarService.GetMonthlyCalendarViews(queryDate, userId);
 
-            var dtos = calendarViews.Select(cview => cview.ToCalendarViewDto());
+            var dtos = calendarViews.Select(view => view.ToCalendarViewDto());
             
             return Ok(dtos);
         }
