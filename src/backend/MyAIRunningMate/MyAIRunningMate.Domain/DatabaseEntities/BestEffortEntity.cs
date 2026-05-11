@@ -7,7 +7,7 @@ namespace MyAIRunningMate.Domain.DatabaseEntities;
 public class BestEffortEntity : BaseModel
 {
     [PrimaryKey("id")]
-    public Guid BestEffortId { get; set; }
+    public long BestEffortId { get; set; }
 
     [Column("user_id")]
     public Guid UserId { get; set; }

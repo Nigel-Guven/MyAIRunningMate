@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import { authStorage } from '../api/authStorage';
+import { authStorage } from './authStorage';
 
 apiClient.interceptors.request.use(
   (config) => {

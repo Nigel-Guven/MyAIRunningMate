@@ -5,7 +5,7 @@ export const API_ENDPOINTS = {
     },
 
     bestEfforts: {
-        allEfforts: '/best_efforts/efforts',
+        allEfforts: '/best_efforts/all_efforts',
         updateEffort: '/best_efforts/update',
     },
 
@@ -15,7 +15,7 @@ export const API_ENDPOINTS = {
 
     events: {
         upcomingEvents: '/events/upcoming',
-        primaryEvent: '/events/single',
+        primaryEvent: '/events/primary',
     },
     
     ingestion: {

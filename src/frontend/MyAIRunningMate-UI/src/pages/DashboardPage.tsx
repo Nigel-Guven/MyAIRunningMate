@@ -15,7 +15,7 @@ const initialState: DashboardData = {
   latestWeight: null,
 };
 
-export const HomePage = () => {
+export const DashboardPage = () => {
 
   const [dashboard, setDashboard] =
     useState<DashboardData>(
