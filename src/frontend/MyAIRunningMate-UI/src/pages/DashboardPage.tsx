@@ -7,6 +7,7 @@ import type { DashboardData } from '../types/dashboard.types';
 import { formatTime } from '../services/helpers/formatTime';
 
 import { getDaysUntil } from '../services/helpers/getDaysUntil';
+import type { BestEffortRequest } from '../types/bestefforts.types';
 
 const initialState: DashboardData = {
   primaryEvent: null,
@@ -27,6 +28,25 @@ export const DashboardPage = () => {
 
   const [error, setError] =
     useState<string | null>(null);
+
+  const handleUpdateEffort = async (label: string, seconds: number) => {
+    try {
+      const payload: BestEffortRequest = {
+        distance_label: label,
+        time_seconds: seconds,
+        achieved_at: new Date().toISOString()
+      };
+
+      await dashboardService.updateEffort(payload);
+      
+      const updatedData = await dashboardService.loadDashboard();
+      setDashboard(updatedData);
+
+    } catch (err) {
+      console.error("Update failed", err);
+      alert("Failed to update Personal Record");
+    }
+  };
 
   useEffect(() => {
 
@@ -115,7 +135,7 @@ export const DashboardPage = () => {
                 <p className="text-blue-200 text-[10px] uppercase font-bold tracking-widest mt-1">Days Remaining</p>
               </div>
               <div className="border-l border-blue-400/30 pl-12">
-                <p className="text-5xl font-black italic">SUB 1:45</p>
+                <p className="text-5xl font-black italic">SUB 3:30</p>
                 <p className="text-blue-200 text-[10px] uppercase font-bold tracking-widest mt-1">Target Pace</p>
               </div>
             </div>
@@ -129,9 +149,28 @@ export const DashboardPage = () => {
           <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-6">Personal Records</h4>
           <div className="space-y-3">
             {bestEfforts.map((effort) => (
-              <div key={effort.distance_label} className="flex justify-between items-center p-3 rounded-xl bg-slate-800/30 border border-slate-800/50">
+              <div key={effort.distance_label} className="group relative flex justify-between items-center p-3 rounded-xl bg-slate-800/30 border border-slate-800/50">
                 <span className="text-sm font-bold text-slate-400">{effort.distance_label}</span>
-                <span className="font-mono font-black text-blue-400 text-lg">{formatTime(effort.time_seconds)}</span>
+                
+                <div className="flex items-center gap-3">
+                  <span className="font-mono font-black text-blue-400 text-lg">
+                    {formatTime(effort.time_seconds)}
+                  </span>
+                  
+                  {/* Quick Update Button (Manual entry example) */}
+                  <button 
+                    onClick={() => {
+                      const newTime = prompt(`New time (seconds) for ${effort.distance_label}:`);
+                      if (newTime) {
+                        // 3. Now this call will work because the function is defined above
+                        handleUpdateEffort(effort.distance_label, parseInt(newTime));
+                      }
+                    }}
+                    className="opacity-0 group-hover:opacity-100 bg-blue-500 px-2 py-1 rounded text-white text-[10px]"
+                  >
+                    Edit
+                  </button>
+                </div>
               </div>
             ))}
           </div>

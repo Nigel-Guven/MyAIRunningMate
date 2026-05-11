@@ -1,12 +1,8 @@
 import { http } from '../config/http';
-
 import { API_ENDPOINTS } from '../config/endpoints';
-
 import type { EventViewDto,} from '../../../types/views/eventView';
-
-import type { BestEffortViewDto, } from '../../../types/views/bestEffortView';
-
 import type { WeightResponse, } from '../../../types/weight/weight.types';
+import type { BestEffortViewDto, BestEffortRequest } from '../../../types/bestefforts.types';
 
 export const dashboardApi = {
   getPrimaryEvent: () =>
@@ -22,6 +18,12 @@ export const dashboardApi = {
   getBestEfforts: () =>
     http.get<BestEffortViewDto[]>(
       API_ENDPOINTS.bestEfforts.allEfforts
+    ),
+
+  updateBestEffort: ( payload: BestEffortRequest ) =>
+    http.post<BestEffortRequest>(
+      API_ENDPOINTS.bestEfforts.updateEffort, 
+      payload
     ),
 
   getLatestWeight: () =>
