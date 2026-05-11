@@ -1,6 +1,6 @@
-import { http } from '../api/http';
-import type { WeightRequest, WeightResponse } from '../../types/weight/weight.types';
-import { API_ENDPOINTS } from '../api/endpoints';
+import { http } from '../config/http';
+import type { WeightRequest, WeightResponse } from '../../../types/weight/weight.types';
+import { API_ENDPOINTS } from '../config/endpoints';
 
 export const weightService = {
     getLatest: (): Promise<WeightResponse> => 

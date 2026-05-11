@@ -1,46 +1,79 @@
 import { useState, useEffect } from 'react';
-import { apiClient } from '../services/apiClient';
 import logo from '../assets/applogo.png';
 
-import type { EventViewDto, } from '../types/eventView';
-import type { BestEffortViewDto } from '../types/bestEffortView';
-import type { WeightViewDto } from '../types/weightView';
+import { dashboardService } from '../services/api/home/dashboard.service';
+import type { DashboardData } from '../types/dashboard.types';
+
 import { formatTime } from '../services/helpers/formatTime';
+
 import { getDaysUntil } from '../services/helpers/getDaysUntil';
 
+const initialState: DashboardData = {
+  primaryEvent: null,
+  upcomingEvents: [],
+  bestEfforts: [],
+  latestWeight: null,
+};
+
 export const HomePage = () => {
-  const [primaryEvent, setPrimaryEvent] = useState<EventViewDto | null>(null);
-  const [upcomingEvents, setUpcomingEvents] = useState<EventViewDto[]>([]);
-  const [bestEfforts, setBestEfforts] = useState<BestEffortViewDto[]>([]);
-  const [latestWeight, setLatestWeight] = useState<WeightViewDto | null>(null);
-  const [loading, setLoading] = useState(true);
+
+  const [dashboard, setDashboard] =
+    useState<DashboardData>(
+      initialState
+    );
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState<string | null>(null);
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const [eventRes, upcomingRes, effortRes, weightRes] = await Promise.all([
-          apiClient.get<EventViewDto>('/events/primary'),
-          apiClient.get<EventViewDto[]>('/events/upcoming'),
-          apiClient.get<BestEffortViewDto[]>('/best_efforts/efforts'),
-          apiClient.get<WeightViewDto>('/weight/latest')
-        ]);
 
-        setPrimaryEvent(eventRes.data);
-        setUpcomingEvents(upcomingRes.data);
-        setBestEfforts(effortRes.data);
-        setLatestWeight(weightRes.data);
-      } catch (error) {
-        console.error("Error loading command center data:", error);
+    const loadDashboard = async () => {
+
+      try {
+        setLoading(true);
+
+        const data =
+          await dashboardService
+            .loadDashboard();
+
+        setDashboard(data);
+
+      } catch (err) {
+        console.error(err);
+
+        setError(
+          'Failed to load command center.'
+        );
+
       } finally {
         setLoading(false);
       }
     };
 
-    fetchDashboardData();
+    loadDashboard();
+
   }, []);
 
+  if (loading) {
+    return (
+      <div className="p-12 text-slate-500 font-mono animate-pulse">
+        SYNCHRONIZING COMMAND CENTER...
+      </div>
+    );
+  }
 
-  if (loading) return <div className="p-12 text-slate-500 font-mono animate-pulse">SYNCHRONIZING COMMAND CENTER...</div>;
+  if (error) {
+    return (
+      <div className="p-12 text-red-400">
+        {error}
+      </div>
+    );
+  }
+
+  const { primaryEvent, upcomingEvents, bestEfforts, latestWeight, } = dashboard;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">

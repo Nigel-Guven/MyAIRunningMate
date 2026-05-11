@@ -1,5 +1,3 @@
-import { apiClient } from '../config/client';
-
 import type { IngestionViewDto } from '../../../types/views/ingestionView';
 
 import { API_ENDPOINTS } from '../config/endpoints';
@@ -14,7 +12,7 @@ export const ingestionApi = {
     const formData = new FormData();
     formData.append('file', file);
 
-    return http.postWithConfig<IngestionViewDto>(
+    return http.post<IngestionViewDto>(
       API_ENDPOINTS.ingestion.upload,
       formData,
       {

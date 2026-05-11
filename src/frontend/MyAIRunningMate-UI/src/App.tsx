@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import { MainLayout } from './components/layout/MainLayout';
-import { HomePage } from './pages/HomePage';
+import { DashboardPage } from './pages/DashboardPage';
 import { CalendarPage } from './pages/CalendarPage';
 import { UploadPage } from './pages/UploadPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
@@ -21,7 +21,7 @@ function ProtectedLayout() {
   return (
     <MainLayout>
       <Routes>
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/home" element={<DashboardPage />} />
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/activity/:id" element={<ActivityDeepDivePage />} />
         <Route path="/upload" element={<UploadPage />} />

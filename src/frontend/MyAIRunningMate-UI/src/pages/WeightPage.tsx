@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { weightService } from '../services/pageServices/weight.service';
+import { weightService } from '../services/api/weight/weight.service';
 import { WeightTooltip } from '../components/layout/WeightTooltip';
 import type { WeightResponse } from '../types/weight/weight.types';
 
