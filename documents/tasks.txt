@@ -1,4 +1,46 @@
-Website
+Homepage	- Weekly Volume 
+Homepage	- Nexus Weekly Feedback
+Homepage	- Improve edit box for updating best efforts
+
+Calendar	- Better color scheme for tiles
+Calendar	- Nexus training plan
+
+DeepDive	- Fix issue with certain events not being shown
+DeepDive	- Show metrics based on activity type
+DeepDive	- Geomap to be visualized
+DeepDive	- Links to Garmin and Strava
+DeepDive	- Design improvement
+DeepDive	- Box to ask for feedback from Nexus regarding the activity
+
+Analytics	- Yearly Running Distance, pace and time
+Analytics	- Yearly Swimming
+Analytics	- Yearly Elevation Gain
+Analytics	- Active Days v Rest Days
+Analytics	- Average Training Effect
+Analytics	- Pr counts from strava
+Analytics	- Donut chart of percentage of each type of exercise
+Analytics	- Running laps by weight
+Analytics	- Laps x Time chart where distance = 1000
+Analytics	- Activity count by month
+Analytics	- Possibility to store locations where I am running?
+Analytics	- Nexus AI Prediction of 5k based on feed of all above results
+
+Nexus AI	- Create a structured training plan over 12 weeks given provided information
+Nexus AI	- Send constraints like exercise categories, last 3 months of exercises with distance and time 
+Nexus AI	- Store training plan in database and write to calendar view
+
+///////////////////////////////
+
+For Nexus structured training plans
+
+Access to 50m swimming pool
+
+Types of run: Easy/Recovery Run, Long Run, Tempo Run, Interval Running, Trail Run, Sprints
+Types of swimming: Long swim, interval swim, recovery swim
+Swimming, Hiking, Weight Training
+
+
+///////////////////////////////
 
 Login 
 - User and password
@@ -6,16 +48,16 @@ Login
 - Auth flow across the entire system
 
 Command Center (Home)
-- Best Efforts -> Must be manually updated and stored
-- Weekly volume -> Show last weeks data
-- Weight -> Get latest weight recording and display
-- Next Event Countdown -> Need an events table
+- Best Efforts -> Must be manually updated and stored ✅
+- Weekly volume -> Show last weeks data 
+- Weight -> Get latest weight recording and display ✅
+- Next Event Countdown -> Need an events table ✅
 - AI Briefing -> Gemini API input here small summary
 
 Activity Matrix (Calendar)
 - Past Tiles ✅
 - Future Tiles made by Gemini provided constraints
-- Red tiles for events
+- Red tiles for events 
 - Clickable tiles to deep view aggregate
 - Visual Coloring for Running, Swimming, Rest day, Volume based like Hiking, Kayak, etc, 
 
@@ -30,26 +72,22 @@ Ingestion Lab (Uploader)
 - Display Quick Stats ✅
 - Tell the difference between ACTUALLY INGESTED vs ALREADY_EXISTS
 
-Analytics Vault (Best Efforts/Annual Totals)
-- Monthly/Yearly comparisons
-- Totals
-- Data Graphs
+Analytics Vault (Best Efforts/Annual Totals) ✅
+- Monthly/Yearly comparisons ✅
+- Totals ✅
+- Data Graphs ✅
 
 Nexus AIRunningMate
 - Speak directly to Gemini API
 
-Weight Tracker
-- Update UI for this 
-- Input historical data
-- Test working flow
-
-
-
-
-
-
-
-
+////////////////////////////
+//*        DONE          *//
+////////////////////////////
+ 
+Weight Tracker DONE ✅
+- Update UI for this ✅
+- Input historical data ✅
+- Test working flow ✅
 
 Define Data Models
 What needs to be extracted from .fit 
