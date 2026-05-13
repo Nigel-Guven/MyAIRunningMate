@@ -9,7 +9,7 @@ export const NexusPage = () => {
 
       <div className="p-6 rounded-2xl border border-blue-500/30 bg-blue-500/5">
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-          <span>🧠</span> AI Strategy Configuration
+          <span>🧠</span> AI Training Plan Requirements
         </h3>
         <div className="space-y-4">
           <div>
@@ -18,11 +18,12 @@ export const NexusPage = () => {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Weekly Frequency</label>
+              <label className="block text-sm font-medium text-slate-400 mb-1">Schedule Length</label>
               <select className="w-full bg-slate-800 border-slate-700 rounded-lg p-2">
-                <option>3 days</option>
-                <option>4 days</option>
-                <option>5 days</option>
+                <option>4 weeks</option>
+                <option>6 weeks</option>
+                <option>8 weeks</option>
+                <option>12 weeks</option>
               </select>
             </div>
             <div>
