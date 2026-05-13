@@ -5,10 +5,10 @@ Homepage	- Improve edit box for updating best efforts
 Calendar	- Better color scheme for tiles
 Calendar	- Nexus training plan
 
-DeepDive	- Fix issue with certain events not being shown
-DeepDive	- Show metrics based on activity type
+DeepDive	- Fix issue with certain events not being shown ✅
+DeepDive	- Show metrics based on activity type 
 DeepDive	- Geomap to be visualized
-DeepDive	- Links to Garmin and Strava
+DeepDive	- Links to Garmin and Strava ✅
 DeepDive	- Design improvement
 DeepDive	- Box to ask for feedback from Nexus regarding the activity
 

@@ -36,6 +36,6 @@ public static class AggregateArtifactViewDtoMapper
         PersonalRecordCount = artifactView?.PersonalRecordCount ?? 0,
         AthleteCount = artifactView?.AthleteCount ?? 0,
         
-        Map = artifactView.Map.ToMapViewDto()
+        Map = artifactView.Map?.ToMapViewDto()
     };
 }

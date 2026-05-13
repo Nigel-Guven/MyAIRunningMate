@@ -4,7 +4,7 @@ import { getActivityStyles } from "./styles";
 
 export const ActivityTile = ({ act }: { act: CalendarViewDto }) => {
   const navigate = useNavigate();
-  const colorClasses = getActivityStyles(act.type);
+  const colorClasses = getActivityStyles(act.type, act.distance_metres);
 
   return (
     <div 

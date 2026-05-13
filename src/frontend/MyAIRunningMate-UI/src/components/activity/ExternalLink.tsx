@@ -1,24 +1,31 @@
 interface Props {
   label: string;
-  id?: string;
+  href?: string;
 }
 
-export const ExternalLink = ({
-  label,
-  id,
-}: Props) => {
-
+export const ExternalLink = ({ label, href }: Props) => {
   return (
-    <div className="flex justify-between items-center text-xs">
-
-      <span className="text-slate-500 uppercase font-bold">
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="
+        flex items-center justify-between
+        px-4 py-3
+        rounded-lg
+        bg-slate-800 hover:bg-slate-700
+        border border-slate-700
+        transition
+        group
+      "
+    >
+      <span className="text-slate-200 text-sm font-medium">
         {label}
       </span>
 
-      <span className="font-mono text-slate-300">
-        {id || 'None'}
+      <span className="text-slate-500 text-xs group-hover:text-slate-300">
+        Open →
       </span>
-
-    </div>
+    </a>
   );
-};
+}

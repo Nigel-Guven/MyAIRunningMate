@@ -1,6 +1,6 @@
 import { useEffect, useState, } from 'react';
 
-import { useParams } from 'react-router';
+import { href, useParams } from 'react-router';
 
 import { activityService, } from '../services/api/activity/activity.service';
 
@@ -236,25 +236,25 @@ export const ActivityDeepDivePage = () => {
         <div className="space-y-4">
 
           <div className="p-6 bg-slate-900 border border-slate-800 rounded-xl">
-
-            <h3 className="text-slate-500 text-[10px] font-black uppercase mb-4">
-              External IDs
+            <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-4">
+              External Activities
             </h3>
 
             <div className="space-y-3">
+              {data.strava_id && (
+                <ExternalLink
+                  label="Strava"
+                  href={`https://www.strava.com/activities/${data.strava_id}`}
+                />
+              )}
 
-              <ExternalLink
-                label="Strava"
-                id={data.strava_id}
-              />
-
-              <ExternalLink
-                label="Garmin"
-                id={data.garmin_activity_id}
-              />
-
+              {data.garmin_activity_id && (
+                <ExternalLink
+                  label="Garmin"
+                  href={`https://connect.garmin.com/modern/activity/${data.garmin_activity_id}`}
+                />
+              )}
             </div>
-
           </div>
 
           {(data.achievement_count ?? 0) > 0 && (
