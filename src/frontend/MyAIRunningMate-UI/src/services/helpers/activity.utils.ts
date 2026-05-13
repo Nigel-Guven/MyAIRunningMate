@@ -1,3 +1,6 @@
+import { useMap } from "react-leaflet";
+import { useEffect } from "react";
+
 export const formatDuration = (
   seconds: number
 ): string => {
@@ -24,3 +27,4 @@ export const formatDistanceKm = (
     metres / 1000
   ).toFixed(2)} km`;
 };
+

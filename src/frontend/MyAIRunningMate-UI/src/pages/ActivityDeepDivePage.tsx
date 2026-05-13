@@ -1,6 +1,6 @@
-import { useEffect, useState, } from 'react';
+import { useEffect, useMemo, useState, } from 'react';
 
-import { href, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 import { activityService, } from '../services/api/activity/activity.service';
 
@@ -12,15 +12,22 @@ import { StatBox, } from '../components/activity/StatBox';
 
 import { ExternalLink, } from '../components/activity/ExternalLink';
 
+import { MapContainer, TileLayer, Polyline } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import polyline from "@mapbox/polyline";
+
 export const ActivityDeepDivePage = () => {
 
   const { id } = useParams();
 
   const [data, setData] = useState< AggregateArtifactViewDto | null >(null);
-
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState<string | null>(null);
+
+  const coords = useMemo(() => {
+    if (!data?.map?.map_polyline) return null;
+    return polyline.decode(data.map.map_polyline);
+  }, [data?.map?.map_polyline]);
 
   useEffect(() => {
 
@@ -114,14 +121,18 @@ export const ActivityDeepDivePage = () => {
           </span>
 
           <span className="text-4xl font-black text-emerald-500">
-            {data.training_effect.toFixed(1)}
+            {(data.training_effect ?? 0).toFixed(1)}
           </span>
 
         </div>
       </header>
 
       {/* STATS */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div
+        className={`grid grid-cols-1 gap-4 ${
+          data.exercise_type === "running" ? "md:grid-cols-6" : "md:grid-cols-4"
+        }`}
+      >
 
         <StatBox
           label="Distance"
@@ -147,13 +158,31 @@ export const ActivityDeepDivePage = () => {
         />
 
         <StatBox
-          label="Elevation"
+          label="Max Heart Rate"
           value={
-            data.total_elevation_gain
-              ? `+${data.total_elevation_gain}m`
-              : '0m'
+            data.max_heart_rate
+              ? `${data.max_heart_rate} bpm`
+              : 'N/A'
           }
         />
+
+        {data.exercise_type === "running" && (
+          <StatBox
+            label="Average Pace / km"
+            value={formatDuration(data.average_second_per_kilometre)}
+          />
+        )}
+
+        {data.exercise_type === "running" && (
+          <StatBox
+            label="Elevation"
+            value={
+              data.total_elevation_gain
+                ? `+${data.total_elevation_gain}m`
+                : '0m'
+            }
+          />
+        )}
 
       </div>
 
@@ -163,16 +192,16 @@ export const ActivityDeepDivePage = () => {
         {/* LEFT */}
         <div className="lg:col-span-2 space-y-8">
 
-          {data.map ? (
-
-            <div className="aspect-video bg-slate-900 rounded-xl border border-slate-800 flex items-center justify-center italic text-slate-600">
-              [Geomap visualization]
-            </div>
-
-          ) : (
-
-            <div className="p-12 bg-slate-900/20 border border-slate-800 border-dashed rounded-xl text-center text-slate-600 uppercase text-xs font-bold">
-              No Geospatial Data Available
+          {coords?.length && (
+            <div className="aspect-video rounded-xl overflow-hidden border border-slate-800">
+              <MapContainer
+                center={coords[0]}
+                zoom={16}
+                className="h-full w-full"
+              >
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <Polyline positions={coords} color="blue" weight={4} />
+              </MapContainer>
             </div>
           )}
 
@@ -263,6 +292,39 @@ export const ActivityDeepDivePage = () => {
 
               <span className="text-amber-500 font-black text-xl">
                 🏆 {data.achievement_count} Achievements
+              </span>
+
+            </div>
+          )}
+
+          {(data.kudos_count ?? 0) > 0 && (
+
+            <div className="p-6 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+
+              <span className="text-amber-500 font-black text-xl">
+                👍 {data.kudos_count} Kudos
+              </span>
+
+            </div>
+          )}
+
+          {(data.athlete_count ?? 0) > 0 && (
+
+            <div className="p-6 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+
+              <span className="text-amber-500 font-black text-xl">
+                🏃 {data.athlete_count} Athletes
+              </span>
+
+            </div>
+          )}
+
+          {(data.personal_record_count ?? 0) > 0 && (
+
+            <div className="p-6 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+
+              <span className="text-amber-500 font-black text-xl">
+                🏅 {data.personal_record_count} PR's Set
               </span>
 
             </div>
