@@ -1,58 +1,43 @@
-import json
 import os
-import re
-
-import google.generativeai as genai
+from google import genai
+from google.genai import types
+from pydantic import BaseModel, Field
+from typing import List
 from dotenv import load_dotenv
-
 
 load_dotenv()
 
-genai.configure(
-    api_key=os.getenv("GEMINI_API_KEY"),
-    transport="rest"
-)
-
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 MODEL_ID = "gemini-2.5-flash"
 
-model = genai.GenerativeModel(MODEL_ID)
+# Define the precise schema you expect Gemini to return for ONE event
+class GeminiDailyEvent(BaseModel):
+    event_date: str = Field(description="The ISO date string formatted as YYYY-MM-DD")
+    exercise_type: str = Field(description="Must be exactly one of: running, swimming, strength, rest")
+    exercise_subtype: str = Field(description="The specific workout type (e.g., Easy Run, Critical Swim laps, Lower Body Weight Lifting)")
+    description: str = Field(description="Specific instructions for execution. Max 50 characters.")
+    distance_metres: int = Field(description="Target distance for the day. Set to 0 if rest day or strength session.")
 
+# The container model for the 7-day list
+class GeminiWeeklyPlanResponse(BaseModel):
+    events: List[GeminiDailyEvent]
 
-def _clean_json_response(text: str) -> str:
-
-    text = text.strip()
-
-    if text.startswith("```"):
-        text = re.sub(r"^```(?:json)?\n?", "", text)
-        text = re.sub(r"\n?```$", "", text)
-
-    # remove trailing commas
-    text = re.sub(r",\s*([}\]])", r"\1", text)
-
-    return text.strip()
-
-
-def _call_gemini(prompt: str) -> dict:
-
-    response = model.generate_content(
-        prompt,
-        generation_config={
-            "temperature": 0.1,
-            "max_output_tokens": 4500,
-            "response_mime_type": "application/json"
-        }
-    )
-
-    cleaned = _clean_json_response(response.text)
-
+def _call_gemini_structured(prompt: str) -> dict:
     try:
-        return json.loads(cleaned)
-
-    except json.JSONDecodeError as e:
-
-        print("=== INVALID GEMINI JSON ===")
-        print(cleaned)
-
-        raise ValueError(
-            f"Gemini returned invalid JSON: {str(e)}"
+        response = client.models.generate_content(
+            model=MODEL_ID,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                temperature=0.1,
+                response_mime_type="application/json",
+                # This compiler-level flag forces Gemini to adhere exactly to your schema
+                response_schema=GeminiWeeklyPlanResponse,
+            ),
         )
+        
+        # Load and validate the string cleanly into an object
+        validated_data = GeminiWeeklyPlanResponse.model_validate_json(response.text)
+        return validated_data.model_dump()
+        
+    except Exception as e:
+        raise ValueError(f"Gemini generation or schema validation failed: {str(e)}")

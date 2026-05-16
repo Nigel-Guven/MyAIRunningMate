@@ -3,7 +3,6 @@ import datetime
 from app.schemas.training_plan_request_schema import TrainingPlanRequest
 from app.application.training_plan.week_resolution_service import generate_week_plan
 from app.application.training_plan.plan_post_processor import post_process_week, build_response
-from app.application.training_plan.resolve_allowed_workouts import resolve_allowed_workouts
 from app.domain.models.rules.workout_spec import WORKOUT_SPECS
 from app.domain.models.rules.plan_structure import build_plan_structure
 from app.domain.models.phase import get_phase
@@ -22,12 +21,7 @@ def generate_full_plan(request: TrainingPlanRequest):
 
         phase = get_phase(structure, week)
 
-        allowed_workouts = resolve_allowed_workouts(phase, request)
-
-        workout_specs = {
-            wt.value: WORKOUT_SPECS[wt]
-            for wt in allowed_workouts
-        }
+        workout_specs =  WORKOUT_SPECS
 
         prompt_payload = {
             "week": week,
@@ -53,4 +47,20 @@ def generate_full_plan(request: TrainingPlanRequest):
 
         all_events.extend(validated)
 
-    return build_response(all_events, request)
+    safe_events = []
+    for event in all_events:
+
+        raw_distance = event.get("distance_metres", 0)
+        
+        if isinstance(raw_distance, int):
+            clean_distance = raw_distance
+        elif isinstance(raw_distance, str) and raw_distance.isdigit():
+            clean_distance = int(raw_distance)
+        else:
+            clean_distance = 0
+            
+        event["distance_metres"] = clean_distance
+        safe_events.append(event)
+
+    # Pass the sanitized events list into your response builder
+    return build_response(safe_events, request)

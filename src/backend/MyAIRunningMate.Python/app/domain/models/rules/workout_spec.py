@@ -6,21 +6,21 @@ from app.domain.models.enums.load_category import LoadCategory
 
 @dataclass
 class WorkoutSpec:
-    base_distance_range_km: tuple | None
+    base_distance_range_meters: tuple | None
     intensity: str
     loadCategory: LoadCategory
     requires_hard_effort: bool
 
 
 WORKOUT_SPECS: Dict[WorkoutType, WorkoutSpec] = {
-    WorkoutType.EASY_RUN: WorkoutSpec((3, 10), "low", LoadCategory.AEROBIC, False),
-    WorkoutType.RECOVERY_RUN: WorkoutSpec((3, 8), "low", LoadCategory.RECOVERY, False),
-    WorkoutType.LONG_RUN: WorkoutSpec((8, 35), "low", LoadCategory.AEROBIC, False),
-    WorkoutType.TEMPO_RUN: WorkoutSpec((5, 12), "moderate", LoadCategory.QUALITY, True),
-    WorkoutType.FARTLEK: WorkoutSpec((5, 10), "moderate", LoadCategory.QUALITY, True),
-    WorkoutType.PROGRESSION_RUN: WorkoutSpec((5, 15), "moderate", LoadCategory.QUALITY, True),
-    WorkoutType.INTERVAL_RUN: WorkoutSpec((4, 10), "high", LoadCategory.QUALITY, True),
-    WorkoutType.HILL_REPEATS: WorkoutSpec((4, 8), "high", LoadCategory.QUALITY, True),
+    WorkoutType.EASY_RUN: WorkoutSpec((3000, 10000), "low", LoadCategory.AEROBIC, False),
+    WorkoutType.RECOVERY_RUN: WorkoutSpec((3000, 8000), "low", LoadCategory.RECOVERY, False),
+    WorkoutType.LONG_RUN: WorkoutSpec((8000, 35000), "low", LoadCategory.AEROBIC, False),
+    WorkoutType.TEMPO_RUN: WorkoutSpec((5000, 12000), "moderate", LoadCategory.QUALITY, True),
+    WorkoutType.FARTLEK: WorkoutSpec((5000, 10000), "moderate", LoadCategory.QUALITY, True),
+    WorkoutType.PROGRESSION_RUN: WorkoutSpec((5000, 15000), "moderate", LoadCategory.QUALITY, True),
+    WorkoutType.INTERVAL_RUN: WorkoutSpec((4000, 10000), "high", LoadCategory.QUALITY, True),
+    WorkoutType.HILL_REPEATS: WorkoutSpec((4000, 8000), "high", LoadCategory.QUALITY, True),
 
     WorkoutType.EASY_SWIM: WorkoutSpec((500, 1000), "low", LoadCategory.RECOVERY, False),
     WorkoutType.LONG_SWIM: WorkoutSpec((1000, 2500), "low", LoadCategory.AEROBIC, False),

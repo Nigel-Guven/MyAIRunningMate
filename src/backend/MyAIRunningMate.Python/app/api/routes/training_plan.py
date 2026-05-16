@@ -1,4 +1,9 @@
+from datetime import datetime
+import os
+
+from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException
+from google import genai
 from app.schemas.training_plan_schema import TrainingPlanResponse
 from app.schemas.training_plan_request_schema import TrainingPlanRequest
 from app.application.training_plan import plan_orchestrator

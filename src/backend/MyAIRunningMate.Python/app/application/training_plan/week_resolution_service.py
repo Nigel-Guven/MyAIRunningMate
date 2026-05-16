@@ -1,39 +1,24 @@
-from app.application.training_plan.gemini_service import _call_gemini
+from app.application.training_plan.gemini_service import _call_gemini_structured
 
 def generate_week_plan(prompt_payload: dict) -> dict:
-
     prompt = f"""
-You are an elite running coach.
+You are an elite endurance and hybrid athletic coach. 
+Generate exactly 7 sequential days of training for a microcycle training block.
 
-Generate EXACTLY 7 days of training.
+CONSTRAINTS & RULES:
+- Week Timeline: Week {prompt_payload['week']}
+- Macrocycle Phase: {prompt_payload['phase']} (Focus: {prompt_payload['focus']})
+- Start Date: {prompt_payload['start_date']}
+- Intensity Strategy: {prompt_payload['constraints']['intensity']}
+- Volumetric Multiplier: {prompt_payload['constraints']['volume_multiplier']}
+- Allowed Workouts Pool: {prompt_payload['constraints']['allowed_workouts']}
 
-RULES:
-- Allowed workouts: {prompt_payload['constraints']['allowed_workouts']}
-- Intensity: {prompt_payload['constraints']['intensity']}
-- Volume multiplier: {prompt_payload['constraints']['volume_multiplier']}
-- Week: {prompt_payload['week']}
-- Phase: {prompt_payload['phase']}
-- Start date: {prompt_payload['start_date']}
-
-CRITICAL RULES:
-- Must include exactly 7 events (1 per day)
-- No missing days
-- No extra events
-- Only use allowed_workouts
-- Do NOT include race/event (system injects it)
-
-STRICT JSON:
-{{
-  "events": [
-    {{
-      "event_date": "YYYY-MM-DD",
-      "exercise_type": "running|swimming|strength|rest",
-      "exercise_subtype": "string",
-      "description": "max 50 chars",
-      "distance_metres": 0
-    }}
-  ]
-}}
+EXECUTION RULES:
+1. Generate exactly 1 event per day for 7 consecutive days starting on the Start Date.
+2. Only use workout subtypes present in the Allowed Workouts Pool.
+3. Scale the distance_metres logically based on the phase intensity and volume multiplier.
+4. Set distance_metres strictly to 0 for rest days and strength sessions.
+5. Keep descriptions brief, actionable, and under 50 characters.
 """
 
-    return _call_gemini(prompt)
+    return _call_gemini_structured(prompt)

@@ -24,7 +24,7 @@ public class PythonApiClient : IPythonApiClient
             streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             form.Add(streamContent, "file", fileName);
 
-            var response = await _httpClient.PostAsync("api/fit_file/upload", form);
+            var response = await _httpClient.PostAsync("api/ingestion/process", form);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -57,7 +57,7 @@ public class PythonApiClient : IPythonApiClient
                 RecentActivities = recentActivities
             };
             
-            var response = await _httpClient.PostAsJsonAsync("api/training_plan/process", trainingPlanRequest);
+            var response = await _httpClient.PostAsJsonAsync("api/training_plan/draft", trainingPlanRequest);
 
             if (!response.IsSuccessStatusCode)
             {

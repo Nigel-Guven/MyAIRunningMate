@@ -9,7 +9,7 @@ class TrainingPlanEventResponse(BaseModel):
     exercise_type: str
     exercise_subtype: str
     description: str
-    distance_metres: str
+    distance_metres: int
 
 class TrainingPlanResponse(BaseModel):
     title: str
