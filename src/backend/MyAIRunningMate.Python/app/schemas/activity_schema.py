@@ -1,11 +1,11 @@
 from pydantic import BaseModel, ConfigDict
 from typing import List, Optional
-from datetime import datetime
+import datetime
 from app.schemas.lap_schema import LapSchema
 
 class ActivitySchema(BaseModel):
     garmin_id: str
-    start_time: Optional[datetime] = None
+    start_time: Optional[datetime.datetime] = None
     type: Optional[str] = None
     duration_seconds: Optional[float] = None
     distance_metres: Optional[float] = None

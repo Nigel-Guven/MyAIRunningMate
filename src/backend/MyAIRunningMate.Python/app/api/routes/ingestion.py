@@ -1,11 +1,11 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from app.services.activity_cleaner_service import process_fit_file
+from app.application.fit_ingestion.activity_processor import process_fit_file
 from app.schemas.activity_schema import ActivitySchema
 
-router = APIRouter(prefix="", tags=["activities"])
+router = APIRouter(prefix="", tags=["ingestion"])
 
 
-@router.post("/fit_file/upload", response_model=ActivitySchema)
+@router.post("/process", response_model=ActivitySchema)
 async def upload_fit(file: UploadFile = File(...)):
     if not file.filename or not file.filename.endswith(".fit"):
         raise HTTPException(status_code=400, detail="Invalid file type. Only .fit files are supported.")

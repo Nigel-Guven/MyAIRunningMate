@@ -7,6 +7,9 @@ public class PythonApiActivity
     [JsonPropertyName("exercise_type")]
     public string ExerciseType { get; set; }
     
+    [JsonPropertyName("start_date")]
+    public DateTime StartTime { get; set; }
+    
     [JsonPropertyName("duration_seconds")]
     public double DurationSeconds { get; set; }
     

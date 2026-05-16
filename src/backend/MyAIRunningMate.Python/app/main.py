@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.routes import activities
+from app.api.routes import ingestion
+from app.api.routes import training_plan
 
 app = FastAPI(
     title="My AI Running Mate Python API",
@@ -20,4 +21,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(activities.router, prefix="/api")
+app.include_router(ingestion.router, prefix="/api")
+app.include_router(training_plan.router, prefix="/api")
