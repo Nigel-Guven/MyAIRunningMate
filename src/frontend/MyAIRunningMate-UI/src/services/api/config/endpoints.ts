@@ -22,6 +22,11 @@ export const API_ENDPOINTS = {
         upload: '/fitfile/upload',
     },
 
+    nexus: {
+        generate: '/nexus/generate',
+        finalize: '/nexus/finalize',
+    },
+
     session: {
         login: '/session/login',
         logout: '/session/logout',

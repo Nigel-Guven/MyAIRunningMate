@@ -1,5 +1,6 @@
 using MyAIRunningMate.Domain.DatabaseEntities;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
+using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
 
@@ -37,13 +38,24 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
 
     public async Task<ActivityEntity?> GetActivityByActivityId(Guid activityId, Guid userId)
     {
+        var result = await _supabase .From<ActivityEntity>() 
+            .Where(x => x.ActivityId == activityId) 
+            .Where(x => x.UserId == userId) 
+            .Limit(1) 
+            .Get(); 
+        
+        return result.Model;
+    }
+
+    public async Task<List<ActivityEntity>> GetLatestActivities(Guid userId)
+    {
         var result = await _supabase
             .From<ActivityEntity>()
-            .Where(x => x.ActivityId == activityId)
             .Where(x => x.UserId == userId)
-            .Limit(1)
+            .Order(x => x.GarminActivityId, Constants.Ordering.Descending)
+            .Limit(10)
             .Get();
 
-        return result.Model;
+        return result.Models;
     }
 }

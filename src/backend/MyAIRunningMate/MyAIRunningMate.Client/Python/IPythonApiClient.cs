@@ -7,5 +7,12 @@ public interface IPythonApiClient
 {
     Task<PythonApiActivityResponse> UploadFitFileAsync(Stream fileStream, string fileName);
 
-    Task<PythonApiTrainingPlanResponse> ProcessTrainingPlanRequisites(string description, string length, string poolSize, double poundWeight, IEnumerable<PythonApiActivity> recentActivities);
+    Task<PythonApiTrainingPlanResponse> ProcessTrainingPlanRequisites(
+        string primaryGoal,
+        int runningExperienceYears,
+        string runningLevel,
+        int trainingPlanLength,
+        string poolSize,
+        double poundWeight,
+        IEnumerable<PythonApiActivity> recentActivities);
 }

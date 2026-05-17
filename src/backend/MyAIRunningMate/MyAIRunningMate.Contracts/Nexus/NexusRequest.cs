@@ -11,7 +11,7 @@ public class NexusRequest
     public int RunningExperienceInYears { get; set; }
     
     [JsonPropertyName("running_level")]
-    public int RunningLevel { get; set; }
+    public string RunningLevel { get; set; }
     
     [JsonPropertyName("training_plan_length")]
     public int TrainingPlanLength { get; set; }

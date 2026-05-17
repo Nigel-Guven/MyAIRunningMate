@@ -44,15 +44,23 @@ public class PythonApiClient : IPythonApiClient
     }
     
     public async Task<PythonApiTrainingPlanResponse> ProcessTrainingPlanRequisites(
-        string description, string length, string poolSize, double poundWeight, IEnumerable<PythonApiActivity> recentActivities)
+        string primaryGoal, 
+        int runningExperienceYears,
+        string runningLevel,
+        int trainingPlanLength, 
+        string poolSize, 
+        double poundWeight, 
+        IEnumerable<PythonApiActivity> recentActivities)
     {
         try
         {
             var trainingPlanRequest = new TrainingPlanRequest()
             {
-                Description = description,
+                PrimaryGoal = primaryGoal,
+                RunningExperienceYears = runningExperienceYears,
+                RunningLevel = runningLevel,
+                TrainingPlanLength = trainingPlanLength,
                 PoolSize = poolSize,
-                TrainingPlanLength = length,
                 WeightPounds = poundWeight,
                 RecentActivities = recentActivities
             };
