@@ -7,7 +7,7 @@ public interface ITrainingPlanService
     Task<TrainingPlanView> GenerateTrainingPlan(
         Guid userId, 
         string primaryGoal, 
-        int runningYears, 
+        string runningYears, 
         string runningLevel, 
         int trainingPlanLength, 
         string poolSize);

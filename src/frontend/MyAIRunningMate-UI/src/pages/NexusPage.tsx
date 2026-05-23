@@ -12,11 +12,11 @@ const formatDistance = (metres: number) => {
 
 export const NexusPage = () => {
   const [formData, setFormData] = useState<TrainingPlanRequest>({
-    primaryGoal: '5k',
-    experienceYears: '1 or Less',
-    runningLevel: 'Beginner',
-    scheduleLengthWeeks: 4,
-    poolAccess: 'None',
+    primary_goal: '5k',
+    experience_years: '1 or Less',
+    running_level: 'Beginner',
+    schedule_length_weeks: 4,
+    pool_access: 'None',
   });
 
   const [loading, setLoading] = useState(false);
@@ -76,7 +76,7 @@ export const NexusPage = () => {
             <label className="block text-sm font-medium text-slate-400 mb-1">Primary Goal</label>
             <select
               name="primaryGoal"
-              value={formData.primaryGoal}
+              value={formData.primary_goal}
               onChange={handleChange}
               className="w-full bg-slate-800 border-slate-700 rounded-lg p-2 text-white"
             >
@@ -93,7 +93,7 @@ export const NexusPage = () => {
               <label className="block text-sm font-medium text-slate-400 mb-1">Running Experience</label>
               <select
                 name="experienceYears"
-                value={formData.experienceYears}
+                value={formData.experience_years}
                 onChange={handleChange}
                 className="w-full bg-slate-800 border-slate-700 rounded-lg p-2 text-white"
               >
@@ -107,7 +107,7 @@ export const NexusPage = () => {
               <label className="block text-sm font-medium text-slate-400 mb-1">Running Level</label>
               <select
                 name="runningLevel"
-                value={formData.runningLevel}
+                value={formData.running_level}
                 onChange={handleChange}
                 className="w-full bg-slate-800 border-slate-700 rounded-lg p-2 text-white"
               >
@@ -124,7 +124,7 @@ export const NexusPage = () => {
               <label className="block text-sm font-medium text-slate-400 mb-1">Schedule Length</label>
               <select
                 name="scheduleLengthWeeks"
-                value={formData.scheduleLengthWeeks}
+                value={formData.schedule_length_weeks}
                 onChange={handleChange}
                 className="w-full bg-slate-800 border-slate-700 rounded-lg p-2 text-white"
               >
@@ -138,7 +138,7 @@ export const NexusPage = () => {
               <label className="block text-sm font-medium text-slate-400 mb-1">Pool Access</label>
               <select
                 name="poolAccess"
-                value={formData.poolAccess}
+                value={formData.pool_access}
                 onChange={handleChange}
                 className="w-full bg-slate-800 border-slate-700 rounded-lg p-2 text-white"
               >

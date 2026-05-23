@@ -27,12 +27,10 @@ public class NexusGeminiApiController : ControllerBase
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
 
-        var runningExperience = MapExperienceYears(request.ExperienceYears);
-
         var trainingPlanView = await _trainingPlanService.GenerateTrainingPlan(
             userId,
             request.PrimaryGoal,
-            runningExperience,
+            request.ExperienceYears,
             request.RunningLevel,
             request.ScheduleLengthWeeks,
             request.PoolAccess);
@@ -48,12 +46,4 @@ public class NexusGeminiApiController : ControllerBase
 
         return Ok();
     }
-
-    private static int MapExperienceYears(string experienceYears) =>
-        experienceYears switch
-        {
-            "2-3" => 2,
-            "4+ years" => 4,
-            _ => 1,
-        };
 }

@@ -22,8 +22,10 @@ public class TrainingPlanService : ITrainingPlanService
         _pythonApiClient = pythonApiClient;
     }
     
-    public async Task<TrainingPlanView> GenerateTrainingPlan(Guid userId, string primaryGoal, int runningExperience, string runningLevel, int trainingPlanLength, string poolSize)
+    public async Task<TrainingPlanView> GenerateTrainingPlan(Guid userId, string primaryGoal, string runningExperience, string runningLevel, int trainingPlanLength, string poolSize)
     {
+        
+        
         var currentWeight = await _weightService.GetLatestWeightAsync(userId);
         var weightPounds = currentWeight?.WeightPounds ?? 150;
         var lastTenActivities = await _activityRepository.GetLatestActivities(userId);
@@ -42,8 +44,10 @@ public class TrainingPlanService : ITrainingPlanService
             TotalElevationGain =   x.TotalElevationGain,
             TrainingEffect =  x.TrainingEffect,
         });
+        
+        var mappedRunningExperience = MapExperienceYears(runningExperience);
 
-        var response = await _pythonApiClient.ProcessTrainingPlanRequisites(primaryGoal, runningExperience, runningLevel, trainingPlanLength, poolSize, weightPounds, activityRequest);
+        var response = await _pythonApiClient.ProcessTrainingPlanRequisites(primaryGoal, mappedRunningExperience, runningLevel, trainingPlanLength, poolSize, weightPounds, activityRequest);
         
         var trainingPlanView = new TrainingPlanView()
         {
@@ -70,4 +74,13 @@ public class TrainingPlanService : ITrainingPlanService
     {
         throw new NotImplementedException();
     }
+    
+    private static int MapExperienceYears(string experienceYears) =>
+        experienceYears switch
+        {
+            "1 or Less" => 1,
+            "2-3" => 2,
+            "4+ years" => 4,
+            _ => 5,
+        };
 }
