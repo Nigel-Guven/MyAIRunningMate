@@ -6,9 +6,4 @@ export interface TrainingPlanRequest {
   poolAccess: 'None' | '25m Pool' | '50m Pool';
 }
 
-export interface TrainingPlanResponse {
-  success: boolean;
-  message: string;
-  planId?: string;
-  // Add additional properties returned by your C# API model here
-}
+export type { TrainingPlanView, TrainingPlanEventView } from '../../../types/views/trainingPlanView';

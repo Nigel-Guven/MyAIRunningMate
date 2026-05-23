@@ -1,7 +1,14 @@
-// src/pages/NexusPage.tsx
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { nexusService } from '../services/api/nexus/nexus.service';
 import type { TrainingPlanRequest } from '../services/api/nexus/nexus.types';
+import type { TrainingPlanView } from '../types/views/trainingPlanView';
+import { formatDateLong } from '../services/helpers/dateFormatter';
+
+const formatDistance = (metres: number) => {
+  if (metres <= 0) return '—';
+  if (metres >= 1000) return `${(metres / 1000).toFixed(1)} km`;
+  return `${metres} m`;
+};
 
 export const NexusPage = () => {
   const [formData, setFormData] = useState<TrainingPlanRequest>({
@@ -13,14 +20,21 @@ export const NexusPage = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [plan, setPlan] = useState<TrainingPlanView | null>(null);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const sortedEvents = useMemo(() => {
+    if (!plan?.trainingPlanEvents?.length) return [];
+    return [...plan.trainingPlanEvents].sort(
+      (a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime()
+    );
+  }, [plan]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    
+
     setFormData((prev) => ({
       ...prev,
-      
       [name]: name === 'scheduleLengthWeeks' ? parseInt(value, 10) : value,
     }));
   };
@@ -29,12 +43,17 @@ export const NexusPage = () => {
     e.preventDefault();
     setLoading(true);
     setStatusMessage(null);
+    setPlan(null);
 
     try {
-      const response = await nexusService.createTrainingPlan(formData);
-      setStatusMessage({ type: 'success', text: response.message || 'Plan generated successfully!' });
-    } catch (error) {
-      setStatusMessage({ type: 'error', text: 'Failed to communicate with the architectural core. Please try again.' });
+      const generatedPlan = await nexusService.generateTrainingPlan(formData);
+      setPlan(generatedPlan);
+      setStatusMessage({ type: 'success', text: 'Training plan generated. Review the schedule below.' });
+    } catch {
+      setStatusMessage({
+        type: 'error',
+        text: 'Failed to generate a training plan. Ensure you are signed in and both APIs are running.',
+      });
     } finally {
       setLoading(false);
     }
@@ -51,12 +70,11 @@ export const NexusPage = () => {
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <span>🧠</span> AI Training Plan Requirements
         </h3>
-        
+
         <div className="space-y-4">
-          {/* Primary Goal Dropdown */}
           <div>
             <label className="block text-sm font-medium text-slate-400 mb-1">Primary Goal</label>
-            <select 
+            <select
               name="primaryGoal"
               value={formData.primaryGoal}
               onChange={handleChange}
@@ -71,10 +89,9 @@ export const NexusPage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Running Experience Years */}
             <div>
               <label className="block text-sm font-medium text-slate-400 mb-1">Running Experience</label>
-              <select 
+              <select
                 name="experienceYears"
                 value={formData.experienceYears}
                 onChange={handleChange}
@@ -86,10 +103,9 @@ export const NexusPage = () => {
               </select>
             </div>
 
-            {/* Running Level */}
             <div>
               <label className="block text-sm font-medium text-slate-400 mb-1">Running Level</label>
-              <select 
+              <select
                 name="runningLevel"
                 value={formData.runningLevel}
                 onChange={handleChange}
@@ -104,10 +120,9 @@ export const NexusPage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Schedule Length (Mapped directly to Integer Values) */}
             <div>
               <label className="block text-sm font-medium text-slate-400 mb-1">Schedule Length</label>
-              <select 
+              <select
                 name="scheduleLengthWeeks"
                 value={formData.scheduleLengthWeeks}
                 onChange={handleChange}
@@ -119,10 +134,9 @@ export const NexusPage = () => {
               </select>
             </div>
 
-            {/* Pool Access */}
             <div>
               <label className="block text-sm font-medium text-slate-400 mb-1">Pool Access</label>
-              <select 
+              <select
                 name="poolAccess"
                 value={formData.poolAccess}
                 onChange={handleChange}
@@ -135,23 +149,69 @@ export const NexusPage = () => {
             </div>
           </div>
 
-          {/* Feedback Messages */}
           {statusMessage && (
-            <div className={`p-3 rounded-lg text-sm ${statusMessage.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+            <div
+              className={`p-3 rounded-lg text-sm ${
+                statusMessage.type === 'success'
+                  ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                  : 'bg-red-500/20 text-red-400 border border-red-500/30'
+              }`}
+            >
               {statusMessage.text}
             </div>
           )}
 
-          {/* Submit Button */}
-          <button 
+          <button
             type="submit"
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-blue-800 disabled:text-slate-400 font-bold py-3 rounded-lg transition-colors mt-4 flex justify-center items-center"
           >
-            {loading ? 'Processing Parameters...' : 'Generate Training Plan'}
+            {loading ? 'Generating plan…' : 'Generate Training Plan'}
           </button>
         </div>
       </form>
+
+      {plan && (
+        <section className="p-6 rounded-2xl border border-slate-700 bg-slate-900/50 space-y-6">
+          <div>
+            <h3 className="text-2xl font-bold text-white">{plan.title}</h3>
+            <p className="text-slate-400 mt-1">
+              {formatDateLong(plan.startDate)} — {formatDateLong(plan.endDate)}
+            </p>
+            {plan.description && (
+              <p className="text-slate-300 mt-3 leading-relaxed">{plan.description}</p>
+            )}
+          </div>
+
+          <div>
+            <h4 className="text-lg font-semibold text-slate-200 mb-3">
+              Schedule ({sortedEvents.length} sessions)
+            </h4>
+            <ul className="space-y-3 max-h-[32rem] overflow-y-auto pr-1">
+              {sortedEvents.map((event, index) => (
+                <li
+                  key={`${event.eventDate}-${index}`}
+                  className="p-4 rounded-xl border border-slate-700/80 bg-slate-800/40"
+                >
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <span className="font-medium text-blue-300">
+                      {formatDateLong(event.eventDate)}
+                    </span>
+                    <span className="text-sm text-slate-400">
+                      {formatDistance(event.distanceMetres)}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-slate-300">
+                    {event.exerciseType}
+                    {event.exerciseSubtype ? ` · ${event.exerciseSubtype}` : ''}
+                  </p>
+                  <p className="mt-2 text-slate-400 text-sm">{event.description}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
     </div>
   );
 };

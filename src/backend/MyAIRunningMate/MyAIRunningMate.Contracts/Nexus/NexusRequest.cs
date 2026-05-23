@@ -1,21 +1,14 @@
-using System.Text.Json.Serialization;
-
 namespace MyAIRunningMate.Contracts.Nexus;
 
 public class NexusRequest
 {
-    [JsonPropertyName("primary_goal")]
-    public string PrimaryGoal { get; set; }
-    
-    [JsonPropertyName("running_experience_years")]
-    public int RunningExperienceInYears { get; set; }
-    
-    [JsonPropertyName("running_level")]
-    public string RunningLevel { get; set; }
-    
-    [JsonPropertyName("training_plan_length")]
-    public int TrainingPlanLength { get; set; }
-    
-    [JsonPropertyName("pool_size")]
-    public string PoolSize { get; set; }
+    public string PrimaryGoal { get; set; } = string.Empty;
+
+    public string ExperienceYears { get; set; } = string.Empty;
+
+    public string RunningLevel { get; set; } = string.Empty;
+
+    public int ScheduleLengthWeeks { get; set; }
+
+    public string PoolAccess { get; set; } = string.Empty;
 }

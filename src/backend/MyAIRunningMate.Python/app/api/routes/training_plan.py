@@ -8,7 +8,7 @@ from app.schemas.training_plan_schema import TrainingPlanResponse
 from app.schemas.training_plan_request_schema import TrainingPlanRequest
 from app.application.training_plan import plan_orchestrator
 
-router = APIRouter(prefix="", tags=["training_plan"])
+router = APIRouter(prefix="/training_plan", tags=["training_plan"])
 
 @router.post("/draft", response_model=TrainingPlanResponse)
 async def process_training_plan(request_data: TrainingPlanRequest):

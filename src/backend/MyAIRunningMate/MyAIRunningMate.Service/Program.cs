@@ -12,6 +12,7 @@ using MyAIRunningMate.Application.IngestionPipeline;
 using MyAIRunningMate.Application.LinkProvider;
 using MyAIRunningMate.Application.Session;
 using MyAIRunningMate.Application.Strava;
+using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Application.Weight;
 using MyAIRunningMate.Client.Python;
@@ -125,6 +126,7 @@ builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IActivityViewService, ActivityViewService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();
 builder.Services.AddScoped<IIngestionPipelineService, IngestionPipelineService>();
+builder.Services.AddScoped<ITrainingPlanService, TrainingPlanService>();
 
 builder.Services.AddSwaggerGen(c =>
 {

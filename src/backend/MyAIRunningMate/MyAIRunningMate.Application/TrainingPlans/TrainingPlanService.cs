@@ -25,6 +25,7 @@ public class TrainingPlanService : ITrainingPlanService
     public async Task<TrainingPlanView> GenerateTrainingPlan(Guid userId, string primaryGoal, int runningExperience, string runningLevel, int trainingPlanLength, string poolSize)
     {
         var currentWeight = await _weightService.GetLatestWeightAsync(userId);
+        var weightPounds = currentWeight?.WeightPounds ?? 150;
         var lastTenActivities = await _activityRepository.GetLatestActivities(userId);
 
         var activities = lastTenActivities.Select(entity => entity.ToActivityView());
@@ -42,7 +43,7 @@ public class TrainingPlanService : ITrainingPlanService
             TrainingEffect =  x.TrainingEffect,
         });
 
-        var response = await _pythonApiClient.ProcessTrainingPlanRequisites(primaryGoal, runningExperience, runningLevel, trainingPlanLength, poolSize, currentWeight.WeightPounds, activityRequest);
+        var response = await _pythonApiClient.ProcessTrainingPlanRequisites(primaryGoal, runningExperience, runningLevel, trainingPlanLength, poolSize, weightPounds, activityRequest);
         
         var trainingPlanView = new TrainingPlanView()
         {

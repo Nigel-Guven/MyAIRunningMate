@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Nexus;
 
 namespace MyAIRunningMate.Service.NexusGeminiApi;
 
+[Authorize]
 [ApiController]
 [Route("api/nexus")]
 public class NexusGeminiApiController : ControllerBase
@@ -15,26 +18,28 @@ public class NexusGeminiApiController : ControllerBase
     public NexusGeminiApiController(ITrainingPlanService trainingPlanService, IUserContext userContext)
     {
         _trainingPlanService = trainingPlanService;
-        _userContext =  userContext;
+        _userContext = userContext;
     }
-    
+
     [HttpPost("generate")]
-    public async Task<ActionResult> CreateTrainingPlan([FromBody] NexusRequest request)
+    public async Task<ActionResult<TrainingPlanView>> CreateTrainingPlan([FromBody] NexusRequest request)
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
-        
+
+        var runningExperience = MapExperienceYears(request.ExperienceYears);
+
         var trainingPlanView = await _trainingPlanService.GenerateTrainingPlan(
-            userId, 
+            userId,
             request.PrimaryGoal,
-            request.RunningExperienceInYears,
+            runningExperience,
             request.RunningLevel,
-            request.TrainingPlanLength,
-            request.PoolSize );
+            request.ScheduleLengthWeeks,
+            request.PoolAccess);
 
         return Ok(trainingPlanView);
     }
-    
+
     [HttpPut("finalize")]
     public async Task<ActionResult> FinalizeTrainingPlan()
     {
@@ -43,4 +48,12 @@ public class NexusGeminiApiController : ControllerBase
 
         return Ok();
     }
+
+    private static int MapExperienceYears(string experienceYears) =>
+        experienceYears switch
+        {
+            "2-3" => 2,
+            "4+ years" => 4,
+            _ => 1,
+        };
 }
