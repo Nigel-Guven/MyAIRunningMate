@@ -1,0 +1,33 @@
+
+services:
+  frontend:
+    build:
+      context: ./src/frontend/MyAIRunningMate-UI
+      dockerfile: Dockerfile.RunningMateUI
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./src/frontend/MyRunningMate-UI:/app
+      - /app/node_modules
+    depends_on:
+      - dotnet-api
+      - python-api
+
+  dotnet-api:
+    build:
+      context: ./src/backend
+      dockerfile: MyAIRunningMate/MyAIRunningMate.Service/Dockerfile.NetApi
+    ports:
+      - "7002:7002"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:7002
+
+  python-api:
+    build:
+      context: ./src/backend/MyAIRunningMate.Python
+      dockerfile: Dockerfile.PythonApi
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./src/backend/MyAIRunningMate.Python/.env

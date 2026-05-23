@@ -1,6 +1,7 @@
 using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Application.Weight;
 using MyAIRunningMate.Client.Python;
+using MyAIRunningMate.Client.Python.Requests;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 
 namespace MyAIRunningMate.Application.TrainingPlans;
@@ -28,7 +29,40 @@ public class TrainingPlanService : ITrainingPlanService
 
         var activities = lastTenActivities.Select(entity => entity.ToActivityView());
 
-        _pythonApiClient.ProcessTrainingPlanRequisites(primaryGoal, runningExperience, runningLevel, trainingPlanLength, poolSize, currentWeight.WeightPounds, activities);
+        var activityRequest = activities.Select(x => new PythonApiActivity()
+        {
+            ExerciseType = x.ExerciseType,
+            AverageHeartRate = x.AverageHeartRate,
+            AverageSecondPerKilometre =  x.AverageSecondPerKilometre,
+            DistanceMetres =  x.DistanceMetres,
+            DurationSeconds =  x.DurationSeconds,
+            MaxHeartRate = x.MaxHeartRate,
+            StartTime =  x.StartTime,
+            TotalElevationGain =   x.TotalElevationGain,
+            TrainingEffect =  x.TrainingEffect,
+        });
+
+        var response = await _pythonApiClient.ProcessTrainingPlanRequisites(primaryGoal, runningExperience, runningLevel, trainingPlanLength, poolSize, currentWeight.WeightPounds, activityRequest);
+        
+        var trainingPlanView = new TrainingPlanView()
+        {
+            Title = response.Title,
+            Description = response.Description,
+            EndDate = response.EndDate,
+            StartDate = response.StartDate,
+            TrainingPlanEvents = response.TrainingPlanEvents
+                .Select(ev => new TrainingPlanEventView
+                {
+                    EventDate = ev.EventDate,
+                    ExerciseType = ev.ExerciseType,
+                    ExerciseSubtype = ev.ExerciseSubtype,
+                    Description = ev.Description,
+                    DistanceMetres = ev.DistanceMetres,
+                })
+                .ToList()
+        };
+        
+        return trainingPlanView;
     }
 
     public Task<TrainingPlanView> FinalizeTrainingPlan()

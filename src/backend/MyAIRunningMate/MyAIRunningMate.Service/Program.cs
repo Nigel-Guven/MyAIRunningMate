@@ -63,8 +63,7 @@ builder.Services.AddAuthentication(options =>
             ValidAudience = "authenticated",
 
             ValidateLifetime = true,
-
-            // Fetch public key dynamically from Supabase JWKS endpoint for ES256
+            
             IssuerSigningKeyResolver = (token, securityToken, kid, parameters) =>
             {
                 var config = configurationManager.GetConfigurationAsync().GetAwaiter().GetResult();
