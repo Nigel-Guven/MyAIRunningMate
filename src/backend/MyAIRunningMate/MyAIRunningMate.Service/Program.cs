@@ -24,6 +24,7 @@ using MyAIRunningMate.Domain.Interfaces.Repositories.Events;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
+using MyAIRunningMate.Domain.Interfaces.Repositories.TrainingPlan;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
 using MyAIRunningMate.Service.StravaAPI;
 using Supabase;
@@ -112,6 +113,8 @@ builder.Services.AddScoped<IStravaResourceRepository, StravaResourceRepository>(
 builder.Services.AddScoped<IWeightRepository, WeightRepository>();
 builder.Services.AddScoped<IBestEffortsRepository, BestEffortsRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<ITrainingPlanRepository, TrainingPlanRepository>();
+builder.Services.AddScoped<ITrainingPlanEventRepository, TrainingPlanEventRepository>();
 
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IStravaApiService, StravaApiService>();

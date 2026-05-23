@@ -39,11 +39,26 @@ public class NexusGeminiApiController : ControllerBase
     }
 
     [HttpPut("finalize")]
-    public async Task<ActionResult> FinalizeTrainingPlan()
+    public async Task<ActionResult<TrainingPlanFinalizeResponse>> FinalizeTrainingPlan(
+        [FromBody] TrainingPlanView plan)
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
 
-        return Ok();
+        try
+        {
+            var result = await _trainingPlanService.FinalizeTrainingPlanAsync(userId, plan);
+
+            return Ok(new TrainingPlanFinalizeResponse
+            {
+                TrainingPlanId = result.TrainingPlanId,
+                Message = result.Message,
+                EventsSaved = result.EventsSaved,
+            });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 }

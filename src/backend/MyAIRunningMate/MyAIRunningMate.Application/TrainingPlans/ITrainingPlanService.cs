@@ -11,5 +11,5 @@ public interface ITrainingPlanService
         string runningLevel, 
         int trainingPlanLength, 
         string poolSize);
-    Task<TrainingPlanView> FinalizeTrainingPlan();
+    Task<TrainingPlanFinalizeResult> FinalizeTrainingPlanAsync(Guid userId, TrainingPlanView plan);
 }
