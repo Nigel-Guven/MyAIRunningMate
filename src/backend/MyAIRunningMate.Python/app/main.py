@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes import ingestion
@@ -8,9 +10,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
+default_origins = "http://localhost:5173,http://localhost:7002,http://127.0.0.1:5173"
 origins = [
-    "http://localhost:7001",
-    "http://localhost:7002",
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", default_origins).split(",")
+    if origin.strip()
 ]
 
 app.add_middleware(
