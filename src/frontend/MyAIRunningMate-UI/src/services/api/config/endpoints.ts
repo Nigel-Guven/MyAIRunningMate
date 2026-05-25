@@ -11,6 +11,7 @@ export const API_ENDPOINTS = {
 
     calendar: {
         display: '/calendar/display',
+        trainingPlan: '/calendar/training-plan',
     },
 
     events: {

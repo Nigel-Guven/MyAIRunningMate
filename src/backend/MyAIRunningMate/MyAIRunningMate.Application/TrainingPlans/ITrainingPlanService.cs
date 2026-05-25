@@ -12,4 +12,7 @@ public interface ITrainingPlanService
         int trainingPlanLength, 
         string poolSize);
     Task<TrainingPlanFinalizeResult> FinalizeTrainingPlanAsync(Guid userId, TrainingPlanView plan);
+    
+    Task<TrainingPlanView?> GetTrainingPlanByIdAsync(Guid trainingPlanId);
+    Task<TrainingPlanView?> GetActivePlanForUserAsync(Guid userId, DateTime startOfMonth, DateTime endOfMonth);
 }
