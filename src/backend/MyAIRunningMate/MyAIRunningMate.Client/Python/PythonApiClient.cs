@@ -70,7 +70,8 @@ public class PythonApiClient : IPythonApiClient
             if (!response.IsSuccessStatusCode)
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException($"Python API returned {response.StatusCode}");
+                throw new HttpRequestException(
+                    $"Python API returned {response.StatusCode}: {errorContent}");
             }
 
             var result = await response.Content.ReadFromJsonAsync<PythonApiTrainingPlanResponse>();

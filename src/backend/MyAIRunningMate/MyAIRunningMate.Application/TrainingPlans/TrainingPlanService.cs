@@ -41,24 +41,30 @@ public class TrainingPlanService : ITrainingPlanService
 
         var activities = lastTenActivities.Select(entity => entity.ToActivityView());
 
-        var activityRequest = activities.Select(x => new PythonApiActivity()
+        var activityRequest = activities.Select(x => new PythonApiActivity
         {
             ExerciseType = x.ExerciseType,
             AverageHeartRate = x.AverageHeartRate,
-            AverageSecondPerKilometre =  x.AverageSecondPerKilometre,
-            DistanceMetres =  x.DistanceMetres,
-            DurationSeconds =  x.DurationSeconds,
+            AverageSecondPerKilometre = x.AverageSecondPerKilometre ?? 0,
+            DistanceMetres = x.DistanceMetres ?? 0,
+            DurationSeconds = x.DurationSeconds,
             MaxHeartRate = x.MaxHeartRate,
-            StartTime =  x.StartTime,
-            TotalElevationGain =   x.TotalElevationGain,
-            TrainingEffect =  x.TrainingEffect,
-        });
-        
+            StartTime = x.StartTime,
+            TotalElevationGain = x.TotalElevationGain ?? 0,
+            TrainingEffect = x.TrainingEffect ?? 0,
+        }).ToList();
+
         var mappedRunningExperience = MapExperienceYears(runningExperience);
+        var mappedRunningLevel = MapRunningLevel(runningLevel);
 
-        //var response = await _pythonApiClient.ProcessTrainingPlanRequisites(primaryGoal, mappedRunningExperience, runningLevel, trainingPlanLength, poolSize, weightPounds, activityRequest);
-
-        var response = CreateMockTrainingPlan();
+        var response = await _pythonApiClient.ProcessTrainingPlanRequisites(
+            primaryGoal,
+            mappedRunningExperience,
+            mappedRunningLevel,
+            trainingPlanLength,
+            poolSize,
+            weightPounds,
+            activityRequest);
         
         var trainingPlanView = new TrainingPlanView()
         {
@@ -152,50 +158,9 @@ public class TrainingPlanService : ITrainingPlanService
             "4+ years" => 4,
             _ => 5,
         };
-    
-    public static PythonApiTrainingPlanResponse CreateMockTrainingPlan()
-    {
-        return new PythonApiTrainingPlanResponse
-        {
-            Title = "10K Beginner Training Plan",
-            StartDate = new DateTime(2026, 5, 25),
-            EndDate = new DateTime(2026, 7, 20),
-            Description = "An 8-week beginner-friendly 10K training plan generated for testing purposes.",
-            TrainingPlanEvents = new List<PythonApiTrainingPlanEventResponse>
-            {
-                new PythonApiTrainingPlanEventResponse
-                {
-                    EventDate = new DateTime(2026, 5, 25),
-                    ExerciseType = "Run",
-                    ExerciseSubtype = "Easy Run",
-                    Description = "Easy conversational pace run.",
-                    DistanceMetres = 5000
-                },
-                new PythonApiTrainingPlanEventResponse
-                {
-                    EventDate = new DateTime(2026, 5, 27),
-                    ExerciseType = "Run",
-                    ExerciseSubtype = "Intervals",
-                    Description = "6 x 400m intervals with 90s rest.",
-                    DistanceMetres = 6400
-                },
-                new PythonApiTrainingPlanEventResponse
-                {
-                    EventDate = new DateTime(2026, 5, 29),
-                    ExerciseType = "Cross Training",
-                    ExerciseSubtype = "Cycling",
-                    Description = "Low intensity recovery ride.",
-                    DistanceMetres = 15000
-                },
-                new PythonApiTrainingPlanEventResponse
-                {
-                    EventDate = new DateTime(2026, 5, 31),
-                    ExerciseType = "Run",
-                    ExerciseSubtype = "Long Run",
-                    Description = "Steady long run focusing on endurance.",
-                    DistanceMetres = 8000
-                }
-            }
-        };
-    }
+
+    private static string MapRunningLevel(string runningLevel) =>
+        runningLevel.Equals("Expert", StringComparison.OrdinalIgnoreCase)
+            ? "Advanced"
+            : runningLevel;
 }
