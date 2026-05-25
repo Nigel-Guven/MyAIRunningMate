@@ -53,6 +53,22 @@ def build_plan_structure(total_weeks: int = DEFAULT_PLAN_WEEKS) -> PlanStructure
                 )
             ),
             Phase(
+                PhaseName.PEAK, 2, 3, PhaseFocus.THRESHOLD,
+                PhaseConstraints( 1.1, "moderate",
+                    [
+                        WorkoutType.LONG_RUN,
+                        WorkoutType.TEMPO_RUN,
+                        WorkoutType.FARTLEK,
+                        WorkoutType.PROGRESSION_RUN,
+                        WorkoutType.RECOVERY_RUN,
+                        WorkoutType.INTERVAL_SWIM,
+                        WorkoutType.LONG_SWIM
+                    ],
+                    max_sessions_per_week=5,
+                    min_rest_days=1
+                )
+            ),
+            Phase(
                 PhaseName.TAPER, 4, 4, PhaseFocus.TAPERING,
                 PhaseConstraints( 0.6, "low",
                     [

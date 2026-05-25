@@ -7,6 +7,7 @@ export const EXERCISE_TYPES = [
   'Training',
   'Cycling',
   'Hiking',
+  'Rest',
 ] as const;
 
 export type ExerciseType = (typeof EXERCISE_TYPES)[number];
@@ -27,6 +28,7 @@ export const EXERCISE_SUBTYPES_BY_TYPE: Record<ExerciseType, readonly string[]> 
   Training: ['Gym Training'],
   Cycling: ['Cycling'],
   Hiking: ['Hiking'],
+  Rest: ['Rest'],
 };
 
 const normalizeKey = (value: string) => value.trim().toLowerCase().replace(/\s+/g, ' ');
@@ -46,6 +48,7 @@ export const normalizeExerciseType = (value: string): ExerciseType => {
   if (key.includes('hike')) return 'Hiking';
   if (key.includes('gym') || key.includes('train') || key.includes('weight')) return 'Training';
   if (key.includes('run')) return 'Run';
+  if (key.includes('rest')) return 'Rest';
 
   return 'Run';
 };
