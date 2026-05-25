@@ -19,7 +19,7 @@ export const API_ENDPOINTS = {
     },
     
     ingestion: {
-        upload: '/fitfile/upload',
+        upload: '/ingestion/upload',
     },
 
     nexus: {

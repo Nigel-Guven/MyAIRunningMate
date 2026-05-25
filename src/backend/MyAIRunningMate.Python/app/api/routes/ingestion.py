@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.application.fit_ingestion.activity_processor import process_fit_file
 from app.schemas.activity_schema import ActivitySchema
 
-router = APIRouter(prefix="", tags=["ingestion"])
+router = APIRouter(prefix="/ingestion", tags=["ingestion"])
 
 
 @router.post("/process", response_model=ActivitySchema)

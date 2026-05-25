@@ -1,8 +1,8 @@
+using Microsoft.Extensions.Configuration;
 using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
-
 namespace MyAIRunningMate.Application.Session;
 
 public class SessionService : ISessionService
@@ -10,23 +10,26 @@ public class SessionService : ISessionService
     private readonly ISessionRepository _sessionRepository;
     private readonly IProfileRepository _profileRepository;
     private readonly IUserContext _userContext;
-    private readonly Supabase.Client _supabaseClient;
+    private readonly IConfiguration _configuration;
     
     public SessionService(
         ISessionRepository sessionRepository,
         IProfileRepository profileRepository,
         IUserContext userContext,
-        Supabase.Client supabaseClient)
+        IConfiguration configuration)
     {
         _sessionRepository = sessionRepository;
         _profileRepository = profileRepository;
         _userContext = userContext;
-        _supabaseClient = supabaseClient;
+        _configuration = configuration;
     }
     
     public async Task<SessionResult> LoginAsync(string email, string password)
     {
-        var sessionResponse = await _supabaseClient.Auth.SignIn(email, password);
+        // Use a separate client for auth so login does not replace the service-role
+        // session on the shared Supabase singleton used by repositories (RLS would apply).
+        var authClient = await CreateAuthClientAsync();
+        var sessionResponse = await authClient.Auth.SignIn(email, password);
         
         if (sessionResponse == null || string.IsNullOrEmpty(sessionResponse.AccessToken))
         {
@@ -89,5 +92,26 @@ public class SessionService : ISessionService
         }
 
         return true;
+    }
+
+    private async Task<Supabase.Client> CreateAuthClientAsync()
+    {
+        var url = _configuration["Supabase:Url"]
+            ?? throw new InvalidOperationException("Supabase URL is not configured.");
+        var key =
+            _configuration["Supabase:AnonKey"]
+            ?? _configuration["Supabase:PublicKey"]
+            ?? throw new InvalidOperationException(
+                "Supabase AnonKey (or PublicKey) is required for user sign-in.");
+
+        var options = new Supabase.SupabaseOptions
+        {
+            AutoRefreshToken = false,
+            AutoConnectRealtime = false,
+        };
+
+        var client = new Supabase.Client(url, key, options);
+        await client.InitializeAsync();
+        return client;
     }
 }

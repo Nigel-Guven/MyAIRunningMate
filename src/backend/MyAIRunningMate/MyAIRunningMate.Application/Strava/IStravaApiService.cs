@@ -8,4 +8,8 @@ public interface IStravaApiService
     Task<bool> ExchangeAndSave(string code, Guid userId);
     Task<IEnumerable<StravaApiEventResponse>> GetLatestStravaActivities(Guid userId, int amount);
 
+    Task<IEnumerable<StravaApiEventResponse>> GetActivitiesAroundAsync(
+        Guid userId,
+        DateTime startTime,
+        int windowHours = 24);
 }

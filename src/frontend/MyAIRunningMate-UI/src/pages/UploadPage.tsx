@@ -12,7 +12,15 @@ export const UploadPage = () => {
   const [stravaLoading] = useState(false);
   const [isStravaConnected, setIsStravaConnected] = useState(() => stravaService.isConnectedLocally());
 
-  // Logic remains the same as your original component...
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('sync') === 'success') {
+      stravaService.setConnected(true);
+      setIsStravaConnected(true);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
+
   useEffect(() => {
     const verify = async () => {
       try {

@@ -32,11 +32,19 @@ using Supabase;
 var builder = WebApplication.CreateBuilder(args);
 
 var supabaseUrl = builder.Configuration["Supabase:Url"];
-var supabaseKey = builder.Configuration["Supabase:PublicKey"];
+var supabaseServiceRoleKey =
+    builder.Configuration["Supabase:ServiceRoleKey"]
+    ?? builder.Configuration["Supabase:PublicKey"];
 
 if (string.IsNullOrEmpty(supabaseUrl))
 {
     throw new InvalidOperationException("Supabase URL is missing from appsettings.json.");
+}
+
+if (string.IsNullOrEmpty(supabaseServiceRoleKey))
+{
+    throw new InvalidOperationException(
+        "Supabase ServiceRoleKey is missing. Backend database access requires the service role key.");
 }
 
 builder.Services.AddAuthentication(options =>
@@ -79,15 +87,15 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSingleton(_ => 
+builder.Services.AddSingleton(_ =>
 {
     var options = new SupabaseOptions
     {
-        AutoRefreshToken = true,
-        AutoConnectRealtime = true
+        AutoRefreshToken = false,
+        AutoConnectRealtime = false,
     };
 
-    var client = new Client(supabaseUrl!, supabaseKey!, options);
+    var client = new Client(supabaseUrl!, supabaseServiceRoleKey!, options);
     client.InitializeAsync().GetAwaiter().GetResult();
     return client;
 });

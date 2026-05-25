@@ -79,6 +79,47 @@ public class StravaApiService : IStravaApiService
             }
         }
 
-        return await _client.GetActivitiesAsync(currentToken, amount);
+        return await _client.GetActivitiesAsync(currentToken, perPage: amount);
+    }
+
+    public async Task<IEnumerable<StravaApiEventResponse>> GetActivitiesAroundAsync(
+        Guid userId,
+        DateTime startTime,
+        int windowHours = 24)
+    {
+        var session = await _sessionRepository.GetSessionByUserId(userId);
+        if (session == null || string.IsNullOrEmpty(session.AccessToken))
+        {
+            return Enumerable.Empty<StravaApiEventResponse>();
+        }
+
+        var currentToken = session.AccessToken;
+        var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        if (session.ExpiresAt < now + 60)
+        {
+            var newToken = await _client.RefreshTokenAsync(session.RefreshToken);
+            if (newToken != null)
+            {
+                session.AccessToken = newToken.AccessToken;
+                session.RefreshToken = newToken.RefreshToken;
+                session.ExpiresAt = now + newToken.ExpiresIn;
+
+                await _sessionRepository.SaveSession(session);
+                currentToken = newToken.AccessToken;
+            }
+        }
+
+        var startUtc = startTime.Kind switch
+        {
+            DateTimeKind.Utc => startTime,
+            DateTimeKind.Local => startTime.ToUniversalTime(),
+            _ => DateTime.SpecifyKind(startTime, DateTimeKind.Utc),
+        };
+
+        var after = new DateTimeOffset(startUtc.AddHours(-windowHours)).ToUnixTimeSeconds();
+        var before = new DateTimeOffset(startUtc.AddHours(windowHours)).ToUnixTimeSeconds();
+
+        return await _client.GetActivitiesAsync(currentToken, perPage: 50, afterUnix: after, beforeUnix: before);
     }
 }

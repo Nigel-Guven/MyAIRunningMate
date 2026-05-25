@@ -27,6 +27,8 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:7002
+      Strava__CallbackUrl: http://localhost:7002/api/strava/callback
+      Frontend__DashboardUrl: http://localhost:5173/upload
       PythonApi__BaseUrl: http://python-api:8000/
       Cors__AllowedOrigins__0: http://localhost:5173
       Cors__AllowedOrigins__1: http://127.0.0.1:5173

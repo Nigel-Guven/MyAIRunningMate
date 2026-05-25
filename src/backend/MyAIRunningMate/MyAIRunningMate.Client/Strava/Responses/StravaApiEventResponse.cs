@@ -27,6 +27,9 @@ public class StravaApiEventResponse
     
     [JsonPropertyName("start_date")]
     public DateTime StartDate { get; set; }
+
+    [JsonPropertyName("start_date_local")]
+    public DateTime StartDateLocal { get; set; }
     
     [JsonPropertyName("achievement_count")]
     public long AchievementCount { get; set; }

@@ -39,9 +39,24 @@ public class StravaApiClient : IStravaApiClient
         });
     }
 
-    public async Task<IEnumerable<StravaApiEventResponse>> GetActivitiesAsync(string accessToken, int amount)
+    public async Task<IEnumerable<StravaApiEventResponse>> GetActivitiesAsync(
+        string accessToken,
+        int perPage = 30,
+        long? afterUnix = null,
+        long? beforeUnix = null)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, $"api/v3/athlete/activities?per_page={amount}");
+        var query = $"api/v3/athlete/activities?per_page={perPage}";
+        if (afterUnix.HasValue)
+        {
+            query += $"&after={afterUnix.Value}";
+        }
+
+        if (beforeUnix.HasValue)
+        {
+            query += $"&before={beforeUnix.Value}";
+        }
+
+        var request = new HttpRequestMessage(HttpMethod.Get, query);
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
         var response = await _httpClient.SendAsync(request);
