@@ -75,7 +75,7 @@ export const NexusPage = () => {
           return { ...event, distanceMetres: Number.isNaN(metres) ? 0 : Math.max(0, metres) };
         }
 
-        return { ...event, [field]: value };
+        return { ...event, description: String(value) };
       });
 
       return { ...prev, trainingPlanEvents: events };

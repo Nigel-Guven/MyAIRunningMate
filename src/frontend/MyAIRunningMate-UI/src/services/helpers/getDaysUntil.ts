@@ -1,4 +1,4 @@
-export const getDaysUntil = (date: DateTime) => {
+export const getDaysUntil = (date: Date | string) => {
     const target = new Date(date).getTime();
     const now = new Date().getTime();
     const diff = target - now;

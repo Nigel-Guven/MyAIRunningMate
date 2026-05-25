@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import appLogo from '../../assets/applogo.png';
 

@@ -1,6 +1,3 @@
-import { useMap } from "react-leaflet";
-import { useEffect } from "react";
-
 export const formatDuration = (
   seconds: number
 ): string => {

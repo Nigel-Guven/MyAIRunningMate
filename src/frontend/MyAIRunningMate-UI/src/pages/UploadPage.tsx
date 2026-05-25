@@ -9,7 +9,7 @@ export const UploadPage = () => {
   const [status, setStatus] = useState<'idle' | 'uploading' | 'processing' | 'success' | 'error'>('idle');
   const [result, setResult] = useState<IngestionViewDto | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [stravaLoading, setStravaLoading] = useState(false);
+  const [stravaLoading] = useState(false);
   const [isStravaConnected, setIsStravaConnected] = useState(() => stravaService.isConnectedLocally());
 
   // Logic remains the same as your original component...

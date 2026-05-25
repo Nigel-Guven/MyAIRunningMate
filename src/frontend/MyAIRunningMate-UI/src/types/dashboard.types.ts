@@ -4,7 +4,7 @@ import type {
 
 import type {
   BestEffortViewDto,
-} from '../types/views/bestEffortView';
+} from './bestefforts.types';
 
 import type {
   WeightResponse,

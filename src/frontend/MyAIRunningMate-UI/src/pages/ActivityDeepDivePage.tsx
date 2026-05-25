@@ -200,7 +200,7 @@ export const ActivityDeepDivePage = () => {
                 className="h-full w-full"
               >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Polyline positions={coords} color="blue" weight={4} />
+                <Polyline positions={coords} pathOptions={{ color: 'blue', weight: 4 }} />
               </MapContainer>
             </div>
           )}
