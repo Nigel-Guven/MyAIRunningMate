@@ -99,7 +99,8 @@ builder.Services.AddHttpClient<IStravaApiClient, StravaApiClient>(client =>
 
 builder.Services.AddHttpClient<IPythonApiClient, PythonApiClient>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:8000/");
+    var pythonApiBaseUrl = builder.Configuration["PythonApi:BaseUrl"] ?? "http://localhost:8000/";
+    client.BaseAddress = new Uri(pythonApiBaseUrl);
 });
 
 builder.Services.AddHttpContextAccessor();
@@ -140,8 +141,17 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
-            .AllowAnyHeader()
+        var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+        if (allowedOrigins is { Length: > 0 })
+        {
+            policy.WithOrigins(allowedOrigins);
+        }
+        else
+        {
+            policy.WithOrigins("http://localhost:5173");
+        }
+
+        policy.AllowAnyHeader()
             .AllowAnyMethod();
     });
 });

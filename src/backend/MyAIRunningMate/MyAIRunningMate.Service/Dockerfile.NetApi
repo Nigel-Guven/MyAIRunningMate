@@ -3,7 +3,6 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 COPY MyAIRunningMate/MyAIRunningMate.sln ./
-
 COPY MyAIRunningMate/MyAIRunningMate.Service/ MyAIRunningMate.Service/
 COPY MyAIRunningMate/MyAIRunningMate.Domain/ MyAIRunningMate.Domain/
 COPY MyAIRunningMate/MyAIRunningMate.Application/ MyAIRunningMate.Application/
@@ -11,22 +10,21 @@ COPY MyAIRunningMate/MyAIRunningMate.Contracts/ MyAIRunningMate.Contracts/
 COPY MyAIRunningMate/MyAIRunningMate.Database/ MyAIRunningMate.Database/
 COPY MyAIRunningMate/MyAIRunningMate.Client/ MyAIRunningMate.Client/
 
-# restore solution (now it exists in context root)
 RUN dotnet restore MyAIRunningMate.sln
 
-# publish service project
 RUN dotnet publish MyAIRunningMate.Service/MyAIRunningMate.Service.csproj \
     -c Release \
     -o /app/publish \
     --no-restore
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 
 WORKDIR /app
 
 COPY --from=build /app/publish .
 
 ENV ASPNETCORE_URLS=http://+:7002
+ENV PythonApi__BaseUrl=http://python-api:8000/
 
 EXPOSE 7002
 
