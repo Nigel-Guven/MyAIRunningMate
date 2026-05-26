@@ -236,14 +236,13 @@ export const ActivityDeepDivePage = () => {
                       </td>
 
                       <td className="p-4">
-                        {(
-                          lap.distance_metres /
-                          1000
-                        ).toFixed(2)}k
+                        {data.exercise_type === "swimming"
+                          ? `${lap.distance_metres}m`
+                          : `${(lap.distance_metres / 1000).toFixed(2)}k`}
                       </td>
 
                       <td className="p-4">
-                        {lap.duration_seconds ?? '--'}
+                        {formatDuration(lap.duration_seconds) ?? '--'}
                       </td>
 
                       <td className="p-4">
