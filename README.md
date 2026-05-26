@@ -2,95 +2,94 @@
   <img src="documents/MyAIRunningMateLogo.png" alt="MyAIRunningMate Logo" width="400"/>
 </p>
 
-# 🏃‍♂️🏊 Strava Data Analysis – Python/React Application
+# 🏃‍♂️🏋️‍♂️ MyAIRunningMate
 
-> **AI-powered running & swimming analysis**
+> **A comprehensive, AI-powered multi-sport training platform that unifies Garmin and Strava data, parses raw telemetry, and delivers tailored athletic insights.**
 
 ---
 
 ## 📜 Overview
-This project is a **Python/React-based service** designed to collect, process, and analyze exercise data from **Strava**, providing users with **personalized AI feedback** and **interactive visualizations**.  
+**MyAIRunningMate** is a full-stack application designed to merge fitness data from **Garmin** and **Strava** into a single, cohesive dashboard. By combining high-performance data parsing with advanced generative AI, the platform acts as an intelligent training companion. 
+
+From analyzing raw `.fit` files to generating adaptive, multi-sport training plans using Gemini, MyAIRunningMate handles the heavy lifting of athletic data aggregation so athletes can focus on performance.
 
 ---
 
-## 🏗 High-Level Architecture
-![Architecture Diagram](documents/HighLevelArchitectureDiagram.png) <!-- Optional: Add diagram image -->
+## ✨ Key Features
 
-**Key Components:**
-- **Data Sources** - Strava, Google Sheets
-- **Frontend UI Service** – React UI for data visualization & AI feedback
-- **API Gateway** – FastAPI routes requests, rate limiting, handles authentication, API versioning
-- **Strava Ingestion Service** – Fetches raw workout data from Strava API
-- **Analytics Service** – Processes and stores workout metrics
-- **AI Insight Service** – Aggregated Metrics, Trends, Conversational, Insights, Recommendations
-- **Data Storage** – Postgres, monitoring tools
----
+* **🏠 Centralized Dashboard & Nexus AI**
+    * **Weekly Progress Feed:** Real-time tracking of current weekly volume and progress metrics.
+    * **Nexus AI Agent:** A dedicated wrapper agent built on the Gemini API, strictly contextualized to focus on your exercise and biometric data to deliver weekly interpretation and feedback.
+    * **PR Records:** Dynamic personal records synced directly from Strava.
+    * **Upcoming Events:** High-level countdown and visibility into your next target races.
 
-Extra:
-Strava Async
-Google Sheets Async
-Analytics Recomputation
-AI Insight Generation
-Celery, RQ 
-Cron
-Frontend - 
-  Dashboard - Mileage, Training load, Pace Trends
-  Calendar - Planned vs Actual, Racing Countdown
-  AI Coach - Chat UI, Predefined prompts, weekly insights feed
-  Settings - Strava Connection, Sheet selection, Preferences
-Authentication/Security - JWT Auth, OAuth for Strava, Secret in env vars, Token refresh handling
-Key Architectural Principle -> System computes facts deterministically, Uses AI for interpretation and explanation - cheaper reliable impressive
+* **📅 Interactive Training Calendar**
+    * Visual representation of historical activities paired with future training plan events.
+    * Deep-dive click views for activities showcasing detailed lap splits, Strava social data, and interactive route mapping using **Leaflet**.
 
+* **🧬 Ingestion Lab**
+    * Direct drag-and-drop interface for raw Garmin `.fit` files.
+    * Automated extraction, descrambling, and synchronization of biometric and GPS telemetry into the data store.
 
-## 🔍 Service Breakdown
+* **📊 Analytics Vault & Weight Tracker**
+    * Yearly aggregation of progress, distance, activity counts, and average Training Effects (Aerobic/Anaerobic).
+    * Dedicated weight tracking module featuring historical trend graphs to monitor body composition alongside training load.
 
-### 1. **Frontend UI Service**
-- **Tech**: PyQt5 / PySide6 (native) or Electron (web-based)
-- **Purpose**: Display workout stats, receive AI feedback
-- **Communication**: HTTP / gRPC
-
-### 2. **API Gateway**
-- **Tech**: FastAPI / NGINX
-- **Purpose**: Routing, authentication, API versioning
-
-### 3. **Strava Data Collection Service**
-- **Tech**: Python + Strava API
-- **Purpose**: Authenticate & fetch workout logs
-- **Output**: Publishes events to **Kafka**
-
-### 4. **Data Pipeline & Analytics Service**
-- **Tech**: Pandas, NumPy, TimescaleDB/PostgreSQL, Scikit-learn (optional)
-- **Purpose**: Process raw data, calculate metrics, predictive analytics
-
-### 5. **AI Agent Service**
-- **Tech**: Python + OpenAI API (or similar)
-- **Purpose**: Provide personalized AI-powered workout feedback
-
-### 6. **Data Visualization Service**
-- **Tech**: Matplotlib, Plotly, Bokeh
-- **Purpose**: Serve visual charts/dashboards via API
+* **🤖 Nexus AI Mate (Plan Generator)**
+    * Custom training wizard capturing user parameters: swimming pool accessibility, athletic goals, experience level, and target timeline.
+    * Generates highly tailored, fully customizable multi-sport training plans (Running, Swimming, Walking, Hiking, etc.) powered by **Gemini 2.5 Flash**.
 
 ---
 
-## 🛠 Infrastructure & Tooling
-| Tool / Service      | Purpose |
-|---------------------|---------|
-| **Docker**          | Containerize microservices |
-| **Kubernetes**      | Orchestrate and scale services |
-| **Helm**            | Manage Kubernetes configurations |
-| **Terraform**       | Provision cloud infrastructure |
-| **Kafka**           | Event streaming backbone |
-| **PostgreSQL + TimescaleDB** | Store time-series metrics |
-| **Prometheus + Grafana** | Monitoring and dashboards |
-| **MinIO**           | Store large files (GPX/FIT) |
-| **Airflow** *(optional)* | ETL scheduling |
-| **gRPC** *(optional)* | High-performance service-to-service communication |
+## 🏗 System Architecture & Tech Stack
+
+The application leverages a decoupled, multi-service architecture designed to enforce a strict engineering principle: **The core system computes facts deterministically, while the AI is utilized for interpretation, personalization, and explanation.**
+
+[ React / Vite Frontend ]
+│             ▲
+▼             │
+[ C# .NET Core API ] ◄───► [ Supabase (PostgreSQL / Auth) ]
+│             ▲
+▼             │
+[ Python FastAPI Heavy Processor ]
+
+### 💻 Frontend
+* **Core:** React (Vite)
+* **Styling:** Tailwind CSS
+* **Networking:** Axios
+* **Charts & Maps:** Recharts (Data Visualizations), Leaflet (Interactive Route Maps)
+
+### 🛡 Backend API (C# .NET)
+Built following **Domain-Driven Design (DDD)** principles to handle business logic, orchestration, authentication validation, and external contract enforcement.
+* **Contracts Layer:** Defines request/response DTOs and API specifications.
+* **Service Layer / Application Layer:** Manages application orchestrations, external API communications, and use-case execution.
+* **Domain Layer:** Encapsulates core fitness logic, enterprise invariants, and business entities.
+* **Database Layer:** Interfaces with the persistent data store.
+
+### 🐍 Heavy-Duty Processing & AI API (Python)
+A high-performance REST API dedicated to computationally heavy data parsing and LLM integrations.
+* **Framework:** FastAPI + Pydantic (Data validation)
+* **Telemetry Parsing:** `fitparse` library for decoding binary Garmin `.fit` files.
+* **AI Engine:** `google-genai` integration utilizing the **Gemini 2.5 Flash** model for structured training plan generation.
+
+### 🗄 Storage & Auth
+* **Supabase:** Handles relational data storage (PostgreSQL), transactional queries, and secure user authentication.
 
 ---
 
-## 🚀 Getting Started
+## 🛠 Infrastructure & Local Deployment
 
-### 1️⃣ Clone Repository
+The entire ecosystem is containerized for seamless local development and deployment. Each service contains its own optimized `Dockerfile`, orchestrated globally via `docker-compose`.
+
+### Prerequisites
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed locally.
+* Environment configurations (`.env`) populated for Supabase keys, Gemini API keys, and Strava API credentials.
+
+### Spinning up the Ecosystem
+To build and run the frontend, C# backend, and Python processing service simultaneously, execute the following from the root directory:
+
 ```bash
-git clone https://github.com/your-username/strava-analytics.git
-cd strava-analytics
+
+docker-compose up --build
+
+```
