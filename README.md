@@ -55,7 +55,7 @@ The application leverages a decoupled, multi-service architecture designed to en
 [ C# .NET Core API ] ◄───► [ Supabase (PostgreSQL / Auth) ] ◄─── [ Supabase Cron ]
        │             ▲                      │
        ▼             │                      ▼
-[ Python FastAPI Heavy Processor ]   [ Edge Function ] ───► ( Email Delivery )
+[ Python FastAPI Heavy Processor ]   [ Edge Function ] ───► ( Email Delivery  via Resend API)
 
 ### 💻 Frontend
 * **Core:** React (Vite)
