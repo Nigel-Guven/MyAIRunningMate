@@ -39,19 +39,23 @@ From analyzing raw `.fit` files to generating adaptive, multi-sport training pla
     * Custom training wizard capturing user parameters: swimming pool accessibility, athletic goals, experience level, and target timeline.
     * Generates highly tailored, fully customizable multi-sport training plans (Running, Swimming, Walking, Hiking, etc.) powered by **Gemini 2.5 Flash**.
 
+* **📬 Automated Training Delivery (Daily Digests)**
+    * **Supabase Cron Job & Edge Functions:** An automated cron schedule triggers a serverless Edge Function daily to scan upcoming calendar states.
+    * **Email Notifications:** Fetches the day's scheduled training events (e.g., target running mileage, swimming sets, or rest days) and dispatches a clean morning digest directly to the user's inbox.
+
 ---
 
 ## 🏗 System Architecture & Tech Stack
 
 The application leverages a decoupled, multi-service architecture designed to enforce a strict engineering principle: **The core system computes facts deterministically, while the AI is utilized for interpretation, personalization, and explanation.**
 
-[ React / Vite Frontend ]
-│             ▲
-▼             │
-[ C# .NET Core API ] ◄───► [ Supabase (PostgreSQL / Auth) ]
-│             ▲
-▼             │
-[ Python FastAPI Heavy Processor ]
+[ React / Vite Frontend ] 
+       │             ▲
+       ▼             │
+[ C# .NET Core API ] ◄───► [ Supabase (PostgreSQL / Auth) ] ◄─── [ Supabase Cron ]
+       │             ▲                      │
+       ▼             │                      ▼
+[ Python FastAPI Heavy Processor ]   [ Edge Function ] ───► ( Email Delivery )
 
 ### 💻 Frontend
 * **Core:** React (Vite)
@@ -74,6 +78,10 @@ A high-performance REST API dedicated to computationally heavy data parsing and 
 
 ### 🗄 Storage & Auth
 * **Supabase:** Handles relational data storage (PostgreSQL), transactional queries, and secure user authentication.
+
+### ⚡ Automation & Edge Serverless
+* **Supabase Cron:** Handles time-based scheduling to ensure reliable, periodic execution without maintaining an active background worker thread.
+* **Supabase Edge Functions:** TypeScript-based serverless functions that securely execute on the edge to query daily training plan events from PostgreSQL and dispatch automated morning email digests to users.
 
 ---
 
