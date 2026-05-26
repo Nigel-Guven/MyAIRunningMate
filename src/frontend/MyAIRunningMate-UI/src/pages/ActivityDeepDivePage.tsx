@@ -16,6 +16,8 @@ import { MapContainer, TileLayer, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import polyline from "@mapbox/polyline";
 
+import {ResponsiveContainer,ComposedChart,Line, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend, } from "recharts";
+
 export const ActivityDeepDivePage = () => {
 
   const { id } = useParams();
@@ -28,6 +30,17 @@ export const ActivityDeepDivePage = () => {
     if (!data?.map?.map_polyline) return null;
     return polyline.decode(data.map.map_polyline);
   }, [data?.map?.map_polyline]);
+
+  const lapChartData = useMemo(() => {
+    return (
+      data?.laps?.map((lap, idx) => ({
+        lap: idx + 1,
+        distance: lap.distance_metres,
+        hr: lap.average_heart_rate,
+        pace: Number((lap.duration_seconds / 60).toFixed(2)), // minutes
+      })) || []
+    );
+  }, [data?.laps]);
 
   useEffect(() => {
 
@@ -204,6 +217,107 @@ export const ActivityDeepDivePage = () => {
               </MapContainer>
             </div>
           )}
+
+          {/* LAP ANALYTICS */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+
+            <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-4">
+              Lap Analytics
+            </h3>
+
+            <div className="h-[350px]">
+
+              <ResponsiveContainer width="100%" height="100%">
+
+                <ComposedChart data={lapChartData}>
+
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+
+                  <XAxis
+                    dataKey="lap"
+                    stroke="#94a3b8"
+                  />
+
+                  <YAxis
+                    yAxisId="left"
+                    stroke="#38bdf8"
+                    label={{
+                      value: "Pace (min)",
+                      angle: -90,
+                      position: "insideLeft",
+                      fill: "#38bdf8",
+                    }}
+                  />
+
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    stroke="#ef4444"
+                    label={{
+                      value: "HR",
+                      angle: 90,
+                      position: "insideRight",
+                      fill: "#ef4444",
+                    }}
+                  />
+
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#0f172a",
+                      border: "1px solid #334155",
+                    }}
+                    formatter={(value: any, name: any) => {
+                      // Return early if either expected piece of data is missing
+                      if (value === undefined || value === null || !name) {
+                        return [value, name];
+                      }
+
+                      if (name === "pace") {
+                        const totalSeconds = Math.round(Number(value) * 60);
+                        const mins = Math.floor(totalSeconds / 60);
+                        const secs = totalSeconds % 60;
+                        const paddedSecs = String(secs).padStart(2, '0');
+
+                        return [`${mins}m ${paddedSecs}s`, "Pace"];
+                      }
+
+                      if (name === "hr") {
+                        return [`${value} bpm`, "Heart Rate"];
+                      }
+
+                      return [value, name];
+                    }}
+                    labelFormatter={(label) => `Lap ${label}`}
+                  />
+
+                  <Legend />
+
+                  {/* Pace */}
+                  <Bar
+                    yAxisId="left"
+                    dataKey="pace"
+                    fill="#38bdf8"
+                    radius={[4, 4, 0, 0]}
+                    name="Pace"
+                  />
+
+                  {/* Heart Rate */}
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="hr"
+                    stroke="#ef4444"
+                    strokeWidth={3}
+                    dot={{ r: 4 }}
+                    name="Heart Rate"
+                  />
+
+                </ComposedChart>
+
+              </ResponsiveContainer>
+
+            </div>
+          </div>
 
           {/* LAPS */}
           <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
