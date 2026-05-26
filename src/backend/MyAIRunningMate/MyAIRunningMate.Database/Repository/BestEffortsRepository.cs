@@ -21,23 +21,15 @@ public class BestEffortsRepository(Supabase.Client supabase) : BaseRepository<Be
 
     public async Task UpdateBestEffort(string distanceLabel, DateTime newDate, int newTime, Guid userId)
     {
-        var existingBestEffort = await _supabase
-            .From<BestEffortEntity>()
-            .Where(x => x.UserId == userId)
-            .Where(x => x.DistanceLabel == distanceLabel)
-            .Single();
-
-        if (existingBestEffort == null)
-        {
-            return;
-        }
-
-        existingBestEffort.TimeAchievement = newTime;
-        existingBestEffort.AchievementDate = newDate;
+        var cleanLabel = distanceLabel?.Trim();
 
         await _supabase
             .From<BestEffortEntity>()
-            .Update(existingBestEffort);
+            .Where(x => x.UserId == userId)
+            .Where(x => x.DistanceLabel == cleanLabel)
+            .Set(x => x.TimeAchievement, newTime)
+            .Set(x => x.AchievementDate, newDate)
+            .Update();
         
     }
 }

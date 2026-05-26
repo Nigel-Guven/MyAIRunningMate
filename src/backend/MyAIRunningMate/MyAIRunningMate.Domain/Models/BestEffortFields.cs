@@ -12,6 +12,7 @@ public static class BestEffortFields
         "3K",
         "5K",
         "10K",
+        "20K",
         "Half Marathon",
         "Marathon",
         "Ultra Marathon"
