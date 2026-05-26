@@ -26,8 +26,6 @@ public class SessionService : ISessionService
     
     public async Task<SessionResult> LoginAsync(string email, string password)
     {
-        // Use a separate client for auth so login does not replace the service-role
-        // session on the shared Supabase singleton used by repositories (RLS would apply).
         var authClient = await CreateAuthClientAsync();
         var sessionResponse = await authClient.Auth.SignIn(email, password);
         

@@ -1,4 +1,4 @@
-import { formatDateLong } from '../../services/helpers/dateFormatter' // Adjust path as needed
+import { formatDateLong } from '../../services/helpers/dateFormatter'
 
 export const WeightTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {

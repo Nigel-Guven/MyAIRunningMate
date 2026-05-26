@@ -104,7 +104,6 @@ export const NexusPage = () => {
           ...event,
           exerciseType,
           exerciseSubtype: getSubtypesForType(exerciseType)[0],
-          // Reset distance out if changing strictly back to Rest
           distanceMetres: exerciseType === 'Rest' ? 0 : event.distanceMetres,
           description: exerciseType === 'Rest' ? 'Rest Day' : event.description,
         };
@@ -139,8 +138,6 @@ export const NexusPage = () => {
       const generatedPlan = await nexusService.generateTrainingPlan(formData);
       const normalized = normalizeTrainingPlan(generatedPlan);
 
-      // --- HYDRATE ENTIRE HORIZON ARRAY (Including missing rest days) ---
-      // This builds a continuous array state so every day can be modified
       if (normalized.startDate && normalized.trainingPlanEvents) {
         const startMs = new Date(normalized.startDate).getTime();
         const totalDays = (formData.schedule_length_weeks + 1) * 7;
@@ -159,7 +156,6 @@ export const NexusPage = () => {
           if (eventMap.has(dateKey)) {
             completeEvents.push(eventMap.get(dateKey)!);
           } else {
-            // Generate a mutable default state wrapper for structural empty slots
             completeEvents.push({
               eventDate: targetDate.toISOString(),
               exerciseType: 'Rest',
@@ -207,7 +203,6 @@ export const NexusPage = () => {
     }
   };
 
-  // Maps the fully populated state flat array cleanly into structural 7-day groups
   const organizedWeeks = useMemo(() => {
     if (!plan?.trainingPlanEvents?.length) return [];
 

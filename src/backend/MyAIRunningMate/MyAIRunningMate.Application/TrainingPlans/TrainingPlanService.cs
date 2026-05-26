@@ -178,22 +178,18 @@ public class TrainingPlanService : ITrainingPlanService
 
     public async Task<TrainingPlanView?> GetActivePlanForUserAsync(Guid userId, DateTime startOfMonth, DateTime endOfMonth)
     {
-        // 1. Fetch all plans for the user using simple string equality matching
         var allUserPlans = await _trainingPlanRepository.GetAllPlansForUserAsync(userId);
         if (allUserPlans == null || !allUserPlans.Any()) return null;
 
-        // 2. Use native C# LINQ to find the plan overlapping your active month view
         var activePlanEntity = allUserPlans.FirstOrDefault(plan => 
             plan.StartDate <= endOfMonth && plan.EndDate >= startOfMonth
         );
 
         if (activePlanEntity == null) return null;
 
-        // 3. Pull the flat events tied directly to this plan's ID
         var eventEntities = await _trainingPlanEventRepository.GetEventsByPlanIdAsync(activePlanEntity.TrainingPlanId);
         if (eventEntities == null) return null;
 
-        // 4. Map the models back to domain views
         return new TrainingPlanView
         {
             Title = activePlanEntity.Title,

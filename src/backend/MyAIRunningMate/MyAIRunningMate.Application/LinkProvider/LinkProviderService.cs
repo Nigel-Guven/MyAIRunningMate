@@ -93,7 +93,6 @@ public class LinkProviderService : ILinkProviderService
             return true;
         }
 
-        // FIT start_time is often local wall-clock without a timezone in JSON.
         if (activityStart.Kind == DateTimeKind.Unspecified &&
             strava.StartDateLocal != default &&
             MinutesApart(strava.StartDateLocal, activityStart) <= StartTimeToleranceMinutes)

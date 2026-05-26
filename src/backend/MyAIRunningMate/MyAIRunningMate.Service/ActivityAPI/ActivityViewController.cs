@@ -45,10 +45,4 @@ public class ActivityViewController : ControllerBase
             return StatusCode(500, $"Error retrieving activities: {ex.Message}");
         }
     }
-    
-    // [HttpGet("volume")]
-    // public async Task<ActionResult<AggregateArtifactViewDto>> GetWeeklyVolume([FromQuery] Guid activityId)
-    // {
-    //     var activities = await _activityViewService.T
-    // }
 }

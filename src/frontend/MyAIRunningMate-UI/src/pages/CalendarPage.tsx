@@ -17,7 +17,6 @@ export const CalendarPage = () => {
   useEffect(() => {
     let active = true;
 
-    // Reset view collections on transition
     setActivities([]);
     setTrainingPlan(null);
 
@@ -27,7 +26,6 @@ export const CalendarPage = () => {
         const targetMonth = viewDate.getMonth() + 1;
         const targetYear = viewDate.getFullYear();
 
-        // Concurrently run requests to maximize pipeline throughput
         const [activitiesData, planData] = await Promise.all([
           calendarService.getMonthlyActivities(targetMonth, targetYear),
           calendarService.getTrainingPlan(targetMonth, targetYear),
@@ -55,7 +53,6 @@ export const CalendarPage = () => {
 
   const { days, blanks, monthLabel } = useMemo(() => buildCalendarMonth(viewDate), [viewDate]);
 
-  // Group completed actual sessions by day of month
   const groupedActivities = useMemo(() => {
     const map = new Map<number, CalendarViewDto[]>();
     if (activities.length === 0) return map;
@@ -74,7 +71,6 @@ export const CalendarPage = () => {
     return map;
   }, [activities]);
 
-  // Group planned workout requirements by day of month
   const groupedTrainingEvents = useMemo(() => {
     const map = new Map<number, TrainingPlanEventView>();
     if (!trainingPlan?.trainingPlanEvents?.length) return map;
@@ -85,7 +81,6 @@ export const CalendarPage = () => {
     trainingPlan.trainingPlanEvents.forEach((ev) => {
       const eventDate = new Date(ev.eventDate);
       
-      // Ensure the event belongs to the currently displayed year and month
       if (eventDate.getFullYear() === currentYear && eventDate.getMonth() === currentMonth) {
         map.set(eventDate.getDate(), ev);
       }
@@ -151,7 +146,7 @@ export const CalendarPage = () => {
             key={day}
             day={day}
             activities={groupedActivities.get(day) || []}
-            trainingEvent={groupedTrainingEvents.get(day)} // Attached training data payload
+            trainingEvent={groupedTrainingEvents.get(day)}
           />
         ))}
       </div>

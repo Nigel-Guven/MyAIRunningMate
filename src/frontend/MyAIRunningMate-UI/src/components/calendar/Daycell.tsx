@@ -5,7 +5,7 @@ import { ActivityTile } from "./ActivityTile";
 interface DayCellProps {
   day: number;
   activities: CalendarViewDto[];
-  trainingEvent?: TrainingPlanEventView; // Added target type structure
+  trainingEvent?: TrainingPlanEventView;
 }
 
 const formatDistanceKm = (metres: number) => {
@@ -13,7 +13,6 @@ const formatDistanceKm = (metres: number) => {
   return `${(metres / 1000).toFixed(1)}k`;
 };
 
-// Maps exercise types to recognizable emojis for quick scannability
 const getExerciseEmoji = (type: string): string => {
   const t = type.toLowerCase();
   if (t.includes('run')) return '🏃‍♂️';
