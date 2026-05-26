@@ -49,13 +49,36 @@ From analyzing raw `.fit` files to generating adaptive, multi-sport training pla
 
 The application leverages a decoupled, multi-service architecture designed to enforce a strict engineering principle: **The core system computes facts deterministically, while the AI is utilized for interpretation, personalization, and explanation.**
 
-[ React / Vite Frontend ] 
-       │             ▲
-       ▼             │
-[ C# .NET Core API ] ◄───► [ Supabase (PostgreSQL / Auth) ] ◄─── [ Supabase Cron ]
-       │             ▲                      │
-       ▼             │                      ▼
-[ Python FastAPI Heavy Processor ]   [ Edge Function ] ───► ( Email Delivery  via Resend API)
+```mermaid
+graph TD
+    %% Define Nodes
+    Frontend[React / Vite Frontend]
+    CSharp[C# .NET Core API]
+    Supabase[(Supabase DB & Auth)]
+    Cron[Supabase Cron]
+    Edge[Supabase Edge Function]
+    Email(Email Delivery via Resend API)
+    Python[Python FastAPI Heavy Processor]
+
+    %% Define Styling / Colors
+    style Frontend fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
+    style CSharp fill:#512BD4,stroke:#333,stroke-width:2px,color:#fff
+    style Supabase fill:#3ECF8E,stroke:#333,stroke-width:2px,color:#000
+    style Python fill:#3776AB,stroke:#333,stroke-width:2px,color:#fff
+    style Edge fill:#f5a623,stroke:#333,stroke-width:1px,color:#000
+    style Cron fill:#9b59b6,stroke:#333,stroke-width:1px,color:#fff
+    style Email fill:#e74c3c,stroke:#333,stroke-width:1px,color:#fff
+
+    %% Define Relationships
+    Frontend <--> |HTTP / JSON| CSharp
+    CSharp <--> |Data / Auth| Supabase
+    CSharp <--> |Heavy Processing / AI| Python
+    
+    %% Automation Flow
+    Cron --> |Triggers Schedule| Edge
+    Edge --> |Queries Events| Supabase
+    Edge --> |Dispatches Alerts| Email
+```
 
 ### 💻 Frontend
 * **Core:** React (Vite)
