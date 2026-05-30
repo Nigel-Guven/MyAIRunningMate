@@ -154,7 +154,7 @@ export const DashboardPage = () => {
         </div>
 
         {/* Schedule Summary */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+       <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
           <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Next Up</h4>
           {upcomingEvents.slice(0, 3).map((event, i) => (
             <div key={i} className="flex items-center gap-4 mb-3 last:mb-0 p-2 rounded-xl hover:bg-white/5 transition-colors">
@@ -165,8 +165,18 @@ export const DashboardPage = () => {
                 <p className="text-lg font-black text-white leading-none">{new Date(event.event_date).getDate()}</p>
               </div>
               <div className="group p-4 rounded-2xl transition-all">
-              <p className="text-xs font-bold text-white leading-tight uppercase truncate">{event.name}</p>
-              <p className="pt-4 text-[10px] text-slate-600 font-mono uppercase">{event.location}</p>
+                {/* Updated section: wrapped event.name in an anchor tag with hover effects */}
+                <p className="text-xs font-bold text-white leading-tight uppercase truncate">
+                  <a 
+                    href={event.event_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="transition-colors duration-200 hover:text-blue-400"
+                  >
+                    {event.name}
+                  </a>
+                </p>
+                <p className="pt-4 text-[10px] text-slate-600 font-mono uppercase">{event.location}</p>
               </div>
             </div>
           ))}
