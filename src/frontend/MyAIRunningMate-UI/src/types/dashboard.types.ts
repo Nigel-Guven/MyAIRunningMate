@@ -12,7 +12,7 @@ export interface DashboardData {
 
   bestEfforts: BestEffortViewDto[];
 
-  volume: WeeklyVolumeDto;
+  volume: WeeklyVolumeDto | null;
 
   latestWeight: WeightResponse | null;
 }
