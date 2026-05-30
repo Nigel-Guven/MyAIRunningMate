@@ -92,6 +92,7 @@ Built following **Domain-Driven Design (DDD)** principles to handle business log
 * **Service Layer / Application Layer:** Manages application orchestrations, external API communications, and use-case execution.
 * **Domain Layer:** Encapsulates core fitness logic, enterprise invariants, and business entities.
 * **Database Layer:** Interfaces with the persistent data store.
+* **Client Layer:** Http Clients for Strava, Python API and Open Street Maps Geocoding.
 
 ### 🐍 Heavy-Duty Processing & AI API (Python)
 A high-performance REST API dedicated to computationally heavy data parsing and LLM integrations.
