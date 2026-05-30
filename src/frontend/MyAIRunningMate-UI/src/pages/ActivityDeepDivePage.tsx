@@ -37,7 +37,7 @@ export const ActivityDeepDivePage = () => {
         lap: idx + 1,
         distance: lap.distance_metres,
         hr: lap.average_heart_rate,
-        pace: Number((lap.duration_seconds / 60).toFixed(2)), // minutes
+        pace: Number((lap.duration_seconds / 60).toFixed(2)),
       })) || []
     );
   }, [data?.laps]);
@@ -267,7 +267,6 @@ export const ActivityDeepDivePage = () => {
                       border: "1px solid #334155",
                     }}
                     formatter={(value: any, name: any) => {
-                      // Return early if either expected piece of data is missing
                       if (value === undefined || value === null || !name) {
                         return [value, name];
                       }

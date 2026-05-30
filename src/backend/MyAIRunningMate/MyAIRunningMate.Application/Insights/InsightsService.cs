@@ -77,7 +77,14 @@ public class InsightsService : IInsightsService
             .Distinct()
             .Count();
         
-        var resolvedLocations = await Task.WhenAll(locationTasks);
+        
+        
+        var resolvedLocations = (await Task.WhenAll(locationTasks)).ToList();
+
+        if (swimmingActivities.Count != 0)
+        {
+            resolvedLocations.Add("Inspire Fitness Centre, Cabra, Dublin");
+        }
             
         var restDays = Math.Max(0, 7 - uniqueActiveDaysCount);
         

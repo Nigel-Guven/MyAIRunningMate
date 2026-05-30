@@ -58,12 +58,6 @@ export const DashboardPage = () => {
 
   const { primaryEvent, upcomingEvents, bestEfforts, latestWeight, volume } = dashboard;
 
-  // --- Dynamic Volume Computations ---
-  // Convert backend meters to kilometers
-  const currentRunningKm = volume?.total_running_distance_metres 
-    ? (volume.total_running_distance_metres / 1000) 
-    : 0;
-
   return (
     <div className="space-y-8 animate-in fade-in duration-700 pb-12">
       
@@ -210,8 +204,13 @@ export const DashboardPage = () => {
 
           {/* Location Footer tag */}
           {volume?.locations && volume.locations.length > 0 && (
-            <div className="mt-5 pt-3 border-t border-slate-800 text-[10px] text-slate-500 font-mono uppercase tracking-tight truncate">
-              📍 {volume.locations.join(", ")}
+            <div className="mt-5 pt-3 border-t border-slate-800 text-[10px] text-slate-500 font-mono uppercase tracking-tight space-y-1.5">
+              {volume.locations.map((location, index) => (
+                <div key={index} className="flex items-center gap-1.5 truncate">
+                  <span>📍</span>
+                  <span className="truncate">{location}</span>
+                </div>
+              ))}
             </div>
           )}
         </div>
