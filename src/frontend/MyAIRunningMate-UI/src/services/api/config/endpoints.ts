@@ -14,6 +14,11 @@ export const API_ENDPOINTS = {
         trainingPlan: '/calendar/training-plan',
     },
 
+    dashboard: {
+        volume: '/dashboard/volume',
+        insights: '/dashboard/insights',
+    },
+
     events: {
         upcomingEvents: '/events/upcoming',
         primaryEvent: '/events/primary',

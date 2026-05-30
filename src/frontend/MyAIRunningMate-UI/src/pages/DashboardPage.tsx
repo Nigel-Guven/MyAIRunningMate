@@ -11,6 +11,7 @@ const initialState: DashboardData = {
   upcomingEvents: [],
   bestEfforts: [],
   latestWeight: null,
+  volume: null,
 };
 
 export const DashboardPage = () => {
@@ -55,7 +56,13 @@ export const DashboardPage = () => {
   if (loading) return <div className="p-12 text-slate-500 font-mono animate-pulse uppercase">Synchronizing Command Center...</div>;
   if (error) return <div className="p-12 text-red-400">{error}</div>;
 
-  const { primaryEvent, upcomingEvents, bestEfforts, latestWeight } = dashboard;
+  const { primaryEvent, upcomingEvents, bestEfforts, latestWeight, volume } = dashboard;
+
+  // --- Dynamic Volume Computations ---
+  // Convert backend meters to kilometers
+  const currentRunningKm = volume?.total_running_distance_metres 
+    ? (volume.total_running_distance_metres / 1000) 
+    : 0;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700 pb-12">
@@ -105,7 +112,7 @@ export const DashboardPage = () => {
               <p className="text-blue-100/70 text-sm italic max-w-md leading-relaxed mb-6">"{primaryEvent.event_info}"</p>
             )}
             {primaryEvent?.event_url && primaryEvent.event_url !== "null" && (
-              <a href={primaryEvent.event_url} target="_blank" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-all">
+              <a href={primaryEvent.event_url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-all">
                 Event Website →
               </a>
             )}
@@ -129,16 +136,84 @@ export const DashboardPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {/* Weekly Volume */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm">
-          <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Weekly Volume</h4>
-          <div className="flex items-end gap-2 mb-4">
-            <span className="text-4xl font-black italic text-white text-blue-400">42.8</span>
-            <span className="text-slate-500 font-bold text-sm mb-1">/ 60 KM</span>
+        <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm flex flex-col justify-between">
+          <div>
+            <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Weekly Volume</h4>
+            
+            {/* Main Multi-Sport Headers */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div>
+                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Total Running</p>
+                <div className="flex items-end gap-1 mt-1">
+                  <span className="text-4xl font-black italic text-blue-400">
+                    {volume?.total_running_distance_metres ? (volume.total_running_distance_metres / 1000).toFixed(1) : "0.0"}
+                  </span>
+                  <span className="text-xs font-bold text-slate-500 mb-1">KM</span>
+                </div>
+                <p className="text-sm font-black text-white font-mono">
+                  {volume?.total_running_duration_seconds ? Math.round(volume.total_running_duration_seconds / 60) : 0} MINS
+                </p>
+              </div>
+
+              <div className="border-l border-slate-800/80 pl-4">
+                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Total Swimming</p>
+                <div className="flex items-end gap-1 mt-1">
+                  <span className="text-4xl font-black italic text-purple-400">
+                    {volume?.total_swimming_distance_metres ? (volume.total_swimming_distance_metres / 1000).toFixed(2) : "0.00"}
+                  </span>
+                  <span className="text-xs font-bold text-slate-500 mb-1">KM</span>
+                </div>
+                <p className="text-sm font-black text-white font-mono">
+                  {volume?.total_swimming_duration_seconds ? Math.round(volume.total_swimming_duration_seconds / 60) : 0} MINS
+                </p>
+              </div>
+            </div>
+
+            <hr className="border-slate-800/60 my-4" />
+
+            {/* Secondary Metrics Sub-Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-2 text-left">
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Elevation</p>
+                <p className="text-sm font-black text-white font-mono">+{volume?.total_running_elevation_gain || 0}m</p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Avg / Max HR</p>
+                <p className="text-sm font-black text-white font-mono">
+                  {volume?.mean_average_heart_rate || 0} / {volume?.mean_max_heart_rate || 0}
+                </p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Training Effect</p>
+                <p className="text-sm font-black text-red-400 font-mono">
+                  {volume?.total_training_effect?.toFixed(1) || "0.0"} <span className="text-sm font-black text-blue-400 font-mono">({volume?.mean_training_effect?.toFixed(1) || "0.0"}ø)</span>
+                </p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Milestones</p>
+                <p className="text-sm font-black text-emerald-400 font-mono">
+                  🏆 {volume?.total_achievement_count || 0} <span className="text-sm font-black text-red-400 font-mono">({volume?.total_personal_record_count || 0} PR)</span>
+                </p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Sessions (S / G)</p>
+                <p className="text-sm font-black text-white font-mono">
+                  {volume?.total_personal_exercises || 0} <span className="text-slate-500 font-normal">/</span> {volume?.total_group_exercises || 0}
+                </p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Rest Days</p>
+                <p className="text-sm font-black text-blue-400 font-mono">{volume?.rest_days ?? 0} Days</p>
+              </div>
+            </div>
           </div>
-          <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-            <div className="h-full bg-blue-500" style={{ width: '71%' }} />
-          </div>
-          <p className="text-[10px] text-slate-600 mt-4 font-mono uppercase font-bold">On track for peak mileage week</p>
+
+          {/* Location Footer tag */}
+          {volume?.locations && volume.locations.length > 0 && (
+            <div className="mt-5 pt-3 border-t border-slate-800 text-[10px] text-slate-500 font-mono uppercase tracking-tight truncate">
+              📍 {volume.locations.join(", ")}
+            </div>
+          )}
         </div>
 
         {/* AI Mate */}
@@ -154,7 +229,7 @@ export const DashboardPage = () => {
         </div>
 
         {/* Schedule Summary */}
-       <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+        <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
           <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Next Up</h4>
           {upcomingEvents.slice(0, 3).map((event, i) => (
             <div key={i} className="flex items-center gap-4 mb-3 last:mb-0 p-2 rounded-xl hover:bg-white/5 transition-colors">
@@ -165,7 +240,6 @@ export const DashboardPage = () => {
                 <p className="text-lg font-black text-white leading-none">{new Date(event.event_date).getDate()}</p>
               </div>
               <div className="group p-4 rounded-2xl transition-all">
-                {/* Updated section: wrapped event.name in an anchor tag with hover effects */}
                 <p className="text-xs font-bold text-white leading-tight uppercase truncate">
                   <a 
                     href={event.event_url} 
@@ -183,7 +257,7 @@ export const DashboardPage = () => {
         </div>
       </div>
 
-      {/* 4. Personal Records (Bottom Wide Section) */}
+      {/* 4. Personal Records */}
       <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6">
         <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-6">
           Personal Records
@@ -207,7 +281,6 @@ export const DashboardPage = () => {
 
                 <div className="flex justify-between items-end h-7">
                   {isEditing ? (
-                    // Enhanced Inline Input Block
                     <div className="flex items-center gap-2 w-full">
                       <input
                         type="number"
@@ -245,14 +318,12 @@ export const DashboardPage = () => {
                       </button>
                     </div>
                   ) : (
-                    // Standard View Block
                     <>
                       <span className="font-mono font-black text-blue-400 text-xl leading-none">
                         {effort.time_seconds !== null ? formatTime(effort.time_seconds) : "--:--"}
                       </span>
                       <button 
                         onClick={() => {
-                          // Pre-populate input with current seconds and flag as editing
                           setTempSeconds(effort.time_seconds?.toString() || "");
                           setEditingLabel(effort.distance_label);
                         }}

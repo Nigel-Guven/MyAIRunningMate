@@ -3,6 +3,7 @@ import { API_ENDPOINTS } from '../config/endpoints';
 import type { EventViewDto,} from '../../../types/views/eventView';
 import type { WeightResponse, } from '../../../types/weight/weight.types';
 import type { BestEffortViewDto, BestEffortRequest } from '../../../types/bestefforts.types';
+import type { WeeklyVolumeDto } from '../../../types/weeklyVolume.types';
 
 export const dashboardApi = {
   getPrimaryEvent: () =>
@@ -29,5 +30,10 @@ export const dashboardApi = {
   getLatestWeight: () =>
     http.get<WeightResponse>(
       API_ENDPOINTS.weight.latest
+    ),
+
+  getWeeklyVolume: () =>
+    http.get<WeeklyVolumeDto>(
+      API_ENDPOINTS.dashboard.volume
     ),
 };

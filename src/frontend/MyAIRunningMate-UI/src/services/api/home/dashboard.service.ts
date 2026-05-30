@@ -12,11 +12,13 @@ export const dashboardService = {
         upcomingEvents,
         bestEfforts,
         latestWeight,
+        volume,
       ] = await Promise.all([
         dashboardApi.getPrimaryEvent(),
         dashboardApi.getUpcomingEvents(),
         dashboardApi.getBestEfforts(),
         dashboardApi.getLatestWeight(),
+        dashboardApi.getWeeklyVolume(),
       ]);
 
       return {
@@ -24,6 +26,7 @@ export const dashboardService = {
         upcomingEvents,
         bestEfforts,
         latestWeight,
+        volume,
       };  
     },
     
