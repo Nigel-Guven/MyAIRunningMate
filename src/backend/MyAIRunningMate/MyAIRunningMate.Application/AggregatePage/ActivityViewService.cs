@@ -68,6 +68,4 @@ public class ActivityViewService : IActivityViewService
 
         return AggregateArtifactViewMapper.ToAggregateArtifactView(activityView, lapViews, stravaResourceView, mapView);
     }
-    
-    
 }

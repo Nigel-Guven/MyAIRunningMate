@@ -9,12 +9,14 @@ using MyAIRunningMate.Application.BestEfforts;
 using MyAIRunningMate.Application.Calendar;
 using MyAIRunningMate.Application.Events;
 using MyAIRunningMate.Application.IngestionPipeline;
+using MyAIRunningMate.Application.Insights;
 using MyAIRunningMate.Application.LinkProvider;
 using MyAIRunningMate.Application.Session;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Application.Weight;
+using MyAIRunningMate.Client.Geocoder;
 using MyAIRunningMate.Client.Python;
 using MyAIRunningMate.Client.Strava;
 using MyAIRunningMate.Database.Repository;
@@ -111,6 +113,14 @@ builder.Services.AddHttpClient<IPythonApiClient, PythonApiClient>(client =>
     client.BaseAddress = new Uri(pythonApiBaseUrl);
 });
 
+builder.Services.AddHttpClient<IGeocodeClient, GeocodeClient>(client =>
+{
+    var geocodeUrl = builder.Configuration["Geocoding:BaseUrl"] ?? "https://nominatim.openstreetmap.org/";
+    client.BaseAddress = new Uri(geocodeUrl);
+    
+    client.DefaultRequestHeaders.Add("User-Agent", "MyAIRunningMateApp/1.0 (contact@yourdomain.com)");
+});
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
@@ -134,6 +144,7 @@ builder.Services.AddScoped<IStravaResourceService, StravaResourceService>();
 builder.Services.AddScoped<IWeightService, WeightService>();
 builder.Services.AddScoped<IBestEffortService, BestEffortService>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IInsightsService, InsightsService>();
 
 builder.Services.AddScoped<IActivityViewService, ActivityViewService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();

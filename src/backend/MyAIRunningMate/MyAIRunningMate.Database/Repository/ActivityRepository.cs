@@ -24,6 +24,32 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
         return result.Models;
     }
 
+    public async Task<IEnumerable<Guid>> GetCurrentWeekActivityIds(Guid userId)
+    {
+        var now = DateTime.UtcNow;
+
+        var daysSinceMonday = (int)now.DayOfWeek - (int)DayOfWeek.Monday;
+    
+        if (daysSinceMonday < 0)
+        {
+            daysSinceMonday += 7;
+        }
+
+        var startOfWeek = now.Date.AddDays(-daysSinceMonday);
+        var startOfWeekUtc = DateTime.SpecifyKind(startOfWeek, DateTimeKind.Utc);
+        var startOfNextWeekUtc = startOfWeekUtc.AddDays(7);
+
+        var result = await _supabase
+            .From<ActivityEntity>()
+            .Select(x => new object[] { x.ActivityId}) 
+            .Where(x => x.StartTime >= startOfWeekUtc)
+            .Where(x => x.StartTime < startOfNextWeekUtc)
+            .Where(x => x.UserId == userId)
+            .Get();
+
+        return result.Models.Select(x => x.ActivityId);
+    }
+
     public async Task<bool> ActivityExistsByGarminId(string garminId, Guid userId)
     {
         var result = await _supabase
