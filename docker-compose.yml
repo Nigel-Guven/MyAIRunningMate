@@ -1,4 +1,3 @@
-
 services:
   frontend:
     build:
@@ -44,8 +43,8 @@ services:
       - "8000:8000"
     environment:
       CORS_ORIGINS: http://localhost:5173,http://localhost:7002,http://127.0.0.1:5173
-      # Optional: set GEMINI_API_KEY in a root .env file or your shell for Nexus plan generation
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      OLLAMA_HOST: http://ollama:11434
     healthcheck:
       test:
         [
@@ -58,3 +57,26 @@ services:
       timeout: 5s
       retries: 5
       start_period: 15s
+    depends_on:
+      ollama:
+        condition: service_started
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: runningmate-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_storage:/root/.ollama
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
+        ollama serve &
+        sleep 5
+        echo "=== Pulling gemma4:31b-cloud ==="
+        ollama pull gemma4:31b-cloud
+        wait
+    restart: unless-stopped
+
+volumes:
+  ollama_storage:
