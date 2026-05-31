@@ -17,6 +17,7 @@ import "leaflet/dist/leaflet.css";
 import polyline from "@mapbox/polyline";
 
 import {ResponsiveContainer,ComposedChart,Line, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend, } from "recharts";
+import { FitRouteBounds } from '../components/calendar/fitRouteBounds';
 
 export const ActivityDeepDivePage = () => {
 
@@ -205,7 +206,7 @@ export const ActivityDeepDivePage = () => {
         {/* LEFT */}
         <div className="lg:col-span-2 space-y-8">
 
-          {coords?.length && (
+          {Array.isArray(coords) && coords?.length > 0 && (
             <div className="aspect-video rounded-xl overflow-hidden border border-slate-800">
               <MapContainer
                 center={coords[0]}
@@ -213,7 +214,10 @@ export const ActivityDeepDivePage = () => {
                 className="h-full w-full"
               >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Polyline positions={coords} pathOptions={{ color: 'blue', weight: 4 }} />
+                <Polyline positions={coords} pathOptions={{ color: '#3b82f6', weight: 4 }} />
+                
+                {/* Dynamic bounds updater engine */}
+                <FitRouteBounds coords={coords} />
               </MapContainer>
             </div>
           )}

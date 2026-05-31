@@ -1,9 +1,6 @@
 
 Homepage	- Nexus Weekly Feedback
 
-Calendar	- Better color scheme for tiles
-
-DeepDive	- Geo map centred to show entire route
 DeepDive	- Box to ask for feedback from Ollama regarding the activity
 
 Analytics	- Yearly Running Distance, pace and time
