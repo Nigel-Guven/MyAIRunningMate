@@ -190,7 +190,7 @@ export const DashboardPage = () => {
                 </p>
               </div>
               <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Sessions (S / G)</p>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Sessions (Single / Group)</p>
                 <p className="text-sm font-black text-white font-mono">
                   {volume?.total_personal_exercises || 0} <span className="text-slate-500 font-normal">/</span> {volume?.total_group_exercises || 0}
                 </p>
