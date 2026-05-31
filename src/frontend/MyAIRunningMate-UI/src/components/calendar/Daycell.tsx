@@ -6,6 +6,7 @@ interface DayCellProps {
   day: number;
   activities: CalendarViewDto[];
   trainingEvent?: TrainingPlanEventView;
+  isToday?: boolean; // <-- Added prop definition
 }
 
 const formatDistanceKm = (metres: number) => {
@@ -24,7 +25,7 @@ const getExerciseEmoji = (type: string): string => {
   return '🏁';
 };
 
-export const DayCell = ({ day, activities, trainingEvent }: DayCellProps) => {
+export const DayCell = ({ day, activities, trainingEvent, isToday }: DayCellProps) => {
   const hasCompletedActivities = activities.length > 0;
   const isRestDay = trainingEvent?.exerciseType === 'Rest';
   const hasActiveTarget = trainingEvent && !isRestDay;
@@ -32,17 +33,25 @@ export const DayCell = ({ day, activities, trainingEvent }: DayCellProps) => {
   return (
     <div className={`
       min-h-[140px] rounded-lg border p-2 transition-all group flex flex-col justify-between
-      ${hasCompletedActivities 
-        ? 'border-slate-800 bg-slate-900/40 hover:border-blue-500/50' 
-        : hasActiveTarget
-          ? 'border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 opacity-90'
-          : 'border-slate-900/50 bg-slate-950/20 opacity-40'}
+      ${isToday
+        ? 'border-yellow-500/50 bg-yellow-500/[0.04] shadow-[inset_0_0_12px_rgba(234,179,8,0.05)] ring-1 ring-yellow-500/20'
+        : hasCompletedActivities 
+          ? 'border-slate-800 bg-slate-900/40 hover:border-blue-500/50' 
+          : hasActiveTarget
+            ? 'border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 opacity-90'
+            : 'border-slate-900/50 bg-slate-950/20 opacity-40'}
     `}>
       <div>
         {/* Day Header Row */}
         <div className="flex justify-between items-center mb-1.5">
           <span className={`text-xs font-bold font-mono ${
-            hasCompletedActivities ? 'text-slate-400' : hasActiveTarget ? 'text-blue-400' : 'text-slate-700'
+            isToday 
+              ? 'text-yellow-400 bg-yellow-400/10 px-1.5 py-0.5 rounded' 
+              : hasCompletedActivities 
+                ? 'text-slate-400' 
+                : hasActiveTarget 
+                  ? 'text-blue-400' 
+                  : 'text-slate-700'
           }`}>
             {day}
           </span>
@@ -82,12 +91,16 @@ export const DayCell = ({ day, activities, trainingEvent }: DayCellProps) => {
         </div>
       </div>
       
-      {/* If a target was planned but nothing was completed yet, render a subtle status reminder */}
-      {hasActiveTarget && !hasCompletedActivities && (
+      {/* Dynamic bottom status indicator */}
+      {isToday && !hasCompletedActivities ? (
+        <div className="text-[9px] font-bold text-yellow-500/80 font-mono tracking-wide mt-2 uppercase flex items-center gap-1">
+          <span className="animate-pulse text-base leading-none">·</span> Today
+        </div>
+      ) : hasActiveTarget && !hasCompletedActivities ? (
         <div className="text-[9px] font-bold text-slate-600 font-mono tracking-wide mt-2 uppercase">
           ○ Scheduled
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

@@ -141,14 +141,24 @@ export const CalendarPage = () => {
           <div key={`blank-${i}`} className="min-h-[140px]" />
         ))}
 
-        {days.map((day) => (
-          <DayCell
-            key={day}
-            day={day}
-            activities={groupedActivities.get(day) || []}
-            trainingEvent={groupedTrainingEvents.get(day)}
-          />
-        ))}
+        {days.map((day) => {
+          const today = new Date();
+          
+          const isToday = 
+            day === today.getDate() &&
+            viewDate.getMonth() === today.getMonth() &&
+            viewDate.getFullYear() === today.getFullYear();
+
+          return (
+            <DayCell
+              key={day}
+              day={day}
+              activities={groupedActivities.get(day) || []}
+              trainingEvent={groupedTrainingEvents.get(day)}
+              isToday={isToday}
+            />
+          );
+        })}
       </div>
     </div>
   );
