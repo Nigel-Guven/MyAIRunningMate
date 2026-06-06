@@ -10,12 +10,12 @@ namespace MyAIRunningMate.Service.NexusGeminiApi;
 [Authorize]
 [ApiController]
 [Route("api/nexus")]
-public class NexusGeminiApiController : ControllerBase
+public class NexusController : ControllerBase
 {
     private readonly ITrainingPlanService _trainingPlanService;
     private readonly IUserContext _userContext;
 
-    public NexusGeminiApiController(ITrainingPlanService trainingPlanService, IUserContext userContext)
+    public NexusController(ITrainingPlanService trainingPlanService, IUserContext userContext)
     {
         _trainingPlanService = trainingPlanService;
         _userContext = userContext;

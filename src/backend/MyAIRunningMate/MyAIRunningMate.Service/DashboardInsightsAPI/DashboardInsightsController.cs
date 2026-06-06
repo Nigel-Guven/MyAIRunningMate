@@ -20,7 +20,7 @@ public class DashboardInsightsController : ControllerBase
     }
     
     [HttpGet("volume")]
-    public async Task<ActionResult<IEnumerable<WeeklyInsightsDto>>> GetWeeklyVolume()
+    public async Task<ActionResult<WeeklyInsightsDto>> GetWeeklyVolume()
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();

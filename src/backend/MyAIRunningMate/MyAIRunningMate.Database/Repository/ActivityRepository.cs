@@ -24,6 +24,22 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
         return result.Models;
     }
 
+    public async Task<IEnumerable<ActivityEntity>> GetAllActivitiesByYear(DateTime byYear, Guid userId)
+    {
+        var startOfYear = new DateTime(byYear.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        
+        var startOfNextYear = startOfYear.AddYears(1);
+
+        var result = await _supabase
+            .From<ActivityEntity>()
+            .Where(x => x.StartTime >= startOfYear)
+            .Where(x => x.StartTime < startOfNextYear)
+            .Where(x => x.UserId == userId)
+            .Get();
+
+        return result.Models;
+    }
+
     public async Task<IEnumerable<Guid>> GetCurrentWeekActivityIds(Guid userId)
     {
         var now = DateTime.UtcNow;
