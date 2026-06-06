@@ -4,6 +4,10 @@ export const API_ENDPOINTS = {
         activityAggregate: '/activity/aggregate',
     },
 
+    analytics: {
+        statistics: '/analytics/statistics',
+    },
+
     bestEfforts: {
         allEfforts: '/best_efforts/all_efforts',
         updateEffort: '/best_efforts/update',

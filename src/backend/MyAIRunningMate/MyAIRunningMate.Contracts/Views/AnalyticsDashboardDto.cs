@@ -4,7 +4,7 @@ namespace MyAIRunningMate.Contracts.Views;
 
 public class AnalyticsDashboardDto
 {
-    [JsonPropertyName("year_summary")]
+    [JsonPropertyName("summary")]
     public YearlyStatisticsDto Summary { get; set; } = null!;
     
     [JsonPropertyName("year_weekly_volume")]
