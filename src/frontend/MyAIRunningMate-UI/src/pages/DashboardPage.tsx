@@ -153,9 +153,9 @@ export const DashboardPage = () => {
                 <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Total Swimming</p>
                 <div className="flex items-end gap-1 mt-1">
                   <span className="text-4xl font-black italic text-purple-400">
-                    {volume?.total_swimming_distance_metres ? (volume.total_swimming_distance_metres / 1000).toFixed(2) : "0.00"}
+                    {volume?.total_swimming_distance_metres ? volume.total_swimming_distance_metres : "0.00"}
                   </span>
-                  <span className="text-xs font-bold text-slate-500 mb-1">KM</span>
+                  <span className="text-xs font-bold text-slate-500 mb-1">METRES</span>
                 </div>
                 <p className="text-sm font-black text-white font-mono">
                   {volume?.total_swimming_duration_seconds ? Math.round(volume.total_swimming_duration_seconds / 60) : 0} MINS

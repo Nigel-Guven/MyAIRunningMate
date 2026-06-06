@@ -5,10 +5,11 @@ export const AnalyticsPage = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {[
-          { label: 'Yearly Distance', value: '412.5 km', icon: '🛣️' },
-          { label: 'Swimming Volume', value: '28,400 m', icon: '🏊' },
+          { label: 'Yearly Running Distance', value: '412.5 km', icon: '🛣️' },
+          { label: 'Yearly Swimming Distance', value: '28,400 m', icon: '🏊' },
           { label: 'Active Days', value: '84', icon: '🔥' },
-          { label: 'Avg Training Effect', value: '3.2', icon: '📈' },
+          { label: 'Avg Training Effect Score', value: '3.2', icon: '📈' },
+          { label: 'Total Training Effect Score', value: '3.2', icon: '📈' },
         ].map(stat => (
           <div key={stat.label} className="p-6 rounded-xl bg-slate-900 border border-slate-800">
             <p className="text-slate-500 text-xs font-bold uppercase">{stat.label}</p>

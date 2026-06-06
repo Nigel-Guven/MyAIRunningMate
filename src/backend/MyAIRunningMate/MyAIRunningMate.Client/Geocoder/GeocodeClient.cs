@@ -52,8 +52,14 @@ public class GeocodeClient : IGeocodeClient
                     {
                         var cleanedArea = System.Text.RegularExpressions.Regex.Replace(val, @"\s[A-Z]\sED$|\sED$", "", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Trim();
                         
+                        cleanedArea = System.Text.RegularExpressions.Regex.Replace(cleanedArea, @"\b(Ward|\d{4})\b", "", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                        
+                        cleanedArea = System.Text.RegularExpressions.Regex.Replace(cleanedArea, @"\s*,\s*,", ",");
+                        cleanedArea = System.Text.RegularExpressions.Regex.Replace(cleanedArea, @"\s+", " "); 
+                        cleanedArea = cleanedArea.Trim(',', ' '); 
+
                         var normalizedArea = cleanedArea.Replace(" City", "", StringComparison.OrdinalIgnoreCase).Trim();
-    
+
                         if (!normalizedArea.Equals(normalizedCity, StringComparison.OrdinalIgnoreCase))
                         {
                             area = cleanedArea; 
