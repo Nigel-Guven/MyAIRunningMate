@@ -10,7 +10,7 @@ using MyAIRunningMate.Application.Session;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Application.Weight;
+using MyAIRunningMate.Application.Weights;
 using MyAIRunningMate.Client.Geocoder;
 using MyAIRunningMate.Client.Python;
 using MyAIRunningMate.Client.Strava;
@@ -22,7 +22,6 @@ using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
 using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
 using MyAIRunningMate.Domain.Interfaces.Repositories.TrainingPlan;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
 
 namespace MyAIRunningMate.Service.SetupExtensions;
 

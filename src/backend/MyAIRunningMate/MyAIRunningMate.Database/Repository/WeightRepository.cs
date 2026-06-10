@@ -1,12 +1,14 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
+using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Database.Mappers;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
 using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
 
 public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightEntity>(supabase), IWeightRepository
 {
-    public async Task<IEnumerable<WeightEntity>> Get20LatestWeights(Guid userId)
+    public async Task<IEnumerable<Weight>> Get20LatestWeights(Guid userId)
     {
         var result = await Supabase.From<WeightEntity>()
             .Filter("user_id", Constants.Operator.Equals, userId.ToString())
@@ -14,10 +16,10 @@ public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightE
             .Limit(20)                                  
             .Get();
         
-        return result.Models;
+        return result.Models.Select(entity => entity.ToDomain());
     }
-
-    public async Task<IEnumerable<WeightEntity>> GetLatestWeight(Guid userId)
+    
+    public async Task<Weight?> GetLatestWeight(Guid userId)
     {
         var result = await Supabase.From<WeightEntity>()
             .Filter("user_id", Constants.Operator.Equals, userId.ToString())
@@ -25,11 +27,14 @@ public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightE
             .Limit(1)                                  
             .Get();
         
-        return result.Models;
+        var latestEntity = result.Models.FirstOrDefault();
+        return latestEntity?.ToDomain();
     }
-
-    public async Task LogLatestWeight(WeightEntity weight)
+    
+    public async Task LogLatestWeight(Weight weight)
     {
-        await Insert(weight);
+        WeightEntity entityToInsert = WeightEntityMappingExtensions.FromDomain(weight);
+
+        await Insert(entityToInsert);
     }
 }

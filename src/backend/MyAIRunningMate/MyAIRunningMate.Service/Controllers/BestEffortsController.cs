@@ -23,7 +23,7 @@ public class BestEffortsController : ControllerBase
     }
     
     [HttpGet("all_efforts")]
-    public async Task<ActionResult<IEnumerable<BestEffortViewDto>>> GetAllBestEfforts()
+    public async Task<ActionResult<IEnumerable<BestEffortResponse>>> GetAllBestEfforts()
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();

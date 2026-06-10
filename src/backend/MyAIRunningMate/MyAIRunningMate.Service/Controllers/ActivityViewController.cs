@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.AggregatePage;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Service.Mappers;
 using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.Controllers;

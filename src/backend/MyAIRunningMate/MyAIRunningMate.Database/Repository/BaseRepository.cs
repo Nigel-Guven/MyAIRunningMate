@@ -38,11 +38,8 @@ public abstract class BaseRepository<T>(Supabase.Client supabase) : IBaseReposit
         return result.Models;
     }
 
-    public async Task Upsert(T entity)
-    {
-        await Supabase.From<T>().Upsert(entity);
-    }
-    
+    protected async Task Upsert(T entity) => await Supabase.From<T>().Upsert(entity);
+
     public async Task Update(T entity) => await entity.Update<T>();
     public async Task Delete(T entity) => await entity.Delete<T>();
 }

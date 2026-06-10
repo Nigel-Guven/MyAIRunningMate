@@ -1,5 +1,5 @@
 using MyAIRunningMate.Application.Models.ViewObjects;
-using MyAIRunningMate.Application.Weight;
+using MyAIRunningMate.Application.Weights;
 using MyAIRunningMate.Client.Python;
 using MyAIRunningMate.Client.Python.Requests;
 using MyAIRunningMate.Client.Python.Responses;
