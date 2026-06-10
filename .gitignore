@@ -303,3 +303,4 @@ dist-ssr
 *.sw?
 src/backend/MyAIRunningMate/.idea/.idea.MyAIRunningMate/.idea/workspace.xml
 src/backend/MyAIRunningMate/MyAIRunningMate.sln.DotSettings.user
+src/backend/MyAIRunningMate/.editorconfig
