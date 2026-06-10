@@ -3,31 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.OpenApi;
-using MyAIRunningMate.Application.Activities;
-using MyAIRunningMate.Application.AggregatePage;
-using MyAIRunningMate.Application.BestEfforts;
-using MyAIRunningMate.Application.Calendar;
-using MyAIRunningMate.Application.Events;
-using MyAIRunningMate.Application.IngestionPipeline;
-using MyAIRunningMate.Application.Insights;
-using MyAIRunningMate.Application.LinkProvider;
-using MyAIRunningMate.Application.Session;
-using MyAIRunningMate.Application.Strava;
-using MyAIRunningMate.Application.TrainingPlans;
-using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Application.Weight;
-using MyAIRunningMate.Client.Geocoder;
-using MyAIRunningMate.Client.Python;
-using MyAIRunningMate.Client.Strava;
-using MyAIRunningMate.Database.Repository;
-using MyAIRunningMate.Domain.Interfaces.Repositories;
-using MyAIRunningMate.Domain.Interfaces.Repositories.BestEfforts;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Events;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
-using MyAIRunningMate.Domain.Interfaces.Repositories.TrainingPlan;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Weight;
+using MyAIRunningMate.Service.SetupExtensions;
 using MyAIRunningMate.Service.StravaAPI;
 using Supabase;
 
@@ -102,54 +78,11 @@ builder.Services.AddSingleton(_ =>
     return client;
 });
 
-builder.Services.AddHttpClient<IStravaApiClient, StravaApiClient>(client =>
-{
-    client.BaseAddress = new Uri("https://www.strava.com/");
-});
-
-builder.Services.AddHttpClient<IPythonApiClient, PythonApiClient>(client =>
-{
-    var pythonApiBaseUrl = builder.Configuration["PythonApi:BaseUrl"] ?? "http://localhost:8000/";
-    client.BaseAddress = new Uri(pythonApiBaseUrl);
-});
-
-builder.Services.AddHttpClient<IGeocodeClient, GeocodeClient>(client =>
-{
-    var geocodeUrl = builder.Configuration["Geocoding:BaseUrl"] ?? "https://nominatim.openstreetmap.org/";
-    client.BaseAddress = new Uri(geocodeUrl);
-    
-    client.DefaultRequestHeaders.Add("User-Agent", "MyAIRunningMateApp/1.0 (contact@yourdomain.com)");
-});
-
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
-builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
-builder.Services.AddScoped<ILapRepository, LapRepository>();
-builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-builder.Services.AddScoped<IStravaResourceMapRepository, StravaResourceMapRepository>();
-builder.Services.AddScoped<IStravaResourceRepository, StravaResourceRepository>();
-builder.Services.AddScoped<IWeightRepository, WeightRepository>();
-builder.Services.AddScoped<IBestEffortsRepository, BestEffortsRepository>();
-builder.Services.AddScoped<IEventRepository, EventRepository>();
-builder.Services.AddScoped<ITrainingPlanRepository, TrainingPlanRepository>();
-builder.Services.AddScoped<ITrainingPlanEventRepository, TrainingPlanEventRepository>();
-
-builder.Services.AddScoped<ISessionService, SessionService>();
-builder.Services.AddScoped<IStravaApiService, StravaApiService>();
-builder.Services.AddScoped<IUserContext, UserContext>();
-builder.Services.AddScoped<ILinkProviderService, LinkProviderService>();
-builder.Services.AddScoped<IActivityService, ActivityService>();
-builder.Services.AddScoped<IStravaResourceService, StravaResourceService>();
-builder.Services.AddScoped<IWeightService, WeightService>();
-builder.Services.AddScoped<IBestEffortService, BestEffortService>();
-builder.Services.AddScoped<IEventService, EventService>();
-builder.Services.AddScoped<IInsightsService, InsightsService>();
-
-builder.Services.AddScoped<IActivityViewService, ActivityViewService>();
-builder.Services.AddScoped<ICalendarService, CalendarService>();
-builder.Services.AddScoped<IIngestionPipelineService, IngestionPipelineService>();
-builder.Services.AddScoped<ITrainingPlanService, TrainingPlanService>();
+builder.Services.AddHttpClients(builder.Configuration);
+builder.Services.AddInfrastructure();
+builder.Services.AddApplicationServices();
 
 builder.Services.AddSwaggerGen(c =>
 {
