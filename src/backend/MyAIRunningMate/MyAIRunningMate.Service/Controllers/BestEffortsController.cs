@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.BestEfforts;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.BestEffort;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.BestEfforts.Requests;
+using MyAIRunningMate.Contracts.BestEfforts.Responses;
 using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.Controllers;

@@ -1,11 +1,11 @@
 using MyAIRunningMate.Application.Models.ViewObjects;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Aggregates.Responses;
 
 namespace MyAIRunningMate.Service.Mappers;
 
 public static class AggregateArtifactViewDtoMapper
 {
-    public static AggregateArtifactViewDto ToAggregateArtifactViewDto(
+    public static AggregateArtifactResponse ToAggregateArtifactViewDto(
         AggregateArtifactView model) => new()
     {
         ActivityId = model.ActivityId,

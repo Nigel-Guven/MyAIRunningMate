@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.AggregatePage;
 using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Aggregates.Responses;
 using MyAIRunningMate.Service.Mappers;
 using MyAIRunningMate.Service.ViewMappers;
 
@@ -23,7 +23,7 @@ public class ActivityViewController : ControllerBase
     }
     
     [HttpGet("aggregate")]
-    public async Task<ActionResult<AggregateArtifactViewDto>> GetActivityView([FromQuery] Guid activityId)
+    public async Task<ActionResult<AggregateArtifactResponse>> GetActivityView([FromQuery] Guid activityId)
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();

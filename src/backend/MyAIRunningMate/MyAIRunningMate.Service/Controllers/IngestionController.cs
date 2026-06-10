@@ -2,40 +2,31 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.IngestionPipeline;
 using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Client.Python.Requests;
-using MyAIRunningMate.Service.ViewMappers;
+using MyAIRunningMate.Contracts.Ingestion.Requests;
+using MyAIRunningMate.Service.Mappers;
 
 namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]
 [Route("api/ingestion")]
-public class IngestionController : ControllerBase
+public class IngestionController(IIngestionPipelineService ingestionPipelineService, IUserContext userContext) : ControllerBase
 {
-    private readonly IIngestionPipelineService _ingestionPipelineService;
-    private readonly IUserContext _userContext;
-
-    public IngestionController(IIngestionPipelineService ingestionPipelineService,  IUserContext userContext)
-    {
-        _ingestionPipelineService = ingestionPipelineService;
-        _userContext = userContext;
-    }
-
     [HttpPost("upload")]
     [Consumes("multipart/form-data")]
-    public async Task<IActionResult> UploadFitFile([FromForm] FitFileUploadRequest request)
+    public async Task<IActionResult> UploadFitFile([FromForm] IngestionRequest request)
     {
         if (request.File.Length == 0) 
             return BadRequest("File is empty.");
 
-        var userId = _userContext.GetUserId();
+        var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
         
         try 
         {
-            var ingestionView = await _ingestionPipelineService.ProcessFitFileAsync(request.File, userId);
+            var ingestionView = await ingestionPipelineService.ProcessFitFileAsync(request.File, userId);
 
-            var dto = ingestionView.ToIngestionViewDto();
+            var dto = ingestionView.ToResponse();
             
             return Ok(dto);
         }

@@ -22,7 +22,7 @@ public class WeightController(IWeightService weightService, IUserContext userCon
         var result = await weightService.GetLatestWeightAsync(userId);
         if(result is null) return NotFound("No weight has been recorded yet.");
 
-        return Ok(result.ToResponseDto());
+        return Ok(result.ToResponse());
     }
 
     [HttpGet("history")]
@@ -33,7 +33,7 @@ public class WeightController(IWeightService weightService, IUserContext userCon
 
         var results = await weightService.GetWeightHistoryAsync(userId);
         
-        var dtos = results.Select(model => model.ToResponseDto());
+        var dtos = results.Select(model => model.ToResponse());
         
         return Ok(dtos);
     }
@@ -48,7 +48,7 @@ public class WeightController(IWeightService weightService, IUserContext userCon
         {
             var result = await weightService.LogWeightAsync(request.WeightInPounds, userId);
             
-            var response = result.ToResponseDto();
+            var response = result.ToResponse();
             
             return CreatedAtAction(nameof(GetLatestSingleWeight), response);
         }

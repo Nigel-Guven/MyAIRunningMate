@@ -4,7 +4,7 @@ using MyAIRunningMate.Application.Calendar;
 using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Calendar.Responses;
 using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.Controllers;
@@ -26,7 +26,7 @@ public class CalendarController : ControllerBase
     }
     
     [HttpGet("display")]
-    public async Task<ActionResult<IEnumerable<CalendarViewDto>>> GetMonthlyCalendarViews([FromQuery] int month, [FromQuery] int year)
+    public async Task<ActionResult<IEnumerable<CalendarViewResponse>>> GetMonthlyCalendarViews([FromQuery] int month, [FromQuery] int year)
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();

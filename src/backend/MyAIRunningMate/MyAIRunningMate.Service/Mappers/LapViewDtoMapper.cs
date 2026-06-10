@@ -1,11 +1,11 @@
 using MyAIRunningMate.Application.Models.ViewObjects;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Aggregates.Responses;
 
 namespace MyAIRunningMate.Service.Mappers;
 
 public static class LapViewDtoMapper
 {
-    public static LapViewDto ToLapViewDto(this LapView model) => new()
+    public static LapViewResponse ToLapViewDto(this LapView model) => new()
     {
         LapNumber = model.LapNumber,
         DurationSeconds = model.DurationSeconds,

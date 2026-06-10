@@ -1,11 +1,11 @@
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Events.Responses;
 using MyAIRunningMate.Domain.DatabaseEntities;
 
 namespace MyAIRunningMate.Service.Mappers;
 
 public static class EventViewDtoMapper
 {
-    public static EventViewDto ToEventViewDto(this EventEntity model) => new()
+    public static EventViewResponse ToEventViewDto(this EventEntity model) => new()
     {
         EventName =  model.EventName,
         EventDate =  model.EventDate,

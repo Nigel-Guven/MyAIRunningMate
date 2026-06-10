@@ -1,11 +1,11 @@
 using MyAIRunningMate.Application.Models;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Analytics.Responses;
 
 namespace MyAIRunningMate.Service.Mappers;
 
 public static class YearlyStatisticsDtoMapper
 {
-    public static YearlyStatisticsDto ToYearlyStatisticsDto(this YearlyStatistics model) => new()
+    public static YearlyStatisticsResponse ToYearlyStatisticsDto(this YearlyStatistics model) => new()
     {
         YearlyRunningDistance =  model.YearlyRunningDistance,
         YearlySwimmingDistance =  model.YearlySwimmingDistance,

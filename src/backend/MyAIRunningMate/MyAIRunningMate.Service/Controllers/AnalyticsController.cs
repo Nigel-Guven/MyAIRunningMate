@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Insights;
 using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Analytics.Responses;
 using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.Controllers;
@@ -22,14 +22,14 @@ public class AnalyticsController  : ControllerBase
     }
     
     [HttpGet("statistics")]
-    public async Task<ActionResult<YearlyStatisticsDto>> GetYearlyStatistics([FromQuery] int year)
+    public async Task<ActionResult<YearlyStatisticsResponse>> GetYearlyStatistics([FromQuery] int year)
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
         
         var (summary, weeklyVolumes) = await _insightsService.GetAnalyticsStatistics(userId, year);
 
-        var dashboardDto = new AnalyticsDashboardDto()
+        var dashboardDto = new YearlyAnalyticsResponse()
         {
             Summary = summary.ToYearlyStatisticsDto(),
             WeeklyVolumes = weeklyVolumes.Select(w => w.ToWeeklyInsightsDto()).ToList()

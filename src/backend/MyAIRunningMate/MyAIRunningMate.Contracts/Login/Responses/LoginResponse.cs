@@ -1,15 +1,7 @@
-using System.Text.Json.Serialization;
-
 namespace MyAIRunningMate.Contracts.Login.Responses;
 
-public class LoginResponse
-{
-    [JsonPropertyName("token")]
-    public string Token { get; set; } = string.Empty;
-    
-    [JsonPropertyName("user_id")]
-    public Guid UserId { get; set; }
-    
-    [JsonPropertyName("is_strava_connected")]
-    public bool IsStravaConnected { get; set; }
-}
+public record LoginResponse(
+    string Token,
+    Guid UserId,
+    bool IsStravaConnected
+);

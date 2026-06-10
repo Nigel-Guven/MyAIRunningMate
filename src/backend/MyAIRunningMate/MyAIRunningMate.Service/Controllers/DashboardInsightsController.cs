@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Insights;
 using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Analytics.Responses;
 using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.Controllers;
@@ -20,7 +20,7 @@ public class DashboardInsightsController : ControllerBase
     }
     
     [HttpGet("volume")]
-    public async Task<ActionResult<WeeklyInsightsDto>> GetWeeklyVolume()
+    public async Task<ActionResult<WeeklyInsightsResponse>> GetWeeklyVolume()
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();

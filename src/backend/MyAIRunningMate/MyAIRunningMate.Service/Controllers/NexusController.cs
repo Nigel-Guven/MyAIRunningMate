@@ -4,6 +4,8 @@ using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Nexus;
+using MyAIRunningMate.Contracts.Nexus.Requests;
+using MyAIRunningMate.Contracts.Nexus.Responses;
 
 namespace MyAIRunningMate.Service.Controllers;
 
@@ -22,24 +24,24 @@ public class NexusController : ControllerBase
     }
 
     [HttpPost("generate")]
-    public async Task<ActionResult<TrainingPlanView>> CreateTrainingPlan([FromBody] NexusRequest request)
+    public async Task<ActionResult<TrainingPlanView>> CreateTrainingPlan([FromBody] NexusFormRequest formRequest)
     {
         var userId = _userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
 
         var trainingPlanView = await _trainingPlanService.GenerateTrainingPlan(
             userId,
-            request.PrimaryGoal,
-            request.ExperienceYears,
-            request.RunningLevel,
-            request.ScheduleLengthWeeks,
-            request.PoolAccess);
+            formRequest.PrimaryGoal,
+            formRequest.ExperienceYears,
+            formRequest.RunningLevel,
+            formRequest.ScheduleLengthWeeks,
+            formRequest.PoolAccess);
 
         return Ok(trainingPlanView);
     }
 
     [HttpPut("finalize")]
-    public async Task<ActionResult<TrainingPlanFinalizeResponse>> FinalizeTrainingPlan(
+    public async Task<ActionResult<NexusFinalizeResponse>> FinalizeTrainingPlan(
         [FromBody] TrainingPlanView plan)
     {
         var userId = _userContext.GetUserId();
@@ -49,7 +51,7 @@ public class NexusController : ControllerBase
         {
             var result = await _trainingPlanService.FinalizeTrainingPlanAsync(userId, plan);
 
-            return Ok(new TrainingPlanFinalizeResponse
+            return Ok(new NexusFinalizeResponse
             {
                 TrainingPlanId = result.TrainingPlanId,
                 Message = result.Message,

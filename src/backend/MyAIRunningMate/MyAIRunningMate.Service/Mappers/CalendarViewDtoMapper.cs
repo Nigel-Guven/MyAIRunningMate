@@ -1,11 +1,11 @@
 using MyAIRunningMate.Application.Models.ViewObjects;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Calendar.Responses;
 
 namespace MyAIRunningMate.Service.Mappers;
 
 public static class CalendarViewDtoMapper
 {
-    public static CalendarViewDto ToCalendarViewDto(this CalendarView model) => new()
+    public static CalendarViewResponse ToCalendarViewDto(this CalendarView model) => new()
     {
         ActivityId = model.ActivityId,
         StartTime = model.StartTime,

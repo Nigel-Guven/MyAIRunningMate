@@ -1,5 +1,5 @@
 using MyAIRunningMate.Application.Models.ViewObjects;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Aggregates.Responses;
 
 namespace MyAIRunningMate.Service.Mappers;
 

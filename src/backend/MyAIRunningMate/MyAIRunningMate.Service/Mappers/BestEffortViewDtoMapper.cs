@@ -1,4 +1,4 @@
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.BestEfforts.Responses;
 using MyAIRunningMate.Domain.DatabaseEntities;
 
 namespace MyAIRunningMate.Service.Mappers;

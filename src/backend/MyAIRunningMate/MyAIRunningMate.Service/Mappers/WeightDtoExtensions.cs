@@ -5,7 +5,7 @@ namespace MyAIRunningMate.Service.Mappers;
 
 public static class WeightDtoExtensions
 {
-    public static WeightResponse ToResponseDto(this Weight model) =>
+    public static WeightResponse ToResponse(this Weight model) =>
         new(
             Id: model.Id,
             WeightInPounds: model.WeightInPounds,

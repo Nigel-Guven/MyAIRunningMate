@@ -1,11 +1,11 @@
 using MyAIRunningMate.Application.Models;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Analytics.Responses;
 
 namespace MyAIRunningMate.Service.Mappers;
 
 public static class WeeklyInsightsDtoMapper
 {
-    public static WeeklyInsightsDto ToWeeklyInsightsDto(this WeeklyInsights model) => new()
+    public static WeeklyInsightsResponse ToWeeklyInsightsDto(this WeeklyInsights model) => new()
     {
         RunningTimeVolume =  model.RunningTimeVolume,
         RunningDistanceVolume =  model.RunningDistanceVolume,

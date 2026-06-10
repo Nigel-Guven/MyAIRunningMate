@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Events;
-using MyAIRunningMate.Contracts.Views;
+using MyAIRunningMate.Contracts.Events.Responses;
 using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.Controllers;
@@ -18,7 +18,7 @@ public class EventController : ControllerBase
     
     
     [HttpGet("upcoming")]
-    public async Task<ActionResult<IEnumerable<EventViewDto>>> GetRacingEvents()
+    public async Task<ActionResult<IEnumerable<EventViewResponse>>> GetRacingEvents()
     {
         const int numberOfEvents = 5;
         
@@ -37,7 +37,7 @@ public class EventController : ControllerBase
     }
     
     [HttpGet("primary")]
-    public async Task<ActionResult<EventViewDto>> GetPrimaryEvent()
+    public async Task<ActionResult<EventViewResponse>> GetPrimaryEvent()
     {
         Guid mainEvent = Guid.Parse("a080be41-370f-4ba0-9d29-6fa1db55072e");
 
