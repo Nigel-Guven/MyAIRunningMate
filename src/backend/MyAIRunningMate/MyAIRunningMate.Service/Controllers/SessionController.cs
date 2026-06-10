@@ -4,7 +4,7 @@ using MyAIRunningMate.Application.Session;
 using MyAIRunningMate.Contracts.Login.Requests;
 using MyAIRunningMate.Contracts.Login.Responses;
 
-namespace MyAIRunningMate.Service.SessionAPI;
+namespace MyAIRunningMate.Service.Controllers;
 
 [ApiController]
 [Route("api/session")]

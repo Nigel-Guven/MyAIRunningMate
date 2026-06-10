@@ -7,7 +7,7 @@ using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Service.ViewMappers;
 
-namespace MyAIRunningMate.Service.CalendarAPI;
+namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]

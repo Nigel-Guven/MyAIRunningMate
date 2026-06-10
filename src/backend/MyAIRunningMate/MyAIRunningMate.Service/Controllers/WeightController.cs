@@ -6,7 +6,7 @@ using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Contracts.Weight;
 using MyAIRunningMate.Service.ViewMappers;
 
-namespace MyAIRunningMate.Service.MyWeightAPI;
+namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]

@@ -4,7 +4,7 @@ using MyAIRunningMate.Application.Session;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.User;
 
-namespace MyAIRunningMate.Service.StravaAPI;
+namespace MyAIRunningMate.Service.Controllers;
 
 
 [ApiController]

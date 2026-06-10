@@ -3,7 +3,7 @@ using MyAIRunningMate.Application.Events;
 using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Service.ViewMappers;
 
-namespace MyAIRunningMate.Service.EventAPI;
+namespace MyAIRunningMate.Service.Controllers;
 
 [ApiController]
 [Route("api/events")]

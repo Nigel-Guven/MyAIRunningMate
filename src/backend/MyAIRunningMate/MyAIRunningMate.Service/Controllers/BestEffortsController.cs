@@ -6,7 +6,7 @@ using MyAIRunningMate.Contracts.BestEffort;
 using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Service.ViewMappers;
 
-namespace MyAIRunningMate.Service.BestEffortsAPI;
+namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]

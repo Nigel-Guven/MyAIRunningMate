@@ -4,7 +4,7 @@ using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Service.ViewMappers;
 
-namespace MyAIRunningMate.Service.DashboardInsightsAPI;
+namespace MyAIRunningMate.Service.Controllers;
 
 [ApiController]
 [Route("api/dashboard")]

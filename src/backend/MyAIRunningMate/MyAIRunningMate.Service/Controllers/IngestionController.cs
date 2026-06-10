@@ -5,7 +5,7 @@ using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Client.Python.Requests;
 using MyAIRunningMate.Service.ViewMappers;
 
-namespace MyAIRunningMate.Service.IngestionAPI;
+namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]

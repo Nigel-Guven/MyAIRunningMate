@@ -5,7 +5,7 @@ using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Nexus;
 
-namespace MyAIRunningMate.Service.NexusGeminiApi;
+namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]

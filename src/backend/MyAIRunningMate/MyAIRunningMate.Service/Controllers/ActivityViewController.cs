@@ -5,7 +5,7 @@ using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Views;
 using MyAIRunningMate.Service.ViewMappers;
 
-namespace MyAIRunningMate.Service.ActivityAPI;
+namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]
