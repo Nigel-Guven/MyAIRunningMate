@@ -4,7 +4,7 @@ export const getActivityStyles = (type: string, distance: number) => {
     case 'run':
     case 'running':
       if (distance >= 8000) {
-        return 'bg-fuchsia-500/15 border-fuchsia-400/40 text-fuchsia-300';
+        return 'bg-red-500/15 border-red-400/40 text-red-300';
       }
 
       return 'bg-lime-500/15 border-lime-400/40 text-lime-300';
