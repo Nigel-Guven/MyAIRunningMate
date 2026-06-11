@@ -2,17 +2,16 @@ using System.Text.Json.Serialization;
 
 namespace MyAIRunningMate.Client.Python.Responses;
 
-public class PythonApiLap
-{
-    [JsonPropertyName("lap")]
-    public int LapNumber { get; set; }
+public record PythonApiLap(
+    [property: JsonPropertyName("lap")]
+    int LapNumber,
     
-    [JsonPropertyName("distance_metres")]
-    public double Distance { get; set; }
+    [property: JsonPropertyName("distance_metres")] 
+    double Distance,
     
-    [JsonPropertyName("duration_seconds")]
-    public double Duration { get; set; }
+    [property: JsonPropertyName("duration_seconds")] 
+    double Duration,
     
-    [JsonPropertyName("average_heart_rate")]
-    public int AverageHeartRate { get; set; }
-}
+    [property: JsonPropertyName("average_heart_rate")] 
+    int AverageHeartRate
+);

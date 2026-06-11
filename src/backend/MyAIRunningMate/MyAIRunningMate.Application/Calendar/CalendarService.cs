@@ -1,5 +1,6 @@
-using MyAIRunningMate.Application.Models.ViewObjects;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models.ViewObjects;
+
 namespace MyAIRunningMate.Application.Calendar;
 
 public class CalendarService : ICalendarService

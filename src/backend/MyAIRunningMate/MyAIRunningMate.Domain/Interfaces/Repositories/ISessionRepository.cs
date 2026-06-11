@@ -1,9 +1,9 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
+using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Domain.Interfaces.Repositories.Session;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
-public interface ISessionRepository : IBaseRepository<SessionEntity> 
+public interface ISessionRepository
 {
-    Task<SessionEntity?> GetSessionByUserId(Guid userId);
-    Task SaveSession(SessionEntity session);
+    Task<Session?> GetSessionByUserId(Guid userId);
+    Task SaveSession(Session session);
 }

@@ -37,7 +37,7 @@ public class ActivityViewController : ControllerBase
         {
             var aggregate = await _activityViewService.CreateAggregateActivity(activityId, userId);
 
-            var dto = AggregateArtifactViewDtoMapper.ToAggregateArtifactViewDto(aggregate);
+            var dto = AggregateDtoExtensions.ToAggregateArtifactViewDto(aggregate);
             
             return Ok(dto);
         }

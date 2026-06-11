@@ -1,9 +1,9 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
+using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
-public interface ILapRepository : IBaseRepository<LapEntity> 
+public interface ILapRepository
 {
-    Task<IEnumerable<LapEntity>> GetAllLaps();
-    Task<IEnumerable<LapEntity>> GetAllLapsByActivityId(Guid activityId);
+    Task<IEnumerable<Lap>> GetAllLaps();
+    Task<IEnumerable<Lap>> GetAllLapsByActivityId(Guid activityId);
 }

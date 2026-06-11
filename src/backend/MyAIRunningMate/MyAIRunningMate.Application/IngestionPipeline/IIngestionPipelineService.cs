@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Http;
-using MyAIRunningMate.Application.Models.ViewObjects;
+using MyAIRunningMate.Domain.Models.ViewObjects;
 
 namespace MyAIRunningMate.Application.IngestionPipeline;
 

@@ -1,9 +1,9 @@
 using System.Globalization;
 using MyAIRunningMate.Application.AggregatePage;
-using MyAIRunningMate.Application.Models;
-using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Client.Geocoder;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
+using MyAIRunningMate.Domain.Models.ViewObjects;
 
 namespace MyAIRunningMate.Application.Insights;
 

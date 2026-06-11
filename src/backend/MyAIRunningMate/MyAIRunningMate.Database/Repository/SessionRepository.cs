@@ -1,22 +1,26 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
+using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Database.Mappers;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
 using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
 
 public class SessionRepository(Supabase.Client supabase) : BaseRepository<SessionEntity>(supabase), ISessionRepository
 {
-    public async Task<SessionEntity?> GetSessionByUserId(Guid userId)
+    public async Task<Session?> GetSessionByUserId(Guid userId)
     {
         var response = await Supabase.From<SessionEntity>()
             .Filter("user_id", Constants.Operator.Equals, userId.ToString())
             .Get();
         
-        return response.Models.FirstOrDefault();
+        return response.Models.FirstOrDefault()?.ToDomain();
     }
 
-    public async Task SaveSession(SessionEntity session)
+    public async Task SaveSession(Session session)
     {
-        await Upsert(session);
+        SessionEntity entityToUpsert = session.ToEntity();
+
+        await Upsert(entityToUpsert);
     }
 }

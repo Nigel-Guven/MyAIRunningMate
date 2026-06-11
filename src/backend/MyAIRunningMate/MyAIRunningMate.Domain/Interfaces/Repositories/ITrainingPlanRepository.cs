@@ -1,10 +1,8 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
-namespace MyAIRunningMate.Domain.Interfaces.Repositories.TrainingPlan;
-
-public interface ITrainingPlanRepository : IBaseRepository<TrainingPlanEntity> 
+public interface ITrainingPlanRepository
 {
-    Task<TrainingPlanEntity?> GetByIdAsync(Guid trainingPlanId);
-    Task<TrainingPlanEntity?> GetActivePlanForUserAsync(Guid userId, DateTime startOfMonth, DateTime endOfMonth);
-    Task<IEnumerable<TrainingPlanEntity>> GetAllPlansForUserAsync(Guid userId);
+    Task<Models.TrainingPlan?> GetByIdAsync(Guid trainingPlanId);
+    Task<Models.TrainingPlan?> GetActivePlanForUserAsync(Guid userId, DateTime startOfMonth, DateTime endOfMonth);
+    Task<IEnumerable<Models.TrainingPlan>> GetAllPlansForUserAsync(Guid userId);
 }

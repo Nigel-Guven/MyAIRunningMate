@@ -1,5 +1,7 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.TrainingPlan;
+using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Database.Mappers;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
 using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
@@ -8,7 +10,7 @@ public class TrainingPlanEventRepository(Supabase.Client supabase) : BaseReposit
 {
     private readonly Supabase.Client _supabase = supabase;
     
-    public async Task<IEnumerable<TrainingPlanEventEntity>> GetEventsForUserInDateRangeAsync(Guid trainingPlanId, DateTime start, DateTime end)
+    public async Task<IEnumerable<TrainingPlanEvent>> GetEventsForUserInDateRangeAsync(Guid trainingPlanId, DateTime start, DateTime end)
     {
         var planIdString = trainingPlanId.ToString().ToLower();
         var startIso = start.ToString("yyyy-MM-dd");
@@ -21,11 +23,11 @@ public class TrainingPlanEventRepository(Supabase.Client supabase) : BaseReposit
             .Filter("event_date", Constants.Operator.LessThanOrEqual, endIso)
             .Order("event_date", Constants.Ordering.Ascending)
             .Get();
-
-        return response.Models;
+        
+        return response.Models.Select(entity => entity.ToDomain());
     }
     
-    public async Task<IEnumerable<TrainingPlanEventEntity>> GetEventsByPlanIdAsync(Guid trainingPlanId)
+    public async Task<IEnumerable<TrainingPlanEvent>> GetEventsByPlanIdAsync(Guid trainingPlanId)
     {
         var planIdString = trainingPlanId.ToString().ToLower();
 
@@ -34,7 +36,7 @@ public class TrainingPlanEventRepository(Supabase.Client supabase) : BaseReposit
             .Filter("training_plan_id", Constants.Operator.Equals, planIdString)
             .Order("event_date", Constants.Ordering.Ascending)
             .Get();
-
-        return response.Models;
+        
+        return response.Models.Select(entity => entity.ToDomain());
     }
 }

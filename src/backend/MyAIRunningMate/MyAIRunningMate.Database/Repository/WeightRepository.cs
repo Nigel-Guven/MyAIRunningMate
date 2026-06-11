@@ -19,7 +19,7 @@ public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightE
         return result.Models.Select(entity => entity.ToDomain());
     }
     
-    public async Task<Weight?> GetLatestWeight(Guid userId)
+    public async Task<Weight> GetLatestWeight(Guid userId)
     {
         var result = await Supabase.From<WeightEntity>()
             .Filter("user_id", Constants.Operator.Equals, userId.ToString())
@@ -27,13 +27,12 @@ public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightE
             .Limit(1)                                  
             .Get();
         
-        var latestEntity = result.Models.FirstOrDefault();
-        return latestEntity?.ToDomain();
+        return result.Models.FirstOrDefault().ToDomain();
     }
     
     public async Task LogLatestWeight(Weight weight)
     {
-        WeightEntity entityToInsert = WeightEntityMappingExtensions.FromDomain(weight);
+        WeightEntity entityToInsert = weight.ToEntity();
 
         await Insert(entityToInsert);
     }

@@ -1,5 +1,7 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.TrainingPlan;
+using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Database.Mappers;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
 using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
@@ -8,17 +10,17 @@ public class TrainingPlanRepository(Supabase.Client supabase) : BaseRepository<T
 {
     private readonly Supabase.Client _supabase = supabase;
     
-    public async Task<TrainingPlanEntity?> GetByIdAsync(Guid trainingPlanId)
+    public async Task<TrainingPlan?> GetByIdAsync(Guid trainingPlanId)
     {
         var response = await _supabase
             .From<TrainingPlanEntity>()
-            .Filter("training_plan_id", Constants.Operator.Equals, trainingPlanId)
+            .Filter("id", Constants.Operator.Equals, trainingPlanId.ToString())
             .Single();
 
-        return response;
+        return response?.ToDomain();
     }
 
-    public async Task<TrainingPlanEntity?> GetActivePlanForUserAsync(Guid userId, DateTime startOfMonth, DateTime endOfMonth)
+    public async Task<TrainingPlan?> GetActivePlanForUserAsync(Guid userId, DateTime startOfMonth, DateTime endOfMonth)
     {
         var userIdString = userId.ToString().ToLower();
         var startIso = startOfMonth.ToString("yyyy-MM-dd");
@@ -31,11 +33,11 @@ public class TrainingPlanRepository(Supabase.Client supabase) : BaseRepository<T
             .Filter("end_date", Constants.Operator.GreaterThanOrEqual, startIso)
             .Order("start_date", Constants.Ordering.Descending) 
             .Get();
-
-        return response.Models.FirstOrDefault();
+        
+        return response.Models.FirstOrDefault()?.ToDomain();
     }
     
-    public async Task<IEnumerable<TrainingPlanEntity>> GetAllPlansForUserAsync(Guid userId)
+    public async Task<IEnumerable<TrainingPlan>> GetAllPlansForUserAsync(Guid userId)
     {
         var userIdString = userId.ToString().ToLower();
 
@@ -45,6 +47,6 @@ public class TrainingPlanRepository(Supabase.Client supabase) : BaseRepository<T
             .Order("start_date", Constants.Ordering.Descending)
             .Get();
 
-        return response.Models;
+        return response.Models.Select(entity => entity.ToDomain());
     }
 }

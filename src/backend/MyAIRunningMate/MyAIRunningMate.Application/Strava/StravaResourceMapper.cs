@@ -1,5 +1,5 @@
-using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Client.Strava.Responses;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Strava;
 

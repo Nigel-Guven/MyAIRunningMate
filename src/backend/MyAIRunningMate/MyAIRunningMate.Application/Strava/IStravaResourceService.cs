@@ -1,4 +1,4 @@
-using MyAIRunningMate.Application.Models;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Strava;
 

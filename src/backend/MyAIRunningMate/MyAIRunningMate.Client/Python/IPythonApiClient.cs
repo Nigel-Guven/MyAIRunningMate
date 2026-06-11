@@ -1,18 +1,19 @@
 using MyAIRunningMate.Client.Python.Requests;
-using MyAIRunningMate.Client.Python.Responses;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Client.Python;
 
 public interface IPythonApiClient
 {
-    Task<PythonApiActivityResponse> UploadFitFileAsync(Stream fileStream, string fileName);
+    Task<(Activity Activity, IEnumerable<Lap> Laps)> UploadFitFileAsync(Stream fileStream, string fileName, Guid userId);
 
-    Task<PythonApiTrainingPlanResponse> ProcessTrainingPlanRequisites(
+    Task<TrainingPlan> GenerateTrainingPlanAsync(
         string primaryGoal,
         int runningExperienceYears,
         string runningLevel,
         int trainingPlanLength,
         string poolSize,
-        double poundWeight,
-        IEnumerable<PythonApiActivity> recentActivities);
+        double userWeight,
+        IEnumerable<PythonApiActivity> activityHistory,
+        Guid userId);
 }

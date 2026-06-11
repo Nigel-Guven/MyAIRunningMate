@@ -2,32 +2,31 @@ using System.Text.Json.Serialization;
 
 namespace MyAIRunningMate.Client.Python.Requests;
 
-public class PythonApiActivity
-{
-    [JsonPropertyName("exercise_type")]
-    public string ExerciseType { get; set; }
+public record PythonApiActivity(
+    [property: JsonPropertyName("exercise_type")] 
+    string ExerciseType,
     
-    [JsonPropertyName("start_date")]
-    public DateTime StartTime { get; set; }
+    [property: JsonPropertyName("start_date")] 
+    DateTime StartTime,
     
-    [JsonPropertyName("duration_seconds")]
-    public double DurationSeconds { get; set; }
+    [property: JsonPropertyName("duration_seconds")] 
+    double DurationSeconds,
     
-    [JsonPropertyName("distance_metres")]
-    public double? DistanceMetres { get; set; }
+    [property: JsonPropertyName("distance_metres")] 
+    double? DistanceMetres,
     
-    [JsonPropertyName("average_heart_rate")]
-    public int AverageHeartRate { get; set; }
+    [property: JsonPropertyName("average_heart_rate")] 
+    int AverageHeartRate,
     
-    [JsonPropertyName("max_heart_rate")]
-    public int MaxHeartRate { get; set; }
+    [property: JsonPropertyName("max_heart_rate")] 
+    int MaxHeartRate,
     
-    [JsonPropertyName("total_elevation_gain")]
-    public double? TotalElevationGain { get; set; }
+    [property: JsonPropertyName("total_elevation_gain")] 
+    double? TotalElevationGain,
     
-    [JsonPropertyName("average_seconds_per_kilometre")]
-    public double? AverageSecondPerKilometre { get; set; }
+    [property: JsonPropertyName("average_seconds_per_kilometre")] 
+    double? AverageSecondPerKilometre,
     
-    [JsonPropertyName("training_effect")]
-    public double? TrainingEffect { get; set; }
-}
+    [property: JsonPropertyName("training_effect")] 
+    double? TrainingEffect
+);

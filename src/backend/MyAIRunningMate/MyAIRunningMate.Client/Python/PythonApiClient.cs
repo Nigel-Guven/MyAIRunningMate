@@ -2,86 +2,60 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using MyAIRunningMate.Client.Python.Requests;
 using MyAIRunningMate.Client.Python.Responses;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Client.Python;
 
-public class PythonApiClient : IPythonApiClient
+public class PythonApiClient(HttpClient httpClient) : IPythonApiClient
 {
-    private readonly HttpClient _httpClient;
-
-    public PythonApiClient(HttpClient httpClient)
+    public async Task<(Activity Activity, IEnumerable<Lap> Laps)> UploadFitFileAsync(Stream fileStream, string fileName, Guid userId)
     {
-        _httpClient = httpClient;
-    }
+        using var form = new MultipartFormDataContent();
+        using var streamContent = new StreamContent(fileStream);
+        
+        streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+        form.Add(streamContent, "file", fileName);
 
-    public async Task<PythonApiActivityResponse> UploadFitFileAsync(Stream fileStream, string fileName)
-    {
-        try
+        var response = await httpClient.PostAsync("api/ingestion/process", form);
+
+        if (!response.IsSuccessStatusCode)
         {
-            using var form = new MultipartFormDataContent();
-            
-            var streamContent = new StreamContent(fileStream);
-            streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-            form.Add(streamContent, "file", fileName);
-
-            var response = await _httpClient.PostAsync("api/ingestion/process", form);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException($"Python API returned {response.StatusCode}");
-            }
-
-            var result = await response.Content.ReadFromJsonAsync<PythonApiActivityResponse>();
-
-            return result ?? throw new InvalidOperationException("Python API returned an empty response.");
+            var errorContent = await response.Content.ReadAsStringAsync();
+            throw new HttpRequestException($"Python Ingestion Service returned Status {response.StatusCode}: {errorContent}");
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            throw;
-        }
+
+        var result = await response.Content.ReadFromJsonAsync<PythonApiActivityResponse>();
+        return result?.ToDomain(userId) ?? throw new InvalidOperationException("Python Ingestion Service returned an empty or invalid payload response.");
     }
     
-    public async Task<PythonApiTrainingPlanResponse> ProcessTrainingPlanRequisites(
-        string primaryGoal, 
+    public async Task<TrainingPlan> GenerateTrainingPlanAsync(
+        string primaryGoal,
         int runningExperienceYears,
         string runningLevel,
-        int trainingPlanLength, 
-        string poolSize, 
-        double poundWeight, 
-        IEnumerable<PythonApiActivity> recentActivities)
+        int trainingPlanLength,
+        string poolSize,
+        double userWeight,
+        IEnumerable<PythonApiActivity> activityHistory,
+        Guid userId)
     {
-        try
+        var requestPayload = new PythonApiTrainingPlanRequest(
+            PrimaryGoal: primaryGoal,
+            RunningExperienceYears: runningExperienceYears,
+            RunningLevel: runningLevel,
+            TrainingPlanLength: trainingPlanLength,
+            PoolSize: poolSize,
+            UserWeight: userWeight,
+            RecentActivities: activityHistory);
+        
+        var response = await httpClient.PostAsJsonAsync("api/training_plan/draft", requestPayload);
+
+        if (!response.IsSuccessStatusCode)
         {
-            var trainingPlanRequest = new TrainingPlanRequest()
-            {
-                PrimaryGoal = primaryGoal,
-                RunningExperienceYears = runningExperienceYears,
-                RunningLevel = runningLevel,
-                TrainingPlanLength = trainingPlanLength,
-                PoolSize = poolSize,
-                WeightPounds = poundWeight,
-                RecentActivities = recentActivities
-            };
-            
-            var response = await _httpClient.PostAsJsonAsync("api/training_plan/draft", trainingPlanRequest);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException(
-                    $"Python API returned {response.StatusCode}: {errorContent}");
-            }
-
-            var result = await response.Content.ReadFromJsonAsync<PythonApiTrainingPlanResponse>();
-
-            return result ?? throw new InvalidOperationException("Python API returned an empty response.");
+            var errorContent = await response.Content.ReadAsStringAsync();
+            throw new HttpRequestException($"Python Core AI Planner returned Status {response.StatusCode}: {errorContent}");
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            throw;
-        }
+
+        var result = await response.Content.ReadFromJsonAsync<PythonApiTrainingPlanResponse>();
+        return result == null ? throw new InvalidOperationException("Python Core AI Planner returned an empty or invalid plan payload response.") : result.ToDomain(userId);
     }
 }

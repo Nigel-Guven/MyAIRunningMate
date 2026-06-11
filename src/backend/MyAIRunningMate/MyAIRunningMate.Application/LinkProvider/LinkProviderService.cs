@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Logging;
-using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Client.Strava.Responses;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.LinkProvider;
 

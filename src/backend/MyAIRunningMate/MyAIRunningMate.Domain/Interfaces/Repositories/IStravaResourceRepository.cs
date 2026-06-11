@@ -1,9 +1,9 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
+using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
-public interface IStravaResourceRepository : IBaseRepository<StravaResourceEntity> 
+public interface IStravaResourceRepository
 {
-    Task<StravaResourceEntity> GetStravaResourceById(Guid stravaId);
-    Task<IEnumerable<StravaResourceEntity>> GetAllStravaResourcesByIds(List<Guid> stravaId);
+    Task<StravaResource?> GetStravaResourceById(Guid stravaId);
+    Task<IEnumerable<StravaResource>> GetAllStravaResourcesByIds(List<Guid> stravaId);
 }

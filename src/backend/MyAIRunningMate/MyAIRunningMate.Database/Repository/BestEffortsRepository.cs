@@ -1,5 +1,7 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.BestEfforts;
+using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Database.Mappers;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
 using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
@@ -8,7 +10,7 @@ public class BestEffortsRepository(Supabase.Client supabase) : BaseRepository<Be
 {
     private readonly Supabase.Client _supabase = supabase;
     
-    public async Task<IEnumerable<BestEffortEntity>> GetBestEffortsByUserId(Guid userId)
+    public async Task<IEnumerable<BestEffort>> GetBestEffortsByUserId(Guid userId)
     {
         var entities = await _supabase
             .From<BestEffortEntity>()
@@ -16,7 +18,7 @@ public class BestEffortsRepository(Supabase.Client supabase) : BaseRepository<Be
             .Order("distance_metres", Constants.Ordering.Ascending)
             .Get();
 
-        return entities.Models;
+        return entities.Models.Select(entity => entity.ToDomain());
     }
 
     public async Task UpdateBestEffort(string distanceLabel, DateTime newDate, int newTime, Guid userId)
@@ -30,6 +32,5 @@ public class BestEffortsRepository(Supabase.Client supabase) : BaseRepository<Be
             .Set(x => x.TimeAchievement, newTime)
             .Set(x => x.AchievementDate, newDate)
             .Update();
-        
     }
 }

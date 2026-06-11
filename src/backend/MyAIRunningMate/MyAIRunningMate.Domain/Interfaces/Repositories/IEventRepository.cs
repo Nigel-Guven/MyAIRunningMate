@@ -1,9 +1,9 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
+using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Domain.Interfaces.Repositories.Events;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
-public interface IEventRepository : IBaseRepository<EventEntity> 
+public interface IEventRepository
 {
-    Task<IEnumerable<EventEntity>> GetUpcomingEvents(int numberOfEvents);
-    Task<EventEntity> GetEventById(Guid eventId);
+    Task<IEnumerable<Event>> GetUpcomingEvents(int numberOfEvents);
+    Task<Event?> GetEventById(Guid eventId);
 }

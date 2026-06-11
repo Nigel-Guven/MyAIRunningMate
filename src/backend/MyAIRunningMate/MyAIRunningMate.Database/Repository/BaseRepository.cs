@@ -15,12 +15,10 @@ public abstract class BaseRepository<T>(Supabase.Client supabase) : IBaseReposit
         return result.Models;
     }
 
-    public async Task<T?> GetById(object id)
-    {
-        return await Supabase.From<T>()
+    public async Task<T?> GetById(object id) =>
+        await Supabase.From<T>()
             .Filter("id", Constants.Operator.Equals, id.ToString())
             .Single();
-    }
 
     public async Task<T> Insert(T entity)
     {

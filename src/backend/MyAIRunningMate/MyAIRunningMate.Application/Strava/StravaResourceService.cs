@@ -1,6 +1,6 @@
 using MyAIRunningMate.Application.DbEntityMappings;
-using MyAIRunningMate.Application.Models;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Strava;
 

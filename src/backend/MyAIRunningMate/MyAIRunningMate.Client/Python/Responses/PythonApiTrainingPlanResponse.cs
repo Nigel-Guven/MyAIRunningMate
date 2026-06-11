@@ -2,20 +2,19 @@ using System.Text.Json.Serialization;
 
 namespace MyAIRunningMate.Client.Python.Responses;
 
-public class PythonApiTrainingPlanResponse
-{
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
-
-    [JsonPropertyName("start_date")]
-    public DateTime StartDate { get; set; }
-
-    [JsonPropertyName("end_date")]
-    public DateTime EndDate { get; set; } 
+public record PythonApiTrainingPlanResponse(
+    [property: JsonPropertyName("title")] 
+    string Title,
     
-    [JsonPropertyName("description")]
-    public string Description { get; set; }
+    [property: JsonPropertyName("start_date")] 
+    DateTime StartDate,
     
-    [JsonPropertyName("training_plan_events")]
-    public IEnumerable<PythonApiTrainingPlanEventResponse> TrainingPlanEvents { get; set; }
-}
+    [property: JsonPropertyName("end_date")] 
+    DateTime EndDate, 
+    
+    [property: JsonPropertyName("description")] 
+    string Description,
+    
+    [property: JsonPropertyName("training_plan_events")] 
+    IEnumerable<PythonApiTrainingPlanEvent> TrainingPlanEvents
+);

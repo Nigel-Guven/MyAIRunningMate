@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Nexus;
 using MyAIRunningMate.Contracts.Nexus.Requests;
 using MyAIRunningMate.Contracts.Nexus.Responses;
+using MyAIRunningMate.Domain.Models.ViewObjects;
 
 namespace MyAIRunningMate.Service.Controllers;
 

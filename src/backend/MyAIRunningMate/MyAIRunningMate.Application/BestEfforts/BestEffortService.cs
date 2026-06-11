@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.BestEfforts;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.BestEfforts;

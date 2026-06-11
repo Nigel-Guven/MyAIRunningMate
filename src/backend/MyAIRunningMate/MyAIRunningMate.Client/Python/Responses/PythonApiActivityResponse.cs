@@ -1,39 +1,37 @@
 using System.Text.Json.Serialization;
+using MyAIRunningMate.Client.Python.Responses;
 
-namespace MyAIRunningMate.Client.Python.Responses;
-
-public class PythonApiActivityResponse
-{
-    [JsonPropertyName("garmin_id")]
-    public string GarminId { get; set; }
+public record PythonApiActivityResponse(
+    [property: JsonPropertyName("garmin_id")] 
+    string GarminId,
     
-    [JsonPropertyName("start_time")]
-    public DateTime StartTime { get; set; }
+    [property: JsonPropertyName("start_time")] 
+    DateTime StartTime,
     
-    [JsonPropertyName("type")]
-    public string Type { get; set; }
+    [property: JsonPropertyName("type")] 
+    string Type,
     
-    [JsonPropertyName("duration_seconds")]
-    public double DurationSeconds { get; set; }
+    [property: JsonPropertyName("duration_seconds")] 
+    double DurationSeconds,
     
-    [JsonPropertyName("distance_metres")]
-    public double DistanceMetres { get; set; }
+    [property: JsonPropertyName("distance_metres")] 
+    double DistanceMetres,
     
-    [JsonPropertyName("average_heart_rate")]
-    public int AverageHeartRate { get; set; }
+    [property: JsonPropertyName("average_heart_rate")] 
+    int AverageHeartRate,
     
-    [JsonPropertyName("max_heart_rate")]
-    public int MaxHeartRate { get; set; }
+    [property: JsonPropertyName("max_heart_rate")] 
+    int MaxHeartRate,
     
-    [JsonPropertyName("total_elevation_gain")]
-    public double? TotalElevationGain { get; set; }
+    [property: JsonPropertyName("total_elevation_gain")] 
+    double? TotalElevationGain,
     
-    [JsonPropertyName("training_effect")]
-    public double TrainingEffect { get; set; }
+    [property: JsonPropertyName("training_effect")] 
+    double TrainingEffect,
     
-    [JsonPropertyName("average_pace_seconds_per_kilometre")]
-    public double AverageSecondPerKilometre { get; set; }
+    [property: JsonPropertyName("average_pace_seconds_per_kilometre")] 
+    double AverageSecondPerKilometre,
     
-    [JsonPropertyName("laps")]
-    public IEnumerable<PythonApiLap> Laps { get; set; }
-}
+    [property: JsonPropertyName("laps")] 
+    IEnumerable<PythonApiLap> Laps
+);

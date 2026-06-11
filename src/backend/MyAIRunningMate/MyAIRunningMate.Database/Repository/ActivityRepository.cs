@@ -1,6 +1,7 @@
 using MyAIRunningMate.Database.Entities;
-using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
+using MyAIRunningMate.Database.Mappers;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
 using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
@@ -9,10 +10,9 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
 {
     private readonly Supabase.Client _supabase = supabase;
 
-    public async Task<IEnumerable<ActivityEntity>> GetAllActivitiesByMonth(DateTime byMonth, Guid userId)
+    public async Task<IEnumerable<Activity>> GetAllActivitiesByMonth(DateTime byMonth, Guid userId)
     {
         var startOfMonth = new DateTime(byMonth.Year, byMonth.Month, 1, 0, 0, 0, DateTimeKind.Utc);
-        
         var startOfNextMonth = startOfMonth.AddMonths(1);
 
         var result = await _supabase
@@ -22,13 +22,12 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
             .Where(x => x.UserId == userId)
             .Get();
 
-        return result.Models;
+        return result.Models.Select(entity => entity.ToDomain());
     }
 
-    public async Task<IEnumerable<ActivityEntity>> GetAllActivitiesByYear(DateTime byYear, Guid userId)
+    public async Task<IEnumerable<Activity>> GetAllActivitiesByYear(DateTime byYear, Guid userId)
     {
         var startOfYear = new DateTime(byYear.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        
         var startOfNextYear = startOfYear.AddYears(1);
 
         var result = await _supabase
@@ -38,13 +37,12 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
             .Where(x => x.UserId == userId)
             .Get();
 
-        return result.Models;
+        return result.Models.Select(entity => entity.ToDomain());
     }
 
     public async Task<IEnumerable<Guid>> GetCurrentWeekActivityIds(Guid userId)
     {
         var now = DateTime.UtcNow;
-
         var daysSinceMonday = (int)now.DayOfWeek - (int)DayOfWeek.Monday;
     
         if (daysSinceMonday < 0)
@@ -58,7 +56,7 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
 
         var result = await _supabase
             .From<ActivityEntity>()
-            .Select(x => new object[] { x.ActivityId}) 
+            .Select(x => new object[] { x.ActivityId }) 
             .Where(x => x.StartTime >= startOfWeekUtc)
             .Where(x => x.StartTime < startOfNextWeekUtc)
             .Where(x => x.UserId == userId)
@@ -76,21 +74,22 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
             .Limit(1)
             .Get();
 
-        return result.Models.Any();
+        return result.Models.Count != 0;
     }
 
-    public async Task<ActivityEntity?> GetActivityByActivityId(Guid activityId, Guid userId)
+    public async Task<Activity?> GetActivityByActivityId(Guid activityId, Guid userId)
     {
-        var result = await _supabase .From<ActivityEntity>() 
+        var result = await _supabase
+            .From<ActivityEntity>() 
             .Where(x => x.ActivityId == activityId) 
             .Where(x => x.UserId == userId) 
             .Limit(1) 
             .Get(); 
-        
-        return result.Model;
+
+        return result.Model?.ToDomain();
     }
 
-    public async Task<List<ActivityEntity>> GetLatestActivities(Guid userId)
+    public async Task<List<Activity>> GetLatestActivities(Guid userId)
     {
         var result = await _supabase
             .From<ActivityEntity>()
@@ -99,6 +98,6 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
             .Limit(10)
             .Get();
 
-        return result.Models;
+        return result.Models.Select(entity => entity.ToDomain()).ToList();
     }
 }

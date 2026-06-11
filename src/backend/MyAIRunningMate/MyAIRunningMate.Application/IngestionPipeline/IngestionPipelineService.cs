@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MyAIRunningMate.Application.Activities;
 using MyAIRunningMate.Application.LinkProvider;
-using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Client.Python;
+using MyAIRunningMate.Domain.Models.ViewObjects;
 
 namespace MyAIRunningMate.Application.IngestionPipeline;
 

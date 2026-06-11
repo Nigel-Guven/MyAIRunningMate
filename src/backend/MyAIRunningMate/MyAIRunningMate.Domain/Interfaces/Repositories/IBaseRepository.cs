@@ -1,4 +1,3 @@
-
 using Supabase.Postgrest.Models;
 
 namespace MyAIRunningMate.Domain.Interfaces.Repositories;

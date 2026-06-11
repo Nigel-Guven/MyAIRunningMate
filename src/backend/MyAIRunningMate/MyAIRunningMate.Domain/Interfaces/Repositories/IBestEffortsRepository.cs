@@ -1,9 +1,9 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
+using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Domain.Interfaces.Repositories.BestEfforts;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
-public interface IBestEffortsRepository : IBaseRepository<BestEffortEntity>
+public interface IBestEffortsRepository
 {
-    Task<IEnumerable<BestEffortEntity>> GetBestEffortsByUserId(Guid userId);
+    Task<IEnumerable<BestEffort>> GetBestEffortsByUserId(Guid userId);
     Task UpdateBestEffort(string distanceLabel, DateTime newDate, int newTime, Guid userId);
 }

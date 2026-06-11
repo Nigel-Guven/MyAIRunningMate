@@ -16,12 +16,6 @@ using MyAIRunningMate.Client.Python;
 using MyAIRunningMate.Client.Strava;
 using MyAIRunningMate.Database.Repository;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
-using MyAIRunningMate.Domain.Interfaces.Repositories.BestEfforts;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Events;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Session;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
-using MyAIRunningMate.Domain.Interfaces.Repositories.TrainingPlan;
 
 namespace MyAIRunningMate.Service.SetupExtensions;
 

@@ -1,8 +1,7 @@
 using MyAIRunningMate.Application.Activities;
-using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models.ViewObjects;
 
 namespace MyAIRunningMate.Application.AggregatePage;
 

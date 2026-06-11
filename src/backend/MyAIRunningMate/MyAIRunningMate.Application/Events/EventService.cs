@@ -1,5 +1,5 @@
 using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Events;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
 
 namespace MyAIRunningMate.Application.Events;
 

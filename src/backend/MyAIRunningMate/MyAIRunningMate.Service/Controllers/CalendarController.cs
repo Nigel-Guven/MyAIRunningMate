@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Calendar;
-using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Calendar.Responses;
+using MyAIRunningMate.Domain.Models.ViewObjects;
 using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.Controllers;

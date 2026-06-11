@@ -1,11 +1,10 @@
-using MyAIRunningMate.Application.Models.ViewObjects;
 using MyAIRunningMate.Application.Weights;
 using MyAIRunningMate.Client.Python;
 using MyAIRunningMate.Client.Python.Requests;
 using MyAIRunningMate.Client.Python.Responses;
 using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
-using MyAIRunningMate.Domain.Interfaces.Repositories.TrainingPlan;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models.ViewObjects;
 
 namespace MyAIRunningMate.Application.TrainingPlans;
 
@@ -33,8 +32,6 @@ public class TrainingPlanService : ITrainingPlanService
     
     public async Task<TrainingPlanView> GenerateTrainingPlan(Guid userId, string primaryGoal, string runningExperience, string runningLevel, int trainingPlanLength, string poolSize)
     {
-        
-        
         var currentWeight = await _weightService.GetLatestWeightAsync(userId);
         var weightPounds = currentWeight?.WeightPounds ?? 150;
         var lastTenActivities = await _activityRepository.GetLatestActivities(userId);

@@ -1,9 +1,9 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
+using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Domain.Interfaces.Repositories.TrainingPlan;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
-public interface ITrainingPlanEventRepository : IBaseRepository<TrainingPlanEventEntity> 
+public interface ITrainingPlanEventRepository
 {
-    Task<IEnumerable<TrainingPlanEventEntity>> GetEventsForUserInDateRangeAsync(Guid trainingPlanId, DateTime start, DateTime end);
-    Task<IEnumerable<TrainingPlanEventEntity>> GetEventsByPlanIdAsync(Guid trainingPlanId);
+    Task<IEnumerable<TrainingPlanEvent>> GetEventsForUserInDateRangeAsync(Guid trainingPlanId, DateTime start, DateTime end);
+    Task<IEnumerable<TrainingPlanEvent>> GetEventsByPlanIdAsync(Guid trainingPlanId);
 }

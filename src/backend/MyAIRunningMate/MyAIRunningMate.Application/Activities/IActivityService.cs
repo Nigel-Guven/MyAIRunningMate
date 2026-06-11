@@ -1,5 +1,5 @@
-using MyAIRunningMate.Application.Models;
 using MyAIRunningMate.Domain.DatabaseEntities;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Activities;
 

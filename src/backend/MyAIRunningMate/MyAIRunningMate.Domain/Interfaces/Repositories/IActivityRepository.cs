@@ -1,13 +1,13 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
+using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Domain.Interfaces.Repositories.Garmin;
+namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
-public interface IActivityRepository : IBaseRepository<ActivityEntity> 
+public interface IActivityRepository
 {
-    Task<IEnumerable<ActivityEntity>> GetAllActivitiesByMonth(DateTime byMonth, Guid userId);
-    Task<IEnumerable<ActivityEntity>> GetAllActivitiesByYear(DateTime byYear, Guid userId);
+    Task<IEnumerable<Activity>> GetAllActivitiesByMonth(DateTime byMonth, Guid userId);
+    Task<IEnumerable<Activity>> GetAllActivitiesByYear(DateTime byYear, Guid userId);
     Task<IEnumerable<Guid>> GetCurrentWeekActivityIds(Guid userId);
     Task<bool> ActivityExistsByGarminId(string garminId, Guid userId);
-    Task<ActivityEntity?> GetActivityByActivityId(Guid activityId, Guid userId);
-    Task<List<ActivityEntity>> GetLatestActivities(Guid userId);
+    Task<Activity?> GetActivityByActivityId(Guid activityId, Guid userId);
+    Task<List<Activity>> GetLatestActivities(Guid userId);
 }

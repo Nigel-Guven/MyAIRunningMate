@@ -1,25 +1,30 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
-using MyAIRunningMate.Domain.Interfaces.Repositories.Strava;
+using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Database.Mappers;
+using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
 using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
 
 public class StravaResourceRepository(Supabase.Client supabase) : BaseRepository<StravaResourceEntity>(supabase), IStravaResourceRepository
 {
-    public async Task<StravaResourceEntity> GetStravaResourceById(Guid stravaId)
+    public async Task<StravaResource?> GetStravaResourceById(Guid stravaId)
     {
-        return await GetById(stravaId);
+        StravaResourceEntity? entity = await GetById(stravaId);
+
+        return entity?.ToDomain();
     }
 
-    public async Task<IEnumerable<StravaResourceEntity>> GetAllStravaResourcesByIds(List<Guid> stravaIds)
+    public async Task<IEnumerable<StravaResource>> GetAllStravaResourcesByIds(List<Guid>? stravaIds)
     {
-        if (!stravaIds.Any()) return new List<StravaResourceEntity>();
+        if (stravaIds == null || stravaIds.Count == 0) 
+            return [];
 
         var result = await Supabase
             .From<StravaResourceEntity>()
             .Filter("id", Constants.Operator.In, stravaIds)
             .Get();
-
-        return result.Models;
+        
+        return result.Models.Select(entity => entity.ToDomain());
     }
 }

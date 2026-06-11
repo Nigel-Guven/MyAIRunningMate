@@ -1,9 +1,10 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
+
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
 public interface IProfileRepository
 {
-    Task<ProfileEntity?> GetByIdAsync(Guid userId);
-    Task CreateAsync(ProfileEntity profile);
+    Task<Profile?> GetByIdAsync(Guid userId);
+    Task CreateAsync(Profile profile);
 }
