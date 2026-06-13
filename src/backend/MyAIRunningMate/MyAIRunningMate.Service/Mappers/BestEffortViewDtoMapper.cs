@@ -1,15 +1,15 @@
 using MyAIRunningMate.Contracts.BestEfforts.Responses;
-using MyAIRunningMate.Domain.DatabaseEntities;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Service.Mappers;
 
 public static class BestEffortViewDtoMapper
 {
-    public static BestEffortResponse ToBestEffortViewDto(this BestEffortEntity model) => new()
-    {
-        DistanceMetres = model.DistanceMetres,
-        DistanceLabel = model.DistanceLabel,
-        TimeAchievement = model.TimeAchievement,
-        AchievementDate = model.AchievementDate,
-    };
+    public static BestEffortResponse ToBestEffortResponse(this BestEffort model) => 
+        new(
+        DistanceMetres: model.DistanceMetres,
+        DistanceLabel: model.DistanceLabel,
+        TimeAchievement: model.TimeAchievement,
+        AchievementDate: model.AchievementDate
+        );
 }

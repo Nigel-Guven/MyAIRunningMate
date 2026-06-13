@@ -10,7 +10,7 @@ public class StravaResourceRepository(Supabase.Client supabase) : BaseRepository
 {
     public async Task<StravaResource?> GetStravaResourceById(Guid stravaId)
     {
-        StravaResourceEntity? entity = await GetById(stravaId);
+        StravaResourceEntity? entity = await GetByIdAsync(stravaId);
 
         return entity?.ToDomain();
     }

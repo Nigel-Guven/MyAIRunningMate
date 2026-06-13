@@ -7,7 +7,7 @@ public interface IPythonApiClient
 {
     Task<(Activity Activity, IEnumerable<Lap> Laps)> UploadFitFileAsync(Stream fileStream, string fileName, Guid userId);
 
-    Task<TrainingPlan> GenerateTrainingPlanAsync(
+    Task<(TrainingPlan TrainingPlan, IEnumerable<TrainingPlanEvent> Events)> GenerateTrainingPlanAsync(
         string primaryGoal,
         int runningExperienceYears,
         string runningLevel,

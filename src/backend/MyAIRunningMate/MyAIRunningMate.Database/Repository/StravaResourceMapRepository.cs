@@ -9,7 +9,7 @@ public class StravaResourceMapRepository(Supabase.Client supabase) : BaseReposit
 {
     public async Task<StravaGeomap?> GetMapById(Guid mapId)
     {
-        StravaGeomapEntity? entity = await GetById(mapId);
+        StravaGeomapEntity? entity = await GetByIdAsync(mapId);
 
         return entity?.ToDomain();
     }

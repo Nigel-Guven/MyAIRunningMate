@@ -3,30 +3,21 @@ using MyAIRunningMate.Application.AggregatePage;
 using MyAIRunningMate.Client.Geocoder;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Models;
-using MyAIRunningMate.Domain.Models.ViewObjects;
 
 namespace MyAIRunningMate.Application.Insights;
 
-public class InsightsService : IInsightsService
+public class InsightsService(
+    IActivityViewService activityViewService,
+    IActivityRepository activityRepository,
+    IGeocodeClient geocodingClient)
+    : IInsightsService
 {
-    private readonly IActivityViewService _activityViewService;
-    private readonly IActivityRepository _activityRepository;
-    private readonly IGeocodeClient _geocodingClient;
-    
-    public InsightsService(
-        IActivityViewService activityViewService, IActivityRepository activityRepository, IGeocodeClient geocodingClient)
-    {
-        _activityViewService =  activityViewService;
-        _activityRepository = activityRepository;
-        _geocodingClient = geocodingClient;
-    }
-    
     public async Task<WeeklyInsights> GetWeeklyInsights(Guid userId)
     {
-        var activityIdsThisWeek = await _activityRepository.GetCurrentWeekActivityIds(userId);
+        var activityIdsThisWeek = await activityRepository.GetCurrentWeekActivityIds(userId);
 
         var aggregateTasks = activityIdsThisWeek.Select(activityId => 
-            _activityViewService.CreateAggregateActivity(activityId, userId)
+            activityViewService.CreateAggregateActivity(activityId, userId)
         );
         var aggregateResults = await Task.WhenAll(aggregateTasks);
         var validActivities = aggregateResults.Where(a => true).ToList();
@@ -47,7 +38,7 @@ public class InsightsService : IInsightsService
                 var coordinates = PolylineDecoder.GetFirstCoordinate(a.Map.MapPolyline);
                 if (coordinates.HasValue)
                 {
-                    return await _geocodingClient.GetReadableLocationAsync(coordinates.Value.Latitude, coordinates.Value.Longitude);
+                    return await geocodingClient.GetReadableLocationAsync(coordinates.Value.Latitude, coordinates.Value.Longitude);
                 }
             }
 
@@ -127,7 +118,7 @@ public class InsightsService : IInsightsService
     {
         var yearDate = new DateTime(year, 1, 1);
 
-        var activitiesThisYear = (await _activityRepository.GetAllActivitiesByYear(yearDate, userId))?.ToList();
+        var activitiesThisYear = (await activityRepository.GetAllActivitiesByYear(yearDate, userId))?.ToList();
         
         if (activitiesThisYear == null || activitiesThisYear.Count == 0)
         {

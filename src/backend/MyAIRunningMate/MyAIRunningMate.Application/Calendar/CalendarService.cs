@@ -1,25 +1,14 @@
 using MyAIRunningMate.Domain.Interfaces.Repositories;
-using MyAIRunningMate.Domain.Models.ViewObjects;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Calendar;
 
-public class CalendarService : ICalendarService
+public class CalendarService(IActivityRepository activityRepo) : ICalendarService
 {
-    private readonly IActivityRepository _activityRepository;
-
-    public CalendarService(
-        IActivityRepository activityRepo)
+    public async Task<IEnumerable<Activity>> GetMonthlyCalendarViews(DateTime byMonth, Guid userId)
     {
-        _activityRepository = activityRepo;
-    }
-
-    public async Task<IEnumerable<CalendarView>> GetMonthlyCalendarViews(DateTime byMonth, Guid userId)
-    {
+        var activities = await activityRepo.GetAllActivitiesByMonth(byMonth, userId);
         
-        var activities = await _activityRepository.GetAllActivitiesByMonth(byMonth, userId);
-    
-        var calendarViews = activities.Select(a => a.ToCalendarView());
-
-        return calendarViews;
+        return activities;
     }
 }

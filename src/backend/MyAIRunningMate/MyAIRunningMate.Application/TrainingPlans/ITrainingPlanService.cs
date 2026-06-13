@@ -4,7 +4,7 @@ namespace MyAIRunningMate.Application.TrainingPlans;
 
 public interface ITrainingPlanService
 {
-    Task<TrainingPlanView> GenerateTrainingPlan(
+    Task<TrainingPlan> GenerateTrainingPlan(
         Guid userId, 
         string primaryGoal, 
         string runningYears, 

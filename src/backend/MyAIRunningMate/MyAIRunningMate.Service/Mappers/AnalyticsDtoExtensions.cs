@@ -5,9 +5,8 @@ namespace MyAIRunningMate.Service.Mappers;
 
 public static class AnalyticsDtoExtensions
 {
-    public static WeeklyInsightsResponse ToWeeklyInsightsDto(this WeeklyInsights model)
-    {
-        return new WeeklyInsightsResponse(
+    public static WeeklyInsightsResponse ToWeeklyInsightsDto(this WeeklyInsights model) =>
+        new(
             RunningTimeVolume: model.RunningTimeVolume,
             RunningDistanceVolume: model.RunningDistanceVolume,
             SwimmingTimeVolume: model.SwimmingTimeVolume,
@@ -24,11 +23,9 @@ public static class AnalyticsDtoExtensions
             Locations: model.Locations,
             RestDays: model.RestDays
         );
-    }
 
-    public static WeeklyVolumeResponse ToWeeklyVolumeDto(this WeeklyVolume model)
-    {
-        return new WeeklyVolumeResponse(
+    public static WeeklyVolumeResponse ToWeeklyVolumeDto(this WeeklyVolume model) =>
+        new(
             AverageMaxHeartRate: model.AverageMaxHeartRate,
             AverageTrainingEffectThisWeek: model.AverageTrainingEffectThisWeek,
             RunningTimeThisWeek: model.RunningTimeThisWeek,
@@ -39,24 +36,19 @@ public static class AnalyticsDtoExtensions
             TotalElevationGainThisWeek: model.TotalElevationGainThisWeek,
             SwimmingDistanceThisWeek: model.SwimmingDistanceThisWeek
         );
-    }
 
-    public static YearlyAnalyticsResponse ToYearlyAnalyticsDto(this YearlyAnalytics model)
-    {
-        return new YearlyAnalyticsResponse(
+    public static YearlyAnalyticsResponse ToYearlyAnalyticsDto(this YearlyAnalytics model) =>
+        new(
             Summary: model.Summary.ToYearlyStatisticsDto(),
             WeeklyVolumes: model.WeeklyVolumes.Select(v => v.ToWeeklyInsightsDto())
         );
-    }
 
-    public static YearlyStatisticsResponse ToYearlyStatisticsDto(this YearlyStatistics model)
-    {
-        return new YearlyStatisticsResponse(
+    public static YearlyStatisticsResponse ToYearlyStatisticsDto(this YearlyStatistics model) =>
+        new(
             YearlyRunningDistance: model.YearlyRunningDistance,
             YearlySwimmingDistance: model.YearlySwimmingDistance,
             YearlyActiveDays: model.YearlyActiveDays,
             YearlyAverageTrainingEffect: model.YearlyAverageTrainingEffect,
             YearlyTotalTrainingEffect: model.YearlyTotalTrainingEffect
         );
-    }
 }

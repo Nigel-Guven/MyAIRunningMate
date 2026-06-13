@@ -1,40 +1,25 @@
 using MyAIRunningMate.Application.Activities;
-using MyAIRunningMate.Domain.DatabaseEntities;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
-using MyAIRunningMate.Domain.Models.ViewObjects;
 
 namespace MyAIRunningMate.Application.AggregatePage;
 
-public class ActivityViewService : IActivityViewService
+public class ActivityViewService(
+    IActivityService activityService,
+    ILapRepository lapRepo,
+    IStravaResourceRepository stravaRepo,
+    IStravaResourceMapRepository mapRepo)
+    : IActivityViewService
 {
-    private readonly IActivityService _activityService;
-    private readonly ILapRepository _lapRepository;
-    private readonly IStravaResourceRepository _stravaResourceRepository;
-    private readonly IStravaResourceMapRepository _stravaResourceMapRepository;
-    
-    public ActivityViewService(
-        IActivityService activityService,
-        ILapRepository lapRepo,
-        IStravaResourceRepository stravaRepo,
-        IStravaResourceMapRepository mapRepo)
-    {
-        _activityService = activityService;
-        _lapRepository = lapRepo;
-        _stravaResourceRepository = stravaRepo;
-        _stravaResourceMapRepository = mapRepo;
-    }
-    
-
     public async Task<AggregateArtifactView> CreateAggregateActivity(Guid activityId, Guid userId)
     {
-        var activityEntity = await _activityService.GetByActivityIdAndUserIdAsync(activityId, userId);
+        var activityEntity = await activityService.GetByActivityIdAndUserIdAsync(activityId, userId);
     
         if (activityEntity == null) return null;
         
-        var lapsTask = _lapRepository.GetAllLapsByActivityId(activityEntity.ActivityId);
+        var lapsTask = lapRepo.GetAllLapsByActivityId(activityEntity.ActivityId);
         
         var stravaTask = activityEntity.StravaResourceId != null 
-            ? _stravaResourceRepository.GetById(activityEntity.StravaResourceId) 
+            ? stravaRepo.GetByIdAsync(activityEntity.StravaResourceId) 
             : Task.FromResult<StravaResourceEntity?>(null);
 
         await Task.WhenAll(lapsTask, stravaTask);
@@ -52,7 +37,7 @@ public class ActivityViewService : IActivityViewService
             
             if (stravaEntity.MapId != null)
             {
-                var mapEntity = await _stravaResourceMapRepository.GetMapById(stravaEntity.MapId.Value);
+                var mapEntity = await mapRepo.GetMapById(stravaEntity.MapId.Value);
                 
                 if (mapEntity != null) 
                 {

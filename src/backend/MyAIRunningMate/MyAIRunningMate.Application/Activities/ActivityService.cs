@@ -1,48 +1,23 @@
-using MyAIRunningMate.Application.DbEntityMappings;
-using MyAIRunningMate.Domain.DatabaseEntities;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Activities;
 
-public class ActivityService : IActivityService
+public class ActivityService(
+    IActivityRepository activityRepository,
+    ILapRepository lapRepository)
+    : IActivityService
 {
-    private readonly IActivityRepository _activityRepository;
-    private readonly ILapRepository _lapRepository;
-    
-    public ActivityService(
-        IActivityRepository activityRepository,
-        ILapRepository lapRepository)
-    {
-        _activityRepository = activityRepository;
-        _lapRepository = lapRepository;
-    }
 
-    public async Task<ActivityEntity?> GetByActivityIdAndUserIdAsync(Guid activityId, Guid userId)
-    {
-        var activityEntity = await _activityRepository.GetActivityByActivityId(activityId, userId);
-        
-        return activityEntity;
-    }
-    
-    public async Task<bool> CheckDuplicateAsync(string garminActivityId, Guid userId)
-    {
-        return await _activityRepository.ActivityExistsByGarminId(garminActivityId, userId);
-    }
+    public async Task<Activity?> GetByActivityIdAndUserIdAsync(Guid activityId, Guid userId) => await activityRepository.GetActivityByActivityId(activityId, userId);
 
-    public async Task SaveActivityAndLaps(Activity activity, Guid? stravaResourceId, Guid userId)
-    {
-        var activityEntity = activity.ToActivityEntity(stravaResourceId, userId);
-        
-        var result = await _activityRepository.Insert(activityEntity);
+    public async Task<bool> CheckDuplicateAsync(string garminActivityId, Guid userId) => 
+        await activityRepository.ActivityExistsByGarminId(garminActivityId, userId);
 
-        var lapEntities = activity.Laps.Select(l => 
-        {
-            var entity = l.ToLapEntity();
-            entity.ActivityId = result.ActivityId;
-            return entity;
-        }).ToList();
+    public async Task SaveActivityAndLaps(Activity activity, IEnumerable<Lap> laps, Guid stravaResourceId, Guid userId)
+    {
+        var savedActivity = await activityRepository.InsertAsync(activity, stravaResourceId, userId);
         
-        await _lapRepository.BulkInsert(lapEntities);
+        await lapRepository.BulkInsertAsync(laps, savedActivity.ActivityId);
     }
 }

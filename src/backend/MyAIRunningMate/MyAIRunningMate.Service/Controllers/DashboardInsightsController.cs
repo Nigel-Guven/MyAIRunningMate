@@ -2,40 +2,24 @@ using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Insights;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Analytics.Responses;
-using MyAIRunningMate.Service.ViewMappers;
+using MyAIRunningMate.Service.Mappers;
 
 namespace MyAIRunningMate.Service.Controllers;
 
 [ApiController]
 [Route("api/dashboard")]
-public class DashboardInsightsController : ControllerBase
+public class DashboardInsightsController(IUserContext userContext, IInsightsService insightsService) : ControllerBase
 {
-    private readonly IUserContext _userContext;
-    private readonly IInsightsService _insightsService;
-    
-    public DashboardInsightsController(IUserContext userContext, IInsightsService insightsService)
-    {
-        _userContext = userContext;
-        _insightsService = insightsService;
-    }
-    
     [HttpGet("volume")]
     public async Task<ActionResult<WeeklyInsightsResponse>> GetWeeklyVolume()
     {
-        var userId = _userContext.GetUserId();
+        var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
         
-        var weeklyInsights = await _insightsService.GetWeeklyInsights(userId);
+        var weeklyInsights = await insightsService.GetWeeklyInsights(userId);
 
         var dto = weeklyInsights.ToWeeklyInsightsDto();
         
         return Ok(dto);
     }
-    
-    //[HttpGet("insights")]
-    //public async Task<ActionResult<IEnumerable<WeeklyInsightsDto>>> GetWeeklyInsights()
-    //{
-    //    var userId = _userContext.GetUserId();
-    //    if (userId == Guid.Empty) return Unauthorized();
-    //}
 }

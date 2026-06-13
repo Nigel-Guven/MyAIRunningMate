@@ -2,10 +2,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.BestEfforts;
 using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Contracts.BestEffort;
 using MyAIRunningMate.Contracts.BestEfforts.Requests;
 using MyAIRunningMate.Contracts.BestEfforts.Responses;
-using MyAIRunningMate.Service.ViewMappers;
+using MyAIRunningMate.Service.Mappers;
 
 namespace MyAIRunningMate.Service.Controllers;
 
@@ -33,7 +32,7 @@ public class BestEffortsController : ControllerBase
         {
             var bestEfforts = await _bestEffortsService.GetAllBestEfforts(userId);
 
-            var dtos = bestEfforts.Select(bestEffort => bestEffort.ToBestEffortViewDto());
+            var dtos = bestEfforts.Select(bestEffort => bestEffort.ToBestEffortResponse());
             
             return Ok(dtos);
         }

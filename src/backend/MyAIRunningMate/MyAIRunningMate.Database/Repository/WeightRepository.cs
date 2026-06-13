@@ -34,6 +34,6 @@ public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightE
     {
         WeightEntity entityToInsert = weight.ToEntity();
 
-        await Insert(entityToInsert);
+        await InsertAsync(entityToInsert);
     }
 }

@@ -11,7 +11,7 @@ public class LapRepository(Supabase.Client supabase) : BaseRepository<LapEntity>
     
     public async Task<IEnumerable<Lap>> GetAllLaps()
     {
-        var entities = await GetAll();
+        var entities = await GetAllAsync();
 
         return entities.Select(entity => entity.ToDomain());
     }
@@ -24,5 +24,14 @@ public class LapRepository(Supabase.Client supabase) : BaseRepository<LapEntity>
             .Get();
         
         return result.Models.Select(entity => entity.ToDomain());
+    }
+
+    public async Task<int> BulkInsertAsync(IEnumerable<Lap> laps, Guid activityId)
+    {
+        var entities = laps.Select(l => l.ToEntity()).ToList();
+
+        await BulkInsertAsync(entities);
+        
+        return entities.Count;
     }
 }

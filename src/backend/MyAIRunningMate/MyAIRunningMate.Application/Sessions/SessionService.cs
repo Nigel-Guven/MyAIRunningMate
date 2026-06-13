@@ -3,7 +3,7 @@ using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Application.Session;
+namespace MyAIRunningMate.Application.Sessions;
 
 public class SessionService : ISessionService
 {
@@ -44,16 +44,11 @@ public class SessionService : ISessionService
         }
 
         var sessionEntity = await _sessionRepository.GetSessionByUserId(userId);
-
-        bool isStravaConnected = sessionEntity != null && 
-            (!string.IsNullOrEmpty(sessionEntity.AccessToken) || 
-            !string.IsNullOrEmpty(sessionEntity.RefreshToken));
         
         return new SessionResult()
         {
             Token = sessionResponse.AccessToken,
-            UserId = userId,
-            IsStravaConnected = isStravaConnected,
+            UserId = userId
         };
     }
 
@@ -70,26 +65,6 @@ public class SessionService : ISessionService
             session.UpdatedAt = DateTime.UtcNow;
             await _sessionRepository.SaveSession(session);
         }
-    }
-
-    public async Task<bool> HasStravaConnectionAsync(Guid userId)
-    {
-        var session = await _sessionRepository.GetSessionByUserId(userId);
-        
-        if (session == null || string.IsNullOrEmpty(session.AccessToken))
-            return false;
-        
-        if (session.ExpiresAt.HasValue)
-        {
-            var currentTimeSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-            if (currentTimeSeconds >= session.ExpiresAt.Value)
-            {
-                return false; 
-            }
-        }
-
-        return true;
     }
 
     private async Task<Supabase.Client> CreateAuthClientAsync()

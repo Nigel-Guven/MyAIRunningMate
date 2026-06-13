@@ -1,4 +1,3 @@
-using MyAIRunningMate.Application.DbEntityMappings;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Models;
 
@@ -17,23 +16,23 @@ public class StravaResourceService : IStravaResourceService
         _stravaResourceMapRepository = stravaResourceMapRepository;
     }
     
-    public async Task<Guid> SaveStravaResourceAndMap(StravaResource stravaResource)
+    public async Task<Guid> SaveStravaResourceAndMap(StravaResource? stravaResource)
     {
         Guid? mapId = null;
         
-        if (stravaResource.StravaGeomap != null)
+        if (stravaResource != null)
         {
             mapId = Guid.NewGuid();
-            var mapEntity = stravaResource.StravaGeomap.ToStravaGeomapEntity(mapId.Value);
+            var mapEntity = stravaResource.ToStravaGeomapEntity(mapId.Value);
         
-            await _stravaResourceMapRepository.Insert(mapEntity);
+            await _stravaResourceMapRepository.InsertAsync(mapEntity);
         }
         
-        var stravaResourceEntity = stravaResource.ToStravaResourceEntity();
+        var stravaResourceEntity = stravaResource.ToStravaGeomapEntity();
         
         stravaResourceEntity.MapId = mapId; 
 
-        var result = await _stravaResourceRepository.Insert(stravaResourceEntity);
+        var result = await _stravaResourceRepository.InsertAsync(stravaResourceEntity);
 
         return result.ResourceId;
     }

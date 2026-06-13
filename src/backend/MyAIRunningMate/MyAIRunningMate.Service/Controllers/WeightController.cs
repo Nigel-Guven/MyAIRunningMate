@@ -10,7 +10,7 @@ namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/weight")]
+[Route("api/weight_stat")]
 public class WeightController(IWeightService weightService, IUserContext userContext) : ControllerBase
 {
     [HttpGet("latest")]

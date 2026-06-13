@@ -10,4 +10,5 @@ public interface IActivityRepository
     Task<bool> ActivityExistsByGarminId(string garminId, Guid userId);
     Task<Activity?> GetActivityByActivityId(Guid activityId, Guid userId);
     Task<List<Activity>> GetLatestActivities(Guid userId);
+    Task<Activity> InsertAsync(Activity activity, Guid stravaResourceId, Guid userId);
 }

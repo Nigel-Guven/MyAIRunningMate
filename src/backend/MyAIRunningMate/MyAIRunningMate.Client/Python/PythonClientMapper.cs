@@ -51,7 +51,7 @@ public static class PythonClientMapper
         return (activity, laps);
     }
 
-    public static TrainingPlan ToDomain(this PythonApiTrainingPlanResponse response, Guid userId)
+    public static (TrainingPlan TrainingPlan, IEnumerable<TrainingPlanEvent> Events) ToDomain(this PythonApiTrainingPlanResponse response, Guid userId)
     {
         var planId = Guid.NewGuid();
         
@@ -64,9 +64,9 @@ public static class PythonClientMapper
             exerciseSubtype: e.ExerciseSubtype,
             description: e.Description,
             distanceMetres: e.DistanceMetres
-        ));
-
-        return new TrainingPlan(
+        )).ToList();
+        
+        var trainingPlan = new TrainingPlan(
             trainingPlanId: planId,
             createdAt: DateTime.UtcNow,
             userId: userId,
@@ -75,5 +75,7 @@ public static class PythonClientMapper
             startDate: response.StartDate,
             endDate: response.EndDate
         );
+
+        return (trainingPlan, events);
     }
 }

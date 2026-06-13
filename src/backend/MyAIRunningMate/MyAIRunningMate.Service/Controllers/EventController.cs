@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Events;
 using MyAIRunningMate.Contracts.Events.Responses;
-using MyAIRunningMate.Service.ViewMappers;
+using MyAIRunningMate.Service.Mappers;
 
 namespace MyAIRunningMate.Service.Controllers;
 
@@ -26,7 +26,7 @@ public class EventController : ControllerBase
         {
             var eventEntities = await _eventService.GetUpcomingFiveEvents(numberOfEvents);
 
-            var dtos = eventEntities.Select(e => e.ToEventViewDto());
+            var dtos = eventEntities.Select(e => e.ToEventResponse());
             
             return Ok(dtos);
         }
@@ -45,9 +45,16 @@ public class EventController : ControllerBase
         {
             var entity = await _eventService.GetPrimaryEvent(mainEvent);
 
-            var dto = entity.ToEventViewDto();
+            if (entity != null)
+            {
+                var dto = entity.ToEventResponse();
             
-            return Ok(dto);
+                return Ok(dto);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
         catch (Exception ex)
         {

@@ -1,27 +1,20 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Events;
 
-public class EventService : IEventService
+public class EventService(IEventRepository eventRepository) : IEventService
 {
-    private readonly IEventRepository _eventRepository;
-    
-    public EventService(IEventRepository eventRepository)
+    public async Task<IEnumerable<Event>> GetUpcomingFiveEvents(int numberOfEvents)
     {
-        _eventRepository = eventRepository;
-    }
-    
-    public async Task<IEnumerable<EventEntity>> GetUpcomingFiveEvents(int numberOfEvents)
-    {
-        var entities = await _eventRepository.GetUpcomingEvents(numberOfEvents);
+        var entities = await eventRepository.GetUpcomingEvents(numberOfEvents);
 
         return entities;
     }
 
-    public async Task<EventEntity> GetPrimaryEvent(Guid eventId)
+    public async Task<Event?> GetPrimaryEvent(Guid eventId)
     {
-        var entity = await _eventRepository.GetEventById(eventId);
+        var entity = await eventRepository.GetEventById(eventId);
 
         return entity;
     }

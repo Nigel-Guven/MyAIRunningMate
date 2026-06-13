@@ -100,4 +100,13 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
 
         return result.Models.Select(entity => entity.ToDomain()).ToList();
     }
+
+    public async Task<Activity> InsertAsync(Activity activity, Guid stravaResourceId, Guid userId)
+    {
+        ActivityEntity entity = activity.ToEntity(stravaResourceId, userId);
+
+        await InsertAsync(entity);
+        
+        return entity.ToDomain();
+    }
 }

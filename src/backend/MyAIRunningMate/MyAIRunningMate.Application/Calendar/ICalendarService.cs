@@ -1,9 +1,9 @@
-using MyAIRunningMate.Domain.Models.ViewObjects;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Calendar;
 
 public interface ICalendarService
 {
-    Task<IEnumerable<CalendarView>> GetMonthlyCalendarViews(DateTime byMonth, Guid userId);
+    Task<IEnumerable<Activity>> GetMonthlyCalendarViews(DateTime byMonth, Guid userId);
 
 }

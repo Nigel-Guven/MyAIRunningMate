@@ -22,11 +22,11 @@ public static class ActivityEntityMapper
             stravaResourceId: entity.StravaResourceId
         );
 
-    public static ActivityEntity ToEntity(this Activity domain) =>
+    public static ActivityEntity ToEntity(this Activity domain, Guid stravaResourceId, Guid userId) =>
         new()
         {
             ActivityId = domain.ActivityId,
-            UserId = domain.UserId,
+            UserId = userId,
             GarminActivityId = domain.GarminActivityId,
             StartTime = domain.StartTime,
             ExerciseType = domain.ExerciseType,
@@ -37,6 +37,6 @@ public static class ActivityEntityMapper
             TotalElevationGain = domain.TotalElevationGain,
             AverageSecondPerKilometre = domain.AverageSecondPerKilometre,
             TrainingEffect = domain.TrainingEffect,
-            StravaResourceId = domain.StravaResourceId
+            StravaResourceId = stravaResourceId
         };
 }

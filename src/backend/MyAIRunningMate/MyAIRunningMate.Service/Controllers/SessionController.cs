@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyAIRunningMate.Application.Session;
+using MyAIRunningMate.Application.Sessions;
 using MyAIRunningMate.Contracts.Login.Requests;
 using MyAIRunningMate.Contracts.Login.Responses;
 

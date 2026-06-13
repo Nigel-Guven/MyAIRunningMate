@@ -6,4 +6,5 @@ public interface IStravaResourceRepository
 {
     Task<StravaResource?> GetStravaResourceById(Guid stravaId);
     Task<IEnumerable<StravaResource>> GetAllStravaResourcesByIds(List<Guid> stravaId);
+    Task<StravaGeomap> InsertAsync(StravaGeomap stravaGeomap);
 }

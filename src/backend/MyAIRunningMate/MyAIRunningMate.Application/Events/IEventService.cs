@@ -1,9 +1,9 @@
-using MyAIRunningMate.Domain.DatabaseEntities;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Events;
 
 public interface IEventService
 {
-    Task<IEnumerable<EventEntity>> GetUpcomingFiveEvents(int numberOfEvents);
-    Task<EventEntity> GetPrimaryEvent(Guid eventId);
+    Task<IEnumerable<Event>> GetUpcomingFiveEvents(int numberOfEvents);
+    Task<Event?> GetPrimaryEvent(Guid eventId);
 }

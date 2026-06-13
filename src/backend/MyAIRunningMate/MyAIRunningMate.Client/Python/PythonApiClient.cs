@@ -28,7 +28,7 @@ public class PythonApiClient(HttpClient httpClient) : IPythonApiClient
         return result?.ToDomain(userId) ?? throw new InvalidOperationException("Python Ingestion Service returned an empty or invalid payload response.");
     }
     
-    public async Task<TrainingPlan> GenerateTrainingPlanAsync(
+    public async Task<(TrainingPlan TrainingPlan, IEnumerable<TrainingPlanEvent> Events)> GenerateTrainingPlanAsync(
         string primaryGoal,
         int runningExperienceYears,
         string runningLevel,
@@ -56,6 +56,6 @@ public class PythonApiClient(HttpClient httpClient) : IPythonApiClient
         }
 
         var result = await response.Content.ReadFromJsonAsync<PythonApiTrainingPlanResponse>();
-        return result == null ? throw new InvalidOperationException("Python Core AI Planner returned an empty or invalid plan payload response.") : result.ToDomain(userId);
+        return result?.ToDomain(userId) ?? throw new InvalidOperationException("Python Core AI Planner returned an empty or invalid plan payload response.");
     }
 }

@@ -21,6 +21,6 @@ public class SessionRepository(Supabase.Client supabase) : BaseRepository<Sessio
     {
         SessionEntity entityToUpsert = session.ToEntity();
 
-        await Upsert(entityToUpsert);
+        await UpsertAsync(entityToUpsert);
     }
 }

@@ -5,9 +5,8 @@ namespace MyAIRunningMate.Service.Mappers;
 
 public static class EventDtoExtensions
 {
-    public static EventViewResponse ToEventViewDto(this EventModel model)
-    {
-        return new EventViewResponse(
+    public static EventViewResponse ToEventResponse(this Event model) =>
+        new(
             EventName: model.EventName,
             EventDate: model.EventDate,
             EventLocation: model.EventLocation,
@@ -16,5 +15,4 @@ public static class EventDtoExtensions
             EventUrl: model.EventUrl,
             EventInfo: model.EventInfo
         );
-    }
 }
