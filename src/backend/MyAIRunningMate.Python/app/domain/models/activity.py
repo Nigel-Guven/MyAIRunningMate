@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 from app.domain.models.lap import Lap
+from app.domain.models.time_series_record import TimeSeriesRecord
 
 class Activity(BaseModel):
     garmin_id: Optional[str] = None
@@ -23,5 +24,5 @@ class Activity(BaseModel):
     detected_pool_length: Optional[int] = None
     
     # Nested Collections
-    time_series: List[Dict[str, Any]] = Field(default_factory=list)
+    time_series: List[TimeSeriesRecord] = Field(default_factory=list)
     laps: List[Lap] = Field(default_factory=list)

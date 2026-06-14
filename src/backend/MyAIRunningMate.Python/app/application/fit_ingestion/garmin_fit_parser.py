@@ -2,6 +2,7 @@ from pathlib import Path
 from fitparse import FitFile
 from app.domain.models.lap import Lap
 from app.domain.models.activity import Activity
+from app.domain.models.time_series_record import TimeSeriesRecord
 
 STROKE_MAPPING = {
     0: "Freestyle", 1: "Backstroke", 2: "Breaststroke", 
@@ -33,13 +34,18 @@ def infer_missing_stroke(length_idx: int) -> str:
     elif 10 <= length_idx <= 13: return "Backstroke"
     return "Freestyle"
 
+def semicircles_to_degrees(semicircles) -> float:
+    """Converts Garmin FIT semicircles to standard GPS decimal degrees."""
+    if semicircles is None:
+        return None
+    return float(semicircles) * (180.0 / 2**31)
+
 def clean_fit_file(fitfile, filename: str) -> Activity:
     activity_data = Activity()
     activity_data.garmin_id = extract_activity_id(filename)
     activity_data.laps = []
     activity_data.time_series = []
 
-    # 1. PROFILE & CONFIGURATION PRE-SCAN
     is_swim = False
     detected_pool_length = None
 
@@ -67,10 +73,9 @@ def clean_fit_file(fitfile, filename: str) -> Activity:
         activity_data.training_effect = session.get_value("total_training_effect")
         activity_data.calories = session.get_value("total_calories")
 
-        # Set raw base pace (seconds per meter) to allow flexible downstream formatting
         if activity_data.distance_metres > 0 and activity_data.moving_time_seconds:
             activity_data.raw_pace_seconds_per_meter = activity_data.moving_time_seconds / activity_data.distance_metres
-            
+
     processed_lengths = []
     if is_swim:
         length_idx = 0
@@ -80,8 +85,6 @@ def clean_fit_file(fitfile, filename: str) -> Activity:
                 continue
 
             length_idx += 1
-            l_dist = length.get_value("total_distance") or activity_data.detected_pool_length
-            
             stroke_str = extract_stroke_safely(length)
             if stroke_str == "Unknown":
                 stroke_str = infer_missing_stroke(length_idx)
@@ -139,11 +142,22 @@ def clean_fit_file(fitfile, filename: str) -> Activity:
         if not timestamp:
             continue
 
-        activity_data.time_series.append({
-            "timestamp": timestamp.isoformat(),
-            "distance_meters": rec.get_value("distance"),
-            "heart_rate": rec.get_value("heart_rate"),
-            "cadence": rec.get_value("cadence") if not is_swim else None
-        })
+        raw_lat = rec.get_value("position_lat")
+        raw_long = rec.get_value("position_long")
+        
+        lat_deg = semicircles_to_degrees(raw_lat)
+        long_deg = semicircles_to_degrees(raw_long)
+
+        record_object = TimeSeriesRecord(
+            timestamp=timestamp,
+            distance_meters=rec.get_value("distance"),
+            speed_meters_per_second=rec.get_value("speed"),
+            heart_rate=rec.get_value("heart_rate"),
+            cadence=rec.get_value("cadence") if not is_swim else None,
+            latitude=lat_deg,
+            longitude=long_deg
+        )
+        
+        activity_data.time_series.append(record_object)
 
     return activity_data

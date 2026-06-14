@@ -1,7 +1,8 @@
 from pydantic import BaseModel, ConfigDict, Field
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 import datetime
 from app.schemas.lap_schema import LapSchema
+from app.schemas.time_series_schema import TimeSeriesSchema
 
 class ActivitySchema(BaseModel):
     garmin_id: str
@@ -21,7 +22,7 @@ class ActivitySchema(BaseModel):
     # Pool Config Context
     detected_pool_length: Optional[int] = None
 
-    time_series: List[Dict[str, Any]] = Field(default_factory=list)
+    time_series: List[TimeSeriesSchema] = Field(default_factory=list)
     laps: List[LapSchema] = Field(default_factory=list)
 
     model_config = ConfigDict(from_attributes=True)
