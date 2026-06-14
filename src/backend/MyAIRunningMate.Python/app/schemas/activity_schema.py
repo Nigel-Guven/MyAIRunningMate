@@ -17,7 +17,7 @@ class ActivitySchema(BaseModel):
     max_heart_rate: Optional[int] = None
     total_elevation_gain: Optional[float] = None
     training_effect: Optional[float] = None
-    raw_pace_seconds_per_meter: Optional[float] = None
+    raw_pace_seconds_per_metre: Optional[float] = None
     
     # Pool Config Context
     detected_pool_length: Optional[int] = None

@@ -5,7 +5,7 @@ from typing import Optional
 
 class TimeSeriesSchema(BaseModel):
     timestamp: datetime
-    distance_meters: Optional[float] = None
+    distance_metres: Optional[float] = None
     heart_rate: Optional[int] = None
     cadence: Optional[int] = None
     latitude: Optional[float] = None
