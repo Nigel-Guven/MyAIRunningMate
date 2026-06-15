@@ -24,8 +24,8 @@ public record PythonApiActivity(
     [property: JsonPropertyName("total_elevation_gain")] 
     double? TotalElevationGain,
     
-    [property: JsonPropertyName("average_seconds_per_kilometre")] 
-    double? AverageSecondPerKilometre,
+    [property: JsonPropertyName("raw_pace_seconds_per_meter")] 
+    double? RawPaceSecondsPerMetre,
     
     [property: JsonPropertyName("training_effect")] 
     double? TrainingEffect

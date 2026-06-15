@@ -23,4 +23,16 @@ public class LapEntity : BaseModel
     
     [Column("avg_heart_rate")]
     public int AverageHeartRate { get; set; }
+    
+    [Column("avg_speed")]
+    public double AverageSpeed { get; set; }
+    
+    [Column("avg_cadence")]
+    public int AverageCadence { get; set; }
+    
+    [Column("primary_stroke")]
+    public string? PrimaryStroke { get; set; }
+    
+    [Column("average_swolf")]
+    public int? AverageSwolf { get; set; }
 }

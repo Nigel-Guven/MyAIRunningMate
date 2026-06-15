@@ -5,9 +5,7 @@ using MyAIRunningMate.Application.Calendar;
 using MyAIRunningMate.Application.Events;
 using MyAIRunningMate.Application.IngestionPipeline;
 using MyAIRunningMate.Application.Insights;
-using MyAIRunningMate.Application.LinkProvider;
 using MyAIRunningMate.Application.Sessions;
-using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Application.Weights;
@@ -28,8 +26,6 @@ public static class DependencyInjection
             services.AddScoped<IActivityRepository, ActivityRepository>();
             services.AddScoped<ILapRepository, LapRepository>();
             services.AddScoped<ISessionRepository, SessionRepository>();
-            services.AddScoped<IStravaResourceMapRepository, StravaResourceMapRepository>();
-            services.AddScoped<IStravaResourceRepository, StravaResourceRepository>();
             services.AddScoped<IWeightRepository, WeightRepository>();
             services.AddScoped<IBestEffortsRepository, BestEffortsRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
@@ -44,10 +40,8 @@ public static class DependencyInjection
             services.AddScoped<IUserContext, UserContext>();
         
             services.AddScoped<ISessionService, SessionService>();
-        
-            services.AddScoped<ILinkProviderService, LinkProviderService>();
+
             services.AddScoped<IActivityService, ActivityService>();
-            services.AddScoped<IStravaResourceService, StravaResourceService>();
             services.AddScoped<IWeightService, WeightService>();
             services.AddScoped<IBestEffortService, BestEffortService>();
             services.AddScoped<IEventService, EventService>();

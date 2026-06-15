@@ -1,3 +1,5 @@
+namespace MyAIRunningMate.Application;
+
 public static class PolylineDecoder
 {
     public static (double Latitude, double Longitude)? GetFirstCoordinate(string polyline)

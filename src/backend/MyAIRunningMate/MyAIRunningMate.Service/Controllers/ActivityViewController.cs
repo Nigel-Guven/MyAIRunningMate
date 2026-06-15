@@ -4,28 +4,19 @@ using MyAIRunningMate.Application.AggregatePage;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Aggregates.Responses;
 using MyAIRunningMate.Service.Mappers;
-using MyAIRunningMate.Service.ViewMappers;
 
 namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]
 [Route("api/activity")]
-public class ActivityViewController : ControllerBase
+public class ActivityViewController(IActivityViewService activityViewService, IUserContext userContext)
+    : ControllerBase
 {
-    private readonly IActivityViewService _activityViewService;
-    private readonly IUserContext _userContext;
-    
-    public ActivityViewController(IActivityViewService activityViewService, IUserContext userContext)
-    {
-        _activityViewService = activityViewService;
-        _userContext = userContext;
-    }
-    
     [HttpGet("aggregate")]
     public async Task<ActionResult<AggregateArtifactResponse>> GetActivityView([FromQuery] Guid activityId)
     {
-        var userId = _userContext.GetUserId();
+        var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
         
         if (activityId == Guid.Empty)
@@ -35,9 +26,9 @@ public class ActivityViewController : ControllerBase
         
         try
         {
-            var aggregate = await _activityViewService.CreateAggregateActivity(activityId, userId);
+            var aggregate = await activityViewService.CreateAggregateActivity(activityId, userId);
 
-            var dto = AggregateDtoExtensions.ToAggregateArtifactViewDto(aggregate);
+            var dto = aggregate.ToAggregateArtifactDto();
             
             return Ok(dto);
         }

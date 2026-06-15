@@ -6,22 +6,18 @@ namespace MyAIRunningMate.Client.Python;
 
 public static class PythonClientMapper
 {
-    public static PythonApiActivity ToClientRequest(this Activity domain) =>
-        new(
-            ExerciseType: domain.ExerciseType,
-            StartTime: domain.StartTime,
-            DurationSeconds: domain.DurationSeconds,
-            DistanceMetres: domain.DistanceMetres,
-            AverageHeartRate: domain.AverageHeartRate,
-            MaxHeartRate: domain.MaxHeartRate,
-            TotalElevationGain: domain.TotalElevationGain,
-            AverageSecondPerKilometre: domain.AverageSecondPerKilometre,
-            TrainingEffect: domain.TrainingEffect
-        );
-
     public static (Activity Activity, IEnumerable<Lap> Laps) ToDomain(this PythonApiActivityResponse response, Guid userId)
     {
         var activityId = Guid.NewGuid();
+        
+        var timeSeriesRecords = response.TimeSeries.Select(ts => new TimeSeriesRecord(
+            timestamp: ts.TimeStamp,
+            distanceMetres: ts.DistanceMetres,
+            heartRate: ts.HeartRate,
+            cadence: ts.Cadence,
+            latitude: ts.Latitude,
+            longitude: ts.Longitude
+        )).ToList();
 
         var activity = new Activity(
             activityId: activityId,
@@ -30,22 +26,30 @@ public static class PythonClientMapper
             startTime: response.StartTime,
             exerciseType: response.Type,
             durationSeconds: response.DurationSeconds,
+            movingTimeSeconds: response.MovingTimeSeconds,
             distanceMetres: response.DistanceMetres,
+            calories: response.Calories,
             averageHeartRate: response.AverageHeartRate,
             maxHeartRate: response.MaxHeartRate,
+            rawPaceSecondsPerMetre: response.RawPaceSecondsPerMetre,
             totalElevationGain: response.TotalElevationGain,
             trainingEffect: response.TrainingEffect,
-            averageSecondPerKilometre: response.AverageSecondPerKilometre,
-            stravaResourceId: null
+            poolLength: response.PoolLength,
+            mapPolyline: null,
+            timeSeriesRecords: timeSeriesRecords
         );
 
         var laps = response.Laps.Select(l => new Lap(
             lapId: Guid.NewGuid(),
             activityId: activityId,
             lapNumber: l.LapNumber,
-            distanceMetres: l.Distance,
-            durationSeconds: l.Duration,
-            averageHeartRate: l.AverageHeartRate
+            distanceMetres: l.DistanceMetres,
+            durationSeconds: l.DurationSeconds,
+            averageHeartRate: l.AverageHeartRate,
+            averageSpeed: l.AverageSpeed,
+            averageCadence: l.AverageCadence,
+            primaryStroke: l.PrimaryStroke,
+            averageSwolf: l.AverageSwolf
         ));
 
         return (activity, laps);
@@ -69,11 +73,11 @@ public static class PythonClientMapper
         var trainingPlan = new TrainingPlan(
             trainingPlanId: planId,
             createdAt: DateTime.UtcNow,
-            userId: userId,
             title: response.Title,
-            description: response.Description,
             startDate: response.StartDate,
-            endDate: response.EndDate
+            endDate: response.EndDate,
+            userId: userId,
+            description: response.Description
         );
 
         return (trainingPlan, events);

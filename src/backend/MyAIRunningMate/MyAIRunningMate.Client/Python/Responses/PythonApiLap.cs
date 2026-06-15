@@ -7,11 +7,23 @@ public record PythonApiLap(
     int LapNumber,
     
     [property: JsonPropertyName("distance_metres")] 
-    double Distance,
+    double DistanceMetres,
     
     [property: JsonPropertyName("duration_seconds")] 
-    double Duration,
+    double DurationSeconds,
     
     [property: JsonPropertyName("average_heart_rate")] 
-    int AverageHeartRate
+    int AverageHeartRate,
+    
+    [property: JsonPropertyName("average_speed")] 
+    double AverageSpeed,
+    
+    [property: JsonPropertyName("average_cadence")] 
+    int AverageCadence,
+    
+    [property: JsonPropertyName("primary_stroke")] 
+    string? PrimaryStroke,
+    
+    [property: JsonPropertyName("average_swolf")] 
+    int? AverageSwolf
 );

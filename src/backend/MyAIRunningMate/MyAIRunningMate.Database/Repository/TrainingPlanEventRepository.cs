@@ -39,4 +39,11 @@ public class TrainingPlanEventRepository(Supabase.Client supabase) : BaseReposit
         
         return response.Models.Select(entity => entity.ToDomain());
     }
+    
+    public async Task BulkInsertAsync(IEnumerable<TrainingPlanEvent> trainingPlanEvents)
+    {
+        var entities = trainingPlanEvents.Select(te => te.ToEntity()).ToList();
+
+        await BulkInsertAsync(entities);
+    }
 }

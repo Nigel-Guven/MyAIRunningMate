@@ -24,25 +24,6 @@ public static class AnalyticsDtoExtensions
             RestDays: model.RestDays
         );
 
-    public static WeeklyVolumeResponse ToWeeklyVolumeDto(this WeeklyVolume model) =>
-        new(
-            AverageMaxHeartRate: model.AverageMaxHeartRate,
-            AverageTrainingEffectThisWeek: model.AverageTrainingEffectThisWeek,
-            RunningTimeThisWeek: model.RunningTimeThisWeek,
-            RunningDistanceLastWeek: model.RunningDistanceLastWeek,
-            RunningDistanceThisWeek: model.RunningDistanceThisWeek,
-            PlannedRunningDistanceLastWeek: model.PlannedRunningDistanceLastWeek,
-            PlannedRunningDistanceThisWeek: model.PlannedRunningDistanceThisWeek,
-            TotalElevationGainThisWeek: model.TotalElevationGainThisWeek,
-            SwimmingDistanceThisWeek: model.SwimmingDistanceThisWeek
-        );
-
-    public static YearlyAnalyticsResponse ToYearlyAnalyticsDto(this YearlyAnalytics model) =>
-        new(
-            Summary: model.Summary.ToYearlyStatisticsDto(),
-            WeeklyVolumes: model.WeeklyVolumes.Select(v => v.ToWeeklyInsightsDto())
-        );
-
     public static YearlyStatisticsResponse ToYearlyStatisticsDto(this YearlyStatistics model) =>
         new(
             YearlyRunningDistance: model.YearlyRunningDistance,

@@ -4,6 +4,7 @@ using MyAIRunningMate.Application.Calendar;
 using MyAIRunningMate.Application.TrainingPlans;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Calendar.Responses;
+using MyAIRunningMate.Contracts.Nexus.Responses;
 using MyAIRunningMate.Service.Mappers;
 
 namespace MyAIRunningMate.Service.Controllers;
@@ -40,7 +41,7 @@ public class CalendarController(
     }
     
     [HttpGet("training-plan")]
-    public async Task<ActionResult<TrainingPlanView>> GetActiveTrainingPlanForMonth([FromQuery] int month, [FromQuery] int year)
+    public async Task<ActionResult<TrainingPlanViewResponse>> GetActiveTrainingPlanForMonth([FromQuery] int month, [FromQuery] int year)
     {
         var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();

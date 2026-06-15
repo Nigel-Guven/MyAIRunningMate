@@ -5,25 +5,13 @@ using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Sessions;
 
-public class SessionService : ISessionService
+public class SessionService(
+    ISessionRepository sessionRepository,
+    IProfileRepository profileRepository,
+    IUserContext userContext,
+    IConfiguration configuration)
+    : ISessionService
 {
-    private readonly ISessionRepository _sessionRepository;
-    private readonly IProfileRepository _profileRepository;
-    private readonly IUserContext _userContext;
-    private readonly IConfiguration _configuration;
-    
-    public SessionService(
-        ISessionRepository sessionRepository,
-        IProfileRepository profileRepository,
-        IUserContext userContext,
-        IConfiguration configuration)
-    {
-        _sessionRepository = sessionRepository;
-        _profileRepository = profileRepository;
-        _userContext = userContext;
-        _configuration = configuration;
-    }
-    
     public async Task<SessionResult> LoginAsync(string email, string password)
     {
         var authClient = await CreateAuthClientAsync();
@@ -36,14 +24,12 @@ public class SessionService : ISessionService
         
         var userId = Guid.Parse(sessionResponse.User.Id);
         
-        var profile = await _profileRepository.GetByIdAsync(userId);
+        var profile = await profileRepository.GetByIdAsync(userId);
         
         if (profile == null)
         {
             throw new InvalidOperationException("Profile does not exist for the authenticated user.");
         }
-
-        var sessionEntity = await _sessionRepository.GetSessionByUserId(userId);
         
         return new SessionResult()
         {
@@ -54,26 +40,17 @@ public class SessionService : ISessionService
 
     public async Task LogoutAsync()
     {
-        var userId = _userContext.GetUserId();
-        var session = await _sessionRepository.GetSessionByUserId(userId);
-
-        if (session != null)
-        {
-            session.AccessToken = null;
-            session.RefreshToken = null;
-            session.ExpiresAt = null;
-            session.UpdatedAt = DateTime.UtcNow;
-            await _sessionRepository.SaveSession(session);
-        }
+        var userId = userContext.GetUserId();
+        var session = await sessionRepository.GetSessionByUserId(userId);
     }
 
     private async Task<Supabase.Client> CreateAuthClientAsync()
     {
-        var url = _configuration["Supabase:Url"]
+        var url = configuration["Supabase:Url"]
             ?? throw new InvalidOperationException("Supabase URL is not configured.");
         var key =
-            _configuration["Supabase:AnonKey"]
-            ?? _configuration["Supabase:PublicKey"]
+            configuration["Supabase:AnonKey"]
+            ?? configuration["Supabase:PublicKey"]
             ?? throw new InvalidOperationException(
                 "Supabase AnonKey (or PublicKey) is required for user sign-in.");
 

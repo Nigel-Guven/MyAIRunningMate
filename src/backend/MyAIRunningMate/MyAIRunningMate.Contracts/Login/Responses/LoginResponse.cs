@@ -2,6 +2,5 @@ namespace MyAIRunningMate.Contracts.Login.Responses;
 
 public record LoginResponse(
     string Token,
-    Guid UserId,
-    bool IsStravaConnected
+    Guid UserId
 );

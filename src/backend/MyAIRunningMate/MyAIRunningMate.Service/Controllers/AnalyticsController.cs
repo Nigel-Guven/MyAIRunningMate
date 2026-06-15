@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Insights;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Analytics.Responses;
-using MyAIRunningMate.Service.ViewMappers;
+using MyAIRunningMate.Service.Mappers;
 
 namespace MyAIRunningMate.Service.Controllers;
 
@@ -29,11 +29,10 @@ public class AnalyticsController  : ControllerBase
         
         var (summary, weeklyVolumes) = await _insightsService.GetAnalyticsStatistics(userId, year);
 
-        var dashboardDto = new YearlyAnalyticsResponse()
-        {
-            Summary = summary.ToYearlyStatisticsDto(),
-            WeeklyVolumes = weeklyVolumes.Select(w => w.ToWeeklyInsightsDto()).ToList()
-        };
+        var dashboardDto = new YearlyAnalyticsResponse(
+            Summary: summary.ToYearlyStatisticsDto(),
+            WeeklyVolumes: weeklyVolumes.Select(v => v.ToWeeklyInsightsDto()).ToList()
+        );
         
         return Ok(dashboardDto);
     }

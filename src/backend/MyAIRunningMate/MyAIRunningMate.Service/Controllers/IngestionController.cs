@@ -26,7 +26,7 @@ public class IngestionController(IIngestionPipelineService ingestionPipelineServ
         {
             var ingestionView = await ingestionPipelineService.ProcessFitFileAsync(request.File, userId);
 
-            var dto = ingestionView.ToResponse();
+            var dto = ingestionView.activity.ToResponse(ingestionView.numberOfLaps, ingestionView.status);
             
             return Ok(dto);
         }

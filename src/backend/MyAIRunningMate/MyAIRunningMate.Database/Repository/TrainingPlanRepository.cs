@@ -49,4 +49,10 @@ public class TrainingPlanRepository(Supabase.Client supabase) : BaseRepository<T
 
         return response.Models.Select(entity => entity.ToDomain());
     }
+    
+    public async Task InsertAsync(TrainingPlan trainingPlan)
+    {
+        TrainingPlanEntity entity = trainingPlan.ToEntity();
+        await InsertAsync(entity);
+    }
 }

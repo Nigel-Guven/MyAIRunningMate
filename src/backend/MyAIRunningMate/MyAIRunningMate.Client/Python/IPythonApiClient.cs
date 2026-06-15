@@ -14,6 +14,6 @@ public interface IPythonApiClient
         int trainingPlanLength,
         string poolSize,
         double userWeight,
-        IEnumerable<PythonApiActivity> activityHistory,
+        IEnumerable<Activity> activityHistory,
         Guid userId);
 }

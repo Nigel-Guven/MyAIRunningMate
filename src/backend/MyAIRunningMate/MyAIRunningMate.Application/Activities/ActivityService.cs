@@ -14,9 +14,9 @@ public class ActivityService(
     public async Task<bool> CheckDuplicateAsync(string garminActivityId, Guid userId) => 
         await activityRepository.ActivityExistsByGarminId(garminActivityId, userId);
 
-    public async Task SaveActivityAndLaps(Activity activity, IEnumerable<Lap> laps, Guid stravaResourceId, Guid userId)
+    public async Task SaveActivityAndLaps(Activity activity, IEnumerable<Lap> laps, Guid userId)
     {
-        var savedActivity = await activityRepository.InsertAsync(activity, stravaResourceId, userId);
+        var savedActivity = await activityRepository.InsertAsync(activity, userId);
         
         await lapRepository.BulkInsertAsync(laps, savedActivity.ActivityId);
     }

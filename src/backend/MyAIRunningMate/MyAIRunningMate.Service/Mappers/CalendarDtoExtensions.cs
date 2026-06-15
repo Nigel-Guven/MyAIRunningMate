@@ -12,7 +12,7 @@ public static class CalendarDtoExtensions
             ExerciseType: model.ExerciseType,
             StartTime: model.StartTime,
             DurationSeconds: model.DurationSeconds,
-            DistanceMetres: model.DistanceMetres ?? 0.0,
-            TrainingEffect: model.TrainingEffect ?? 0.0
+            DistanceMetres: model.DistanceMetres,
+            TrainingEffect: model.TrainingEffect
         );
 }

@@ -74,7 +74,7 @@ def clean_fit_file(fitfile, filename: str) -> Activity:
         activity_data.calories = session.get_value("total_calories")
 
         if activity_data.distance_metres > 0 and activity_data.moving_time_seconds:
-            activity_data.raw_pace_seconds_per_meter = activity_data.moving_time_seconds / activity_data.distance_metres
+            activity_data.raw_pace_seconds_per_metre = activity_data.moving_time_seconds / activity_data.distance_metres
 
     processed_lengths = []
     if is_swim:

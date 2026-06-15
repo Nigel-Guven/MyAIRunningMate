@@ -2,9 +2,9 @@ namespace MyAIRunningMate.Domain.Models;
 
 public class WeeklyInsights
 {
-    public double RunningTimeVolume { get; set; } = 0.0;
+    public double RunningTimeVolume { get; set; }
     public double RunningDistanceVolume { get; set; }
-    public double SwimmingTimeVolume { get; set; } = 0.0;
+    public double SwimmingTimeVolume { get; set; }
     public double SwimmingDistanceVolume { get; set; }
     public double TotalRunningElevationGain { get; set; }
     public int MeanAverageHeartRate { get; set; }
@@ -15,6 +15,6 @@ public class WeeklyInsights
     public long TotalPersonalRecordCount { get; set; }
     public int TotalPersonalExercises { get; set; }
     public int TotalGroupExercises { get; set; }
-    public IEnumerable<string> Locations { get; set; } 
+    public IEnumerable<string>? Locations { get; set; } 
     public int RestDays { get; set; }
 }

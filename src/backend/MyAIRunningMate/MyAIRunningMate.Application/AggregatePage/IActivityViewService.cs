@@ -1,8 +1,8 @@
-using MyAIRunningMate.Domain.Models.ViewObjects;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.AggregatePage;
 
 public interface IActivityViewService
 {
-    Task<AggregateArtifactView> CreateAggregateActivity(Guid activityId, Guid userId);
+    Task<AggregateArtifact?> CreateAggregateActivity(Guid activityId, Guid userId);
 }

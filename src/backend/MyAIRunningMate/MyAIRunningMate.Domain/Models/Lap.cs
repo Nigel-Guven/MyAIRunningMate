@@ -8,6 +8,10 @@ public record Lap
     public double DistanceMetres { get; init; }
     public double DurationSeconds { get; init; }
     public int AverageHeartRate { get; init; }
+    public double AverageSpeed { get; init; }
+    public int AverageCadence { get; init; }
+    public string? PrimaryStroke { get; init; }
+    public int? AverageSwolf { get; init; }
 
     public Lap(
         Guid lapId, 
@@ -15,7 +19,11 @@ public record Lap
         int lapNumber, 
         double distanceMetres, 
         double durationSeconds, 
-        int averageHeartRate)
+        int averageHeartRate,
+        double averageSpeed,
+        int averageCadence, 
+        string? primaryStroke,
+        int? averageSwolf)
     {
         if (lapNumber < 0)
             throw new ArgumentException("Lap number cannot be negative.", nameof(lapNumber));
@@ -35,5 +43,9 @@ public record Lap
         DistanceMetres = distanceMetres;
         DurationSeconds = durationSeconds;
         AverageHeartRate = averageHeartRate;
+        AverageSpeed = averageSpeed;
+        AverageCadence = averageCadence;
+        PrimaryStroke = primaryStroke;
+        AverageSwolf = averageSwolf;
     }
 }

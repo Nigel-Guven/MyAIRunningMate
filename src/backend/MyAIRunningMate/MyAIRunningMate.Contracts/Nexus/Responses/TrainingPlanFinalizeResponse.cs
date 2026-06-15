@@ -1,6 +1,6 @@
 namespace MyAIRunningMate.Contracts.Nexus.Responses;
 
-public record NexusFinalizeResponse(
+public record TrainingPlanFinalizeResponse(
     Guid TrainingPlanId,
     string Message,
     int EventsSaved

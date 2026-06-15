@@ -1,6 +1,5 @@
 using System.Globalization;
 using MyAIRunningMate.Application.AggregatePage;
-using MyAIRunningMate.Client.Geocoder;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Models;
 
@@ -8,8 +7,7 @@ namespace MyAIRunningMate.Application.Insights;
 
 public class InsightsService(
     IActivityViewService activityViewService,
-    IActivityRepository activityRepository,
-    IGeocodeClient geocodingClient)
+    IActivityRepository activityRepository)
     : IInsightsService
 {
     public async Task<WeeklyInsights> GetWeeklyInsights(Guid userId)
@@ -31,87 +29,49 @@ public class InsightsService(
             };
         }
         
-        var locationTasks = validActivities.Select(async a =>
-        {
-            if (!string.IsNullOrEmpty(a.Map?.MapPolyline))
-            {
-                var coordinates = PolylineDecoder.GetFirstCoordinate(a.Map.MapPolyline);
-                if (coordinates.HasValue)
-                {
-                    return await geocodingClient.GetReadableLocationAsync(coordinates.Value.Latitude, coordinates.Value.Longitude);
-                }
-            }
-
-            return "Unknown Location";
-        });
-        
         var runningActivities = validActivities
-            .Where(a => a.ExerciseType?.Equals("running", StringComparison.OrdinalIgnoreCase) ?? false)
+            .Where(a => a.GarminActivity.ExerciseType?.Equals("running", StringComparison.OrdinalIgnoreCase) ?? false)
             .ToList();
             
         var swimmingActivities = validActivities
-            .Where(a => a.ExerciseType?.Equals("swimming", StringComparison.OrdinalIgnoreCase) ?? false)
+            .Where(a => a.GarminActivity.ExerciseType?.Equals("swimming", StringComparison.OrdinalIgnoreCase) ?? false)
             .ToList();
         
         var validHeartRates = validActivities
-            .Where(a => a.AverageHeartRate > 0)
-            .Select(a => a.AverageHeartRate)
+            .Where(a => a.GarminActivity.AverageHeartRate > 0)
+            .Select(a => a.GarminActivity.AverageHeartRate)
             .ToList();
 
         var maxHeartRates = validActivities
-            .Where(a => a.MaxHeartRate > 0)
-            .Select(a => a.MaxHeartRate)
+            .Where(a => a.GarminActivity.MaxHeartRate > 0)
+            .Select(a => a.GarminActivity.MaxHeartRate)
             .ToList();
         
         var uniqueActiveDaysCount = validActivities
             .Where(a => true)
-            .Select(a => a.StartTime.Date)
+            .Select(a => a.GarminActivity.StartTime.Date)
             .Distinct()
             .Count();
-        
-        
-        
-        var resolvedLocations = (await Task.WhenAll(locationTasks)).ToList();
 
-        if (swimmingActivities.Count != 0)
-        {
-            resolvedLocations.Add("Inspire Fitness Centre, Cabra, Dublin");
-        }
-            
         var restDays = Math.Max(0, 7 - uniqueActiveDaysCount);
         
         return new WeeklyInsights
         {
-            RunningTimeVolume = runningActivities.Sum(a => a.DurationSeconds),
-            RunningDistanceVolume = runningActivities.Sum(a => a.DistanceMetres ?? 0.0), 
-            TotalRunningElevationGain = runningActivities.Sum(a => a.TotalElevationGain ?? 0),
+            RunningTimeVolume = runningActivities.Sum(a => a.GarminActivity.DurationSeconds),
+            RunningDistanceVolume = runningActivities.Sum(a => a.GarminActivity.DistanceMetres), 
+            TotalRunningElevationGain = runningActivities.Sum(a => a.GarminActivity.TotalElevationGain ?? 0),
             
-            SwimmingTimeVolume = swimmingActivities.Sum(a => a.DurationSeconds),
-            SwimmingDistanceVolume = swimmingActivities.Sum(a => a.DistanceMetres ?? 0.0),
+            SwimmingTimeVolume = swimmingActivities.Sum(a => a.GarminActivity.DurationSeconds),
+            SwimmingDistanceVolume = swimmingActivities.Sum(a => a.GarminActivity.DistanceMetres),
 
             MeanAverageHeartRate = validHeartRates.Count != 0 ? (int)validHeartRates.Average()! : 0,
             MeanMaxHeartRate = maxHeartRates.Count != 0 ? (int)maxHeartRates.Max()! : 0,
             
-            TotalTrainingEffect = validActivities.Sum(a => a.TrainingEffect ?? 0),
-            MeanTrainingEffect = validActivities.Count != 0 ? validActivities.Average(a => a.TrainingEffect ?? 0) : 0,
-            
-            TotalAchievementCount = validActivities.Sum(a => a.AchievementCount ?? 0),
-            TotalPersonalRecordCount = validActivities.Sum(a => a.PersonalRecordCount ?? 0),
-            
-            TotalPersonalExercises = validActivities.Count(a => !IsGroupSession(a)),
-            TotalGroupExercises = validActivities.Count(IsGroupSession),
-            
-            Locations = resolvedLocations
-                .Where(loc => loc != "Unknown Location")
-                .Distinct(),
+            TotalTrainingEffect = validActivities.Sum(a => a.GarminActivity.TrainingEffect),
+            MeanTrainingEffect = validActivities.Count != 0 ? validActivities.Average(a => a.GarminActivity.TrainingEffect) : 0,
 
             RestDays = restDays
         };
-        
-        bool IsGroupSession(AggregateArtifactView artifact)
-        {
-            return artifact.AthleteCount > 1;
-        }
     }
 
     public async Task<(YearlyStatistics Summary, IEnumerable<WeeklyInsights> WeeklyVolumes)> GetAnalyticsStatistics(Guid userId, int year)
@@ -129,12 +89,12 @@ public class InsightsService(
         var yearlySwimming = activitiesThisYear.Where(a => string.Equals(a.ExerciseType, "swimming", StringComparison.OrdinalIgnoreCase));
 
         var yearlyActiveDays = activitiesThisYear.Select(a => a.StartTime.Date).Distinct().Count();
-        var yearlyTotalTrainingEffect = activitiesThisYear.Sum(a => a.TrainingEffect ?? 0);
+        var yearlyTotalTrainingEffect = activitiesThisYear.Sum(a => a.TrainingEffect);
 
         var yearlySummary = new YearlyStatistics
         {
-            YearlyRunningDistance = (int)yearlyRunning.Sum(a => a.DistanceMetres ?? 0),
-            YearlySwimmingDistance = (int)yearlySwimming.Sum(a => a.DistanceMetres ?? 0),
+            YearlyRunningDistance = (int)yearlyRunning.Sum(a => a.DistanceMetres),
+            YearlySwimmingDistance = (int)yearlySwimming.Sum(a => a.DistanceMetres),
             YearlyActiveDays = yearlyActiveDays,
             YearlyTotalTrainingEffect = yearlyTotalTrainingEffect,
             YearlyAverageTrainingEffect = yearlyActiveDays > 0 ? yearlyTotalTrainingEffect / yearlyActiveDays : 0
@@ -158,33 +118,20 @@ public class InsightsService(
                 
                 var uniqueActiveDaysCount = validActivities.Select(a => a.StartTime.Date).Distinct().Count();
 
-                //TODO: Store map strings in map database or separate address table
-                //var resolvedLocations = new List<string>();
-                //if (swimmingActivities.Count != 0)
-                //{
-                //    resolvedLocations.Add("Inspire Fitness Centre, Cabra, Dublin");
-                //}
-
                 return new WeeklyInsights
                 {
                     RunningTimeVolume = runningActivities.Sum(a => a.DurationSeconds),
-                    RunningDistanceVolume = runningActivities.Sum(a => a.DistanceMetres ?? 0.0), 
+                    RunningDistanceVolume = runningActivities.Sum(a => a.DistanceMetres), 
                     TotalRunningElevationGain = runningActivities.Sum(a => a.TotalElevationGain ?? 0),
                     
                     SwimmingTimeVolume = swimmingActivities.Sum(a => a.DurationSeconds),
-                    SwimmingDistanceVolume = swimmingActivities.Sum(a => a.DistanceMetres ?? 0.0),
+                    SwimmingDistanceVolume = swimmingActivities.Sum(a => a.DistanceMetres ),
 
                     MeanAverageHeartRate = validHeartRates.Count != 0 ? (int)validHeartRates.Average() : 0,
                     MeanMaxHeartRate = maxHeartRates.Count != 0 ? maxHeartRates.Max() : 0,
                     
-                    TotalTrainingEffect = validActivities.Sum(a => a.TrainingEffect ?? 0),
-                    MeanTrainingEffect = validActivities.Count != 0 ? validActivities.Average(a => a.TrainingEffect ?? 0) : 0,
-                    
-                    // Unused
-                    TotalAchievementCount = 0,
-                    TotalPersonalRecordCount = 0,
-                    TotalPersonalExercises = 0,
-                    TotalGroupExercises = 0,
+                    TotalTrainingEffect = validActivities.Sum(a => a.TrainingEffect),
+                    MeanTrainingEffect = validActivities.Count != 0 ? validActivities.Average(a => a.TrainingEffect) : 0,
                     
                     Locations = [],
                     RestDays = Math.Max(0, 7 - uniqueActiveDaysCount)

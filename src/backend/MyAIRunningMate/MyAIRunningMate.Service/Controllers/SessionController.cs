@@ -22,18 +22,11 @@ public class SessionController : ControllerBase
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
         var session = await _sessionService.LoginAsync(request.Email, request.Password);
-        
-        if (session == null)
-            return BadRequest(new { message = "Could not create session" });
-        
-        var isStravaConnected = await _sessionService.HasStravaConnectionAsync(session.UserId);
 
-        var response = new LoginResponse
-        {
-            Token = session.Token,
-            UserId = session.UserId,
-            IsStravaConnected = isStravaConnected
-        };
+        var response = new LoginResponse(
+            Token: session.Token,
+            UserId: session.UserId
+        );
 
         return Ok(response); 
     }

@@ -35,9 +35,23 @@ public class PythonApiClient(HttpClient httpClient) : IPythonApiClient
         int trainingPlanLength,
         string poolSize,
         double userWeight,
-        IEnumerable<PythonApiActivity> activityHistory,
+        IEnumerable<Activity> activityHistory,
         Guid userId)
     {
+
+        var formattedActivities = activityHistory.Select(act 
+            => new PythonApiActivity(
+                ExerciseType: act.ExerciseType,
+                StartTime: act.StartTime,
+                DurationSeconds: act.DurationSeconds,
+                DistanceMetres: act.DistanceMetres,
+                AverageHeartRate: act.AverageHeartRate,
+                MaxHeartRate: act.MaxHeartRate,
+                TotalElevationGain: act.TotalElevationGain,
+                RawPaceSecondsPerMetre: act.RawPaceSecondsPerMetre,
+                TrainingEffect: act.TrainingEffect
+                ));
+        
         var requestPayload = new PythonApiTrainingPlanRequest(
             PrimaryGoal: primaryGoal,
             RunningExperienceYears: runningExperienceYears,
@@ -45,7 +59,7 @@ public class PythonApiClient(HttpClient httpClient) : IPythonApiClient
             TrainingPlanLength: trainingPlanLength,
             PoolSize: poolSize,
             UserWeight: userWeight,
-            RecentActivities: activityHistory);
+            RecentActivities: formattedActivities);
         
         var response = await httpClient.PostAsJsonAsync("api/training_plan/draft", requestPayload);
 

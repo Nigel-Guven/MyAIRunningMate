@@ -4,5 +4,9 @@ public record LapViewResponse(
     int LapNumber,
     double DistanceMetres,
     double DurationSeconds,
-    int AverageHeartRate
+    int AverageHeartRate,
+    double AverageSpeed,
+    int AverageCadence,
+    string? PrimaryStroke,
+    int? AverageSwolf
 );

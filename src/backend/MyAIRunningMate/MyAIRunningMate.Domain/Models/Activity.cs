@@ -8,13 +8,17 @@ public record Activity
     public DateTime StartTime { get; init; }
     public string ExerciseType { get; init; }
     public double DurationSeconds { get; init; }
-    public double? DistanceMetres { get; init; }
+    public double MovingTimeSeconds { get; init; }
+    public double DistanceMetres { get; init; }
+    public int Calories { get; init; }
     public int AverageHeartRate { get; init; }
     public int MaxHeartRate { get; init; }
     public double? TotalElevationGain { get; init; }
-    public double? AverageSecondPerKilometre { get; init; }
-    public double? TrainingEffect { get; init; }
-    public Guid? StravaResourceId { get; init; }
+    public double TrainingEffect { get; init; }
+    public double? RawPaceSecondsPerMetre { get; init; }
+    public int? PoolLength { get; init; }
+    public string? MapPolyline { get; init; }
+    public IReadOnlyCollection<TimeSeriesRecord> TimeSeriesRecords { get; init; }
 
     public Activity(
         Guid activityId,
@@ -23,13 +27,17 @@ public record Activity
         DateTime startTime,
         string exerciseType,
         double durationSeconds,
-        double? distanceMetres,
+        double movingTimeSeconds,
+        double distanceMetres,
+        int calories,
         int averageHeartRate,
         int maxHeartRate,
         double? totalElevationGain,
-        double? averageSecondPerKilometre,
-        double? trainingEffect,
-        Guid? stravaResourceId)
+        double trainingEffect,
+        double? rawPaceSecondsPerMetre,
+        int? poolLength,
+        string? mapPolyline,
+        IEnumerable<TimeSeriesRecord>? timeSeriesRecords)
     {
         if (durationSeconds <= 0)
             throw new ArgumentException("Activity duration must be greater than zero seconds.", nameof(durationSeconds));
@@ -45,16 +53,22 @@ public record Activity
         
         ActivityId = activityId;
         UserId = userId;
-        GarminActivityId = garminActivityId ?? string.Empty;
+        GarminActivityId = garminActivityId;
         StartTime = startTime;
-        ExerciseType = string.IsNullOrWhiteSpace(exerciseType) ? "Running" : exerciseType;
+        ExerciseType = exerciseType;
         DurationSeconds = durationSeconds;
+        MovingTimeSeconds = movingTimeSeconds;
         DistanceMetres = distanceMetres;
+        Calories = calories;
         AverageHeartRate = averageHeartRate;
         MaxHeartRate = maxHeartRate;
         TotalElevationGain = totalElevationGain;
-        AverageSecondPerKilometre = averageSecondPerKilometre;
+        RawPaceSecondsPerMetre = rawPaceSecondsPerMetre;
         TrainingEffect = trainingEffect;
-        StravaResourceId = stravaResourceId;
+        PoolLength = poolLength;
+        MapPolyline = mapPolyline;
+        TimeSeriesRecords = timeSeriesRecords != null 
+            ? new List<TimeSeriesRecord>(timeSeriesRecords).AsReadOnly() 
+            : Array.Empty<TimeSeriesRecord>();
     }
 }

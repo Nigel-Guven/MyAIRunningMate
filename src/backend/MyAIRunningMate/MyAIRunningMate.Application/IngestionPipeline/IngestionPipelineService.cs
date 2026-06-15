@@ -1,37 +1,31 @@
 using Microsoft.AspNetCore.Http;
 using MyAIRunningMate.Application.Activities;
-using MyAIRunningMate.Application.LinkProvider;
-using MyAIRunningMate.Application.Strava;
 using MyAIRunningMate.Client.Python;
 using MyAIRunningMate.Domain.Models;
+using MyAIRunningMate.Domain.ValueObjects;
 
 namespace MyAIRunningMate.Application.IngestionPipeline;
 
 public class IngestionPipelineService(
     IPythonApiClient pythonApiClient,
-    ILinkProviderService linkProviderService,
-    IActivityService activityService,
-    IStravaResourceService stravaResourceService)
+    IActivityService activityService)
     : IIngestionPipelineService
 {
-    public async Task<(Activity activity, int numberOfLaps)> ProcessFitFileAsync(IFormFile file, Guid userId)
+    public async Task<(Activity activity, int numberOfLaps, string status)> ProcessFitFileAsync(IFormFile file, Guid userId)
     {
         await using var stream = file.OpenReadStream();
         var (activity, laps) = await pythonApiClient.UploadFitFileAsync(stream, file.FileName, userId);
 
-        var numberOfLaps = laps.ToList().Count;
+        var numberOfLaps = laps.Count();
         
         if (await activityService.CheckDuplicateAsync(activity.GarminActivityId, userId))
         {
-            return (activity, numberOfLaps);
+            return (activity, numberOfLaps, IngestionStatus.ActivityExists);
         }
+        
+        await activityService.SaveActivityAndLaps(activity, laps, userId);
 
-        var stravaResource = await linkProviderService.FindAndLinkMatchAsync(activity);
-
-        var stravaEntityId  = await stravaResourceService.SaveStravaResourceAndMap(stravaResource);
-        await activityService.SaveActivityAndLaps(activity, laps, stravaEntityId, userId);
-
-        return (activity, numberOfLaps);
+        return (activity, numberOfLaps, IngestionStatus.ActivityIngested);
         
     }
 }

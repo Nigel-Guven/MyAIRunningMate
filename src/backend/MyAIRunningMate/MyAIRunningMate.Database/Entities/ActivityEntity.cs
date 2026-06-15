@@ -24,8 +24,14 @@ public class ActivityEntity : BaseModel
     [Column("duration_seconds")]
     public double DurationSeconds { get; set; }
     
+    [Column("moving_time_seconds")]
+    public double MovingTimeSeconds { get; set; }
+    
     [Column("distance_metres")]
-    public double? DistanceMetres { get; set; }
+    public double DistanceMetres { get; set; }
+    
+    [Column("calories")]
+    public int Calories { get; set; }
     
     [Column("avg_heart_rate")]
     public int AverageHeartRate { get; set; }
@@ -36,12 +42,18 @@ public class ActivityEntity : BaseModel
     [Column("total_elevation_gain")]
     public double? TotalElevationGain { get; set; }
     
-    [Column("avg_seconds_per_km")]
-    public double? AverageSecondPerKilometre { get; set; }
-    
     [Column("training_effect")]
-    public double? TrainingEffect { get; set; }
+    public double TrainingEffect { get; set; }
     
-    [Column("strava_resource_id")]
-    public Guid? StravaResourceId { get; set; }
+    [Column("raw_pace_seconds_per_metre")]
+    public double? RawPaceSecondsPerMetre { get; set; }
+    
+    [Column("pool_length")]
+    public int? PoolLength { get; set; }
+
+    [Column("map_polyline")]
+    public string? MapPolyline { get; set; }
+    
+    [Column("time_series_records")]
+    public string TimeSeriesRecordsJson { get; set; }
 }

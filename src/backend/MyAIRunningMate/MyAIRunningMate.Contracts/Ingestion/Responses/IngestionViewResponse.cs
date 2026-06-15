@@ -7,5 +7,6 @@ public record IngestionViewResponse(
     double DurationSeconds,
     double DistanceMetres,
     double TrainingEffect,
+    int NumberOfLaps,
     string ActivityStatus
 );

@@ -1,16 +1,17 @@
-using MyAIRunningMate.Domain.Models.ViewObjects;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.TrainingPlans;
 
 public interface ITrainingPlanService
 {
-    Task<TrainingPlan> GenerateTrainingPlan(
+    Task<TrainingPlanView> GenerateTrainingPlanAsync(
         Guid userId, 
         string primaryGoal, 
         string runningYears, 
         string runningLevel, 
         int trainingPlanLength, 
         string poolSize);
+    
     Task<TrainingPlanFinalizeResult> FinalizeTrainingPlanAsync(Guid userId, TrainingPlanView plan);
     
     Task<TrainingPlanView?> GetTrainingPlanByIdAsync(Guid trainingPlanId);
