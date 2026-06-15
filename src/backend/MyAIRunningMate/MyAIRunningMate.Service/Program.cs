@@ -7,10 +7,14 @@ using Supabase;
 var builder = WebApplication.CreateBuilder(args);
 
 var supabaseUrl = builder.Configuration["Supabase:Url"] 
-                  ?? throw new InvalidOperationException("Supabase URL is missing from appsettings.json.");
+                  ?? throw new InvalidOperationException("Supabase URL is missing.");
+
+var supabaseAnonKey = builder.Configuration["Supabase:PublicKey"] 
+                      ?? builder.Configuration["Supabase:AnonKey"]
+                      ?? throw new InvalidOperationException("Supabase AnonKey/PublicKey is missing.");
+
 var supabaseServiceRoleKey = builder.Configuration["Supabase:ServiceRoleKey"]
-                             ?? builder.Configuration["Supabase:PublicKey"]
-                             ?? throw new InvalidOperationException("Supabase ServiceRoleKey/PublicKey is missing. Backend database access requires it.");
+                             ?? throw new InvalidOperationException("Supabase ServiceRoleKey is missing.");
 
 builder.Services.AddAuthentication(options =>
     {
@@ -38,24 +42,18 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.SnakeCaseLower;
     });
+
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSingleton(_ =>
-{
-    var options = new SupabaseOptions
-    {
-        AutoRefreshToken = false,
-        AutoConnectRealtime = false,
-    };
-
-    return new Client(supabaseUrl, supabaseServiceRoleKey, options);
-});
+builder.Services.AddSingleton<Client>(_ => 
+    new Client(supabaseUrl, supabaseServiceRoleKey, new SupabaseOptions { AutoConnectRealtime = false }));
 
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHttpClients(builder.Configuration);
 builder.Services.AddInfrastructure();
 builder.Services.AddApplicationServices();
+builder.Services.AddSupabaseAuthClient(supabaseUrl, supabaseAnonKey);
 
 builder.Services.AddSwaggerGen(c =>
 {

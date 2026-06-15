@@ -18,59 +18,20 @@ public class InsightsService(
             activityViewService.CreateAggregateActivity(activityId, userId)
         );
         var aggregateResults = await Task.WhenAll(aggregateTasks);
-        var validActivities = aggregateResults.Where(a => true).ToList();
+        
+        var validActivities = aggregateResults
+            .Where(a => a?.GarminActivity != null)
+            .OfType<AggregateArtifact>() 
+            .ToList();
 
-        if (validActivities.Count == 0)
+        return validActivities.Count switch
         {
-            return new WeeklyInsights
+            0 => new WeeklyInsights
             {
                 Locations = [],
                 RestDays = 7
-            };
-        }
-        
-        var runningActivities = validActivities
-            .Where(a => a.GarminActivity.ExerciseType?.Equals("running", StringComparison.OrdinalIgnoreCase) ?? false)
-            .ToList();
-            
-        var swimmingActivities = validActivities
-            .Where(a => a.GarminActivity.ExerciseType?.Equals("swimming", StringComparison.OrdinalIgnoreCase) ?? false)
-            .ToList();
-        
-        var validHeartRates = validActivities
-            .Where(a => a.GarminActivity.AverageHeartRate > 0)
-            .Select(a => a.GarminActivity.AverageHeartRate)
-            .ToList();
-
-        var maxHeartRates = validActivities
-            .Where(a => a.GarminActivity.MaxHeartRate > 0)
-            .Select(a => a.GarminActivity.MaxHeartRate)
-            .ToList();
-        
-        var uniqueActiveDaysCount = validActivities
-            .Where(a => true)
-            .Select(a => a.GarminActivity.StartTime.Date)
-            .Distinct()
-            .Count();
-
-        var restDays = Math.Max(0, 7 - uniqueActiveDaysCount);
-        
-        return new WeeklyInsights
-        {
-            RunningTimeVolume = runningActivities.Sum(a => a.GarminActivity.DurationSeconds),
-            RunningDistanceVolume = runningActivities.Sum(a => a.GarminActivity.DistanceMetres), 
-            TotalRunningElevationGain = runningActivities.Sum(a => a.GarminActivity.TotalElevationGain ?? 0),
-            
-            SwimmingTimeVolume = swimmingActivities.Sum(a => a.GarminActivity.DurationSeconds),
-            SwimmingDistanceVolume = swimmingActivities.Sum(a => a.GarminActivity.DistanceMetres),
-
-            MeanAverageHeartRate = validHeartRates.Count != 0 ? (int)validHeartRates.Average()! : 0,
-            MeanMaxHeartRate = maxHeartRates.Count != 0 ? (int)maxHeartRates.Max()! : 0,
-            
-            TotalTrainingEffect = validActivities.Sum(a => a.GarminActivity.TrainingEffect),
-            MeanTrainingEffect = validActivities.Count != 0 ? validActivities.Average(a => a.GarminActivity.TrainingEffect) : 0,
-
-            RestDays = restDays
+            },
+            _ => CalculateWeeklyMetrics(validActivities)
         };
     }
 
@@ -141,4 +102,51 @@ public class InsightsService(
         
             return (yearlySummary, weeklyVolumes);
         }
+    
+    private static WeeklyInsights CalculateWeeklyMetrics(List<AggregateArtifact> activities)
+    {
+        var runningActivities = activities
+            .Where(a => string.Equals(a.GarminActivity.ExerciseType, "running", StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        
+        var swimmingActivities = activities
+            .Where(a => string.Equals(a.GarminActivity.ExerciseType, "swimming", StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        
+        var validHeartRates = activities
+            .Where(a => a.GarminActivity.AverageHeartRate > 0)
+            .Select(a => (double)a.GarminActivity.AverageHeartRate)
+            .ToList();
+
+        var maxHeartRates = activities
+            .Where(a => a.GarminActivity.MaxHeartRate > 0)
+            .Select(a => a.GarminActivity.MaxHeartRate)
+            .ToList();
+        
+        var uniqueActiveDaysCount = activities
+            .Select(a => a.GarminActivity.StartTime.Date)
+            .Distinct()
+            .Count();
+
+        var restDays = Math.Max(0, 7 - uniqueActiveDaysCount);
+        
+        return new WeeklyInsights
+        {
+            RunningTimeVolume = runningActivities.Sum(a => a.GarminActivity.DurationSeconds),
+            RunningDistanceVolume = runningActivities.Sum(a => a.GarminActivity.DistanceMetres), 
+            TotalRunningElevationGain = runningActivities.Sum(a => a.GarminActivity.TotalElevationGain ?? 0),
+            
+            SwimmingTimeVolume = swimmingActivities.Sum(a => a.GarminActivity.DurationSeconds),
+            SwimmingDistanceVolume = swimmingActivities.Sum(a => a.GarminActivity.DistanceMetres),
+
+            MeanAverageHeartRate = validHeartRates.Count != 0 ? (int)validHeartRates.Average() : 0,
+            MeanMaxHeartRate = maxHeartRates.Count != 0 ? maxHeartRates.Max() : 0,
+            
+            TotalTrainingEffect = activities.Sum(a => a.GarminActivity.TrainingEffect),
+            MeanTrainingEffect = activities.Count != 0 ? activities.Average(a => a.GarminActivity.TrainingEffect) : 0,
+
+            Locations = [],
+            RestDays = restDays
+        };
+    }
 }

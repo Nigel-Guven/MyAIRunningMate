@@ -28,6 +28,7 @@ public static class ActivityEntityMapper
             trainingEffect: entity.TrainingEffect,
             rawPaceSecondsPerMetre: entity.RawPaceSecondsPerMetre,
             poolLength: entity.PoolLength,
+            location: entity.Location,
             mapPolyline: entity.MapPolyline,
             timeSeriesRecords: records
         );
@@ -42,13 +43,17 @@ public static class ActivityEntityMapper
             StartTime = domain.StartTime,
             ExerciseType = domain.ExerciseType,
             DurationSeconds = domain.DurationSeconds,
+            MovingTimeSeconds = domain.MovingTimeSeconds,
             DistanceMetres = domain.DistanceMetres,
+            Calories = domain.Calories,
             AverageHeartRate = domain.AverageHeartRate,
             MaxHeartRate = domain.MaxHeartRate,
             TotalElevationGain = domain.TotalElevationGain,
-            RawPaceSecondsPerMetre = domain.RawPaceSecondsPerMetre,
             TrainingEffect = domain.TrainingEffect,
+            RawPaceSecondsPerMetre = domain.RawPaceSecondsPerMetre,
+            PoolLength = domain.PoolLength,
+            Location = domain.Location,
+            MapPolyline = domain.MapPolyline ?? null,
             TimeSeriesRecordsJson =  JsonSerializer.Serialize(domain.TimeSeriesRecords),
-            MapPolyline = domain.MapPolyline ?? null
         };
 }

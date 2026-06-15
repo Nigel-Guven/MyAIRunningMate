@@ -21,27 +21,39 @@ public class SessionController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
-        var session = await _sessionService.LoginAsync(request.Email, request.Password);
+        try
+        {
+            var session = await _sessionService.LoginAsync(request.Email, request.Password);
 
-        var response = new LoginResponse(
-            Token: session.Token,
-            UserId: session.UserId
-        );
+            var response = new LoginResponse(
+                Token: session.Token,
+                UserId: session.UserId
+            );
 
-        return Ok(response); 
+            return Ok(response);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { message = ex.Message });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
     
     [HttpPost("logout")]
+    [Authorize]
     public async Task<IActionResult> Logout()
     {
         try
         {
             await _sessionService.LogoutAsync();
-            return Ok();
+            return Ok(new { message = "Logged out successfully." });
         }
-        catch (UnauthorizedAccessException)
+        catch (Exception)
         {
-            return Unauthorized();
+            return BadRequest(new { message = "Unable to process logout request cleanly." });
         }
     }
 }

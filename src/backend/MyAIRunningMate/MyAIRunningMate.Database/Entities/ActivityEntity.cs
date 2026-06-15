@@ -50,6 +50,9 @@ public class ActivityEntity : BaseModel
     
     [Column("pool_length")]
     public int? PoolLength { get; set; }
+    
+    [Column("location")]
+    public string? Location { get; set; }
 
     [Column("map_polyline")]
     public string? MapPolyline { get; set; }

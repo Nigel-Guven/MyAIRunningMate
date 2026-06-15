@@ -13,64 +13,78 @@ using MyAIRunningMate.Client.Geocoder;
 using MyAIRunningMate.Client.Python;
 using MyAIRunningMate.Database.Repository;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
+using Supabase;
 
 namespace MyAIRunningMate.Service.SetupExtensions;
 
 public static class DependencyInjection
 {
-    extension(IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        public IServiceCollection AddInfrastructure()
-        {
-            services.AddScoped<IProfileRepository, ProfileRepository>();
-            services.AddScoped<IActivityRepository, ActivityRepository>();
-            services.AddScoped<ILapRepository, LapRepository>();
-            services.AddScoped<ISessionRepository, SessionRepository>();
-            services.AddScoped<IWeightRepository, WeightRepository>();
-            services.AddScoped<IBestEffortsRepository, BestEffortsRepository>();
-            services.AddScoped<IEventRepository, EventRepository>();
-            services.AddScoped<ITrainingPlanRepository, TrainingPlanRepository>();
-            services.AddScoped<ITrainingPlanEventRepository, TrainingPlanEventRepository>();
-
-            return services;
-        }
-
-        public IServiceCollection AddApplicationServices()
-        {
-            services.AddScoped<IUserContext, UserContext>();
+        services.AddScoped<IProfileRepository, ProfileRepository>();
+        services.AddScoped<IActivityRepository, ActivityRepository>();
+        services.AddScoped<ILapRepository, LapRepository>();
+        services.AddScoped<IWeightRepository, WeightRepository>();
+        services.AddScoped<IBestEffortsRepository, BestEffortsRepository>();
+        services.AddScoped<IEventRepository, EventRepository>();
+        services.AddScoped<ITrainingPlanRepository, TrainingPlanRepository>();
+        services.AddScoped<ITrainingPlanEventRepository, TrainingPlanEventRepository>();
         
-            services.AddScoped<ISessionService, SessionService>();
+        return services;
+    }
 
-            services.AddScoped<IActivityService, ActivityService>();
-            services.AddScoped<IWeightService, WeightService>();
-            services.AddScoped<IBestEffortService, BestEffortService>();
-            services.AddScoped<IEventService, EventService>();
-            services.AddScoped<IInsightsService, InsightsService>();
-        
-            services.AddScoped<IActivityViewService, ActivityViewService>();
-            services.AddScoped<ICalendarService, CalendarService>();
-            services.AddScoped<IIngestionPipelineService, IngestionPipelineService>();
-            services.AddScoped<ITrainingPlanService, TrainingPlanService>();
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        services.AddScoped<IUserContext, UserContext>();
+        services.AddScoped<ISessionService, SessionService>();
 
-            return services;
-        }
+        services.AddScoped<IActivityService, ActivityService>();
+        services.AddScoped<IWeightService, WeightService>();
+        services.AddScoped<IBestEffortService, BestEffortService>();
+        services.AddScoped<IEventService, EventService>();
+        services.AddScoped<IInsightsService, InsightsService>();
+    
+        services.AddScoped<IActivityViewService, ActivityViewService>();
+        services.AddScoped<ICalendarService, CalendarService>();
+        services.AddScoped<IIngestionPipelineService, IngestionPipelineService>();
+        services.AddScoped<ITrainingPlanService, TrainingPlanService>();
 
-        public IServiceCollection AddHttpClients(IConfiguration configuration)
+        return services;
+    }
+
+    public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHttpClient<IPythonApiClient, PythonApiClient>(client =>
         {
-            services.AddHttpClient<IPythonApiClient, PythonApiClient>(client =>
+            var pythonApiBaseUrl = configuration["PythonApi:BaseUrl"];
+            if (!string.IsNullOrEmpty(pythonApiBaseUrl)) 
+                client.BaseAddress = new Uri(pythonApiBaseUrl);
+        });
+    
+        services.AddHttpClient<IGeocodeClient, GeocodeClient>(client =>
+        {
+            var geocodeUrl = configuration["Geocoding:BaseUrl"];
+            if (!string.IsNullOrEmpty(geocodeUrl)) 
+                client.BaseAddress = new Uri(geocodeUrl);
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection AddSupabaseAuthClient(this IServiceCollection services, string url, string anonKey)
+    {
+        services.AddScoped<SupabaseAuthClient>(_ =>
+        {
+            var options = new SupabaseOptions
             {
-                var pythonApiBaseUrl = configuration["PythonApi:BaseUrl"];
-                if (pythonApiBaseUrl != null) client.BaseAddress = new Uri(pythonApiBaseUrl);
-            });
-        
-            services.AddHttpClient<IGeocodeClient, GeocodeClient>(client =>
-            {
-                var geocodeUrl = configuration["Geocoding:BaseUrl"];
-                if (geocodeUrl != null) client.BaseAddress = new Uri(geocodeUrl);
-                client.DefaultRequestHeaders.Add("User-Agent", "MyAIRunningMateApp/1.0");
-            });
+                AutoRefreshToken = true,
+                AutoConnectRealtime = false
+            };
+            
+            var baseClient = new Supabase.Client(url, anonKey, options);
+            return new SupabaseAuthClient(baseClient);
+        });
 
-            return services;
-        }
+        return services;
     }
 }

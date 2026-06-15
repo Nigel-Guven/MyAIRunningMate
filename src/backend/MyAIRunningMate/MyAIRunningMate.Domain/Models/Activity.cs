@@ -17,6 +17,7 @@ public record Activity
     public double TrainingEffect { get; init; }
     public double? RawPaceSecondsPerMetre { get; init; }
     public int? PoolLength { get; init; }
+    public string? Location { get; init; }
     public string? MapPolyline { get; init; }
     public IReadOnlyCollection<TimeSeriesRecord> TimeSeriesRecords { get; init; }
 
@@ -36,6 +37,7 @@ public record Activity
         double trainingEffect,
         double? rawPaceSecondsPerMetre,
         int? poolLength,
+        string? location,
         string? mapPolyline,
         IEnumerable<TimeSeriesRecord>? timeSeriesRecords)
     {
@@ -66,7 +68,9 @@ public record Activity
         RawPaceSecondsPerMetre = rawPaceSecondsPerMetre;
         TrainingEffect = trainingEffect;
         PoolLength = poolLength;
+        Location = location;
         MapPolyline = mapPolyline;
+        
         TimeSeriesRecords = timeSeriesRecords != null 
             ? new List<TimeSeriesRecord>(timeSeriesRecords).AsReadOnly() 
             : Array.Empty<TimeSeriesRecord>();

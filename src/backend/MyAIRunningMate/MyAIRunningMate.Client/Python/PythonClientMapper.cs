@@ -1,4 +1,4 @@
-using MyAIRunningMate.Client.Python.Requests;
+using MyAIRunningMate.Client.Geocoder.Extensions;
 using MyAIRunningMate.Client.Python.Responses;
 using MyAIRunningMate.Domain.Models;
 
@@ -6,7 +6,11 @@ namespace MyAIRunningMate.Client.Python;
 
 public static class PythonClientMapper
 {
-    public static (Activity Activity, IEnumerable<Lap> Laps) ToDomain(this PythonApiActivityResponse response, Guid userId)
+    public static (Activity Activity, IEnumerable<Lap> Laps) ToDomain(
+        this PythonApiActivityResponse response, 
+        Guid userId,
+        string? mapPolyline,
+        string? location)
     {
         var activityId = Guid.NewGuid();
         
@@ -18,7 +22,7 @@ public static class PythonClientMapper
             latitude: ts.Latitude,
             longitude: ts.Longitude
         )).ToList();
-
+        
         var activity = new Activity(
             activityId: activityId,
             userId: userId,
@@ -35,7 +39,8 @@ public static class PythonClientMapper
             totalElevationGain: response.TotalElevationGain,
             trainingEffect: response.TrainingEffect,
             poolLength: response.PoolLength,
-            mapPolyline: null,
+            location: location,
+            mapPolyline: mapPolyline,
             timeSeriesRecords: timeSeriesRecords
         );
 

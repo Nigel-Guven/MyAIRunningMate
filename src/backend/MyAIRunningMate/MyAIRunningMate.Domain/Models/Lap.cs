@@ -28,8 +28,8 @@ public record Lap
         if (lapNumber < 0)
             throw new ArgumentException("Lap number cannot be negative.", nameof(lapNumber));
 
-        if (distanceMetres <= 0)
-            throw new ArgumentException("Lap distance must be greater than zero.", nameof(distanceMetres));
+        if (distanceMetres < 0) // FIX: Changed from <= 0 to allow kickboard/drill lap updates
+            throw new ArgumentException("Lap distance cannot be negative.", nameof(distanceMetres));
 
         if (durationSeconds <= 0)
             throw new ArgumentException("Lap duration must be greater than zero.", nameof(durationSeconds));
