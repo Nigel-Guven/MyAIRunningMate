@@ -1,10 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Protocols;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using MyAIRunningMate.Service.SetupExtensions;
-
-Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,16 +11,7 @@ var supabaseAnonKey = builder.Configuration["Supabase:PublicKey"]
                       ?? builder.Configuration["Supabase:AnonKey"]
                       ?? throw new InvalidOperationException("Supabase AnonKey/PublicKey is missing.");
 
-var jwksUrl = $"{supabaseUrl}/auth/v1/.well-known/jwks.json";
 var issuer = $"{supabaseUrl}/auth/v1";
-
-var configManager = new ConfigurationManager<OpenIdConnectConfiguration>(
-    jwksUrl,
-    new OpenIdConnectConfigurationRetriever(),
-    new HttpDocumentRetriever { RequireHttps = jwksUrl.StartsWith("https") }
-);
-
-var openIdConfig = await configManager.GetConfigurationAsync();
 
 builder.Services.AddAuthentication(options =>
     {
@@ -34,7 +21,7 @@ builder.Services.AddAuthentication(options =>
     .AddJwtBearer(options =>
     {
         options.MetadataAddress = $"{supabaseUrl}/auth/v1/.well-known/openid-configuration";
-        options.Authority = issuer; // Use your issuer variable here
+        options.Authority = issuer;
         options.MapInboundClaims = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -64,8 +51,6 @@ builder.Services.AddApplicationServices();
 
 builder.Services.AddSupabaseAuthClient(supabaseUrl, supabaseAnonKey);
 
-
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
@@ -76,18 +61,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddOpenApi();
-
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/openapi/v1.json", "MyAIRunningMate v1");
-    });
-}
 
 app.UseRouting();
 app.UseCors("AllowReactApp");
