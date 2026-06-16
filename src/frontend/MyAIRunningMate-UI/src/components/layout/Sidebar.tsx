@@ -16,7 +16,6 @@ export const Sidebar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
-    localStorage.removeItem('is_strava_connected');
 
     navigate('/login');
   };

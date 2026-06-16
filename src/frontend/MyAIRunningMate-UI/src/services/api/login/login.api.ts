@@ -1,7 +1,8 @@
-import type { LoginRequest, LoginResponse} from '../../../types/login/auth.types';
-import { http } from '../config/http';
-import { API_ENDPOINTS } from '../config/endpoints';
+import type { LoginRequest } from "../../../types/login/loginRequest";
+import type { LoginResponse } from "../../../types/login/loginResponse";
+import { API_ENDPOINTS } from "../config/endpoints";
+import { http } from "../config/http";
 
 export const loginApi = {
-    login: (credentials: LoginRequest) => http.post<LoginResponse>( API_ENDPOINTS.session.login, credentials ),
+  login: (request: LoginRequest) => http.post<LoginResponse>(API_ENDPOINTS.session.login, request)
 };

@@ -1,32 +1,23 @@
 import { loginApi } from '../login/login.api';
 import { authStorage } from '../config/authStorage';
+import type { LoginRequest } from '../../../types/login/loginRequest';
+import type { LoginResponse } from '../../../types/login/loginResponse'; // Import your response type
 
 export const loginService = {
-  login: async (
-    email: string,
-    password: string
-  ) => {
-    const response = await loginApi.login({
-      email,
-      password,
-    });
-
-    authStorage.set(
-      response.token,
-      response.user_id,
-      response.is_strava_connected
-    );
+  login: async (request: LoginRequest): Promise<LoginResponse> => {
+    // TypeScript now knows 'response' IS a LoginResponse
+    const response = await loginApi.login(request);
+    
+    // Now these properties are type-safe and won't be 'unknown'
+    authStorage.set(response.token, response.user_id);
 
     return response;
   },
 
   logout: () => {
     authStorage.clear();
-
     window.location.href = '/login';
   },
 
-  isAuthenticated: () => {
-    return !!authStorage.get();
-  },
+  isAuthenticated: () => !!authStorage.get(),
 };

@@ -1,8 +1,8 @@
-export interface WeightRequest {
-  weight_pounds: number;
-}
+import type { WeightRequest } from "./weightRequest";
+import type { WeightResponse } from "./weightResponse";
 
-export interface WeightResponse {
-  weight_pounds: number;
-  created_at: string;
+
+export interface WeightTypes {
+  latestWeight: WeightResponse | null;
+  updateWeightRequest: WeightRequest 
 }

@@ -58,8 +58,8 @@ export const WeightPage = () => {
 
     return (
       weights[weights.length - 1]
-        .weight_pounds -
-      weights[0].weight_pounds
+        .weight_in_pounds -
+      weights[0].weight_in_pounds
     ).toFixed(1);
 
   }, [weights]);

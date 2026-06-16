@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
 import logo from '../assets/applogo.png';
-import { dashboardService } from '../services/api/home/dashboard.service';
-import type { DashboardData } from '../types/dashboard.types';
 import { formatTime } from '../services/helpers/formatTime';
 import { getDaysUntil } from '../services/helpers/getDaysUntil';
-import type { BestEffortRequest } from '../types/bestefforts.types';
+import type { DashboardTypes } from '../types/dashboard/dashboard.types';
+import type { BestEffortRequest } from '../types/dashboard/bestEffortRequest';
+import { dashboardService } from '../services/api/dashboard/dashboard.service';
+import { authStorage } from '../services/api/config/authStorage';
 
-const initialState: DashboardData = {
+const initialState: DashboardTypes = {
   primaryEvent: null,
   upcomingEvents: [],
   bestEfforts: [],
   latestWeight: null,
-  volume: null,
 };
 
 export const DashboardPage = () => {
-  const [dashboard, setDashboard] = useState<DashboardData>(initialState);
+  const [dashboard, setDashboard] = useState<DashboardTypes>(initialState);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,8 +26,8 @@ export const DashboardPage = () => {
     try {
       const payload: BestEffortRequest = {
         distance_label: label,
-        time_seconds: seconds,
-        achieved_at: new Date().toISOString()
+        new_personal_record_time: seconds,
+        new_personal_record_date: new Date().toISOString()
       };
       await dashboardService.updateEffort(payload);
       const data = await dashboardService.loadDashboard();
@@ -40,6 +40,13 @@ export const DashboardPage = () => {
 
   useEffect(() => {
     const loadDashboard = async () => {
+      // 1. Verify a token exists locally before executing the batch API cascade
+      const localToken = authStorage.get();
+      if (!localToken) {
+        setError('Session initializing. Please wait...');
+        return;
+      }
+
       try {
         setLoading(true);
         const data = await dashboardService.loadDashboard();
@@ -50,13 +57,14 @@ export const DashboardPage = () => {
         setLoading(false);
       }
     };
+    
     loadDashboard();
   }, []);
 
   if (loading) return <div className="p-12 text-slate-500 font-mono animate-pulse uppercase">Synchronizing Command Center...</div>;
   if (error) return <div className="p-12 text-red-400">{error}</div>;
 
-  const { primaryEvent, upcomingEvents, bestEfforts, latestWeight, volume } = dashboard;
+  const { primaryEvent, upcomingEvents, bestEfforts, latestWeight} = dashboard;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700 pb-12">
@@ -74,7 +82,7 @@ export const DashboardPage = () => {
         <div className="bg-slate-900/50 p-3 px-6 rounded-2xl border border-slate-800">
           <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest text-right">Weight</p>
           <p className="text-2xl font-black text-blue-400 italic">
-            {latestWeight?.weight_pounds ? (latestWeight.weight_pounds * 0.453592).toFixed(1) : '0.0'} 
+            {latestWeight?.weight_in_pounds ? (latestWeight.weight_in_pounds * 0.453592).toFixed(1) : '0.0'} 
             <span className="text-xs text-slate-600 not-italic ml-1">KG</span>
           </p>
         </div>
@@ -90,12 +98,12 @@ export const DashboardPage = () => {
               </span>
             </div>
             <h3 className="text-5xl font-black italic tracking-tighter uppercase leading-none mb-4">
-              {primaryEvent?.name || "No Objective Set"}
+              {primaryEvent?.event_name || "No Objective Set"}
             </h3>
             <div className="flex flex-wrap gap-6 text-blue-100/80 mb-6">
               <div className="flex flex-col">
                 <span className="text-[10px] uppercase font-bold opacity-60">Location</span>
-                <span className="text-sm font-bold uppercase">{primaryEvent?.location || 'Unknown'}</span>
+                <span className="text-sm font-bold uppercase">{primaryEvent?.event_location || 'Unknown'}</span>
               </div>
               <div className="flex flex-col border-l border-white/20 pl-6">
                 <span className="text-[10px] uppercase font-bold opacity-60">Date</span>
@@ -129,7 +137,7 @@ export const DashboardPage = () => {
       {/* 3. Middle Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        {/* Weekly Volume */}
+        {/* Weekly Volume Block */}
         <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm flex flex-col justify-between">
           <div>
             <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Weekly Volume</h4>
@@ -140,12 +148,12 @@ export const DashboardPage = () => {
                 <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Total Running</p>
                 <div className="flex items-end gap-1 mt-1">
                   <span className="text-4xl font-black italic text-blue-400">
-                    {volume?.total_running_distance_metres ? (volume.total_running_distance_metres / 1000).toFixed(1) : "0.0"}
+                    --
                   </span>
                   <span className="text-xs font-bold text-slate-500 mb-1">KM</span>
                 </div>
-                <p className="text-sm font-black text-white font-mono">
-                  {volume?.total_running_duration_seconds ? Math.round(volume.total_running_duration_seconds / 60) : 0} MINS
+                <p className="text-xs font-bold text-slate-600 font-mono">
+                  0 sessions
                 </p>
               </div>
 
@@ -153,12 +161,12 @@ export const DashboardPage = () => {
                 <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Total Swimming</p>
                 <div className="flex items-end gap-1 mt-1">
                   <span className="text-4xl font-black italic text-purple-400">
-                    {volume?.total_swimming_distance_metres ? volume.total_swimming_distance_metres : "0.00"}
+                    --
                   </span>
-                  <span className="text-xs font-bold text-slate-500 mb-1">METRES</span>
+                  <span className="text-xs font-bold text-slate-500 mb-1">M</span>
                 </div>
-                <p className="text-sm font-black text-white font-mono">
-                  {volume?.total_swimming_duration_seconds ? Math.round(volume.total_swimming_duration_seconds / 60) : 0} MINS
+                <p className="text-xs font-bold text-slate-600 font-mono">
+                  0 sessions
                 </p>
               </div>
             </div>
@@ -169,50 +177,43 @@ export const DashboardPage = () => {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-2 text-left">
               <div>
                 <p className="text-[9px] font-bold text-slate-600 uppercase">Elevation</p>
-                <p className="text-sm font-black text-white font-mono">+{volume?.total_running_elevation_gain || 0}m</p>
+                <p className="text-sm font-black text-white font-mono">0m</p>
               </div>
               <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Avg / Max HR</p>
-                <p className="text-sm font-black text-white font-mono">
-                  {volume?.mean_average_heart_rate || 0} / {volume?.mean_max_heart_rate || 0}
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Avg HR</p>
+                <p className="text-sm font-black text-slate-400 font-mono">
+                  -- bpm
                 </p>
               </div>
               <div>
                 <p className="text-[9px] font-bold text-slate-600 uppercase">Training Effect</p>
-                <p className="text-sm font-black text-red-400 font-mono">
-                  {volume?.total_training_effect?.toFixed(1) || "0.0"} <span className="text-sm font-black text-blue-400 font-mono">({volume?.mean_training_effect?.toFixed(1) || "0.0"}ø)</span>
+                <p className="text-sm font-black text-slate-400 font-mono">
+                  --
                 </p>
               </div>
               <div>
                 <p className="text-[9px] font-bold text-slate-600 uppercase">Milestones</p>
-                <p className="text-sm font-black text-emerald-400 font-mono">
-                  🏆 {volume?.total_achievement_count || 0} <span className="text-sm font-black text-red-400 font-mono">({volume?.total_personal_record_count || 0} PR)</span>
+                <p className="text-sm font-black text-slate-500 font-mono">
+                  No records
                 </p>
               </div>
               <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Sessions (Single / Group)</p>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Total Time</p>
                 <p className="text-sm font-black text-white font-mono">
-                  {volume?.total_personal_exercises || 0} <span className="text-slate-500 font-normal">/</span> {volume?.total_group_exercises || 0}
+                  0h 0m
                 </p>
               </div>
               <div>
                 <p className="text-[9px] font-bold text-slate-600 uppercase">Rest Days</p>
-                <p className="text-sm font-black text-blue-400 font-mono">{volume?.rest_days ?? 0} Days</p>
+                <p className="text-sm font-black text-emerald-400 font-mono">--</p>
               </div>
             </div>
           </div>
 
           {/* Location Footer tag */}
-          {volume?.locations && volume.locations.length > 0 && (
-            <div className="mt-5 pt-3 border-t border-slate-800 text-[10px] text-slate-500 font-mono uppercase tracking-tight space-y-1.5">
-              {volume.locations.map((location, index) => (
-                <div key={index} className="flex items-center gap-1.5 truncate">
-                  <span>📍</span>
-                  <span className="truncate">{location}</span>
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="mt-5 pt-3 border-t border-slate-800 text-[10px] text-slate-600 font-mono uppercase tracking-tight space-y-1.5">
+            Syncing Paused • Insights Deferred
+          </div>
         </div>
 
         {/* AI Mate */}
@@ -246,10 +247,10 @@ export const DashboardPage = () => {
                     rel="noopener noreferrer" 
                     className="transition-colors duration-200 hover:text-blue-400"
                   >
-                    {event.name}
+                    {event.event_name}
                   </a>
                 </p>
-                <p className="pt-4 text-[10px] text-slate-600 font-mono uppercase">{event.location}</p>
+                <p className="pt-4 text-[10px] text-slate-600 font-mono uppercase">{event.event_location}</p>
               </div>
             </div>
           ))}
@@ -319,11 +320,11 @@ export const DashboardPage = () => {
                   ) : (
                     <>
                       <span className="font-mono font-black text-blue-400 text-xl leading-none">
-                        {effort.time_seconds !== null ? formatTime(effort.time_seconds) : "--:--"}
+                        {effort.time_achievement !== null ? formatTime(effort.time_achievement) : "--:--"}
                       </span>
                       <button 
                         onClick={() => {
-                          setTempSeconds(effort.time_seconds?.toString() || "");
+                          setTempSeconds(effort.time_achievement?.toString() || "");
                           setEditingLabel(effort.distance_label);
                         }}
                         className="opacity-0 group-hover:opacity-100 text-[9px] bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded font-black uppercase tracking-tighter transition-all cursor-pointer"

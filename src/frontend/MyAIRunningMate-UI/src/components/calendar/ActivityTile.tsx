@@ -15,8 +15,8 @@ export const ActivityTile = ({ act }: { act: CalendarViewDto }) => {
     >
       {/* Header: Activity Type */}
       <div className="flex justify-between items-start mb-0.5">
-        <span className="text-[9px] font-black uppercase truncate tracking-wider" title={act.type}>
-          {act.type}
+        <span className="text-[9px] font-black uppercase truncate tracking-wider" title={act.exercise_type}>
+          {act.exercise_type}
         </span>
       </div>
 

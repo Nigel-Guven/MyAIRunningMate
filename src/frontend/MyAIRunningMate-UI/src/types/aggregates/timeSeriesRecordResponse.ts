@@ -1,0 +1,8 @@
+export interface TimeSeriesRecordResponse {
+  time_stamp: string;
+  distance_metres: number | null;
+  heart_rate: number | null;
+  cadence: number | null;
+  latitude: number | null;
+  longitude: number | null;
+}

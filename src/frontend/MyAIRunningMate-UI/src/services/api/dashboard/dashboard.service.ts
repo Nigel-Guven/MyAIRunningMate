@@ -1,24 +1,22 @@
-import { dashboardApi }from './dashboard.api';
+import type { BestEffortRequest } from "../../../types/dashboard/bestEffortRequest";
+import type { DashboardTypes } from "../../../types/dashboard/dashboard.types";
+import { dashboardApi } from "./dashboard.api";
 
-import type {DashboardData,} from '../../../types/dashboard.types';
-import type { BestEffortRequest } from '../../../types/bestefforts.types';
 
 export const dashboardService = {
   loadDashboard:
-    async (): Promise<DashboardData> => {
+    async (): Promise<DashboardTypes> => {
 
       const [
         primaryEvent,
         upcomingEvents,
         bestEfforts,
         latestWeight,
-        volume,
       ] = await Promise.all([
         dashboardApi.getPrimaryEvent(),
         dashboardApi.getUpcomingEvents(),
         dashboardApi.getBestEfforts(),
         dashboardApi.getLatestWeight(),
-        dashboardApi.getWeeklyVolume(),
       ]);
 
       return {
@@ -26,11 +24,14 @@ export const dashboardService = {
         upcomingEvents,
         bestEfforts,
         latestWeight,
-        volume,
       };  
     },
     
     updateEffort: async ( payload: BestEffortRequest ): Promise<BestEffortRequest> => {
-        return await dashboardApi.updateBestEffort({distance_label: payload.distance_label,time_seconds: payload.time_seconds,achieved_at: payload.achieved_at});
+        return await dashboardApi.updateBestEffort(
+          {
+            distance_label: payload.distance_label,
+            new_personal_record_time: payload.new_personal_record_time,
+            new_personal_record_date: payload.new_personal_record_date});
     },
 };

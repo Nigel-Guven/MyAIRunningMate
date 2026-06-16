@@ -12,21 +12,22 @@ export function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (
-    e: React.FormEvent
-  ) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setLoading(true);
     setError('');
 
     try {
-      await loginService.login(email, password);
-      navigate('/home');
+      await loginService.login({ email, password });
+      
+      setTimeout(() => {
+        navigate('/home');
+      }, 100);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed');
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 

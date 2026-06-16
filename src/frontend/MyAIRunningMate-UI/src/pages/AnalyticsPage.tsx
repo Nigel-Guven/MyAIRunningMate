@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import type { AnalyticsDashboardView } from '../types/views/analyticsView';
 import { analyticsService } from '../services/api/analytics/analytics.service';
 import { COUNTY_COLORS } from '../components/analytics/irishCountyConfig';
 import { CountyFlag } from '../components/analytics/customflags';
@@ -130,27 +129,27 @@ export const AnalyticsPage = () => {
   const statCards = [
     { 
       label: 'Yearly Running Distance', 
-      value: summary?.year_running_distance ? `${(summary.year_running_distance / 1000).toFixed(1)} km` : '0 km', 
+      value: summary?.yearly_running_distance ? `${(summary.yearly_running_distance / 1000).toFixed(1)} km` : '0 km', 
       icon: '🛣️' 
     },
     { 
       label: 'Yearly Swimming Distance', 
-      value: summary?.year_swimming_distance ? `${summary.year_swimming_distance.toLocaleString()} m` : '0 m', 
+      value: summary?.yearly_swimming_distance ? `${summary.yearly_swimming_distance.toLocaleString()} m` : '0 m', 
       icon: '🏊' 
     },
     { 
       label: 'Active Days', 
-      value: summary?.year_active_days.toString() || '0', 
+      value: summary?.yearly_active_days.toString() || '0', 
       icon: '🔥' 
     },
     { 
       label: 'Avg Training Effect', 
-      value: summary?.year_average_training_effect ? summary.year_average_training_effect.toFixed(1) : '0.0', 
+      value: summary?.yearly_average_training_effect ? summary.yearly_average_training_effect.toFixed(1) : '0.0', 
       icon: '📈' 
     },
     { 
       label: 'Total Training Effect', 
-      value: summary?.year_total_training_effect ? summary.year_total_training_effect.toFixed(1) : '0.0', 
+      value: summary?.yearly_total_training_effect ? summary.yearly_total_training_effect.toFixed(1) : '0.0', 
       icon: '📊' 
     },
   ];

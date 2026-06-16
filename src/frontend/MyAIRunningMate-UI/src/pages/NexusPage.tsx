@@ -10,7 +10,6 @@ import {
 import { nexusService } from '../services/api/nexus/nexus.service';
 import type { TrainingPlanRequest } from '../services/api/nexus/nexus.types';
 import type { TrainingPlanEventView, TrainingPlanView } from '../types/views/trainingPlanView';
-import { formatDateLong } from '../services/helpers/dateFormatter';
 
 const inputClassName =
   'w-full bg-slate-900 border border-slate-600 rounded-lg p-1.5 text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50';
@@ -21,10 +20,6 @@ const formatDistance = (metres: number) => {
   return `${metres} m`;
 };
 
-type IndexedEvent = {
-  event: TrainingPlanEventView;
-  originalIndex: number;
-};
 
 const getPhasesForLength = (weeks: number) => {
   const basePhases = {

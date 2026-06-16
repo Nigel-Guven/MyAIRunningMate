@@ -9,8 +9,8 @@ export const API_ENDPOINTS = {
     },
 
     bestEfforts: {
-        allEfforts: '/best_efforts/all_efforts',
-        updateEffort: '/best_efforts/update',
+        allEfforts: '/best-efforts/all-efforts',
+        updateEffort: '/best-efforts/update',
     },
 
     calendar: {
@@ -20,7 +20,6 @@ export const API_ENDPOINTS = {
 
     dashboard: {
         volume: '/dashboard/volume',
-        insights: '/dashboard/insights',
     },
 
     events: {
@@ -42,15 +41,9 @@ export const API_ENDPOINTS = {
         logout: '/session/logout',
     },
 
-    strava: {
-        connect: '/strava/connect',
-        callback: '/strava/callback',
-        status: '/strava/status',
-    },
-
     weight: {
-        latest: '/weight/latest',
-        history: '/weight/history',
-        logWeight: '/weight/log_weight',
+        latest: '/weight-stat/latest',
+        history: '/weight-stat/history',
+        logWeight: '/weight-stat/log-weight',
     },
 };

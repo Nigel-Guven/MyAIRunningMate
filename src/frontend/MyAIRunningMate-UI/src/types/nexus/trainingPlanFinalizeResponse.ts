@@ -1,5 +1,5 @@
 export interface TrainingPlanFinalizeResponse {
-  trainingPlanId: string;
+  training_plan_id: string;
   message: string;
-  eventsSaved: number;
+  events_saved: number;
 }

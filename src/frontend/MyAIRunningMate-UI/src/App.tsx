@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router';
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router';
 import { MainLayout } from './components/layout/MainLayout';
 import { DashboardPage } from './pages/DashboardPage';
 import { CalendarPage } from './pages/CalendarPage';
@@ -8,15 +8,27 @@ import { NexusPage } from './pages/NexusPage';
 import { WeightPage } from './pages/WeightPage';
 import { LoginPage } from './pages/LoginPage';
 import { ActivityDeepDivePage } from './pages/ActivityDeepDivePage';
+import { authStorage } from './services/api/config/authStorage';
+import { useEffect, useState } from 'react';
 
-const isAuthenticated = () => {
-  return !!localStorage.getItem('token');
-};
 
-// Use <Outlet /> to render child routes nicely inside the layout
 function ProtectedLayout() {
-  if (!isAuthenticated()) {
-    // Redirect instantly to login if the token is missing
+  const [token, setToken] = useState<string | null>(() => authStorage.get());
+
+  useEffect(() => {
+    const handleAuthChange = () => {
+      setToken(authStorage.get());
+    };
+
+    // Listen for the custom auth events
+    window.addEventListener('auth-change', handleAuthChange);
+    
+    return () => {
+      window.removeEventListener('auth-change', handleAuthChange);
+    };
+  }, []);
+
+  if (!token) {
     return <Navigate to="/login" replace />;
   }
 

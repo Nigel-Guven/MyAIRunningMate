@@ -1,4 +1,6 @@
-import type { TrainingPlanEventView, TrainingPlanView } from '../types/views/trainingPlanView';
+import type { TrainingPlanEventResponse } from "../types/nexus/trainingPlanEventResponse";
+import type { TrainingPlanViewResponse } from "../types/nexus/trainingPlanViewResponse";
+
 
 export const EXERCISE_TYPES = [
   'Run',
@@ -53,30 +55,30 @@ export const normalizeExerciseType = (value: string): ExerciseType => {
   return 'Run';
 };
 
-export const getSubtypesForType = (exerciseType: ExerciseType): readonly string[] =>
-  EXERCISE_SUBTYPES_BY_TYPE[exerciseType];
+export const getSubtypesForType = (exercise_type: ExerciseType): readonly string[] =>
+  EXERCISE_SUBTYPES_BY_TYPE[exercise_type];
 
 export const normalizeExerciseSubtype = (
-  exerciseType: ExerciseType,
+  exercise_type: ExerciseType,
   value: string
 ): string => {
-  const options = getSubtypesForType(exerciseType);
+  const options = getSubtypesForType(exercise_type);
   const match = options.find((option) => normalizeKey(option) === normalizeKey(value));
   return match ?? options[0];
 };
 
 export const normalizeTrainingPlanEvent = (
-  event: TrainingPlanEventView
-): TrainingPlanEventView => {
-  const exerciseType = normalizeExerciseType(event.exerciseType);
+  event: TrainingPlanEventResponse
+): TrainingPlanEventResponse => {
+  const exercise_type = normalizeExerciseType(event.exercise_type);
   return {
     ...event,
-    exerciseType,
-    exerciseSubtype: normalizeExerciseSubtype(exerciseType, event.exerciseSubtype),
+    exercise_type,
+    exercise_subtype: normalizeExerciseSubtype(exercise_type, event.exercise_subtype),
   };
 };
 
-export const normalizeTrainingPlan = (plan: TrainingPlanView): TrainingPlanView => ({
+export const normalizeTrainingPlan = (plan: TrainingPlanViewResponse): TrainingPlanViewResponse => ({
   ...plan,
   trainingPlanEvents: plan.trainingPlanEvents.map(normalizeTrainingPlanEvent),
 });

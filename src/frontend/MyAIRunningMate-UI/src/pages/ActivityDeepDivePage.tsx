@@ -4,33 +4,24 @@ import { useParams } from 'react-router';
 
 import { activityService, } from '../services/api/activity/activity.service';
 
-import type { AggregateArtifactViewDto, } from '../types/views/aggregateArtifactView';
-
 import { formatDistanceKm, formatDuration, } from '../services/helpers/activity.utils';
 
 import { StatBox, } from '../components/activity/StatBox';
 
 import { ExternalLink, } from '../components/activity/ExternalLink';
 
-import { MapContainer, TileLayer, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import polyline from "@mapbox/polyline";
 
 import {ResponsiveContainer,ComposedChart,Line, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend, } from "recharts";
-import { FitRouteBounds } from '../components/calendar/fitRouteBounds';
+import type { AggregateArtifactResponse } from '../types/aggregates/aggregateArtifactResponse';
 
 export const ActivityDeepDivePage = () => {
 
   const { id } = useParams();
 
-  const [data, setData] = useState< AggregateArtifactViewDto | null >(null);
+  const [data, setData] = useState< AggregateArtifactResponse | null >(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const coords = useMemo(() => {
-    if (!data?.map?.map_polyline) return null;
-    return polyline.decode(data.map.map_polyline);
-  }, [data?.map?.map_polyline]);
 
   const lapChartData = useMemo(() => {
     return (
@@ -116,10 +107,6 @@ export const ActivityDeepDivePage = () => {
             {data.exercise_type}
           </p>
 
-          <h1 className="text-4xl font-black">
-            {data.name || 'Unnamed Artifact'}
-          </h1>
-
           <p className="text-slate-500 mt-2">
             {new Date(
               data.start_time
@@ -182,13 +169,6 @@ export const ActivityDeepDivePage = () => {
 
         {data.exercise_type === "running" && (
           <StatBox
-            label="Average Pace / km"
-            value={formatDuration(data.average_second_per_kilometre)}
-          />
-        )}
-
-        {data.exercise_type === "running" && (
-          <StatBox
             label="Elevation"
             value={
               data.total_elevation_gain
@@ -206,22 +186,7 @@ export const ActivityDeepDivePage = () => {
         {/* LEFT */}
         <div className="lg:col-span-2 space-y-8">
 
-          {Array.isArray(coords) && coords?.length > 0 && (
-            <div className="aspect-video rounded-xl overflow-hidden border border-slate-800">
-              <MapContainer
-                center={coords[0]}
-                zoom={16}
-                className="h-full w-full"
-              >
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Polyline positions={coords} pathOptions={{ color: '#3b82f6', weight: 4 }} />
-                
-                {/* Dynamic bounds updater engine */}
-                <FitRouteBounds coords={coords} />
-              </MapContainer>
-            </div>
-          )}
-
+          
           {/* LAP ANALYTICS */}
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
 
@@ -386,12 +351,6 @@ export const ActivityDeepDivePage = () => {
             </h3>
 
             <div className="space-y-3">
-              {data.strava_id && (
-                <ExternalLink
-                  label="Strava"
-                  href={`https://www.strava.com/activities/${data.strava_id}`}
-                />
-              )}
 
               {data.garmin_activity_id && (
                 <ExternalLink
@@ -401,50 +360,6 @@ export const ActivityDeepDivePage = () => {
               )}
             </div>
           </div>
-
-          {(data.achievement_count ?? 0) > 0 && (
-
-            <div className="p-6 bg-amber-500/10 border border-amber-500/20 rounded-xl">
-
-              <span className="text-amber-500 font-black text-xl">
-                🏆 {data.achievement_count} Achievements
-              </span>
-
-            </div>
-          )}
-
-          {(data.kudos_count ?? 0) > 0 && (
-
-            <div className="p-6 bg-amber-500/10 border border-amber-500/20 rounded-xl">
-
-              <span className="text-amber-500 font-black text-xl">
-                👍 {data.kudos_count} Kudos
-              </span>
-
-            </div>
-          )}
-
-          {(data.athlete_count ?? 0) > 0 && (
-
-            <div className="p-6 bg-amber-500/10 border border-amber-500/20 rounded-xl">
-
-              <span className="text-amber-500 font-black text-xl">
-                🏃 {data.athlete_count} Athletes
-              </span>
-
-            </div>
-          )}
-
-          {(data.personal_record_count ?? 0) > 0 && (
-
-            <div className="p-6 bg-amber-500/10 border border-amber-500/20 rounded-xl">
-
-              <span className="text-amber-500 font-black text-xl">
-                🏅 {data.personal_record_count} PR's Set
-              </span>
-
-            </div>
-          )}
 
         </div>
       </div>
