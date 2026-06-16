@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Insights;
 using MyAIRunningMate.Application.User;
@@ -6,6 +7,7 @@ using MyAIRunningMate.Service.Mappers;
 
 namespace MyAIRunningMate.Service.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/dashboard")]
 public class DashboardInsightsController(IUserContext userContext, IInsightsService insightsService) : ControllerBase

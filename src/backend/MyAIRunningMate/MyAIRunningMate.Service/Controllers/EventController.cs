@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.Events;
 using MyAIRunningMate.Contracts.Events.Responses;
@@ -5,6 +6,7 @@ using MyAIRunningMate.Service.Mappers;
 
 namespace MyAIRunningMate.Service.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/events")]
 public class EventController : ControllerBase

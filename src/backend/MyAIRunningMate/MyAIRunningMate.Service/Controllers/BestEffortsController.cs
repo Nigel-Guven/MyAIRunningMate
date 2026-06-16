@@ -10,27 +10,19 @@ namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/best_efforts")]
-public class BestEffortsController : ControllerBase
+[Route("api/best-efforts")]
+public class BestEffortsController(IBestEffortService bestEffortService, IUserContext userContext)
+    : ControllerBase
 {
-    private readonly IBestEffortService _bestEffortsService;
-    private readonly IUserContext _userContext;
-    
-    public BestEffortsController(IBestEffortService bestEffortService, IUserContext userContext)
-    {
-        _bestEffortsService = bestEffortService;
-        _userContext = userContext;
-    }
-    
-    [HttpGet("all_efforts")]
+    [HttpGet("all-efforts")]
     public async Task<ActionResult<IEnumerable<BestEffortResponse>>> GetAllBestEfforts()
     {
-        var userId = _userContext.GetUserId();
+        var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
         
         try
         {
-            var bestEfforts = await _bestEffortsService.GetAllBestEfforts(userId);
+            var bestEfforts = await bestEffortService.GetAllBestEfforts(userId);
 
             var dtos = bestEfforts.Select(bestEffort => bestEffort.ToBestEffortResponse());
             
@@ -45,12 +37,12 @@ public class BestEffortsController : ControllerBase
     [HttpPost("update")]
     public async Task<ActionResult> UpdateBestEffort([FromBody] BestEffortRequest request)
     {
-        var userId = _userContext.GetUserId();
+        var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
 
         try
         {
-            await _bestEffortsService.UpdateBestEffort(request.DistanceLabel, request.NewPersonalRecordDate, request.NewPersonalRecordTime, userId);
+            await bestEffortService.UpdateBestEffort(request.DistanceLabel, request.NewPersonalRecordDate, request.NewPersonalRecordTime, userId);
             
             return Ok();
         }

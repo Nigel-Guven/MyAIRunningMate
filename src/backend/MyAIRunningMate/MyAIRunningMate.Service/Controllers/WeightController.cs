@@ -10,7 +10,7 @@ namespace MyAIRunningMate.Service.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/weight_stat")]
+[Route("api/weight-stat")]
 public class WeightController(IWeightService weightService, IUserContext userContext) : ControllerBase
 {
     [HttpGet("latest")]
@@ -38,7 +38,7 @@ public class WeightController(IWeightService weightService, IUserContext userCon
         return Ok(dtos);
     }
     
-    [HttpPost("log_weight")]
+    [HttpPost("log-weight")]
     public async Task<IActionResult> LogWeight([FromBody] LogWeightRequest request)
     {
         var userId = userContext.GetUserId();

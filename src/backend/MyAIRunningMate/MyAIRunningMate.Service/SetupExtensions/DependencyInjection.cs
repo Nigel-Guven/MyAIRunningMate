@@ -73,15 +73,35 @@ public static class DependencyInjection
 
     public static IServiceCollection AddSupabaseAuthClient(this IServiceCollection services, string url, string anonKey)
     {
-        services.AddScoped<SupabaseAuthClient>(_ =>
+        services.AddScoped<Supabase.Client>(provider =>
         {
+            var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+            var authHeader = httpContextAccessor.HttpContext?.Request.Headers["Authorization"].ToString();
+            
+            string? token = null;
+            if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+            {
+                token = authHeader["Bearer ".Length..].Trim();
+            }
+
             var options = new SupabaseOptions
             {
-                AutoRefreshToken = true,
+                AutoRefreshToken = false, 
                 AutoConnectRealtime = false
             };
-            
-            var baseClient = new Supabase.Client(url, anonKey, options);
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                options.Headers ??= new Dictionary<string, string>();
+                options.Headers["Authorization"] = $"Bearer {token}";
+            }
+
+            return new Supabase.Client(url, anonKey, options);
+        });
+        
+        services.AddScoped<SupabaseAuthClient>(provider =>
+        {
+            var baseClient = provider.GetRequiredService<Supabase.Client>();
             return new SupabaseAuthClient(baseClient);
         });
 

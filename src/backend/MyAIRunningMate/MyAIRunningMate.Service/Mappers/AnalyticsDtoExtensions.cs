@@ -16,10 +16,6 @@ public static class AnalyticsDtoExtensions
             MeanMaxHeartRate: model.MeanMaxHeartRate,
             TotalTrainingEffect: model.TotalTrainingEffect,
             MeanTrainingEffect: model.MeanTrainingEffect,
-            TotalAchievementCount: model.TotalAchievementCount,
-            TotalPersonalRecordCount: model.TotalPersonalRecordCount,
-            TotalPersonalExercises: model.TotalPersonalExercises,
-            TotalGroupExercises: model.TotalGroupExercises,
             Locations: model.Locations,
             RestDays: model.RestDays
         );

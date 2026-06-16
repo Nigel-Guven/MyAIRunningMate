@@ -10,10 +10,6 @@ public record WeeklyInsightsResponse(
     int MeanMaxHeartRate,
     double TotalTrainingEffect,
     double MeanTrainingEffect,
-    long TotalAchievementCount,
-    long TotalPersonalRecordCount,
-    long TotalPersonalExercises,
-    long TotalGroupExercises,
     IEnumerable<string> Locations,
     int RestDays
 );

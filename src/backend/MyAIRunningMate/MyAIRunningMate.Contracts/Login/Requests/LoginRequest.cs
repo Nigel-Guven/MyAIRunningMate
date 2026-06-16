@@ -1,6 +1,8 @@
+using System.Text.Json.Serialization;
+
 namespace MyAIRunningMate.Contracts.Login.Requests;
 
 public record LoginRequest(
-    string Email, 
-    string Password
+    [property: JsonPropertyName("email")] string Email, 
+    [property: JsonPropertyName("password")] string Password
 );

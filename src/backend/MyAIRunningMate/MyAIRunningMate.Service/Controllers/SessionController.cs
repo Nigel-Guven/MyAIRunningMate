@@ -42,8 +42,8 @@ public class SessionController : ControllerBase
         }
     }
     
-    [HttpPost("logout")]
     [Authorize]
+    [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
         try
@@ -51,8 +51,9 @@ public class SessionController : ControllerBase
             await _sessionService.LogoutAsync();
             return Ok(new { message = "Logged out successfully." });
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
             return BadRequest(new { message = "Unable to process logout request cleanly." });
         }
     }

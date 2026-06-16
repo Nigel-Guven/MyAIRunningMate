@@ -1,6 +1,5 @@
 namespace MyAIRunningMate.Contracts.Weight.Requests;
 
-public record LogWeightRequest
-(
+public record LogWeightRequest(
     double WeightInPounds
 );

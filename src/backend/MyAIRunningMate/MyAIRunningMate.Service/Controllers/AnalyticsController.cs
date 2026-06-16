@@ -10,24 +10,15 @@ namespace MyAIRunningMate.Service.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/analytics")]
-public class AnalyticsController  : ControllerBase
+public class AnalyticsController(IUserContext userContext, IInsightsService insightsService) : ControllerBase
 {
-    private readonly IUserContext _userContext;
-    private readonly IInsightsService _insightsService;
-    
-    public AnalyticsController(IUserContext userContext, IInsightsService insightsService)
-    {
-        _userContext = userContext;
-        _insightsService = insightsService;
-    }
-    
     [HttpGet("statistics")]
     public async Task<ActionResult<YearlyStatisticsResponse>> GetYearlyStatistics([FromQuery] int year)
     {
-        var userId = _userContext.GetUserId();
+        var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
         
-        var (summary, weeklyVolumes) = await _insightsService.GetAnalyticsStatistics(userId, year);
+        var (summary, weeklyVolumes) = await insightsService.GetAnalyticsStatistics(userId, year);
 
         var dashboardDto = new YearlyAnalyticsResponse(
             Summary: summary.ToYearlyStatisticsDto(),
