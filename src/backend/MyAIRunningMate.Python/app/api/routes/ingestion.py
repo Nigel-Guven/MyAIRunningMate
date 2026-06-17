@@ -6,10 +6,10 @@ router = APIRouter(prefix="/ingestion", tags=["ingestion"])
 
 
 @router.post("/process", response_model=ActivitySchema)
-async def upload_fit(file: UploadFile = File(...)):
+async def upload_fit(file: UploadFile = File(..., alias="file")):
     if not file.filename or not file.filename.endswith(".fit"):
         raise HTTPException(status_code=400, detail="Invalid file type. Only .fit files are supported.")
-
+    print(file.filename)
     activity = process_fit_file(file)
 
     return ActivitySchema.model_validate(activity)
