@@ -22,7 +22,7 @@ public static class AggregateDtoExtensions
             TrainingEffect: model.GarminActivity.TrainingEffect,
             PoolLength: model.GarminActivity.PoolLength,
             MapPolyline: model.GarminActivity.MapPolyline,
-            TimeSeriesRecords: model.GarminActivity.TimeSeriesRecords.Select(tsr => tsr.ToTimeSeriesRecordResponseDto()).ToList(),
+            TimeSeriesRecords: model.GarminActivity.TimeSeriesRecords?.Select(tsr => tsr.ToTimeSeriesRecordResponseDto()).ToList(),
             Laps: model.Laps.Select(l => l.ToLapDto()).ToList()
         );
 

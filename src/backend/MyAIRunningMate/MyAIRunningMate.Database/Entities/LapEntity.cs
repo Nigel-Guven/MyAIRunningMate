@@ -6,7 +6,7 @@ namespace MyAIRunningMate.Database.Entities;
 [Table("lap")]
 public class LapEntity : BaseModel
 {
-    [PrimaryKey("id")]
+    [PrimaryKey("id", false)]
     public Guid LapId { get; set; }
 
     [Column("activity_id")]

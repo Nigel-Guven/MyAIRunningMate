@@ -19,11 +19,11 @@ public static class LapEntityMapper
             averageSwolf: entity.AverageSwolf
         );
 
-    public static LapEntity ToEntity(this Lap domain) =>
+    public static LapEntity ToEntity(this Lap domain, Guid activityId) =>
         new()
         {
             LapId = domain.LapId,
-            ActivityId = domain.ActivityId,
+            ActivityId = activityId,
             LapNumber = domain.LapNumber,
             DistanceMetres = domain.DistanceMetres,
             DurationSeconds = domain.DurationSeconds,

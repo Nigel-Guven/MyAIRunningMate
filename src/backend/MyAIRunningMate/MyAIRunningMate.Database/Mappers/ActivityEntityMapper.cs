@@ -6,13 +6,8 @@ namespace MyAIRunningMate.Database.Mappers;
 
 public static class ActivityEntityMapper
 {
-    public static Activity ToDomain(this ActivityEntity entity)
-    {
-        var records = !string.IsNullOrWhiteSpace(entity.TimeSeriesRecordsJson)
-            ? JsonSerializer.Deserialize<List<TimeSeriesRecord>>(entity.TimeSeriesRecordsJson)
-            : null;
-        
-        return new Activity(
+    public static Activity ToDomain(this ActivityEntity entity) =>
+        new(
             activityId: entity.ActivityId,
             userId: entity.UserId,
             garminActivityId: entity.GarminActivityId,
@@ -30,11 +25,10 @@ public static class ActivityEntityMapper
             poolLength: entity.PoolLength,
             location: entity.Location,
             mapPolyline: entity.MapPolyline,
-            timeSeriesRecords: records
+            timeSeriesRecords: null
         );
-    }
 
-    public static ActivityEntity ToEntity(this Activity domain, Guid userId) =>
+    public static ActivityEntity ToEntity(this Activity domain, Guid userId, string timeSeriesJson) =>
         new()
         {
             ActivityId = domain.ActivityId,
@@ -53,7 +47,6 @@ public static class ActivityEntityMapper
             RawPaceSecondsPerMetre = domain.RawPaceSecondsPerMetre,
             PoolLength = domain.PoolLength,
             Location = domain.Location,
-            MapPolyline = domain.MapPolyline ?? null,
-            TimeSeriesRecordsJson =  JsonSerializer.Serialize(domain.TimeSeriesRecords),
+            MapPolyline = domain.MapPolyline ?? null
         };
 }

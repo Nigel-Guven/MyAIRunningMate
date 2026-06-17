@@ -1,3 +1,5 @@
+using System.Net;
+using System.Text.Json;
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Database.Mappers;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
@@ -6,7 +8,7 @@ using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
 
-public class ActivityRepository(Supabase.Client supabase) : BaseRepository<ActivityEntity>(supabase), IActivityRepository
+public class ActivityRepository(Supabase.Client supabase, ITimeSeriesRecordRepository timeSeriesRecordRepository) : BaseRepository<ActivityEntity>(supabase), IActivityRepository
 {
     private readonly Supabase.Client _supabase = supabase;
 
@@ -101,12 +103,53 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
         return result.Models.Select(entity => entity.ToDomain()).ToList();
     }
 
-    public async Task<Activity> InsertAsync(Activity activity, Guid userId)
+    public async Task<Activity> InsertAsync(Activity activity, IEnumerable<Lap> laps)
     {
-        ActivityEntity entity = activity.ToEntity(userId);
-
-        await InsertAsync(entity);
+        var activityPayload = new Dictionary<string, object?> {
+            { "user_id", activity.UserId },
+            { "garmin_activity_id", activity.GarminActivityId },
+            { "start_time", activity.StartTime },
+            { "exercise_type", activity.ExerciseType },
+            { "duration_seconds", activity.DurationSeconds },
+            { "moving_time_seconds", activity.MovingTimeSeconds },
+            { "distance_metres", activity.DistanceMetres },
+            { "calories", activity.Calories },
+            { "average_heart_rate", activity.AverageHeartRate },
+            { "max_heart_rate", activity.MaxHeartRate },
+            { "total_elevation_gain", activity.TotalElevationGain },
+            { "training_effect", activity.TrainingEffect },
+            { "raw_pace_seconds_per_metre", activity.RawPaceSecondsPerMetre },
+            { "pool_length", activity.PoolLength },
+            { "location", activity.Location },
+            { "map_polyline", activity.MapPolyline }
+        };
+    
+        var lapsPayload = laps.Select(l => new Dictionary<string, object?> {
+            { "lap_number", l.LapNumber },
+            { "distance_metres", l.DistanceMetres },
+            { "duration_seconds", l.DurationSeconds },
+            { "average_heart_rate", l.AverageHeartRate },
+            { "average_speed", l.AverageSpeed },
+            { "average_cadence", l.AverageCadence },
+            { "primary_stroke", l.PrimaryStroke },
+            { "average_swolf", l.AverageSwolf }
+        });
         
-        return entity.ToDomain();
+        var response = await _supabase.Rpc("save_activity_with_laps", new { 
+            activity_metadata = activityPayload, 
+            laps_data = lapsPayload 
+        });
+    
+        if (response.ResponseMessage.StatusCode != HttpStatusCode.OK )
+        {
+            throw new Exception($"RPC Error: {response.ResponseMessage} | Content: {response.Content}");
+        }
+    
+        var newActivityId = Guid.Parse(response.Content.Trim('"'));
+
+        if (activity.TimeSeriesRecords != null)
+            await timeSeriesRecordRepository.InsertAsync(activity.TimeSeriesRecords, newActivityId);
+
+        return activity;
     }
 }

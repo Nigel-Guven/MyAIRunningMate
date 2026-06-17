@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IEventRepository, EventRepository>();
         services.AddScoped<ITrainingPlanRepository, TrainingPlanRepository>();
         services.AddScoped<ITrainingPlanEventRepository, TrainingPlanEventRepository>();
+        services.AddScoped<ITimeSeriesRecordRepository, TimeSeriesRecordRepository>();
         
         return services;
     }

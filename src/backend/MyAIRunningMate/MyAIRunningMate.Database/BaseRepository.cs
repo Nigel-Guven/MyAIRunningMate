@@ -1,4 +1,5 @@
 using Supabase.Postgrest;
+using Supabase.Postgrest.Exceptions;
 using Supabase.Postgrest.Models;
 
 namespace MyAIRunningMate.Database;
@@ -31,11 +32,19 @@ public abstract class BaseRepository<T>(Supabase.Client supabase) : IBaseReposit
 
     public async Task<IEnumerable<T>> BulkInsertAsync(List<T> entities)
     {
-        var result = await Supabase.From<T>().Insert(entities);
-        return result.Models;
+        try
+        {
+            var result = await Supabase.From<T>().Insert(entities);
+            return result.Models;
+        }
+        catch (PostgrestException ex)
+        {
+            Console.WriteLine($"DB Error Message: {ex.Message}");
+            Console.WriteLine($"DB Error Content: {ex.Content}");
+            throw;
+        }
     }
-
-    protected async Task UpsertAsync(T entity) => await Supabase.From<T>().Upsert(entity);
+    
     public async Task UpdateAsync(T entity) => await entity.Update<T>();
     public async Task DeleteAsync(T entity) => await entity.Delete<T>();
 }

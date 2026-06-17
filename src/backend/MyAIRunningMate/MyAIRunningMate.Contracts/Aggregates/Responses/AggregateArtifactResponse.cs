@@ -16,6 +16,6 @@ public record AggregateArtifactResponse(
     double TrainingEffect,
     int? PoolLength,
     string? MapPolyline,
-    IReadOnlyCollection<TimeSeriesRecordResponse> TimeSeriesRecords,
+    IReadOnlyCollection<TimeSeriesRecordResponse>? TimeSeriesRecords,
     IEnumerable<LapViewResponse> Laps
 );

@@ -19,7 +19,7 @@ public record Activity
     public int? PoolLength { get; init; }
     public string? Location { get; init; }
     public string? MapPolyline { get; init; }
-    public IReadOnlyCollection<TimeSeriesRecord> TimeSeriesRecords { get; init; }
+    public IReadOnlyCollection<TimeSeriesRecord>? TimeSeriesRecords { get; init; }
 
     public Activity(
         Guid activityId,
@@ -71,8 +71,11 @@ public record Activity
         Location = location;
         MapPolyline = mapPolyline;
         
-        TimeSeriesRecords = timeSeriesRecords != null 
-            ? new List<TimeSeriesRecord>(timeSeriesRecords).AsReadOnly() 
-            : Array.Empty<TimeSeriesRecord>();
+        TimeSeriesRecords = timeSeriesRecords switch
+        {
+            null => [],
+            IReadOnlyCollection<TimeSeriesRecord> readOnly => readOnly,
+            _ => timeSeriesRecords.ToList().AsReadOnly()
+        };
     }
 }

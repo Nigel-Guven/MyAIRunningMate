@@ -6,7 +6,7 @@ namespace MyAIRunningMate.Database.Entities;
 [Table("activity")]
 public class ActivityEntity : BaseModel
 {
-    [PrimaryKey("id")]
+    [PrimaryKey("id", false)]
     public Guid ActivityId { get; set; }
     
     [Column("user_id")]
@@ -56,7 +56,4 @@ public class ActivityEntity : BaseModel
 
     [Column("map_polyline")]
     public string? MapPolyline { get; set; }
-    
-    [Column("time_series_records")]
-    public string TimeSeriesRecordsJson { get; set; }
 }

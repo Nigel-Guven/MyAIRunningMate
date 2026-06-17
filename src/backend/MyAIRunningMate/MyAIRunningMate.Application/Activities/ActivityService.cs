@@ -1,11 +1,11 @@
+
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Activities;
 
 public class ActivityService(
-    IActivityRepository activityRepository,
-    ILapRepository lapRepository)
+    IActivityRepository activityRepository)
     : IActivityService
 {
 
@@ -14,10 +14,5 @@ public class ActivityService(
     public async Task<bool> CheckDuplicateAsync(string garminActivityId, Guid userId) => 
         await activityRepository.ActivityExistsByGarminId(garminActivityId, userId);
 
-    public async Task SaveActivityAndLaps(Activity activity, IEnumerable<Lap> laps, Guid userId)
-    {
-        var savedActivity = await activityRepository.InsertAsync(activity, userId);
-        
-        await lapRepository.BulkInsertAsync(laps, savedActivity.ActivityId);
-    }
+    public async Task SaveActivityAndLaps(Activity activity, IEnumerable<Lap> laps, Guid userId) => await activityRepository.InsertAsync(activity, laps);
 }
