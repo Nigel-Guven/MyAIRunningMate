@@ -56,7 +56,10 @@ public class CalendarController(
             {
                 return NotFound("No active training plan found matching this timeline window.");
             }
-            return Ok(plan);
+
+            var dto = plan.ToDto();
+            
+            return Ok(dto);
         }
         catch (Exception ex)
         {

@@ -1,17 +1,14 @@
 import { http } from '../config/http';
 import { API_ENDPOINTS } from '../config/endpoints';
-
-import type {
-  CalendarViewDto,
-} from '../../../types/views/calendarView';
-import type { TrainingPlanView } from '../../../types/views/trainingPlanView';
+import type { CalendarViewResponse } from '../../../types/calendar/calendarViewResponse';
+import type { TrainingPlanViewResponse } from '../../../types/nexus/trainingPlanViewResponse';
 
 export const calendarApi = {
   getMonthlyActivities: (
     month: number,
     year: number
   ) =>
-    http.get<CalendarViewDto[]>(
+    http.get<CalendarViewResponse[]>(
       API_ENDPOINTS.calendar.display,
       {
         params: { month, year },
@@ -19,7 +16,7 @@ export const calendarApi = {
     ),
 
   getTrainingPlan: (month: number, year: number) =>
-    http.get<TrainingPlanView>(
+    http.get<TrainingPlanViewResponse>(
       API_ENDPOINTS.calendar.trainingPlan, 
       {
         params: { month, year },

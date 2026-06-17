@@ -1,5 +1,5 @@
 export interface TrainingPlanEventResponse {
-  training_plan_id: string;
+  training_plan_event_id: string;
   event_date: string;
   exercise_type: string;
   exercise_subtype: string;

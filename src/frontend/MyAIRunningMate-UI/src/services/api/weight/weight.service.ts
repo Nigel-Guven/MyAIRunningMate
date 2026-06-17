@@ -1,6 +1,7 @@
 import { http } from '../config/http';
-import type { WeightRequest, WeightResponse } from '../../../types/weight/weight.types';
 import { API_ENDPOINTS } from '../config/endpoints';
+import type { WeightResponse } from '../../../types/weight/weightResponse';
+import type { WeightRequest } from '../../../types/weight/weightRequest';
 
 export const weightService = {
     getLatest: (): Promise<WeightResponse> => 
@@ -13,5 +14,5 @@ export const weightService = {
     },
 
     log: ( pounds: number ): Promise<WeightRequest> => 
-        http.post<WeightRequest>( API_ENDPOINTS.weight.logWeight, { weight_pounds: pounds, } ),
+        http.post<WeightRequest>( API_ENDPOINTS.weight.logWeight, { weight_in_pounds: pounds, } ),
 };

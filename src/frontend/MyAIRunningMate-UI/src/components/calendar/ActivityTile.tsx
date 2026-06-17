@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router";
-import type { CalendarViewDto } from "../../types/views/calendarView";
 import { getActivityStyles } from "./styles";
 import { formatDuration } from "../../services/helpers/activity.utils";
+import type { CalendarViewResponse } from "../../types/calendar/calendarViewResponse";
 
-export const ActivityTile = ({ act }: { act: CalendarViewDto }) => {
+export const ActivityTile = ({ act }: { act: CalendarViewResponse }) => {
   const navigate = useNavigate();
-  const colorClasses = getActivityStyles(act.type, act.distance_metres);
+  const colorClasses = getActivityStyles(act.exercise_type, act.distance_metres);
 
   return (
     <button

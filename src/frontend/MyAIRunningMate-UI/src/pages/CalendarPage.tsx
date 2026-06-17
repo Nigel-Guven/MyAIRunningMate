@@ -1,13 +1,14 @@
 import { useEffect, useState, useMemo } from 'react';
 import { calendarService } from '../services/api/calendar/calendar.service';
 import { buildCalendarMonth } from '../services/helpers/calendar.utils';
-import type { CalendarViewDto } from '../types/views/calendarView';
-import type { TrainingPlanView, TrainingPlanEventView } from '../types/views/trainingPlanView';
 import { DayCell } from '../components/calendar/Daycell';
+import type { CalendarViewResponse } from '../types/calendar/calendarViewResponse';
+import type { TrainingPlanViewResponse } from '../types/nexus/trainingPlanViewResponse';
+import type { TrainingPlanEventResponse } from '../types/nexus/trainingPlanEventResponse';
 
 export const CalendarPage = () => {
-  const [activities, setActivities] = useState<CalendarViewDto[]>([]);
-  const [trainingPlan, setTrainingPlan] = useState<TrainingPlanView | null>(null);
+  const [activities, setActivities] = useState<CalendarViewResponse[]>([]);
+  const [training_plan, setTrainingPlan] = useState<TrainingPlanViewResponse | null>(null);
   const [viewDate, setViewDate] = useState(() => {
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), 1);
@@ -54,7 +55,7 @@ export const CalendarPage = () => {
   const { days, blanks, monthLabel } = useMemo(() => buildCalendarMonth(viewDate), [viewDate]);
 
   const groupedActivities = useMemo(() => {
-    const map = new Map<number, CalendarViewDto[]>();
+    const map = new Map<number, CalendarViewResponse[]>();
     if (activities.length === 0) return map;
 
     activities.forEach((activity) => {
@@ -72,14 +73,14 @@ export const CalendarPage = () => {
   }, [activities]);
 
   const groupedTrainingEvents = useMemo(() => {
-    const map = new Map<number, TrainingPlanEventView>();
-    if (!trainingPlan?.trainingPlanEvents?.length) return map;
+    const map = new Map<number, TrainingPlanEventResponse>();
+    if (!training_plan?.events?.length) return map;
 
     const currentYear = viewDate.getFullYear();
     const currentMonth = viewDate.getMonth();
 
-    trainingPlan.trainingPlanEvents.forEach((ev) => {
-      const eventDate = new Date(ev.eventDate);
+    training_plan.events.forEach((ev) => {
+      const eventDate = new Date(ev.event_date + 'Z');
       
       if (eventDate.getFullYear() === currentYear && eventDate.getMonth() === currentMonth) {
         map.set(eventDate.getDate(), ev);
@@ -87,7 +88,7 @@ export const CalendarPage = () => {
     });
 
     return map;
-  }, [trainingPlan, viewDate]);
+  }, [training_plan, viewDate]);
 
   const navigateMonth = (direction: number) => {
     setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + direction, 1));
@@ -98,9 +99,9 @@ export const CalendarPage = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold text-white tracking-tight">Activity Matrix</h2>
-          {trainingPlan && (
+          {training_plan && (
             <p className="text-xs font-medium text-blue-400 mt-1 uppercase tracking-wider">
-              🏆 Active Track: {trainingPlan.title}
+              🏆 Active Track: {training_plan.training_plan.title}
             </p>
           )}
         </div>

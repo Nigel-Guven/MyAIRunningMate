@@ -39,12 +39,9 @@ public class TrainingPlanRepository(Supabase.Client supabase) : BaseRepository<T
     
     public async Task<IEnumerable<TrainingPlan>> GetAllPlansForUserAsync(Guid userId)
     {
-        var userIdString = userId.ToString().ToLower();
-
         var response = await _supabase
             .From<TrainingPlanEntity>()
-            .Filter("user_id", Constants.Operator.Equals, userIdString)
-            .Order("start_date", Constants.Ordering.Descending)
+            .Filter("user_id", Constants.Operator.Equals, userId.ToString())
             .Get();
 
         return response.Models.Select(entity => entity.ToDomain());

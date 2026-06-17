@@ -1,11 +1,11 @@
-import type { CalendarViewDto } from "../../types/views/calendarView";
-import type { TrainingPlanEventView } from "../../types/views/trainingPlanView";
+import type { CalendarViewResponse } from "../../types/calendar/calendarViewResponse";
+import type { TrainingPlanEventResponse } from "../../types/nexus/trainingPlanEventResponse";
 import { ActivityTile } from "./ActivityTile";
 
 interface DayCellProps {
   day: number;
-  activities: CalendarViewDto[];
-  trainingEvent?: TrainingPlanEventView;
+  activities: CalendarViewResponse[];
+  trainingEvent?: TrainingPlanEventResponse;
   isToday?: boolean; // <-- Added prop definition
 }
 
@@ -27,7 +27,7 @@ const getExerciseEmoji = (type: string): string => {
 
 export const DayCell = ({ day, activities, trainingEvent, isToday }: DayCellProps) => {
   const hasCompletedActivities = activities.length > 0;
-  const isRestDay = trainingEvent?.exerciseType === 'Rest';
+  const isRestDay = trainingEvent?.exercise_type === 'Rest';
   const hasActiveTarget = trainingEvent && !isRestDay;
 
   return (
@@ -67,11 +67,11 @@ export const DayCell = ({ day, activities, trainingEvent, isToday }: DayCellProp
           <div className="mb-2 p-1.5 rounded bg-blue-500/10 border border-blue-500/20 text-[11px] text-blue-300 leading-tight">
             <div className="flex justify-between font-bold">
               <span className="truncate">
-                {getExerciseEmoji(trainingEvent.exerciseType)} {trainingEvent.exerciseSubtype}
+                {getExerciseEmoji(trainingEvent.exercise_type)} {trainingEvent.exercise_subtype}
               </span>
-              {trainingEvent.distanceMetres > 0 && (
+              {trainingEvent.distance_metres > 0 && (
                 <span className="font-mono text-[10px] bg-blue-500/20 px-1 rounded text-white flex-shrink-0">
-                  {formatDistanceKm(trainingEvent.distanceMetres)}
+                  {formatDistanceKm(trainingEvent.distance_metres)}
                 </span>
               )}
             </div>
