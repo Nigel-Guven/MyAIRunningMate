@@ -15,13 +15,13 @@ public class InsightsService(
         var activityIdsThisWeek = await activityRepository.GetCurrentWeekActivityIds(userId);
 
         var aggregateTasks = activityIdsThisWeek.Select(activityId => 
-            activityViewService.CreateAggregateActivity(activityId, userId)
+            activityRepository.GetActivityByActivityId(activityId, userId)
         );
-        var aggregateResults = await Task.WhenAll(aggregateTasks);
+        var activities = await Task.WhenAll(aggregateTasks);
         
-        var validActivities = aggregateResults
-            .Where(a => a?.GarminActivity != null)
-            .OfType<AggregateArtifact>() 
+        var validActivities = activities
+            .Where(a => a != null)
+            .OfType<Activity>() 
             .ToList();
 
         return validActivities.Count switch
@@ -35,6 +35,9 @@ public class InsightsService(
         };
     }
 
+    public Task<(YearlyStatistics Summary, IEnumerable<WeeklyInsights> WeeklyVolumes)> GetAnalyticsStatistics(Guid userId, int year) => throw new NotImplementedException();
+
+    /*
     public async Task<(YearlyStatistics Summary, IEnumerable<WeeklyInsights> WeeklyVolumes)> GetAnalyticsStatistics(Guid userId, int year)
     {
         var yearDate = new DateTime(year, 1, 1);
@@ -101,52 +104,77 @@ public class InsightsService(
             .ToList();
         
             return (yearlySummary, weeklyVolumes);
-        }
+        }*/
     
-    private static WeeklyInsights CalculateWeeklyMetrics(List<AggregateArtifact> activities)
+    private static WeeklyInsights CalculateWeeklyMetrics(List<Activity> activities)
     {
+        int morningActivityCount = 0, afternoonActivityCount = 0, eveningActivityCount =0, nightActivityCount = 0;
+
+        foreach (var hour in activities.Select(a => a.StartTime.Hour))
+        {
+            switch (hour)
+            {
+                case >= 6 and < 12:
+                    morningActivityCount++;
+                    break;
+                case >= 12 and < 17:
+                    afternoonActivityCount++;
+                    break;
+                case >= 17 and < 21:
+                    eveningActivityCount++;
+                    break;
+                default:
+                    nightActivityCount++;
+                    break;
+            }
+        }
+        
         var runningActivities = activities
-            .Where(a => string.Equals(a.GarminActivity.ExerciseType, "running", StringComparison.OrdinalIgnoreCase))
+            .Where(a => string.Equals(a.ExerciseType, "running", StringComparison.OrdinalIgnoreCase))
             .ToList();
         
         var swimmingActivities = activities
-            .Where(a => string.Equals(a.GarminActivity.ExerciseType, "swimming", StringComparison.OrdinalIgnoreCase))
+            .Where(a => string.Equals(a.ExerciseType, "swimming", StringComparison.OrdinalIgnoreCase))
             .ToList();
         
-        var validHeartRates = activities
-            .Where(a => a.GarminActivity.AverageHeartRate > 0)
-            .Select(a => (double)a.GarminActivity.AverageHeartRate)
-            .ToList();
+        var validHeartRates = activities.Where(a => a.AverageHeartRate > 0).Select(a => (double)a.AverageHeartRate).ToList();
+        var maxHeartRates = activities.Where(a => a.MaxHeartRate > 0).Select(a => a.MaxHeartRate).ToList();
 
-        var maxHeartRates = activities
-            .Where(a => a.GarminActivity.MaxHeartRate > 0)
-            .Select(a => a.GarminActivity.MaxHeartRate)
+        var locations = activities
+            .Where(a => !string.IsNullOrEmpty(a.Location))
+            .Select(a => a.Location!)
+            .Distinct()
             .ToList();
         
-        var uniqueActiveDaysCount = activities
-            .Select(a => a.GarminActivity.StartTime.Date)
-            .Distinct()
-            .Count();
+        var uniqueActiveDaysCount = activities.Select(a => a.StartTime.Date).Distinct().Count();
 
         var restDays = Math.Max(0, 7 - uniqueActiveDaysCount);
         
         return new WeeklyInsights
         {
-            RunningTimeVolume = runningActivities.Sum(a => a.GarminActivity.DurationSeconds),
-            RunningDistanceVolume = runningActivities.Sum(a => a.GarminActivity.DistanceMetres), 
-            TotalRunningElevationGain = runningActivities.Sum(a => a.GarminActivity.TotalElevationGain ?? 0),
+            RunningTimeSeconds = runningActivities.Sum(a => a.DurationSeconds),
+            RunningMovingTimeSeconds = runningActivities.Sum(a => a.MovingTimeSeconds),
+            RunningDistanceMetres = runningActivities.Sum(a => a.DistanceMetres),
+            TotalRunningElevationGain = runningActivities.Sum(a => a.TotalElevationGain ?? 0),
             
-            SwimmingTimeVolume = swimmingActivities.Sum(a => a.GarminActivity.DurationSeconds),
-            SwimmingDistanceVolume = swimmingActivities.Sum(a => a.GarminActivity.DistanceMetres),
+            SwimmingTimeSeconds = swimmingActivities.Sum(a => a.DurationSeconds),
+            SwimmingDistanceMetres = swimmingActivities.Sum(a => a.DistanceMetres),
+            
+            TotalCaloriesBurned = activities.Sum(a => a.Calories),
 
             MeanAverageHeartRate = validHeartRates.Count != 0 ? (int)validHeartRates.Average() : 0,
             MeanMaxHeartRate = maxHeartRates.Count != 0 ? maxHeartRates.Max() : 0,
             
-            TotalTrainingEffect = activities.Sum(a => a.GarminActivity.TrainingEffect),
-            MeanTrainingEffect = activities.Count != 0 ? activities.Average(a => a.GarminActivity.TrainingEffect) : 0,
+            TotalTrainingEffect = activities.Sum(a => a.TrainingEffect),
+            MeanTrainingEffect = activities.Count != 0 ? activities.Average(a => a.TrainingEffect) : 0,
 
-            Locations = [],
-            RestDays = restDays
+            MorningActivities = morningActivityCount,
+            AfternoonActivities = afternoonActivityCount,
+            EveningActivities = eveningActivityCount,
+            NightActivities = nightActivityCount,
+        
+            Locations = locations,
+            RestDays = Math.Max(0, 7 - uniqueActiveDaysCount)
         };
     }
 }

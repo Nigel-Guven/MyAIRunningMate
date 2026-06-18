@@ -1,15 +1,25 @@
 namespace MyAIRunningMate.Contracts.Analytics.Responses;
 
 public record WeeklyInsightsResponse(
-    double RunningTimeVolume,
-    double RunningDistanceVolume,
-    double SwimmingTimeVolume,
-    double SwimmingDistanceVolume,
+    double RunningTimeSeconds,
+    double RunningMovingTimeSeconds,
+    double RunningDistanceMetres,
     double TotalRunningElevationGain,
+    double SwimmingTimeSeconds,
+    double SwimmingDistanceMetres,
+    int TotalCaloriesBurned,
     int MeanAverageHeartRate,
     int MeanMaxHeartRate,
     double TotalTrainingEffect,
     double MeanTrainingEffect,
+    int MorningActivities,
+    int AfternoonActivities,
+    int EveningActivities,
+    int NightActivities,
     IEnumerable<string> Locations,
-    int RestDays
+    int RestDays,
+    double RunningTimeBreakSeconds,
+    double ElevationIntensity,
+    double CaloricIntensity,
+    double RunningMovingEfficiency
 );

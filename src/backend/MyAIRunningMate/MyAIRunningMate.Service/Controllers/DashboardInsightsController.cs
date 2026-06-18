@@ -12,8 +12,8 @@ namespace MyAIRunningMate.Service.Controllers;
 [Route("api/dashboard")]
 public class DashboardInsightsController(IUserContext userContext, IInsightsService insightsService) : ControllerBase
 {
-    [HttpGet("volume")]
-    public async Task<ActionResult<WeeklyInsightsResponse>> GetWeeklyVolume()
+    [HttpGet("insights")]
+    public async Task<ActionResult<WeeklyInsightsResponse>> GetWeeklyInsights()
     {
         var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();

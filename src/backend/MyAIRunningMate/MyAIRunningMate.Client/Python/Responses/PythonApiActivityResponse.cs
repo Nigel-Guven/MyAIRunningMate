@@ -31,7 +31,7 @@ public record PythonApiActivityResponse(
     int MaxHeartRate,
     
     [property: JsonPropertyName("total_elevation_gain")] 
-    double TotalElevationGain,
+    double? TotalElevationGain,
     
     [property: JsonPropertyName("training_effect")] 
     double TrainingEffect,
