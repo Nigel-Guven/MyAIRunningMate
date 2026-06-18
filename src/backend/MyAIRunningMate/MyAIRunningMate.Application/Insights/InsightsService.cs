@@ -147,8 +147,6 @@ public class InsightsService(
             .ToList();
         
         var uniqueActiveDaysCount = activities.Select(a => a.StartTime.Date).Distinct().Count();
-
-        var restDays = Math.Max(0, 7 - uniqueActiveDaysCount);
         
         return new WeeklyInsights
         {

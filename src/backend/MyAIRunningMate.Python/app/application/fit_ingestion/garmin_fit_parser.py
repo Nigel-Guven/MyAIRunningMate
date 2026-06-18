@@ -60,7 +60,7 @@ def clean_fit_file(fitfile, filename: str) -> Activity:
             detected_pool_length = round(pool_len_val)
 
     if is_swim:
-        activity_data.detected_pool_length = detected_pool_length or 25
+        activity_data.detected_pool_length = detected_pool_length
 
     for session in fitfile.get_messages("session"):
         activity_data.start_time = session.get_value("start_time")
@@ -116,7 +116,7 @@ def clean_fit_file(fitfile, filename: str) -> Activity:
             average_cadence=lap.get_value("avg_cadence")
         )
 
-        if is_swim and activity_data.detected_pool_length > 0:
+        if is_swim and activity_data.detected_pool_length is not None:
             num_lengths_in_lap = int(lap_dist / activity_data.detected_pool_length)
             lap_lengths = processed_lengths[lengths_distributed : lengths_distributed + num_lengths_in_lap]
             lengths_distributed += num_lengths_in_lap
