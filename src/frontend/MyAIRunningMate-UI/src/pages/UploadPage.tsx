@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import type { IngestionViewDto } from '../types/views/ingestionView';
 import { ingestionService } from '../services/api/ingestion/ingestion.service';
+import type { IngestionViewResponse } from '../types/ingestion/ingestionViewResponse';
 
 export const UploadPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState<'idle' | 'uploading' | 'processing' | 'success' | 'error'>('idle');
-  const [result, setResult] = useState<IngestionViewDto | null>(null);
+  const [result, setResult] = useState<IngestionViewResponse | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,7 +135,9 @@ export const UploadPage = () => {
                 </div>
                 <div className="bg-black/20 p-4 rounded-2xl border border-slate-800">
                   <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Duration</p>
-                  <p className="text-white text-lg font-black italic tracking-tighter">{Math.floor(result.duration_seconds / 60)}m {result.duration_seconds % 60}s</p>
+                  <p className="text-white text-lg font-black italic tracking-tighter">
+                    {Math.floor(result.duration_seconds / 60)}m {Math.floor(result.duration_seconds % 60)}s
+                  </p>
                 </div>
                 <div className="bg-black/20 p-4 rounded-2xl border border-slate-800">
                   <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Laps</p>

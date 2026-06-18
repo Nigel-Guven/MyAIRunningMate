@@ -4,6 +4,7 @@ import type { EventViewResponse } from '../../../types/dashboard/eventViewRespon
 import type { BestEffortResponse } from '../../../types/dashboard/bestEffortResponse';
 import type { BestEffortRequest } from '../../../types/dashboard/bestEffortRequest';
 import type { WeightResponse } from '../../../types/weight/weightResponse';
+import type { WeeklyInsightsResponse } from '../../../types/dashboard/weeklyInsightsResponse';
 
 export const dashboardApi = {
   getPrimaryEvent: () =>
@@ -30,5 +31,11 @@ export const dashboardApi = {
   getLatestWeight: () =>
     http.get<WeightResponse>(
       API_ENDPOINTS.weight.latest
-    )
+    ),
+
+  getWeeklyInsights: () =>
+    http.get<WeeklyInsightsResponse>(
+      API_ENDPOINTS.dashboard.insights
+    ),
+
 };

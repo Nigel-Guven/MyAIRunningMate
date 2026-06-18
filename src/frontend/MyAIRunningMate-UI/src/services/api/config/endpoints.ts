@@ -19,7 +19,7 @@ export const API_ENDPOINTS = {
     },
 
     dashboard: {
-        volume: '/dashboard/volume',
+        insights: '/dashboard/insights',
     },
 
     events: {

@@ -12,6 +12,7 @@ const initialState: DashboardTypes = {
   upcomingEvents: [],
   bestEfforts: [],
   latestWeight: null,
+  weeklyInsights: null,
 };
 
 export const DashboardPage = () => {
@@ -64,7 +65,7 @@ export const DashboardPage = () => {
   if (loading) return <div className="p-12 text-slate-500 font-mono animate-pulse uppercase">Synchronizing Command Center...</div>;
   if (error) return <div className="p-12 text-red-400">{error}</div>;
 
-  const { primaryEvent, upcomingEvents, bestEfforts, latestWeight} = dashboard;
+  const { primaryEvent, upcomingEvents, bestEfforts, latestWeight, weeklyInsights } = dashboard;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700 pb-12">
@@ -141,33 +142,27 @@ export const DashboardPage = () => {
         <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm flex flex-col justify-between">
           <div>
             <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Weekly Volume</h4>
-            
+
             {/* Main Multi-Sport Headers */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
                 <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Total Running</p>
                 <div className="flex items-end gap-1 mt-1">
                   <span className="text-4xl font-black italic text-blue-400">
-                    --
+                    {((weeklyInsights?.running_distance_metres ?? 0) / 1000).toFixed(1)}
                   </span>
                   <span className="text-xs font-bold text-slate-500 mb-1">KM</span>
                 </div>
-                <p className="text-xs font-bold text-slate-600 font-mono">
-                  0 sessions
-                </p>
               </div>
 
               <div className="border-l border-slate-800/80 pl-4">
                 <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Total Swimming</p>
                 <div className="flex items-end gap-1 mt-1">
                   <span className="text-4xl font-black italic text-purple-400">
-                    --
+                    {weeklyInsights?.swimming_distance_metres}
                   </span>
                   <span className="text-xs font-bold text-slate-500 mb-1">M</span>
                 </div>
-                <p className="text-xs font-bold text-slate-600 font-mono">
-                  0 sessions
-                </p>
               </div>
             </div>
 
@@ -177,42 +172,43 @@ export const DashboardPage = () => {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-2 text-left">
               <div>
                 <p className="text-[9px] font-bold text-slate-600 uppercase">Elevation</p>
-                <p className="text-sm font-black text-white font-mono">0m</p>
+                <p className="text-sm font-black text-white font-mono">{weeklyInsights?.total_running_elevation_gain.toFixed(0)}m</p>
               </div>
               <div>
                 <p className="text-[9px] font-bold text-slate-600 uppercase">Avg HR</p>
                 <p className="text-sm font-black text-slate-400 font-mono">
-                  -- bpm
+                  { (weeklyInsights?.mean_average_heart_rate ?? 0) > 0 ? `${weeklyInsights?.mean_average_heart_rate} bpm` : '--'}
                 </p>
               </div>
               <div>
                 <p className="text-[9px] font-bold text-slate-600 uppercase">Training Effect</p>
                 <p className="text-sm font-black text-slate-400 font-mono">
-                  --
+                  { (weeklyInsights?.mean_training_effect ?? 0) > 0 ? weeklyInsights?.mean_training_effect.toFixed(1) : '--' }
                 </p>
               </div>
               <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Milestones</p>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Eff. Factor</p>
                 <p className="text-sm font-black text-slate-500 font-mono">
-                  No records
+                  {weeklyInsights?.running_moving_efficiency.toFixed(0)}%
                 </p>
               </div>
               <div>
                 <p className="text-[9px] font-bold text-slate-600 uppercase">Total Time</p>
                 <p className="text-sm font-black text-white font-mono">
-                  0h 0m
+                  { Math.floor(((weeklyInsights?.running_time_seconds ?? 0) + (weeklyInsights?.swimming_time_seconds ?? 0)) / 3600) }h 
+                  { Math.floor((((weeklyInsights?.running_time_seconds ?? 0) + (weeklyInsights?.swimming_time_seconds ?? 0)) % 3600) / 60) }m
                 </p>
               </div>
               <div>
                 <p className="text-[9px] font-bold text-slate-600 uppercase">Rest Days</p>
-                <p className="text-sm font-black text-emerald-400 font-mono">--</p>
+                <p className="text-sm font-black text-emerald-400 font-mono">{weeklyInsights?.rest_days}</p>
               </div>
             </div>
           </div>
 
           {/* Location Footer tag */}
-          <div className="mt-5 pt-3 border-t border-slate-800 text-[10px] text-slate-600 font-mono uppercase tracking-tight space-y-1.5">
-            Syncing Paused • Insights Deferred
+          <div className="mt-5 pt-3 border-t border-slate-800 text-[10px] text-slate-600 font-mono uppercase tracking-tight truncate">
+            {(weeklyInsights?.locations ?? []).length > 0 ? weeklyInsights?.locations.join(' • ') : 'No locations recorded'}
           </div>
         </div>
 
