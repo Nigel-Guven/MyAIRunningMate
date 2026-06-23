@@ -27,6 +27,7 @@ export const dashboardService = {
           {
             distance_label: payload.distance_label,
             new_personal_record_time: payload.new_personal_record_time,
-            new_personal_record_date: payload.new_personal_record_date});
+            new_personal_record_date: payload.new_personal_record_date
+          });
     },
 };
