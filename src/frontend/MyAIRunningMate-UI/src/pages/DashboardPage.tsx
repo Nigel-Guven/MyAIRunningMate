@@ -251,15 +251,30 @@ export const DashboardPage = () => {
 
             {/* ================= SECONDARY STATS ================= */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-3 text-left">
+
               <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Elevation Gain</p>
-                <p className="text-sm font-black text-white font-mono">
-                  {insights.total_running_elevation_gain.toFixed(0)}m
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Avg. Training Score</p>
+                <p className="text-sm font-black text-slate-400 font-mono">
+                  {insights.mean_training_effect ? insights.mean_training_effect.toFixed(1) : "--"}
                 </p>
               </div>
 
               <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Average Heart Rate</p>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Total Training Score</p>
+                <p className="text-sm font-black text-white font-mono">
+                  {insights.total_training_effect ? insights.total_training_effect.toFixed(1) : "--"}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Consistency</p>
+                <p className="text-sm font-black text-orange-400 font-mono">
+                  {insights.training_consistency_score}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Avg. Heart Rate</p>
                 <p className="text-sm font-black text-slate-400 font-mono">
                   {insights.mean_average_heart_rate ? `${insights.mean_average_heart_rate} bpm` : "--"}
                 </p>
@@ -273,51 +288,9 @@ export const DashboardPage = () => {
               </div>
 
               <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Training Score</p>
-                <p className="text-sm font-black text-slate-400 font-mono">
-                  {insights.mean_training_effect ? insights.mean_training_effect.toFixed(1) : "--"}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Total Score</p>
-                <p className="text-sm font-black text-white font-mono">
-                  {insights.total_training_effect ? insights.total_training_effect.toFixed(1) : "--"}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Calories</p>
-                <p className="text-sm font-black text-orange-400 font-mono">
-                  {insights.total_calories_burned}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Time spent resting</p>
-                <p className="text-sm font-black text-slate-500 font-mono">
-                  {(insights.running_time_break_seconds / 60).toFixed(0)}m
-                </p>
-              </div>
-
-              <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Moving Efficiency</p>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Moving %</p>
                 <p className="text-sm font-black text-slate-400 font-mono">
                   {insights.running_moving_efficiency.toFixed(0)}%
-                </p>
-              </div>
-
-              <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Caloric Intensity</p>
-                <p className="text-sm font-black text-slate-400 font-mono">
-                  {insights.caloric_intensity.toFixed(0)}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Elevation Intensity</p>
-                <p className="text-sm font-black text-slate-400 font-mono">
-                  {insights.elevation_intensity.toFixed(1)}
                 </p>
               </div>
 
@@ -329,11 +302,40 @@ export const DashboardPage = () => {
               </div>
 
               <div>
-                <p className="text-[9px] font-bold text-slate-600 uppercase">Consistency</p>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Calories</p>
                 <p className="text-sm font-black text-orange-400 font-mono">
-                  {insights.training_consistency_score}
+                  {insights.total_calories_burned}
                 </p>
               </div>
+
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Cal. Intensity</p>
+                <p className="text-sm font-black text-slate-400 font-mono">
+                  {insights.caloric_intensity.toFixed(0)}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Elev. Gain</p>
+                <p className="text-sm font-black text-white font-mono">
+                  {insights.total_running_elevation_gain.toFixed(0)}m
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Elev. Intensity</p>
+                <p className="text-sm font-black text-slate-400 font-mono">
+                  {insights.elevation_intensity.toFixed(1)}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[9px] font-bold text-slate-600 uppercase">Time on Pause</p>
+                <p className="text-sm font-black text-slate-500 font-mono">
+                  {(insights.running_time_break_seconds / 60).toFixed(0)}m
+                </p>
+              </div>
+
             </div>
           </div>
 
