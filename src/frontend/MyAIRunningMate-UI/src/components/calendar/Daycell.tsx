@@ -1,16 +1,18 @@
 import type { CalendarViewResponse } from "../../types/calendar/calendarViewResponse";
 import type { TrainingPlanEventResponse } from "../../types/nexus/trainingPlanEventResponse";
 import { ActivityTile } from "./ActivityTile";
+import { TrainingPlanTarget } from "./TrainingPlanTarget";
 
 interface DayCellProps {
   day: number;
   activities: CalendarViewResponse[];
   trainingEvent?: TrainingPlanEventResponse;
-  isToday?: boolean; // <-- Added prop definition
+  isToday?: boolean;
 }
 
-const formatDistanceKm = (metres: number) => {
-  if (metres <= 0) return '';
+// Utility Helpers
+export const formatDistanceKm = (metres: number) => {
+  if (!metres || metres <= 0) return '';
   return `${(metres / 1000).toFixed(1)}k`;
 };
 
@@ -25,38 +27,39 @@ const getExerciseEmoji = (type: string): string => {
   return '🏁';
 };
 
-export const DayCell = ({ day, activities, trainingEvent, isToday }: DayCellProps) => {
+const getCellStyles = (isToday: boolean, hasActivities: boolean, hasTarget: boolean) => {
+  if (isToday) {
+    return 'border-yellow-500/50 bg-yellow-500/[0.04] shadow-[inset_0_0_12px_rgba(234,179,8,0.05)] ring-1 ring-yellow-500/20';
+  }
+  if (hasActivities) {
+    return 'border-slate-800 bg-slate-900/40 hover:border-blue-500/50';
+  }
+  if (hasTarget) {
+    return 'border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 opacity-90';
+  }
+  return 'border-slate-900/50 bg-slate-950/20 opacity-40';
+};
+
+const getDayNumberStyles = (isToday: boolean, hasActivities: boolean, hasTarget: boolean) => {
+  if (isToday) return 'text-yellow-400 bg-yellow-400/10 px-1.5 py-0.5 rounded';
+  if (hasActivities) return 'text-slate-400';
+  if (hasTarget) return 'text-blue-400';
+  return 'text-slate-700';
+};
+
+export const DayCell = ({ day, activities, trainingEvent, isToday = false }: DayCellProps) => {
   const hasCompletedActivities = activities.length > 0;
   const isRestDay = trainingEvent?.exercise_type === 'Rest';
   const hasActiveTarget = trainingEvent && !isRestDay;
 
   return (
-    <div className={`
-      min-h-[140px] rounded-lg border p-2 transition-all group flex flex-col justify-between
-      ${isToday
-        ? 'border-yellow-500/50 bg-yellow-500/[0.04] shadow-[inset_0_0_12px_rgba(234,179,8,0.05)] ring-1 ring-yellow-500/20'
-        : hasCompletedActivities 
-          ? 'border-slate-800 bg-slate-900/40 hover:border-blue-500/50' 
-          : hasActiveTarget
-            ? 'border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 opacity-90'
-            : 'border-slate-900/50 bg-slate-950/20 opacity-40'}
-    `}>
+    <div className={`min-h-[140px] rounded-lg border p-2 transition-all group flex flex-col justify-between ${getCellStyles(isToday, hasCompletedActivities, !!hasActiveTarget)}`}>
       <div>
         {/* Day Header Row */}
         <div className="flex justify-between items-center mb-1.5">
-          <span className={`text-xs font-bold font-mono ${
-            isToday 
-              ? 'text-yellow-400 bg-yellow-400/10 px-1.5 py-0.5 rounded' 
-              : hasCompletedActivities 
-                ? 'text-slate-400' 
-                : hasActiveTarget 
-                  ? 'text-blue-400' 
-                  : 'text-slate-700'
-          }`}>
+          <span className={`text-xs font-bold font-mono ${getDayNumberStyles(isToday, hasCompletedActivities, !!hasActiveTarget)}`}>
             {day}
           </span>
-          
-          {/* Subtle Rest indicator icon */}
           {isRestDay && (
             <span className="text-[10px] text-slate-600 uppercase font-mono tracking-wider">Rest</span>
           )}
@@ -64,23 +67,11 @@ export const DayCell = ({ day, activities, trainingEvent, isToday }: DayCellProp
 
         {/* Planned Target Segment Block */}
         {hasActiveTarget && (
-          <div className="mb-2 p-1.5 rounded bg-blue-500/10 border border-blue-500/20 text-[11px] text-blue-300 leading-tight">
-            <div className="flex justify-between font-bold">
-              <span className="truncate">
-                {getExerciseEmoji(trainingEvent.exercise_type)} {trainingEvent.exercise_subtype}
-              </span>
-              {trainingEvent.distance_metres > 0 && (
-                <span className="font-mono text-[10px] bg-blue-500/20 px-1 rounded text-white flex-shrink-0">
-                  {formatDistanceKm(trainingEvent.distance_metres)}
-                </span>
-              )}
-            </div>
-            {trainingEvent.description && (
-              <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2 italic">
-                "{trainingEvent.description}"
-              </p>
-            )}
-          </div>
+          <TrainingPlanTarget 
+            trainingEvent={trainingEvent} 
+            exerciseEmoji={getExerciseEmoji(trainingEvent.exercise_type)}
+            formattedDistance={formatDistanceKm(trainingEvent.distance_metres)}
+          />
         )}
 
         {/* Logged/Completed Real Actions List */}

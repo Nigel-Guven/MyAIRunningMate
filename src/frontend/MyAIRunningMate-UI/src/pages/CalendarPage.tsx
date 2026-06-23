@@ -1,15 +1,17 @@
 import { useEffect, useState, useMemo } from 'react';
 import { calendarService } from '../services/api/calendar/calendar.service';
 import { buildCalendarMonth } from '../services/helpers/calendar.utils';
-import { DayCell } from '../components/calendar/Daycell';
+
 import type { CalendarViewResponse } from '../types/calendar/calendarViewResponse';
 import type { TrainingPlanViewResponse } from '../types/nexus/trainingPlanViewResponse';
 import type { TrainingPlanEventResponse } from '../types/nexus/trainingPlanEventResponse';
-import logo from '../assets/applogo.png';
+import { CalendarHeader } from '../components/calendar/CalendarHeader';
+import { CalendarNavigation } from '../components/calendar/CalendarNavigation';
+import { CalendarGrid } from '../components/calendar/CalendarGrid';
 
 export const CalendarPage = () => {
   const [activities, setActivities] = useState<CalendarViewResponse[]>([]);
-  const [training_plan, setTrainingPlan] = useState<TrainingPlanViewResponse | null>(null);
+  const [trainingPlan, setTrainingPlan] = useState<TrainingPlanViewResponse | null>(null);
   const [viewDate, setViewDate] = useState(() => {
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), 1);
@@ -18,7 +20,6 @@ export const CalendarPage = () => {
 
   useEffect(() => {
     let active = true;
-
     setActivities([]);
     setTrainingPlan(null);
 
@@ -34,23 +35,17 @@ export const CalendarPage = () => {
         ]);
 
         if (!active) return;
-
         setActivities(activitiesData);
         setTrainingPlan(planData);
       } catch (err) {
         console.error('Error hydrating calendar matrix data maps:', err);
       } finally {
-        if (active) {
-          setIsLoading(false);
-        }
+        if (active) setIsLoading(false);
       }
     };
 
     load();
-
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, [viewDate]);
 
   const { days, blanks, monthLabel } = useMemo(() => buildCalendarMonth(viewDate), [viewDate]);
@@ -62,34 +57,30 @@ export const CalendarPage = () => {
     activities.forEach((activity) => {
       const day = new Date(activity.start_time).getDate();
       const existing = map.get(day);
-
       if (existing) {
         existing.push(activity);
       } else {
         map.set(day, [activity]);
       }
     });
-
     return map;
   }, [activities]);
 
   const groupedTrainingEvents = useMemo(() => {
     const map = new Map<number, TrainingPlanEventResponse>();
-    if (!training_plan?.events?.length) return map;
+    if (!trainingPlan?.events?.length) return map;
 
     const currentYear = viewDate.getFullYear();
     const currentMonth = viewDate.getMonth();
 
-    training_plan.events.forEach((ev) => {
+    trainingPlan.events.forEach((ev) => {
       const eventDate = new Date(ev.event_date + 'Z');
-      
       if (eventDate.getFullYear() === currentYear && eventDate.getMonth() === currentMonth) {
         map.set(eventDate.getDate(), ev);
       }
     });
-
     return map;
-  }, [training_plan, viewDate]);
+  }, [trainingPlan, viewDate]);
 
   const navigateMonth = (direction: number) => {
     setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + direction, 1));
@@ -97,81 +88,19 @@ export const CalendarPage = () => {
 
   return (
     <div className="p-6 space-y-6">
-      {/* 1. Header Area */}
-      <div className="flex justify-between items-end border-b border-slate-800 pb-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <img src={logo} alt="Logo" className="h-14 w-14 rounded-xl shadow-lg shadow-blue-900/20" />
-            <div>
-              <h2 className="text-3xl font-black tracking-tighter uppercase italic">Activity Matrix</h2>
-              <p className="text-slate-400 font-medium">Your exercise calendar.</p>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          {training_plan && (
-            <p className="text-xs font-medium text-blue-400 mt-1 uppercase tracking-wider">
-              🏆 Active Track: {training_plan.training_plan.title}
-            </p>
-          )}
-        </div>
-
-        <div className="flex items-center gap-4 bg-slate-900 border border-slate-800 rounded-lg p-1">
-          <button
-            onClick={() => navigateMonth(-1)}
-            className="hover:bg-slate-800 p-2 rounded text-slate-400"
-          >
-            ‹
-          </button>
-          <span className="font-bold text-slate-200 min-w-[120px] text-center">{monthLabel}</span>
-          <button
-            onClick={() => navigateMonth(1)}
-            className="hover:bg-slate-800 p-2 rounded text-slate-400"
-          >
-            ›
-          </button>
-        </div>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b border-slate-800 pb-6 gap-4">
+        <CalendarHeader trainingPlan={trainingPlan} />
+        <CalendarNavigation monthLabel={monthLabel} onNavigate={navigateMonth} />
       </div>
 
-      <div
-        key={`${viewDate.getFullYear()}-${viewDate.getMonth()}`}
-        className={`grid grid-cols-7 gap-2 transition-opacity duration-300 ${
-          isLoading ? 'opacity-40 pointer-events-none' : 'opacity-100'
-        }`}
-      >
-        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-          <div
-            key={day}
-            className="text-center text-[10px] font-black text-slate-600 uppercase py-2"
-          >
-            {day}
-          </div>
-        ))}
-
-        {blanks.map((i) => (
-          <div key={`blank-${i}`} className="min-h-[140px]" />
-        ))}
-
-        {days.map((day) => {
-          const today = new Date();
-          
-          const isToday = 
-            day === today.getDate() &&
-            viewDate.getMonth() === today.getMonth() &&
-            viewDate.getFullYear() === today.getFullYear();
-
-          return (
-            <DayCell
-              key={day}
-              day={day}
-              activities={groupedActivities.get(day) || []}
-              trainingEvent={groupedTrainingEvents.get(day)}
-              isToday={isToday}
-            />
-          );
-        })}
-      </div>
+      <CalendarGrid
+        days={days}
+        blanks={blanks}
+        viewDate={viewDate}
+        isLoading={isLoading}
+        groupedActivities={groupedActivities}
+        groupedTrainingEvents={groupedTrainingEvents}
+      />
     </div>
   );
 };

@@ -15,7 +15,6 @@ const initialState: DashboardTypes = {
   weeklyInsights: null,
 };
 
-// Strong fallbacks for weekly insights to completely eliminate inline optional chaining
 const defaultWeeklyInsights = {
   running_distance_metres: 0,
   running_time_seconds: 0,

@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router";
-import { getActivityStyles } from "./styles";
-import { formatDuration } from "../../services/helpers/activity.utils";
+import { formatDistanceKm, formatDuration } from "../../services/helpers/activity.utils";
 import type { CalendarViewResponse } from "../../types/calendar/calendarViewResponse";
+import { getActivityStyles } from "../../services/helpers/calendarStyles";
 
 export const ActivityTile = ({ act }: { act: CalendarViewResponse }) => {
   const navigate = useNavigate();
   const colorClasses = getActivityStyles(act.exercise_type, act.distance_metres);
+  const formattedDistance = formatDistanceKm(act.distance_metres);
 
   return (
     <button
@@ -23,7 +24,7 @@ export const ActivityTile = ({ act }: { act: CalendarViewResponse }) => {
       {/* Main Stats: Distance & Duration */}
       <div className="flex justify-between items-baseline gap-1">
         <p className="text-xs font-bold whitespace-nowrap">
-          {(act.distance_metres / 1000).toFixed(1)}k
+          {formattedDistance || 'Logged'}
         </p>
         <p className="text-[10px] font-semibold opacity-90 tokens">
           {formatDuration(act.duration_seconds)}
