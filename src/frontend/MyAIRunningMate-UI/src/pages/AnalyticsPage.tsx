@@ -3,6 +3,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { analyticsService } from '../services/api/analytics/analytics.service';
 import { COUNTY_COLORS } from '../components/analytics/irishCountyConfig';
 import { CountyFlag } from '../components/analytics/customflags';
+import logo from '../assets/applogo.png';
+import type { AnalyticsDashboardView } from '../types/analytics/analyticsView';
 
 // 1. Define a clear structure for your location data
 interface LocationMetric {
@@ -156,21 +158,26 @@ export const AnalyticsPage = () => {
 
   return (
     <div className="space-y-8 p-6 max-w-7xl mx-auto text-slate-100">
-      <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-          Analytics Vault
-        </h2>
-        <select 
-          value={selectedYear} 
-          onChange={(e) => setSelectedYear(Number(e.target.value))}
-          className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg outline-none focus:border-indigo-500"
-        >
-          <option value={2026}>2026</option>
-          <option value={2025}>2025</option>
-          <option value={2024}>2024</option>
-        </select>
-      </div>
-      
+      {/* 1. Header Area */}
+      <div className="flex justify-between items-end border-b border-slate-800 pb-6">
+          <div className="flex items-center gap-4">
+            <img src={logo} alt="Logo" className="h-14 w-14 rounded-xl shadow-lg shadow-blue-900/20" />
+            <div>
+              <h2 className="text-3xl font-black tracking-tighter uppercase italic">Analytics Vault</h2>
+              <p className="text-slate-400 font-medium">View your yearly analytics.</p>
+            </div>
+          </div>
+          <select 
+            value={selectedYear} 
+            onChange={(e) => setSelectedYear(Number(e.target.value))}
+            className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg outline-none focus:border-indigo-500">
+            <option value={2026}>2026</option>
+            <option value={2025}>2025</option>
+            <option value={2024}>2024</option>
+          </select>
+        </div>
+        
+
       {/* Dynamic Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {statCards.map(stat => (

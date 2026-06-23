@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ingestionService } from '../services/api/ingestion/ingestion.service';
 import type { IngestionViewResponse } from '../types/ingestion/ingestionViewResponse';
+import logo from '../assets/applogo.png';
 
 export const UploadPage = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -39,15 +40,11 @@ export const UploadPage = () => {
       
       {/* 1. Header Area */}
       <div className="flex justify-between items-end border-b border-slate-800 pb-6">
-        <div>
-          <h2 className="text-4xl font-black italic text-white tracking-tighter uppercase leading-none">
-            Ingestion Lab
-          </h2>
-          <div className="flex items-center gap-3 mt-3 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 w-fit">
-            <div className="h-2 w-2 rounded-full bg-blue-500" />
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-              Telemetry Status: Operational
-            </span>
+        <div className="flex items-center gap-4">
+          <img src={logo} alt="Logo" className="h-14 w-14 rounded-xl shadow-lg shadow-blue-900/20" />
+          <div>
+            <h2 className="text-3xl font-black tracking-tighter uppercase italic">Ingestion Lab</h2>
+            <p className="text-slate-400 font-medium">Upload your .FIT  files taken from Garmin Connect.</p>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { DayCell } from '../components/calendar/Daycell';
 import type { CalendarViewResponse } from '../types/calendar/calendarViewResponse';
 import type { TrainingPlanViewResponse } from '../types/nexus/trainingPlanViewResponse';
 import type { TrainingPlanEventResponse } from '../types/nexus/trainingPlanEventResponse';
+import logo from '../assets/applogo.png';
 
 export const CalendarPage = () => {
   const [activities, setActivities] = useState<CalendarViewResponse[]>([]);
@@ -96,9 +97,19 @@ export const CalendarPage = () => {
 
   return (
     <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
+      {/* 1. Header Area */}
+      <div className="flex justify-between items-end border-b border-slate-800 pb-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <img src={logo} alt="Logo" className="h-14 w-14 rounded-xl shadow-lg shadow-blue-900/20" />
+            <div>
+              <h2 className="text-3xl font-black tracking-tighter uppercase italic">Activity Matrix</h2>
+              <p className="text-slate-400 font-medium">Your exercise calendar.</p>
+            </div>
+          </div>
+        </div>
+
         <div>
-          <h2 className="text-3xl font-bold text-white tracking-tight">Activity Matrix</h2>
           {training_plan && (
             <p className="text-xs font-medium text-blue-400 mt-1 uppercase tracking-wider">
               🏆 Active Track: {training_plan.training_plan.title}

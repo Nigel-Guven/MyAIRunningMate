@@ -3,6 +3,7 @@ import { weightService } from '../services/api/weight/weight.service';
 import { WeightChart } from '../components/weight/WeightChart';
 import { WeightForm } from '../components/weight/WeightForm';
 import type { WeightResponse } from '../types/weight/weightResponse';
+import logo from '../assets/applogo.png';
 
 export const WeightPage = () => {
   const [weights, setWeights] = useState<WeightResponse[]>([]);
@@ -52,7 +53,16 @@ export const WeightPage = () => {
 
   return (
     <div className="space-y-8 text-white">
-      <h2 className="text-3xl font-bold">Weight Vault</h2>
+      {/* 1. Header Area */}
+      <div className="flex justify-between items-end border-b border-slate-800 pb-6">
+        <div className="flex items-center gap-4">
+          <img src={logo} alt="Logo" className="h-14 w-14 rounded-xl shadow-lg shadow-blue-900/20" />
+          <div>
+            <h2 className="text-3xl font-black tracking-tighter uppercase italic">Weight Vault</h2>
+            <p className="text-slate-400 font-medium">Track your weight.</p>
+          </div>
+        </div>
+      </div>
 
       {error && (
         <div className="rounded-lg border border-red-500/20 bg-red-950/30 p-4 text-red-400 text-sm">

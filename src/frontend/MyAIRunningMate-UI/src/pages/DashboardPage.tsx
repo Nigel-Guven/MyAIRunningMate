@@ -38,6 +38,7 @@ const defaultWeeklyInsights = {
   elevation_intensity: 0,
   rest_days: 0,
   locations: [],
+  training_consistency_score: 0,
 };
 
 export const DashboardPage = () => {
@@ -109,8 +110,8 @@ export const DashboardPage = () => {
   return (
     <div className="space-y-8 animate-in fade-in duration-700 pb-12">
       
-      {/* 1. Header Section */}
-      <div className="flex items-center justify-between">
+      {/* 1. Header Area */}
+      <div className="flex justify-between items-end border-b border-slate-800 pb-6">
         <div className="flex items-center gap-4">
           <img src={logo} alt="Logo" className="h-14 w-14 rounded-xl shadow-lg shadow-blue-900/20" />
           <div>
