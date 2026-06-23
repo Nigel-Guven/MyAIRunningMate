@@ -1,12 +1,9 @@
-using System.Globalization;
-using MyAIRunningMate.Application.AggregatePage;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Application.Insights;
 
 public class InsightsService(
-    IActivityViewService activityViewService,
     IActivityRepository activityRepository)
     : IInsightsService
 {
@@ -109,7 +106,7 @@ public class InsightsService(
     private static WeeklyInsights CalculateWeeklyMetrics(List<Activity> activities)
     {
         int morningActivityCount = 0, afternoonActivityCount = 0, eveningActivityCount =0, nightActivityCount = 0;
-
+        double entropy = 0;
         foreach (var hour in activities.Select(a => a.StartTime.Hour))
         {
             switch (hour)
@@ -128,6 +125,37 @@ public class InsightsService(
                     break;
             }
         }
+        
+        var activitiesPerDay = activities
+            .GroupBy(a => a.StartTime.Date)
+            .Select(g => g.Count())
+            .ToList();
+        
+        var averageActivitiesPerDay = activitiesPerDay.Average();
+        var variance = activitiesPerDay.Average(x => Math.Pow(x - averageActivitiesPerDay, 2));
+        var standardDeviationActivitiesPerDay = Math.Sqrt(variance);
+        
+        var coefficientOfVariation = averageActivitiesPerDay == 0 ? 0 : standardDeviationActivitiesPerDay / averageActivitiesPerDay;
+
+        var distributionScore = 1.0 / (1.0 + coefficientOfVariation);
+        
+        double total = morningActivityCount + afternoonActivityCount + eveningActivityCount + nightActivityCount;
+        
+        if (total > 0)
+        {
+            double[] probs =
+            [
+                morningActivityCount / total,
+                afternoonActivityCount / total,
+                eveningActivityCount / total,
+                nightActivityCount / total
+            ];
+
+            entropy = -probs.Where(p => p > 0)
+                .Sum(p => p * Math.Log(p));
+        }
+        
+        double timeOfDayScore = entropy / Math.Log(4);
         
         var runningActivities = activities
             .Where(a => string.Equals(a.ExerciseType, "running", StringComparison.OrdinalIgnoreCase))
@@ -148,6 +176,8 @@ public class InsightsService(
         
         var uniqueActiveDaysCount = activities.Select(a => a.StartTime.Date).Distinct().Count();
         
+        var dayConsistencyScore = activities.Count == 0 ? 0 : Math.Min(1.0, uniqueActiveDaysCount / 7.0);
+        
         return new WeeklyInsights
         {
             RunningTimeSeconds = runningActivities.Sum(a => a.DurationSeconds),
@@ -165,6 +195,10 @@ public class InsightsService(
             
             TotalTrainingEffect = activities.Sum(a => a.TrainingEffect),
             MeanTrainingEffect = activities.Count != 0 ? activities.Average(a => a.TrainingEffect) : 0,
+            TrainingConsistencyScore = Math.Round(
+                (0.5 * dayConsistencyScore) + 
+                (0.3 * distributionScore) + 
+                (0.2 * timeOfDayScore),3),
 
             MorningActivities = morningActivityCount,
             AfternoonActivities = afternoonActivityCount,

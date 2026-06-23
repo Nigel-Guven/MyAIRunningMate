@@ -18,6 +18,7 @@ public static class AnalyticsDtoExtensions
             MeanMaxHeartRate: model.MeanMaxHeartRate,
             TotalTrainingEffect: model.TotalTrainingEffect,
             MeanTrainingEffect: model.MeanTrainingEffect,
+            TrainingConsistencyScore: model.TrainingConsistencyScore,
             MorningActivities: model.MorningActivities,
             AfternoonActivities: model.AfternoonActivities,
             EveningActivities: model.EveningActivities,

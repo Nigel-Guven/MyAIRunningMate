@@ -12,6 +12,7 @@ public record WeeklyInsightsResponse(
     int MeanMaxHeartRate,
     double TotalTrainingEffect,
     double MeanTrainingEffect,
+    double TrainingConsistencyScore,
     int MorningActivities,
     int AfternoonActivities,
     int EveningActivities,

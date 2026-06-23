@@ -18,6 +18,7 @@ public class WeeklyInsights
     public int MeanMaxHeartRate { get; init; }
     public double TotalTrainingEffect { get; init; }
     public double MeanTrainingEffect { get; init; }
+    public double TrainingConsistencyScore { get; init; }
     
     /* --- Activity Distribution --- */
     public int MorningActivities { get; init; }
@@ -28,7 +29,7 @@ public class WeeklyInsights
     /* --- Meta --- */
     public IEnumerable<string> Locations { get; init; } = Enumerable.Empty<string>();
     public int RestDays { get; init; }
-
+    
     /* --- Derived Insights --- */
     
     //Running Break Time

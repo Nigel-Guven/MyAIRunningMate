@@ -10,6 +10,7 @@ export interface WeeklyInsightsResponse {
   mean_max_heart_rate: number;
   total_training_effect: number;
   mean_training_effect: number;
+  training_consistency_score: number;
   morning_activities: number;
   afternoon_activities: number;
   evening_activities: number;
