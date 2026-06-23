@@ -368,7 +368,7 @@ export const DashboardPage = () => {
         {/* Schedule Summary */}
         <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
           <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Next Up</h4>
-          {upcomingEvents.slice(0, 3).map((event, i) => (
+          {upcomingEvents.map((event, i) => (
             <div key={i} className="flex items-center gap-4 mb-3 last:mb-0 p-2 rounded-xl hover:bg-white/5 transition-colors">
               <div className="text-center bg-blue-500/10 p-2 rounded-lg min-w-[45px]">
                 <p className="text-[10px] font-black text-blue-400 uppercase leading-none mb-1">
