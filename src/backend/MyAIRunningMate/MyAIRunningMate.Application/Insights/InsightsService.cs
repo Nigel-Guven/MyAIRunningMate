@@ -7,9 +7,11 @@ public class InsightsService(
     IActivityRepository activityRepository)
     : IInsightsService
 {
-    public async Task<WeeklyInsights> GetWeeklyInsights(Guid userId)
+    public async Task<WeeklyInsights> GetWeeklyInsights(Guid userId, int weekOffset)
     {
-        var activityIdsThisWeek = await activityRepository.GetCurrentWeekActivityIds(userId);
+        var weekDates = GetFirstAndLastDatesOfWeek(weekOffset); 
+        
+        var activityIdsThisWeek = await activityRepository.GetCurrentWeekActivityIds(userId, weekDates.Item1, weekDates.Item2);
 
         var aggregateTasks = activityIdsThisWeek.Select(activityId => 
             activityRepository.GetActivityByActivityId(activityId, userId)
@@ -208,5 +210,18 @@ public class InsightsService(
             Locations = locations,
             RestDays = Math.Max(0, 7 - uniqueActiveDaysCount)
         };
+    }
+
+    private static Tuple<DateTime, DateTime> GetFirstAndLastDatesOfWeek(int weekOffset)
+    {
+        var today = DateTime.UtcNow.Date;
+        
+        var diff = (7 + (today.DayOfWeek - DayOfWeek.Monday)) % 7;
+        var currentWeekStart = today.Date.AddDays(-diff);
+        
+        var targetWeekStart = currentWeekStart.AddDays(weekOffset * 7);
+        var targetWeekEnd = targetWeekStart.AddDays(7);
+        
+        return  Tuple.Create(targetWeekStart, targetWeekEnd);
     }
 }

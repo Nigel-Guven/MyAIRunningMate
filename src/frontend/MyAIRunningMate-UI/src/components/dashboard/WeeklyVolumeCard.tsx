@@ -1,11 +1,17 @@
+import { useState } from "react";
 import { formatTime } from "../../services/helpers/formatTime";
 import type { DashboardTypes } from "../../types/dashboard/dashboard.types";
 
 interface WeeklyVolumeCardProps {
   insights: NonNullable<DashboardTypes['weeklyInsights']>;
+  onPreviousWeek: () => void;
+  onNextWeek: () => void;
+  canGoNext?: boolean;
+  weekLabel: string;
 }
 
-export const WeeklyVolumeCard = ({ insights }: WeeklyVolumeCardProps) => {
+export const WeeklyVolumeCard = ({ insights, onPreviousWeek, onNextWeek, canGoNext, weekLabel }: WeeklyVolumeCardProps) => {
+  const [weekOffset, setWeekOffset] = useState(0);
   const segments = [
     { label: "Morning", count: insights.morning_activities, color: "bg-red-400" },
     { label: "Afternoon", count: insights.afternoon_activities, color: "bg-amber-400" },
@@ -16,8 +22,22 @@ export const WeeklyVolumeCard = ({ insights }: WeeklyVolumeCardProps) => {
   return (
     <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm flex flex-col justify-between">
       <div>
-        <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-5">Weekly Volume</h4>
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Weekly Volume</h4>
+            <p className="text-[10px] text-slate-600 mt-1">{weekLabel}</p>
+          </div>
 
+          <div className="flex gap-2">
+            <button onClick={onPreviousWeek} className="w-7 h-7 rounded-lg border border-slate-700 hover:border-slate-500 hover:bg-slate-800">
+              &lt;
+            </button>
+
+            <button onClick={onNextWeek} disabled={!canGoNext} className="w-7 h-7 rounded-lg border border-slate-700 disabled:opacity-40 hover:border-slate-500 hover:bg-slate-800">
+              &gt;
+            </button>
+          </div>
+        </div>
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div>
             <p className="text-[9px] font-bold text-slate-500 uppercase">Running</p>

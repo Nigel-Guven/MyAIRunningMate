@@ -13,12 +13,12 @@ namespace MyAIRunningMate.Service.Controllers;
 public class DashboardInsightsController(IUserContext userContext, IInsightsService insightsService) : ControllerBase
 {
     [HttpGet("insights")]
-    public async Task<ActionResult<WeeklyInsightsResponse>> GetWeeklyInsights()
+    public async Task<ActionResult<WeeklyInsightsResponse>> GetWeeklyInsights([FromQuery] int weekOffset = 0)
     {
         var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
         
-        var weeklyInsights = await insightsService.GetWeeklyInsights(userId);
+        var weeklyInsights = await insightsService.GetWeeklyInsights(userId, weekOffset);
 
         var dto = weeklyInsights.ToWeeklyInsightsDto();
         

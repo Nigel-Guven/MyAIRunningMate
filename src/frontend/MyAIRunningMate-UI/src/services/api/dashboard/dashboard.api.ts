@@ -33,9 +33,14 @@ export const dashboardApi = {
       API_ENDPOINTS.weight.latest
     ),
 
-  getWeeklyInsights: () =>
+  getWeeklyInsights: (offset = 0) =>
     http.get<WeeklyInsightsResponse>(
-      API_ENDPOINTS.dashboard.insights
+      API_ENDPOINTS.dashboard.insights,
+      {
+        params: {
+          weekOffset: offset,
+        },
+      }
     ),
 
 };

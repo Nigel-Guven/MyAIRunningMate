@@ -4,13 +4,13 @@ import { dashboardApi } from "./dashboard.api";
 
 
 export const dashboardService = {
-  loadDashboard: async (): Promise<DashboardTypes> => {
+  loadDashboard: async (offset: number): Promise<DashboardTypes> => {
     const results = await Promise.allSettled([
       dashboardApi.getPrimaryEvent(),
       dashboardApi.getUpcomingEvents(),
       dashboardApi.getBestEfforts(),
       dashboardApi.getLatestWeight(),
-      dashboardApi.getWeeklyInsights(),
+      dashboardApi.getWeeklyInsights(offset),
     ]);
 
     return {
@@ -22,12 +22,19 @@ export const dashboardService = {
     };
   },
     
-    updateEffort: async ( payload: BestEffortRequest ): Promise<BestEffortRequest> => {
-        return await dashboardApi.updateBestEffort(
-          {
-            distance_label: payload.distance_label,
-            new_personal_record_time: payload.new_personal_record_time,
-            new_personal_record_date: payload.new_personal_record_date
-          });
-    },
+  updateEffort: async ( payload: BestEffortRequest ): Promise<BestEffortRequest> => {
+      return await dashboardApi.updateBestEffort(
+        {
+          distance_label: payload.distance_label,
+          new_personal_record_time: payload.new_personal_record_time,
+          new_personal_record_date: payload.new_personal_record_date
+        });
+  },
+
+  getWeekLabel(offset: number) {
+    if (offset === 0) return "Current Week";
+    if (offset === -1) return "Last Week";
+
+    return `${Math.abs(offset)} Weeks Ago`;
+  },
 };

@@ -7,6 +7,7 @@ import { DashboardHeader } from '../components/dashboard/DashboardHeader';
 import { PrimaryEventHero } from '../components/dashboard/PrimaryEventHero';
 import { WeeklyVolumeCard } from '../components/dashboard/WeeklyVolumeCard';
 import { PersonalRecordsCard } from '../components/dashboard/PersonalRecordsCard';
+import { DEFAULT_WEEKLY_INSIGHTS } from '../constants/defaultWeeklyInsights';
 
 const initialState: DashboardTypes = {
   primaryEvent: null,
@@ -16,35 +17,11 @@ const initialState: DashboardTypes = {
   weeklyInsights: null,
 };
 
-const defaultWeeklyInsights = {
-  running_distance_metres: 0,
-  running_time_seconds: 0,
-  running_moving_time_seconds: 0,
-  swimming_distance_metres: 0,
-  swimming_time_seconds: 0,
-  morning_activities: 0,
-  afternoon_activities: 0,
-  evening_activities: 0,
-  night_activities: 0,
-  total_running_elevation_gain: 0,
-  mean_average_heart_rate: 0,
-  mean_max_heart_rate: 0,
-  mean_training_effect: 0,
-  total_training_effect: 0,
-  total_calories_burned: 0,
-  running_time_break_seconds: 0,
-  running_moving_efficiency: 0,
-  caloric_intensity: 0,
-  elevation_intensity: 0,
-  rest_days: 0,
-  locations: [],
-  training_consistency_score: 0,
-};
-
 export const DashboardPage = () => {
   const [dashboard, setDashboard] = useState<DashboardTypes>(initialState);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [weekOffset, setWeekOffset] = useState(0);
 
   const handleUpdateEffort = async (label: string, seconds: number) => {
     try {
@@ -54,7 +31,7 @@ export const DashboardPage = () => {
         new_personal_record_date: new Date().toISOString()
       };
       await dashboardService.updateEffort(payload);
-      const data = await dashboardService.loadDashboard();
+      const data = await dashboardService.loadDashboard(weekOffset);
       setDashboard(data);
     } catch (err) {
       console.error("Update failed", err);
@@ -62,36 +39,36 @@ export const DashboardPage = () => {
     }
   };
 
+  const loadDashboard = async (offset: number) => {
+    const localToken = authStorage.get();
+
+    if (!localToken) {
+      setError("Session initializing. Please wait...");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const data = await dashboardService.loadDashboard(offset);
+
+      setDashboard(data);
+    } catch {
+      setError("Failed to load command center.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    let isMounted = true;
-
-    const loadDashboard = async () => {
-      const localToken = authStorage.get();
-      if (!localToken) {
-        setError('Session initializing. Please wait...');
-        return;
-      }
-
-      try {
-        setLoading(true);
-        const data = await dashboardService.loadDashboard();
-        if (isMounted) setDashboard(data);
-      } catch (err) {
-        if (isMounted) setError('Failed to load command center.');
-      } {
-        if (isMounted) setLoading(false);
-      }
-    };
-    
-    loadDashboard();
-    return () => { isMounted = false; };
-  }, []);
+    loadDashboard(weekOffset);
+  }, [weekOffset]);
 
   if (loading) return <div className="p-12 text-slate-500 font-mono animate-pulse uppercase">Synchronizing Command Center...</div>;
   if (error) return <div className="p-12 text-red-400">{error}</div>;
 
   const { primaryEvent, upcomingEvents, bestEfforts, latestWeight } = dashboard;
-  const insights = dashboard.weeklyInsights || defaultWeeklyInsights;
+  const insights = dashboard.weeklyInsights || DEFAULT_WEEKLY_INSIGHTS;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700 pb-12">
@@ -100,7 +77,13 @@ export const DashboardPage = () => {
       <PrimaryEventHero primaryEvent={primaryEvent} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <WeeklyVolumeCard insights={insights} />
+        <WeeklyVolumeCard
+            insights={insights}
+            weekLabel={dashboardService.getWeekLabel(weekOffset)}
+            onPreviousWeek={() => setWeekOffset(o => o - 1)}
+            onNextWeek={() => setWeekOffset(o => Math.min(o + 1, 0))}
+            canGoNext={weekOffset < 0}
+        />
 
         {/* AI Mate (Static UI Section kept inline for brevity, or extract if preferred) */}
         <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6 flex flex-col justify-between">

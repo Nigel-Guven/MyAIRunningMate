@@ -42,25 +42,13 @@ public class ActivityRepository(Supabase.Client supabase, ITimeSeriesRecordRepos
         return result.Models.Select(entity => entity.ToDomain());
     }
 
-    public async Task<IEnumerable<Guid>> GetCurrentWeekActivityIds(Guid userId)
+    public async Task<IEnumerable<Guid>> GetCurrentWeekActivityIds(Guid userId, DateTime firstDateOfWeek,  DateTime lastDateOfWeek)
     {
-        var now = DateTime.UtcNow;
-        var daysSinceMonday = (int)now.DayOfWeek - (int)DayOfWeek.Monday;
-    
-        if (daysSinceMonday < 0)
-        {
-            daysSinceMonday += 7;
-        }
-
-        var startOfWeek = now.Date.AddDays(-daysSinceMonday);
-        var startOfWeekUtc = DateTime.SpecifyKind(startOfWeek, DateTimeKind.Utc);
-        var startOfNextWeekUtc = startOfWeekUtc.AddDays(7);
-
         var result = await _supabase
             .From<ActivityEntity>()
             .Select(x => new object[] { x.ActivityId }) 
-            .Where(x => x.StartTime >= startOfWeekUtc)
-            .Where(x => x.StartTime < startOfNextWeekUtc)
+            .Where(x => x.StartTime >= firstDateOfWeek)
+            .Where(x => x.StartTime < lastDateOfWeek)
             .Where(x => x.UserId == userId)
             .Get();
 
