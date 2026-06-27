@@ -1,5 +1,5 @@
 using MyAIRunningMate.Application.Activities;
-using MyAIRunningMate.Application.AggregatePage;
+using MyAIRunningMate.Application.Aggregate;
 using MyAIRunningMate.Application.BestEfforts;
 using MyAIRunningMate.Application.Calendar;
 using MyAIRunningMate.Application.Events;

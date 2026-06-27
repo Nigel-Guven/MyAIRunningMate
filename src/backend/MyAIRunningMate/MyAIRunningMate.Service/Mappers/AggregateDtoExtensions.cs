@@ -22,19 +22,20 @@ public static class AggregateDtoExtensions
             TrainingEffect: model.GarminActivity.TrainingEffect,
             PoolLength: model.GarminActivity.PoolLength,
             MapPolyline: model.GarminActivity.MapPolyline,
-            TimeSeriesRecords: model.GarminActivity.TimeSeriesRecords?.Select(tsr => tsr.ToTimeSeriesRecordResponseDto()).ToList(),
+            TimeSeriesRecords: model.TimeSeriesRecords.Select(tsr => tsr.ToTimeSeriesRecordResponseDto()).ToList(),
             Laps: model.Laps.Select(l => l.ToLapDto()).ToList()
         );
 
     private static TimeSeriesRecordResponse ToTimeSeriesRecordResponseDto(this TimeSeriesRecord model) => 
-        new(
-            Timestamp: model.Timestamp,
-            DistanceMetres: model.DistanceMetres,
-            HeartRate: model.HeartRate,
-            Cadence: model.Cadence,
-            Latitude: model.Latitude,
-            Longitude: model.Longitude
-        );
+        new()
+        {
+            Timestamp = model.Timestamp,
+            DistanceMetres = model.DistanceMetres,
+            HeartRate = model.HeartRate,
+            Cadence = model.Cadence,
+            Latitude = model.Latitude,
+            Longitude = model.Longitude
+        };
     
     private static LapViewResponse ToLapDto(this Lap model) => 
         new(

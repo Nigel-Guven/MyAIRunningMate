@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyAIRunningMate.Application.AggregatePage;
+using MyAIRunningMate.Application.Aggregate;
 using MyAIRunningMate.Application.User;
 using MyAIRunningMate.Contracts.Aggregates.Responses;
 using MyAIRunningMate.Service.Mappers;
@@ -14,7 +14,7 @@ public class ActivityViewController(IActivityViewService activityViewService, IU
     : ControllerBase
 {
     [HttpGet("aggregate")]
-    public async Task<ActionResult<AggregateArtifactResponse>> GetActivityView([FromQuery] Guid activityId)
+    public async Task<ActionResult<AggregateArtifactResponse>> GetAggregateActivity([FromQuery] Guid activityId)
     {
         var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
@@ -28,7 +28,7 @@ public class ActivityViewController(IActivityViewService activityViewService, IU
         {
             var aggregate = await activityViewService.CreateAggregateActivity(activityId, userId);
 
-            var dto = aggregate.ToAggregateArtifactDto();
+            var dto = aggregate?.ToAggregateArtifactDto();
             
             return Ok(dto);
         }

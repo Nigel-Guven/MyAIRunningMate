@@ -16,4 +16,16 @@ public class TimeSeriesRecordRepository(Supabase.Client supabase) : BaseReposito
         await _supabase.From<TimeSeriesRecordEntity>().Insert(entity);
         
     }
+
+    public async Task<IEnumerable<TimeSeriesRecord>> GetTimeSeriesRecordsByActivityId(Guid activityId)
+    {
+        var result = await _supabase
+            .From<TimeSeriesRecordEntity>() 
+            .Where(x => x.ActivityId == activityId)
+            .Limit(1) 
+            .Get();
+        
+        var entity = result.Models.FirstOrDefault();
+        return entity == null ? [] : TimeSeriesRecordEntityMapper.ToModel(entity);
+    }
 }

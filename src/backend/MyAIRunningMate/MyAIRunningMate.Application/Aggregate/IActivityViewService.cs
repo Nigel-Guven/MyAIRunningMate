@@ -1,6 +1,6 @@
 using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Application.AggregatePage;
+namespace MyAIRunningMate.Application.Aggregate;
 
 public interface IActivityViewService
 {

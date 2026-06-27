@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace MyAIRunningMate.Contracts.Aggregates.Responses;
 
 public record AggregateArtifactResponse(
@@ -16,6 +18,6 @@ public record AggregateArtifactResponse(
     double TrainingEffect,
     int? PoolLength,
     string? MapPolyline,
-    IReadOnlyCollection<TimeSeriesRecordResponse>? TimeSeriesRecords,
+    IEnumerable<TimeSeriesRecordResponse>? TimeSeriesRecords,
     IEnumerable<LapViewResponse> Laps
 );

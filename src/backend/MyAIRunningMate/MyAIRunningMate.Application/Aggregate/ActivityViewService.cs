@@ -2,11 +2,12 @@ using MyAIRunningMate.Application.Activities;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Models;
 
-namespace MyAIRunningMate.Application.AggregatePage;
+namespace MyAIRunningMate.Application.Aggregate;
 
 public class ActivityViewService(
     IActivityService activityService,
-    ILapRepository lapRepo)
+    ILapRepository lapRepo,
+    ITimeSeriesRecordRepository timeSeriesRepo)
     : IActivityViewService
 {
     public async Task<AggregateArtifact?> CreateAggregateActivity(Guid activityId, Guid userId)
@@ -17,6 +18,8 @@ public class ActivityViewService(
         
         var laps = await lapRepo.GetAllLapsByActivityId(activity.ActivityId);
         
-        return new AggregateArtifact( activity, laps);;
+        var timeSeriesRecords = await timeSeriesRepo.GetTimeSeriesRecordsByActivityId(activity.ActivityId);
+        
+        return new AggregateArtifact( activity, laps, timeSeriesRecords);
     }
 }
