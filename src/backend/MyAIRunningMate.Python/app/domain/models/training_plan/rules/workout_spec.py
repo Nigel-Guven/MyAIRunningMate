@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict
-from app.domain.models.enums.workout_types import WorkoutType
-from app.domain.models.enums.load_category import LoadCategory
+from app.domain.models.training_plan.enums.workout_types import WorkoutType
+from app.domain.models.training_plan.enums.load_category import LoadCategory
 
 
 @dataclass

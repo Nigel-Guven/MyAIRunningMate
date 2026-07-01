@@ -1,6 +1,6 @@
 fastapi 
 uvicorn 
-fitparse
+python-fitparse
 python-multipart
 pydantic
 google-genai

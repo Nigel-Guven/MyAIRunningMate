@@ -1,11 +1,11 @@
 import datetime
 
-from app.schemas.training_plan_request_schema import TrainingPlanRequest
+from app.schemas.training_plan.training_plan_request_schema import TrainingPlanRequest
 from app.application.training_plan.week_resolution_service import generate_week_plan
 from app.application.training_plan.plan_post_processor import post_process_week, build_response
-from app.domain.models.rules.workout_spec import WORKOUT_SPECS
-from app.domain.models.rules.plan_structure import build_plan_structure
-from app.domain.models.phase import get_phase
+from app.domain.models.training_plan.rules.workout_spec import WORKOUT_SPECS
+from app.domain.models.training_plan.rules.plan_structure import build_plan_structure
+from app.domain.models.training_plan.phase import get_phase
 
 
 

@@ -10,12 +10,12 @@ cleanup() {
 
 trap cleanup EXIT INT TERM
 
-echo "Starting Frontend..."
-(
-    cd "$ROOT/src/frontend/MyAIRunningMate-UI" || exit 1
-    npm run dev
-) &
-FRONTEND_PID=$!
+#echo "Starting Frontend..."
+#(
+#    cd "$ROOT/src/frontend/MyAIRunningMate-UI" || exit 1
+#    npm run dev
+#) &
+#FRONTEND_PID=$!
 
 echo "Starting Python API..."
 (
@@ -25,12 +25,12 @@ echo "Starting Python API..."
 ) &
 PYTHON_PID=$!
 
-echo "Starting C# API..."
-(
-    cd "$ROOT/src/backend/MyAIRunningMate" || exit 1
-    dotnet run --project MyAIRunningMate.Service
-) &
-DOTNET_PID=$!
+#echo "Starting C# API..."
+#(
+#    cd "$ROOT/src/backend/MyAIRunningMate" || exit 1
+#    dotnet run --project MyAIRunningMate.Service
+#) &
+#DOTNET_PID=$!
 
 echo ""
 echo "Services started:"

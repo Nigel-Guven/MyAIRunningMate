@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from typing import List
-from app.domain.models.phase import Phase
-from app.domain.models.phase_constraints import PhaseConstraints
-from app.domain.models.enums.phase_enums import PhaseName
-from app.domain.models.enums.phase_enums import PhaseFocus
-from app.domain.models.enums.workout_types import WorkoutType
+from app.domain.models.training_plan.phase import Phase
+from app.domain.models.training_plan.phase_constraints import PhaseConstraints
+from app.domain.models.training_plan.enums.phase_enums import PhaseName
+from app.domain.models.training_plan.enums.phase_enums import PhaseFocus
+from app.domain.models.training_plan.enums.workout_types import WorkoutType
 
 
 DEFAULT_PLAN_WEEKS = 8

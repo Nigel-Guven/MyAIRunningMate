@@ -2,7 +2,7 @@ import string
 from typing import List
 
 from pydantic import BaseModel
-from app.schemas.activity_summary_schema import ActivitySummarySchema
+from app.schemas.training_plan.activity_summary_schema import ActivitySummarySchema
 
 
 class TrainingPlanRequest(BaseModel):

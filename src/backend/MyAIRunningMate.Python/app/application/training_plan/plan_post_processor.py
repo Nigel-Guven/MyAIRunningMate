@@ -1,6 +1,6 @@
 import datetime
-from app.domain.models.phase import PhaseName
-from app.domain.models.enums.workout_types import WorkoutType
+from app.domain.models.training_plan.phase import PhaseName
+from app.domain.models.training_plan.enums.workout_types import WorkoutType
 
 def post_process_week(week_result, workout_specs, phase, request, week_num):
     validated_events = []
