@@ -6,76 +6,70 @@ public record Activity
     public Guid UserId { get; init; }
     public string GarminActivityId { get; init; }
     public DateTime StartTime { get; init; }
+    public int BeginningBodyBattery { get; init; }
+    public int BeginningBodyPotential { get; init; }
+    public int EndingBodyBattery { get; init; }
+    public int EndingPotential { get; init; }
+    public int? TotalAscent { get; init; }
+    public int? TotalDescent { get; init; }
+    public double RecoveryTime { get; init; }
     public string ExerciseType { get; init; }
-    public double DurationSeconds { get; init; }
-    public double MovingTimeSeconds { get; init; }
-    public double DistanceMetres { get; init; }
-    public int Calories { get; init; }
-    public int AverageHeartRate { get; init; }
-    public int MaxHeartRate { get; init; }
-    public double? TotalElevationGain { get; init; }
-    public double TrainingEffect { get; init; }
-    public double? RawPaceSecondsPerMetre { get; init; }
-    public int? PoolLength { get; init; }
+    public string ExerciseSubType { get; init; }
+    public string ExerciseName { get; init; }
+    public double UserVolumetricOxygenMax { get; init; }
+    public int UserMaxHeartRate { get; init; }
+    public double UserLactateThresholdHeartRate { get; init; }
+    public double UserLactateThresholdPower { get; init; }
+    public double UserLactateThresholdSpeed { get; init; }
+    public int NumberOfLaps { get; init; }
     public string? Location { get; init; }
     public string? MapPolyline { get; init; }
-    public IReadOnlyCollection<TimeSeriesRecord>? TimeSeriesRecords { get; init; }
 
     public Activity(
         Guid activityId,
         Guid userId,
         string garminActivityId,
         DateTime startTime,
+        int beginningBodyBattery,
+        int beginningBodyPotential,
+        int endingBodyBattery,
+        int endingPotential,
+        double recoveryTime,
         string exerciseType,
-        double durationSeconds,
-        double movingTimeSeconds,
-        double distanceMetres,
-        int calories,
-        int averageHeartRate,
-        int maxHeartRate,
-        double? totalElevationGain,
-        double trainingEffect,
-        double? rawPaceSecondsPerMetre,
-        int? poolLength,
-        string? location,
-        string? mapPolyline,
-        IEnumerable<TimeSeriesRecord>? timeSeriesRecords)
+        string exerciseSubType,
+        string exerciseName,
+        double userVolumetricOxygenMax,
+        int userMaxHeartRate,
+        double userLactateThresholdHeartRate,
+        double userLactateThresholdPower,
+        double userLactateThresholdSpeed,
+        int numberOfLaps,
+        int? totalAscent = null,
+        int? totalDescent = null,
+        string? location = null,
+        string? mapPolyline = null)
     {
-        if (durationSeconds <= 0)
-            throw new ArgumentException("Activity duration must be greater than zero seconds.", nameof(durationSeconds));
-
-        if (averageHeartRate < 0 || maxHeartRate < 0)
-            throw new ArgumentException("Heart rate metrics cannot be negative values.", nameof(averageHeartRate));
-
-        if (maxHeartRate < averageHeartRate)
-            throw new ArgumentException("Maximum heart rate cannot be lower than the calculated average heart rate.", nameof(maxHeartRate));
-
-        if (distanceMetres is < 0)
-            throw new ArgumentException("Tracked distance cannot be a negative value.", nameof(distanceMetres));
-        
         ActivityId = activityId;
         UserId = userId;
         GarminActivityId = garminActivityId;
         StartTime = startTime;
+        BeginningBodyBattery = beginningBodyBattery;
+        BeginningBodyPotential = beginningBodyPotential;
+        EndingBodyBattery = endingBodyBattery;
+        EndingPotential = endingPotential;
+        TotalAscent = totalAscent;
+        TotalDescent = totalDescent;
+        RecoveryTime = recoveryTime;
         ExerciseType = exerciseType;
-        DurationSeconds = durationSeconds;
-        MovingTimeSeconds = movingTimeSeconds;
-        DistanceMetres = distanceMetres;
-        Calories = calories;
-        AverageHeartRate = averageHeartRate;
-        MaxHeartRate = maxHeartRate;
-        TotalElevationGain = totalElevationGain;
-        RawPaceSecondsPerMetre = rawPaceSecondsPerMetre;
-        TrainingEffect = trainingEffect;
-        PoolLength = poolLength;
+        ExerciseSubType = exerciseSubType;
+        ExerciseName = exerciseName;
+        UserVolumetricOxygenMax = userVolumetricOxygenMax;
+        UserMaxHeartRate = userMaxHeartRate;
+        UserLactateThresholdHeartRate = userLactateThresholdHeartRate;
+        UserLactateThresholdPower = userLactateThresholdPower;
+        UserLactateThresholdSpeed = userLactateThresholdSpeed;
+        NumberOfLaps = numberOfLaps;
         Location = location;
         MapPolyline = mapPolyline;
-        
-        TimeSeriesRecords = timeSeriesRecords switch
-        {
-            null => [],
-            IReadOnlyCollection<TimeSeriesRecord> readOnly => readOnly,
-            _ => timeSeriesRecords.ToList().AsReadOnly()
-        };
     }
 }

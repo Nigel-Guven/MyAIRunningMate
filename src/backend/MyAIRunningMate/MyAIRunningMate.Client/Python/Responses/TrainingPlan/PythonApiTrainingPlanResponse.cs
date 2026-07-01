@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MyAIRunningMate.Client.Python.Responses;
+namespace MyAIRunningMate.Client.Python.Responses.TrainingPlan;
 
 public record PythonApiTrainingPlanResponse(
     [property: JsonPropertyName("title")] 

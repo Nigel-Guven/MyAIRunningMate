@@ -1,36 +1,55 @@
-namespace MyAIRunningMate.Domain.Models;
+using System;
 
 public record BestEffort
 {
-    public long BestEffortId { get; init; }
+    public Guid ActivityId { get; init; }
+    public Guid BestEffortId { get; init; }
     public Guid UserId { get; init; }
-    public int DistanceMetres { get; init; }
-    public string DistanceLabel { get; init; }
+    public string ExerciseType { get; init; }
+    public int EffortDistanceMetres { get; init; }
+    public string EffortDistanceLabel => ResolveDistanceLabel(EffortDistanceMetres);
     public int? TimeAchievement { get; init; }
-    public DateTime? AchievementDate { get; init; }
+    public bool IsPersonalRecord { get; init; }
 
     public BestEffort(
-        long bestEffortId, 
+        Guid activityId, 
+        Guid bestEffortId,
         Guid userId, 
-        int distanceMetres, 
-        string distanceLabel, 
-        int? timeAchievement, 
-        DateTime? achievementDate)
+        string exerciseType,
+        int effortDistanceMetres, 
+        int? timeAchievement,
+        bool isPersonalRecord = false)
     {
-        if (distanceMetres <= 0)
-            throw new ArgumentException("Distance in metres must be greater than zero.", nameof(distanceMetres));
+        if (effortDistanceMetres <= 0)
+            throw new ArgumentException("Distance in metres must be greater than zero.", nameof(effortDistanceMetres));
 
-        if (string.IsNullOrWhiteSpace(distanceLabel))
-            throw new ArgumentException("Distance label cannot be empty.", nameof(distanceLabel));
+        if (string.IsNullOrWhiteSpace(exerciseType))
+            throw new ArgumentException("Exercise type cannot be empty.", nameof(exerciseType));
 
-        if (timeAchievement.HasValue && timeAchievement.Value <= 0)
+        if (timeAchievement is <= 0)
             throw new ArgumentException("Time achievement seconds must be greater than zero.", nameof(timeAchievement));
 
+        ActivityId = activityId;
         BestEffortId = bestEffortId;
         UserId = userId;
-        DistanceMetres = distanceMetres;
-        DistanceLabel = distanceLabel;
+        ExerciseType = exerciseType;
+        EffortDistanceMetres = effortDistanceMetres;
         TimeAchievement = timeAchievement;
-        AchievementDate = achievementDate;
+        IsPersonalRecord = isPersonalRecord;
     }
+
+    private static string ResolveDistanceLabel(int distanceMetres) =>
+        distanceMetres switch
+        {
+            100   => "100 Metre",
+            400   => "400 Metre",
+            750   => "750 Metre",
+            1000  => "1km",
+            1500  => "1500 Metre",
+            1609  => "1 mile",
+            5000  => "5k",
+            10000 => "10k",
+            21098 => "Half Marathon",
+            _     => $"{distanceMetres}m" // Fallback for unmatched distances
+        };
 }

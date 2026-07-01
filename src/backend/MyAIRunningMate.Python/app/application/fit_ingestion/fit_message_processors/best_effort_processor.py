@@ -13,7 +13,6 @@ def process_best_effort_messages(fitfile):
         raw_pr   = entity.get_value(5)
         
         best_effort_data = BestEffort(
-            best_effort_timestamp = entity.get_value(253),
             best_effort_distance_metres = (raw_dist / 100.0) if raw_dist is not None else None,
             best_effort_time_seconds = (raw_time / 1000.0) if raw_time is not None else None,
             best_effort_is_personal_record = (raw_pr == 1)

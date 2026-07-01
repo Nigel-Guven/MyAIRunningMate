@@ -1,5 +1,7 @@
 using MyAIRunningMate.Client.Geocoder.Extensions;
 using MyAIRunningMate.Client.Python.Responses;
+using MyAIRunningMate.Client.Python.Responses.Ingestion;
+using MyAIRunningMate.Client.Python.Responses.TrainingPlan;
 using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Client.Python;

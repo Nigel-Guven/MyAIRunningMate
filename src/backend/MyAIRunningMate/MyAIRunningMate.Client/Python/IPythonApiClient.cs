@@ -1,4 +1,3 @@
-using MyAIRunningMate.Client.Python.Requests;
 using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Client.Python;
