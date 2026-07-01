@@ -3,9 +3,6 @@ using System.Text.Json.Serialization;
 namespace MyAIRunningMate.Client.Python.Responses.Ingestion;
 
 public record PythonBestEffortResponse(
-    [property: JsonPropertyName("best_effort_timestamp")] 
-    DateTime EffortStartingTime,
-    
     [property: JsonPropertyName("best_effort_distance_metres")] 
     double EffortDistanceMetres,
     

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace MyAIRunningMate.Client.Python.Responses.Ingestion;
 
-public record PythonApiLapResponse(
+public record PythonLapResponse(
     [property: JsonPropertyName("lap_number")]
     int LapNumber,
     

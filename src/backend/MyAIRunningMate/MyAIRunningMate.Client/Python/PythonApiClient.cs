@@ -11,7 +11,7 @@ namespace MyAIRunningMate.Client.Python;
 
 public class PythonApiClient(HttpClient httpClient, IGeocodeClient geocodeClient) : IPythonApiClient
 {
-    public async Task<(Activity Activity, IEnumerable<Lap> Laps)> UploadFitFileAsync(Stream fileStream, string fileName, Guid userId)
+    public async Task<AggregateArtifact> UploadFitFileAsync(Stream fileStream, string fileName, Guid userId)
     {
         using var form = new MultipartFormDataContent();
         using var streamContent = new StreamContent(fileStream);
@@ -57,7 +57,7 @@ public class PythonApiClient(HttpClient httpClient, IGeocodeClient geocodeClient
             resolvedLocation = $"Indoor Pool ({result.ActivitySessions.First().SessionPoolLength}m)";
         }
         
-        return result?.ToDomain(userId, mapPolyline, resolvedLocation) ?? throw new InvalidOperationException("Python Ingestion Service returned an empty or invalid payload response.");
+        return result?.ToAggregateArtifact(userId, mapPolyline, resolvedLocation) ?? throw new InvalidOperationException("Python Ingestion Service returned an empty or invalid payload response.");
     }
     
     public async Task<(TrainingPlan TrainingPlan, IEnumerable<TrainingPlanEvent> Events)> GenerateTrainingPlanAsync(
@@ -71,18 +71,19 @@ public class PythonApiClient(HttpClient httpClient, IGeocodeClient geocodeClient
         Guid userId)
     {
 
-        var formattedActivities = activityHistory.Select(act 
-            => new PythonApiActivity(
-                ExerciseType: act.ExerciseType,
-                StartTime: act.StartTime,
-                DurationSeconds: act.DurationSeconds,
-                DistanceMetres: act.DistanceMetres,
-                AverageHeartRate: act.AverageHeartRate,
-                MaxHeartRate: act.MaxHeartRate,
-                TotalElevationGain: act.TotalElevationGain,
-                RawPaceSecondsPerMetre: act.RawPaceSecondsPerMetre,
-                TrainingEffect: act.TrainingEffect
-                ));
+        var formattedActivities = Enumerable.Empty<PythonApiActivity>();
+        //activityHistory.Select(act 
+           // => new PythonApiActivity(
+             //   ExerciseType: act.ExerciseType,
+               // StartTime: act.StartTime,
+                //DurationSeconds: act.,
+                //: act.DistanceMetres,
+                //AverageHeartRate: act.AverageHeartRate,
+                //MaxHeartRate: act.MaxHeartRate,
+                //TotalElevationGain: act.TotalElevationGain,
+                //RawPaceSecondsPerMetre: act.RawPaceSecondsPerMetre,
+                //TrainingEffect: act.TrainingEffect
+                //));
         
         var requestPayload = new PythonApiTrainingPlanRequest(
             PrimaryGoal: primaryGoal,

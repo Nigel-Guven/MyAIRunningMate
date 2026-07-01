@@ -4,7 +4,7 @@ namespace MyAIRunningMate.Client.Python;
 
 public interface IPythonApiClient
 {
-    Task<(Activity Activity, IEnumerable<Lap> Laps)> UploadFitFileAsync(Stream fileStream, string fileName, Guid userId);
+    Task<AggregateArtifact> UploadFitFileAsync(Stream fileStream, string fileName, Guid userId);
 
     Task<(TrainingPlan TrainingPlan, IEnumerable<TrainingPlanEvent> Events)> GenerateTrainingPlanAsync(
         string primaryGoal,

@@ -22,8 +22,8 @@ public record PythonApiActivityResponse(
     IEnumerable<PythonBestEffortResponse>? ActivityBestEfforts,
     
     [property: JsonPropertyName("laps")] 
-    IEnumerable<PythonApiLapResponse> ActivityLaps,
+    IEnumerable<PythonLapResponse> ActivityLaps,
     
     [property: JsonPropertyName("time_series")] 
-    IEnumerable<PythonApiTimeSeriesResponse>? ActivityTimeSeries
+    IEnumerable<PythonTimeSeriesResponse>? ActivityTimeSeries
 );

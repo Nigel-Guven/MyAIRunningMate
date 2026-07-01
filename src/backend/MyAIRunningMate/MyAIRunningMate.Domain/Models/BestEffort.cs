@@ -6,9 +6,9 @@ public record BestEffort
     public Guid BestEffortId { get; init; }
     public Guid UserId { get; init; }
     public string ExerciseType { get; init; }
-    public int EffortDistanceMetres { get; init; }
-    public string EffortDistanceLabel => ResolveDistanceLabel(EffortDistanceMetres);
-    public int? TimeAchievement { get; init; }
+    public double EffortDistanceMetres { get; init; }
+    public string EffortDistanceLabel => ResolveDistanceLabel((int)EffortDistanceMetres);
+    public double? TimeAchievement { get; init; }
     public bool IsPersonalRecord { get; init; }
 
     public BestEffort(
@@ -16,8 +16,8 @@ public record BestEffort
         Guid bestEffortId,
         Guid userId, 
         string exerciseType,
-        int effortDistanceMetres, 
-        int? timeAchievement,
+        double effortDistanceMetres, 
+        double? timeAchievement,
         bool isPersonalRecord = false)
     {
         if (effortDistanceMetres <= 0)

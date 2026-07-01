@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace MyAIRunningMate.Client.Python.Responses.Ingestion;
 
-public record PythonApiTimeSeriesResponse(
+public record PythonTimeSeriesResponse(
     [property: JsonPropertyName("tsr_timestamp")]
     DateTime TsrTimeStamp,
     

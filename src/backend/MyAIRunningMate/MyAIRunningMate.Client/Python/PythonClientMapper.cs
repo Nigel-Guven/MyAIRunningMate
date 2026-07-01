@@ -1,5 +1,4 @@
-using MyAIRunningMate.Client.Geocoder.Extensions;
-using MyAIRunningMate.Client.Python.Responses;
+using MyAIRunningMate.Client.Helpers;
 using MyAIRunningMate.Client.Python.Responses.Ingestion;
 using MyAIRunningMate.Client.Python.Responses.TrainingPlan;
 using MyAIRunningMate.Domain.Models;
@@ -8,58 +7,40 @@ namespace MyAIRunningMate.Client.Python;
 
 public static class PythonClientMapper
 {
-    public static (Activity Activity, IEnumerable<Lap> Laps) ToDomain(
+    public static AggregateArtifact ToAggregateArtifact(
         this PythonApiActivityResponse response, 
         Guid userId,
         string? mapPolyline,
         string? location)
     {
         var activityId = Guid.NewGuid();
-        
-        var timeSeriesRecords = response.TimeSeries.Select(ts => new TimeSeriesRecord(
-            timestamp: ts.TimeStamp,
-            distanceMetres: ts.DistanceMetres,
-            heartRate: ts.HeartRate,
-            cadence: ts.Cadence,
-            latitude: ts.Latitude,
-            longitude: ts.Longitude
-        )).ToList();
-        
-        var activity = new Activity(
-            activityId: activityId,
-            userId: userId,
-            garminActivityId: response.GarminId,
-            startTime: response.StartTime,
-            exerciseType: response.Type,
-            durationSeconds: response.DurationSeconds,
-            movingTimeSeconds: response.MovingTimeSeconds,
-            distanceMetres: response.DistanceMetres,
-            calories: response.Calories,
-            averageHeartRate: response.AverageHeartRate,
-            maxHeartRate: response.MaxHeartRate,
-            rawPaceSecondsPerMetre: response.RawPaceSecondsPerMetre,
-            totalElevationGain: response.TotalElevationGain,
-            trainingEffect: response.TrainingEffect,
-            poolLength: response.PoolLength,
-            location: location,
-            mapPolyline: mapPolyline,
-            timeSeriesRecords: timeSeriesRecords
-        );
 
-        var laps = response.Laps.Select(l => new Lap(
-            lapId: Guid.NewGuid(),
-            activityId: activityId,
-            lapNumber: l.LapNumber,
-            distanceMetres: l.DistanceMetres,
-            durationSeconds: l.DurationSeconds,
-            averageHeartRate: l.AverageHeartRate,
-            averageSpeed: l.AverageSpeed,
-            averageCadence: l.AverageCadence,
-            primaryStroke: l.PrimaryStroke,
-            averageSwolf: l.AverageSwolf
-        ));
+        var activity = ClientToDomainMapperFactory.ToDomainActivity(
+            response.ActivityMetricsResponse, 
+            response.ActivityUserMetricsResponse,
+            response.ActivitySport, 
+            activityId, 
+            userId, 
+            response.ActivityGarminId, 
+            location, 
+            mapPolyline);
+        
+        var activityMetrics = response.ActivitySessions.Select(sesh =>
+            ClientToDomainMapperFactory.ToDomainActivityMetrics(sesh, activityId));
 
-        return (activity, laps);
+        var timeSeriesRecords = response.ActivityTimeSeries?.Select(ClientToDomainMapperFactory.ToDomainTimeSeriesRecord);
+        
+        var laps = response.ActivityLaps.Select(lap => ClientToDomainMapperFactory.ToDomainLap(lap, activityId));
+        
+        var bestEfforts = response.ActivityBestEfforts?.Select(be => 
+            ClientToDomainMapperFactory.ToDomainBestEffort(be, activityId, userId, activity.ExerciseType ));
+
+        return new AggregateArtifact(
+            GarminActivity: activity,
+            GarminActivityMetrics: activityMetrics,
+            Laps: laps,
+            TimeSeriesRecords: timeSeriesRecords,
+            BestEfforts: bestEfforts);
     }
 
     public static (TrainingPlan TrainingPlan, IEnumerable<TrainingPlanEvent> Events) ToDomain(this PythonApiTrainingPlanResponse response, Guid userId)
