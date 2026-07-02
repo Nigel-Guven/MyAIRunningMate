@@ -25,12 +25,12 @@ public class InsightsService(
 
         return validActivities.Count switch
         {
-            0 => new WeeklyInsights
+            _ => new WeeklyInsights
             {
                 Locations = [],
                 RestDays = 7
             },
-            _ => CalculateWeeklyMetrics(validActivities)
+            //_ => CalculateWeeklyMetrics(validActivities)
         };
     }
 
@@ -104,7 +104,7 @@ public class InsightsService(
         
             return (yearlySummary, weeklyVolumes);
         }*/
-    
+    /*
     private static WeeklyInsights CalculateWeeklyMetrics(List<Activity> activities)
     {
         int morningActivityCount = 0, afternoonActivityCount = 0, eveningActivityCount =0, nightActivityCount = 0;
@@ -211,7 +211,7 @@ public class InsightsService(
             RestDays = Math.Max(0, 7 - uniqueActiveDaysCount)
         };
     }
-
+*/
     private static Tuple<DateTime, DateTime> GetFirstAndLastDatesOfWeek(int weekOffset)
     {
         var today = DateTime.UtcNow.Date;

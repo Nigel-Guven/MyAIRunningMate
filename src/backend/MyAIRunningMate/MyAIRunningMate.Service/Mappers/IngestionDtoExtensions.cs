@@ -5,15 +5,15 @@ namespace MyAIRunningMate.Service.Mappers;
 
 public static class IngestionDtoExtensions
 {
-    public static IngestionViewResponse ToResponse(this Activity model, int numberOfLaps, string status) =>
+    public static IngestionViewResponse ToResponse(this Activity model, string status) =>
         new(
             GarminActivityId: model.GarminActivityId,
             StartTime: model.StartTime,
             ExerciseType: model.ExerciseType,
-            DurationSeconds: model.DurationSeconds,
-            DistanceMetres: model.DistanceMetres,
-            TrainingEffect: model.TrainingEffect,
-            NumberOfLaps: numberOfLaps,
+            EndingBodyBattery: model.EndingBodyBattery,
+            EndingPotential: model.EndingPotential,
+            RecoveryTime: model.RecoveryTime,
+            NumberOfLaps: model.NumberOfLaps,
             ActivityStatus: status
         );
 }

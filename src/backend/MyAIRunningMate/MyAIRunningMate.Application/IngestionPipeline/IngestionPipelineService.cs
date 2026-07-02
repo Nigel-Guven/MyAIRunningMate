@@ -11,21 +11,31 @@ public class IngestionPipelineService(
     IActivityService activityService)
     : IIngestionPipelineService
 {
-    public async Task<(Activity activity, int numberOfLaps, string status)> ProcessFitFileAsync(IFormFile file, Guid userId)
+    public async Task<(Activity activity, string status)> ProcessFitFileAsync(IFormFile file, Guid userId)
     {
         await using var stream = file.OpenReadStream();
-        var (activity, laps) = await pythonApiClient.UploadFitFileAsync(stream, file.FileName, userId);
-
-        var numberOfLaps = laps.Count();
+        var aggregateArtifact = await pythonApiClient.UploadFitFileAsync(stream, file.FileName, userId);
         
-        if (await activityService.CheckDuplicateAsync(activity.GarminActivityId, userId))
+        if (await activityService.CheckDuplicateAsync(aggregateArtifact.GarminActivity.GarminActivityId, userId))
         {
-            return (activity, numberOfLaps, IngestionStatus.ActivityExists);
+            return (aggregateArtifact.GarminActivity, IngestionStatus.ActivityExists);
         }
         
-        await activityService.SaveActivityAndLaps(activity, laps, userId);
+        await activityService.SaveActivity(aggregateArtifact.GarminActivity);
+        await activityService.SaveLaps(aggregateArtifact.Laps);
+        await activityService.SaveActivityMetrics(aggregateArtifact.GarminActivityMetrics);
 
-        return (activity, numberOfLaps, IngestionStatus.ActivityIngested);
+        if (aggregateArtifact.BestEfforts != null)
+        {
+            await activityService.SaveBestEfforts(aggregateArtifact.BestEfforts);
+        }
+        
+        if (aggregateArtifact.TimeSeriesRecords != null)
+        {
+            await activityService.SaveTimeSeriesRecords(aggregateArtifact.TimeSeriesRecords, aggregateArtifact.GarminActivity.ActivityId);
+        }
+        
+        return (aggregateArtifact.GarminActivity, IngestionStatus.ActivityIngested);
         
     }
 }

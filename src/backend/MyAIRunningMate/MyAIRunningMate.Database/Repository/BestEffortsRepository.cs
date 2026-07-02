@@ -1,7 +1,6 @@
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Database.Mappers;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
-using MyAIRunningMate.Domain.Models;
 using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
@@ -21,16 +20,14 @@ public class BestEffortsRepository(Supabase.Client supabase) : BaseRepository<Be
         return entities.Models.Select(entity => entity.ToDomain());
     }
 
-    public async Task UpdateBestEffort(string distanceLabel, DateTime newDate, int newTime, Guid userId)
+    public Task UpdateBestEffort(string distanceLabel, DateTime newDate, int newTime, Guid userId) => throw new NotImplementedException();
+    
+    public async Task InsertBestEfforts(IEnumerable<BestEffort> bestEfforts)
     {
-        var cleanLabel = distanceLabel?.Trim();
-
-        await _supabase
-            .From<BestEffortEntity>()
-            .Where(x => x.UserId == userId)
-            .Where(x => x.DistanceLabel == cleanLabel)
-            .Set(x => x.TimeAchievement, newTime)
-            .Set(x => x.AchievementDate, newDate)
-            .Update();
+        var entities = bestEfforts.Select(am => am.ToEntity());
+        
+        var tasks = entities.Select(entity => _supabase.From<BestEffortEntity>().Insert(entity));
+    
+        await Task.WhenAll(tasks);
     }
 }

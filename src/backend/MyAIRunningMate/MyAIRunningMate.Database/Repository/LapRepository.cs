@@ -1,4 +1,3 @@
-using System.Text.Json;
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Database.Mappers;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
@@ -27,16 +26,12 @@ public class LapRepository(Supabase.Client supabase) : BaseRepository<LapEntity>
         return result.Models.Select(entity => entity.ToDomain());
     }
 
-    public async Task<int> InsertLaps(IEnumerable<Lap> laps, Guid activityId) 
+    public async Task InsertLaps(IEnumerable<Lap> laps) 
     {
-        var lapList = laps.ToList();
-
-        var entities = lapList.Select(lap => lap.ToEntity(activityId)).ToList();
+        var entities = laps.Select(lap => lap.ToEntity());
         
         var tasks = entities.Select(entity => _supabase.From<LapEntity>().Insert(entity));
     
         await Task.WhenAll(tasks);
-    
-        return lapList.Count;
     }
 }

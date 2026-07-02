@@ -6,5 +6,5 @@ public interface ILapRepository
 {
     Task<IEnumerable<Lap>> GetAllLaps();
     Task<IEnumerable<Lap>> GetAllLapsByActivityId(Guid activityId);
-    Task<int> InsertLaps(IEnumerable<Lap> laps, Guid activityId);
+    Task InsertLaps(IEnumerable<Lap> laps);
 }

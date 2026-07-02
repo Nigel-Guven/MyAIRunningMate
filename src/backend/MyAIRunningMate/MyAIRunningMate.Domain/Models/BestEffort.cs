@@ -1,9 +1,7 @@
-using System;
-
 public record BestEffort
 {
-    public Guid ActivityId { get; init; }
     public Guid BestEffortId { get; init; }
+    public Guid ActivityId { get; init; }
     public Guid UserId { get; init; }
     public string ExerciseType { get; init; }
     public double EffortDistanceMetres { get; init; }

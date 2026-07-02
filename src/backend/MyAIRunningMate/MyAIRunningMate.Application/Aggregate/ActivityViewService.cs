@@ -20,6 +20,6 @@ public class ActivityViewService(
         
         var timeSeriesRecords = await timeSeriesRepo.GetTimeSeriesRecordsByActivityId(activity.ActivityId);
         
-        return new AggregateArtifact( activity, laps, timeSeriesRecords);
+        return new AggregateArtifact( activity, [], laps, null, null);
     }
 }

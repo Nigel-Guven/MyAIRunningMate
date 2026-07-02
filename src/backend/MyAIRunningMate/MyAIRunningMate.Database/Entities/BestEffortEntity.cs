@@ -7,20 +7,26 @@ namespace MyAIRunningMate.Database.Entities;
 public class BestEffortEntity : BaseModel
 {
     [PrimaryKey("id")]
-    public long BestEffortId { get; set; }
+    public Guid BestEffortId { get; set; }
+    
+    [Column("activity_id")]
+    public Guid ActivityId { get; set; }
 
     [Column("user_id")]
     public Guid UserId { get; set; }
+    
+    [Column("exercise_type")]
+    public string ExerciseType { get; set; }
 
     [Column("distance_metres")]
-    public int DistanceMetres { get; set; }
+    public double DistanceMetres { get; set; }
 
     [Column("distance_label")]
     public string DistanceLabel { get; set; }
     
     [Column("time_seconds")]
-    public int? TimeAchievement { get; set; }
+    public double? TimeAchievement { get; set; }
 
-    [Column("achieved_at")]
-    public DateTime? AchievementDate { get; set; }
+    [Column("is_personal_record")]
+    public bool IsPersonalRecord { get; set; }
 }

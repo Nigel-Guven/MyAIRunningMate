@@ -1,4 +1,3 @@
-using MyAIRunningMate.Contracts.Aggregates.Responses;
 using MyAIRunningMate.Contracts.Calendar.Responses;
 using MyAIRunningMate.Domain.Models;
 

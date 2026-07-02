@@ -6,7 +6,7 @@ namespace MyAIRunningMate.Database.Entities;
 [Table("activity")]
 public class ActivityEntity : BaseModel
 {
-    [PrimaryKey("id", false)]
+    [PrimaryKey("id")]
     public Guid ActivityId { get; set; }
     
     [Column("user_id")]
@@ -17,43 +17,58 @@ public class ActivityEntity : BaseModel
 
     [Column("start_time")]
     public DateTime StartTime { get; set; }
+    
+    [Column("beginning_body_battery")]
+    public int BeginningBodyBattery { get; init; }
+    
+    [Column("beginning_body_potential")]
+    public int BeginningBodyPotential { get; init; }
+    
+    [Column("ending_body_battery")]
+    public int EndingBodyBattery { get; init; }
+    
+    [Column("ending_potential")]
+    public int EndingPotential { get; init; }
+    
+    [Column("total_ascent")]
+    public int? TotalAscent { get; init; }
+    
+    [Column("total_descent")]
+    public int? TotalDescent { get; init; }
+    
+    [Column("recovery_time")]
+    public double RecoveryTime { get; init; }
+    
+    [Column("exercise_type")]
+    public string ExerciseType { get; init; }
+    
+    [Column("exercise_subtype")]
+    public string ExerciseSubType { get; init; }
+    
+    [Column("exercise_name")]
+    public string ExerciseName { get; init; }
 
-    [Column("type")]
-    public string ExerciseType { get; set; }
+    [Column("user_volumetric_oxygen_max")] 
+    public double UserVolumetricOxygenMax { get; init; }
+
+    [Column("user_max_heart_rate")]  
+    public int UserMaxHeartRate { get; init; }
     
-    [Column("duration_seconds")]
-    public double DurationSeconds { get; set; }
+    [Column("user_lactate_threshold_heart_rate")]
+    public double UserLactateThresholdHeartRate { get; init; }
     
-    [Column("moving_time_seconds")]
-    public double MovingTimeSeconds { get; set; }
+    [Column("user_lactate_threshold_power")]
+    public double UserLactateThresholdPower { get; init; }
     
-    [Column("distance_metres")]
-    public double DistanceMetres { get; set; }
+    [Column("user_lactate_threshold_speed")]
+    public double UserLactateThresholdSpeed { get; init; }
     
-    [Column("calories")]
-    public int Calories { get; set; }
-    
-    [Column("avg_heart_rate")]
-    public int AverageHeartRate { get; set; }
-    
-    [Column("max_heart_rate")]
-    public int MaxHeartRate { get; set; }
-    
-    [Column("total_elevation_gain")]
-    public double? TotalElevationGain { get; set; }
-    
-    [Column("training_effect")]
-    public double TrainingEffect { get; set; }
-    
-    [Column("raw_pace_seconds_per_metre")]
-    public double? RawPaceSecondsPerMetre { get; set; }
-    
-    [Column("pool_length")]
-    public int? PoolLength { get; set; }
+    [Column("number_of_laps")]
+    public int NumberOfLaps { get; init; }
     
     [Column("location")]
-    public string? Location { get; set; }
-
+    public string? Location { get; init; }
+    
     [Column("map_polyline")]
-    public string? MapPolyline { get; set; }
+    public string? MapPolyline { get; init; }
 }

@@ -6,5 +6,5 @@ namespace MyAIRunningMate.Application.IngestionPipeline;
 
 public interface IIngestionPipelineService
 {
-    Task<(Activity activity, int numberOfLaps, string status)> ProcessFitFileAsync(IFormFile file, Guid userId);
+    Task<(Activity activity, string status)> ProcessFitFileAsync(IFormFile file, Guid userId);
 }

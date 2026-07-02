@@ -1,5 +1,4 @@
 using MyAIRunningMate.Contracts.BestEfforts.Responses;
-using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Service.Mappers;
 
