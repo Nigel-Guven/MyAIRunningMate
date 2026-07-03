@@ -28,6 +28,6 @@ public class ActivityService(
     public async Task SaveTimeSeriesRecords(IEnumerable<TimeSeriesRecord>? timeSeriesRecords, Guid activityId)
         => await timeSeriesRecordRepository.InsertAsync(timeSeriesRecords, activityId);
 
-    public async Task SaveActivityMetrics(IEnumerable<ActivityMetrics> activityMetrics) 
+    public async Task SaveActivityMetrics(ActivityMetrics activityMetrics) 
         => await activityMetricsRepository.InsertActivityMetrics(activityMetrics);
 }

@@ -52,9 +52,9 @@ public class PythonApiClient(HttpClient httpClient, IGeocodeClient geocodeClient
                 resolvedLocation = await geocodeClient.GetReadableLocationAsync(firstLat, firstLng);
             }
         }
-        else if (result.ActivitySessions.First().SessionPoolLength != null)
+        else if (result.ActivitySession.SessionPoolLength != null)
         {
-            resolvedLocation = $"Indoor Pool ({result.ActivitySessions.First().SessionPoolLength}m)";
+            resolvedLocation = $"Indoor Pool ({result.ActivitySession.SessionPoolLength}m)";
         }
         
         return result?.ToAggregateArtifact(userId, mapPolyline, resolvedLocation) ?? throw new InvalidOperationException("Python Ingestion Service returned an empty or invalid payload response.");

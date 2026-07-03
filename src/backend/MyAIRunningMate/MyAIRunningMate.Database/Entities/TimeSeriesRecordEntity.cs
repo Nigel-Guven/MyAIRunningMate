@@ -13,5 +13,5 @@ public class TimeSeriesRecordEntity : BaseModel
     public Guid ActivityId { get; set; }
     
     [Column("time_series_blob")]
-    public string TimeSeriesRecordsJson { get; set; }
+    public byte[] TimeSeriesRecordsJson { get; set; }
 }

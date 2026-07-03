@@ -6,5 +6,5 @@ public record CalendarViewResponse(
     string ExerciseType,
     double DurationSeconds,
     double DistanceMetres,
-    double TrainingEffect
+    string TrainingEffectStatus
 );

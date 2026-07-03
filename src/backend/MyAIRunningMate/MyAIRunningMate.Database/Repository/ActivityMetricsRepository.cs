@@ -5,17 +5,25 @@ using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Database.Repository;
 
-public class ActivityMetricsRepository(Supabase.Client supabase, IActivityMetricsRepository activityMetricsRepository) : 
+public class ActivityMetricsRepository(Supabase.Client supabase) : 
     BaseRepository<ActivityMetricsEntity>(supabase), IActivityMetricsRepository
 {
     private readonly Supabase.Client _supabase = supabase;
 
-    public async Task InsertActivityMetrics(IEnumerable<ActivityMetrics> activityMetrics)
+    public async Task<ActivityMetrics> GetActivityMetrics(Guid activityId)
     {
-        var entities = activityMetrics.Select(am => am.ToEntity());
+        var result = await _supabase
+            .From<ActivityMetricsEntity>() 
+            .Where(x => x.ActivityId == activityId)
+            .Get(); 
+
+        return result.Model.ToDomain();
+    }
+
+    public async Task InsertActivityMetrics(ActivityMetrics activityMetrics)
+    {
+        var entity = activityMetrics.ToEntity();
         
-        var tasks = entities.Select(entity => _supabase.From<ActivityMetricsEntity>().Insert(entity));
-    
-        await Task.WhenAll(tasks);
+        await _supabase.From<ActivityMetricsEntity>().Insert(entity);
     }
 }

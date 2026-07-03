@@ -1,6 +1,7 @@
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Database.Mappers;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
+using MyAIRunningMate.Domain.Models;
 using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;

@@ -7,7 +7,7 @@ using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
 
-public class ActivityRepository(Supabase.Client supabase, ITimeSeriesRecordRepository timeSeriesRecordRepository) : BaseRepository<ActivityEntity>(supabase), IActivityRepository
+public class ActivityRepository(Supabase.Client supabase) : BaseRepository<ActivityEntity>(supabase), IActivityRepository
 {
     private readonly Supabase.Client _supabase = supabase;
 
@@ -97,13 +97,16 @@ public class ActivityRepository(Supabase.Client supabase, ITimeSeriesRecordRepos
             { "user_id", activity.UserId },
             { "garmin_activity_id", activity.GarminActivityId },
             { "start_time", activity.StartTime },
+            { "elapsed_time", activity.TotalTime },
+            { "moving_time", activity.MovingTime },
+            { "distance_metres",  activity.DistanceMetres },
             { "beginning_body_battery", activity.BeginningBodyBattery },
             { "beginning_body_potential", activity.BeginningBodyPotential },
-            { "ending_body_battery", activity.ExerciseType },
-            { "ending_potential", activity.ExerciseType },
-            { "total_ascent", activity.ExerciseType },
-            { "total_descent", activity.ExerciseType },
-            { "recovery_time", activity.ExerciseType },
+            { "ending_body_battery", activity.EndingBodyBattery },
+            { "ending_potential", activity.EndingPotential },
+            { "total_ascent", activity.TotalAscent },
+            { "total_descent", activity.TotalDescent },
+            { "recovery_time", activity.RecoveryTime },
             { "exercise_type", activity.ExerciseType },
             { "exercise_subtype", activity.ExerciseSubType },
             { "exercise_name", activity.ExerciseName },
@@ -119,13 +122,6 @@ public class ActivityRepository(Supabase.Client supabase, ITimeSeriesRecordRepos
         
         var response = await _supabase.Rpc("save_activity", new {  activity_metadata = activityPayload });
     
-        if (response.ResponseMessage?.StatusCode != HttpStatusCode.OK )
-        {
-            throw new Exception($"RPC Error: {response.ResponseMessage} | Content: {response.Content}");
-        }
-    
-        var newActivityId = Guid.Parse(response.Content.Trim('"'));
-        
-        return activity;
+        return response.ResponseMessage?.StatusCode != HttpStatusCode.OK ? throw new Exception($"RPC Error: {response.ResponseMessage} | Content: {response.Content}") : activity;
     }
 }

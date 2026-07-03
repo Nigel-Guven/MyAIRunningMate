@@ -1,3 +1,5 @@
+namespace MyAIRunningMate.Domain.Models;
+
 public record BestEffort
 {
     public Guid BestEffortId { get; init; }

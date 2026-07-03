@@ -7,6 +7,5 @@ public record LapViewResponse(
     int AverageHeartRate,
     double AverageSpeed,
     int AverageCadence,
-    string? PrimaryStroke,
-    int? AverageSwolf
+    string? PrimaryStroke
 );

@@ -11,6 +11,7 @@ public static class ClientToDomainMapperFactory
         PythonActivityMetricsResponse activityMetrics, 
         PythonUserMetricsResponse metrics, 
         PythonSportResponse sport,
+        PythonSessionResponse sessionResponse,
         Guid activityId, Guid userId, string garminId,
         string location, string polyline) =>
         new(
@@ -18,6 +19,9 @@ public static class ClientToDomainMapperFactory
             userId: userId,
             garminActivityId: garminId,
             startTime: activityMetrics.ActivityStartTime,
+            elapsedSeconds: sessionResponse.SessionElapsedTime,
+            movingTime: sessionResponse.SessionMovingTime,
+            distanceMetres: sessionResponse.SessionDistanceMetres,
             beginningBodyBattery: metrics.UserBeginningBodyBattery,
             beginningBodyPotential: metrics.UserBeginningBodyPotential,
             endingBodyBattery: activityMetrics.ActivityEndingBodyBattery,
@@ -50,9 +54,6 @@ public static class ClientToDomainMapperFactory
     public static ActivityMetrics ToDomainActivityMetrics(PythonSessionResponse response, Guid activityId) =>
         new(
             activityId: activityId,
-            elapsedSeconds: response.SessionElapsedTime,
-            movingTime: response.SessionMovingTime,
-            distanceMetres: response.SessionDistanceMetres,
             totalCycles: response.SessionTotalCycles,
             totalCalories: response.SessionTotalCalories,
             averageHeartRate: response.SessionAverageHeartRate,

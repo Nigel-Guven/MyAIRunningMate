@@ -4,5 +4,6 @@ namespace MyAIRunningMate.Domain.Interfaces.Repositories;
 
 public interface IActivityMetricsRepository
 {
-    Task InsertActivityMetrics(IEnumerable<ActivityMetrics> activityMetrics);
+    Task<ActivityMetrics> GetActivityMetrics(Guid activityId);
+    Task InsertActivityMetrics(ActivityMetrics activityMetrics);
 }

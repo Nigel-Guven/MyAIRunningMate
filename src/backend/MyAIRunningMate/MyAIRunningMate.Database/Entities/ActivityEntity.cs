@@ -18,6 +18,15 @@ public class ActivityEntity : BaseModel
     [Column("start_time")]
     public DateTime StartTime { get; set; }
     
+    [Column("elapsed_time")] 
+    public double TotalTime { get; init; }
+    
+    [Column("moving_time")] 
+    public double MovingTime { get; init; }
+    
+    [Column("distance_metres")] 
+    public double DistanceMetres { get; init; }
+    
     [Column("beginning_body_battery")]
     public int BeginningBodyBattery { get; init; }
     

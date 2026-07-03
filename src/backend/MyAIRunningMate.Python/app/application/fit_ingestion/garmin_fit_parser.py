@@ -29,7 +29,7 @@ def clean_fit_file(fitfile, filename: str) -> IngestionAggregate:
     aggregateObject.sport = sport_proc.process_sport_messages(fitfile)
     aggregateObject.activityMetrics = activity_proc.process_activity_metrics_messages(fitfile)
     aggregateObject.userMetrics = user_proc.process_user_metrics_messages(fitfile)
-    aggregateObject.sessions = session_proc.process_session_messages(fitfile)
+    aggregateObject.session = session_proc.process_session_messages(fitfile)
     aggregateObject.bestEfforts = best_eff_proc.process_best_effort_messages(fitfile)
     aggregateObject.laps = lap_proc.process_lap_messages(fitfile)
     aggregateObject.time_series = record_proc.process_record_messages(fitfile)

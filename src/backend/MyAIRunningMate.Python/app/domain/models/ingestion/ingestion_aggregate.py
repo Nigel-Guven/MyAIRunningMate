@@ -13,7 +13,7 @@ class IngestionAggregate(BaseModel):
     sport: Optional[Sport] = None
     activityMetrics: Optional[ActivityMetrics] = None
     userMetrics: Optional[UserMetrics] = None
-    sessions: List[Session] = Field(default_factory=list)
+    session: Optional[Session] = None
     bestEfforts: List[BestEffort] = Field(default_factory=list)
     laps: List[Lap] = Field(default_factory=list)
     time_series: List[TimeSeriesRecord] = Field(default_factory=list)

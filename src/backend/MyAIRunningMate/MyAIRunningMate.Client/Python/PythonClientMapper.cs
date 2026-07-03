@@ -19,14 +19,14 @@ public static class PythonClientMapper
             response.ActivityMetricsResponse, 
             response.ActivityUserMetricsResponse,
             response.ActivitySport, 
+            response.ActivitySession,
             activityId, 
             userId, 
             response.ActivityGarminId, 
             location, 
             mapPolyline);
         
-        var activityMetrics = response.ActivitySessions.Select(sesh =>
-            ClientToDomainMapperFactory.ToDomainActivityMetrics(sesh, activityId));
+        var activityMetrics = ClientToDomainMapperFactory.ToDomainActivityMetrics(response.ActivitySession, activityId);
 
         var timeSeriesRecords = response.ActivityTimeSeries?.Select(ClientToDomainMapperFactory.ToDomainTimeSeriesRecord);
         

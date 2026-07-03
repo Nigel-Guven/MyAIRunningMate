@@ -2,8 +2,9 @@ namespace MyAIRunningMate.Contracts.BestEfforts.Responses;
 
 public record BestEffortResponse
 (
-    int DistanceMetres,
+    string ExerciseType,
+    double DistanceMetres,
     string DistanceLabel,
-    int? TimeAchievement,
-    DateTime? AchievementDate
+    double? TimeAchievement,
+    bool IsPersonalRecord
 );

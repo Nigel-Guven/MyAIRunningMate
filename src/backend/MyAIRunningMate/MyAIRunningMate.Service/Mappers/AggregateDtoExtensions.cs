@@ -11,18 +11,17 @@ public static class AggregateDtoExtensions
             GarminActivityId: model.GarminActivity.GarminActivityId,
             StartTime: model.GarminActivity.StartTime,
             ExerciseType: model.GarminActivity.ExerciseType,
-            DurationSeconds: model.GarminActivity.DurationSeconds,
-            MovingTimeSeconds: model.GarminActivity.MovingTimeSeconds,
+            DurationSeconds: model.GarminActivity.TotalTime,
+            MovingTimeSeconds: model.GarminActivity.MovingTime,
             DistanceMetres: model.GarminActivity.DistanceMetres,
-            Calories: model.GarminActivity.Calories,
-            AverageHeartRate: model.GarminActivity.AverageHeartRate,
-            MaxHeartRate: model.GarminActivity.MaxHeartRate,
-            TotalElevationGain: model.GarminActivity.TotalElevationGain,
-            RawPaceSecondsPerMetre: model.GarminActivity.RawPaceSecondsPerMetre,
-            TrainingEffect: model.GarminActivity.TrainingEffect,
-            PoolLength: model.GarminActivity.PoolLength,
+            Calories: model.GarminActivityMetrics.TotalCalories,
+            AverageHeartRate: model.GarminActivityMetrics.AverageHeartRate,
+            MaxHeartRate: model.GarminActivityMetrics.MaxHeartRate,
+            TotalElevationGain: model.GarminActivity.TotalAscent,
+            TrainingEffect: model.GarminActivityMetrics.AerobicTrainingEffect,
+            PoolLength: model.GarminActivityMetrics.PoolLength,
             MapPolyline: model.GarminActivity.MapPolyline,
-            TimeSeriesRecords: model.TimeSeriesRecords.Select(tsr => tsr.ToTimeSeriesRecordResponseDto()).ToList(),
+            TimeSeriesRecords: model.TimeSeriesRecords?.Select(tsr => tsr.ToTimeSeriesRecordResponseDto()).ToList(),
             Laps: model.Laps.Select(l => l.ToLapDto()).ToList()
         );
 
@@ -45,7 +44,6 @@ public static class AggregateDtoExtensions
             AverageHeartRate: model.AverageHeartRate,
             AverageSpeed: model.AverageSpeed,
             AverageCadence: model.AverageCadence,
-            PrimaryStroke: model.PrimaryStroke,
-            AverageSwolf: model.AverageSwolf
+            PrimaryStroke: model.PrimaryStroke
         );
 }

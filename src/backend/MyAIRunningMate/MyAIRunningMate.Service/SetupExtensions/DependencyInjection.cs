@@ -21,15 +21,17 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        services.AddScoped<IProfileRepository, ProfileRepository>();
         services.AddScoped<IActivityRepository, ActivityRepository>();
-        services.AddScoped<ILapRepository, LapRepository>();
-        services.AddScoped<IWeightRepository, WeightRepository>();
+        services.AddScoped<IActivityMetricsRepository, ActivityMetricsRepository>();
         services.AddScoped<IBestEffortsRepository, BestEffortsRepository>();
         services.AddScoped<IEventRepository, EventRepository>();
+        services.AddScoped<ILapRepository, LapRepository>();
+        services.AddScoped<IProfileRepository, ProfileRepository>();
+        services.AddScoped<ITimeSeriesRecordRepository, TimeSeriesRecordRepository>();
         services.AddScoped<ITrainingPlanRepository, TrainingPlanRepository>();
         services.AddScoped<ITrainingPlanEventRepository, TrainingPlanEventRepository>();
-        services.AddScoped<ITimeSeriesRecordRepository, TimeSeriesRecordRepository>();
+        services.AddScoped<IWeightRepository, WeightRepository>();
+        
         
         return services;
     }

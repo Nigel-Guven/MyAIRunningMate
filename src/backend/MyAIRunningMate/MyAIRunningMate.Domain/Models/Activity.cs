@@ -6,6 +6,9 @@ public record Activity
     public Guid UserId { get; init; }
     public string GarminActivityId { get; init; }
     public DateTime StartTime { get; init; }
+    public double TotalTime { get; init; }
+    public double MovingTime { get; init; }
+    public double DistanceMetres { get; init; }
     public int BeginningBodyBattery { get; init; }
     public int BeginningBodyPotential { get; init; }
     public int EndingBodyBattery { get; init; }
@@ -30,6 +33,9 @@ public record Activity
         Guid userId,
         string garminActivityId,
         DateTime startTime,
+        double elapsedSeconds,
+        double movingTime,
+        double distanceMetres,
         int beginningBodyBattery,
         int beginningBodyPotential,
         int endingBodyBattery,
@@ -53,6 +59,9 @@ public record Activity
         UserId = userId;
         GarminActivityId = garminActivityId;
         StartTime = startTime;
+        TotalTime = elapsedSeconds;
+        MovingTime = movingTime;
+        DistanceMetres = distanceMetres;
         BeginningBodyBattery = beginningBodyBattery;
         BeginningBodyPotential = beginningBodyPotential;
         EndingBodyBattery = endingBodyBattery;

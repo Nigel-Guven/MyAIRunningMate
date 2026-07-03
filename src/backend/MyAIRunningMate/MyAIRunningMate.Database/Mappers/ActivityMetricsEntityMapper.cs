@@ -8,9 +8,6 @@ public static class ActivityMetricsEntityMapper
     public static ActivityMetrics ToDomain(this ActivityMetricsEntity entity) =>
         new(
             activityId: entity.ActivityId,
-            elapsedSeconds: entity.ElapsedTime,
-            movingTime: entity.MovingTime,
-            distanceMetres: entity.DistanceMetres,
             totalCycles: entity.TotalCycles,
             totalCalories: entity.TotalCalories,
             averageHeartRate: entity.AverageHeartRate,
@@ -36,9 +33,6 @@ public static class ActivityMetricsEntityMapper
         new()
         {
             ActivityId = domain.ActivityId,
-            ElapsedTime = domain.ElapsedTime,
-            MovingTime = domain.MovingTime,
-            DistanceMetres = domain.DistanceMetres,
             TotalCycles = domain.TotalCycles,
             TotalCalories = domain.TotalCalories,
             EstimatedSweatLoss = domain.EstimatedSweatLoss,

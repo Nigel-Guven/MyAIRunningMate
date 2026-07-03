@@ -14,7 +14,6 @@ public record AggregateArtifactResponse(
     int? AverageHeartRate,
     int? MaxHeartRate,
     double? TotalElevationGain,
-    double? RawPaceSecondsPerMetre,
     double TrainingEffect,
     int? PoolLength,
     string? MapPolyline,

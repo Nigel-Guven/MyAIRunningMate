@@ -10,6 +10,6 @@ public interface IActivityService
     Task SaveLaps(IEnumerable<Lap> laps);
     Task SaveBestEfforts(IEnumerable<BestEffort>? bestEfforts);
     Task SaveTimeSeriesRecords(IEnumerable<TimeSeriesRecord>? timeSeriesRecords, Guid activityId);
-    Task SaveActivityMetrics(IEnumerable<ActivityMetrics> activityMetrics);
+    Task SaveActivityMetrics(ActivityMetrics activityMetrics);
 
 }

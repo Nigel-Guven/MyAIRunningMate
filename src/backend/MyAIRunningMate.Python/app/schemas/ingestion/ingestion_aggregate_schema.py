@@ -15,7 +15,7 @@ class IngestionAggregateSchema(BaseModel):
     sport: Optional[SportSchema] = None
     activityMetrics: Optional[ActivityMetricsSchema] = None
     userMetrics: Optional[UserMetricsSchema] = None
-    sessions: List[SessionSchema] = Field(default_factory=list)
+    session: Optional[SessionSchema] = None
     bestEfforts: List[BestEffortSchema] = Field(default_factory=list)
     laps: List[LapSchema] = Field(default_factory=list)
     time_series: List[TimeSeriesSchema] = Field(default_factory=list)

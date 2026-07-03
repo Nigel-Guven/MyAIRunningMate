@@ -15,8 +15,8 @@ public record PythonApiActivityResponse(
     [property: JsonPropertyName("userMetrics")] 
     PythonUserMetricsResponse ActivityUserMetricsResponse,
     
-    [property: JsonPropertyName("sessions")] 
-    IEnumerable<PythonSessionResponse> ActivitySessions,
+    [property: JsonPropertyName("session")] 
+    PythonSessionResponse ActivitySession,
     
     [property: JsonPropertyName("bestEfforts")] 
     IEnumerable<PythonBestEffortResponse>? ActivityBestEfforts,

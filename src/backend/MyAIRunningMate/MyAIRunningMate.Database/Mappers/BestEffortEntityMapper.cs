@@ -1,4 +1,5 @@
 using MyAIRunningMate.Database.Entities;
+using MyAIRunningMate.Domain.Models;
 
 namespace MyAIRunningMate.Database.Mappers;
 

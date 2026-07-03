@@ -3,9 +3,6 @@ namespace MyAIRunningMate.Domain.Models;
 public class ActivityMetrics
 {
     public Guid ActivityId { get; init; }
-    public double ElapsedTime { get; init; }
-    public double MovingTime { get; init; }
-    public double DistanceMetres { get; init; }
     public int TotalCycles { get; init; }
     public int TotalCalories { get; init; }
     public int? EstimatedSweatLoss { get; init; }
@@ -28,9 +25,6 @@ public class ActivityMetrics
 
     public ActivityMetrics(
         Guid activityId,
-        double elapsedSeconds,
-        double movingTime,
-        double distanceMetres,
         int totalCycles,
         int totalCalories,
         int averageHeartRate,
@@ -52,9 +46,6 @@ public class ActivityMetrics
         int? poolLength = null)
     {
         ActivityId = activityId;
-        ElapsedTime = elapsedSeconds;
-        MovingTime = movingTime;
-        DistanceMetres = distanceMetres;
         TotalCycles = totalCycles;
         TotalCalories = totalCalories;
         AverageHeartRate = averageHeartRate;
