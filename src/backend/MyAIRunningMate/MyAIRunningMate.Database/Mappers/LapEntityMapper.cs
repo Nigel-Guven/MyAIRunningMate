@@ -27,6 +27,7 @@ public static class LapEntityMapper
             LapId = domain.LapId,
             ActivityId = domain.ActivityId,
             LapNumber = domain.LapNumber,
+            LapStartTime = domain.LapStartTime,
             DistanceMetres = domain.DistanceMetres,
             DurationSeconds = domain.DurationSeconds,
             AverageHeartRate = domain.AverageHeartRate,

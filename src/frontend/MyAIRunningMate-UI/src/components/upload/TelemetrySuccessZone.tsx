@@ -41,8 +41,8 @@ export const TelemetrySuccessZone = ({ result, onReset }: TelemetrySuccessZonePr
 
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-black/20 p-4 rounded-2xl border border-slate-800 flex justify-between items-center px-6">
-          <span className="text-[10px] text-slate-500 uppercase font-bold">Training Effect</span>
-          <span className="text-orange-400 font-black italic text-lg tracking-tight">{result.training_effect.toFixed(1)}</span>
+          <span className="text-[10px] text-slate-500 uppercase font-bold">Recovery Time</span>
+          <span className="text-orange-400 font-black italic text-lg tracking-tight">{result.recovery_time}</span>
         </div>
         <div className="bg-black/20 p-4 rounded-2xl border border-slate-800 flex justify-between items-center px-6">
           <span className="text-[10px] text-slate-500 uppercase font-bold">Status</span>

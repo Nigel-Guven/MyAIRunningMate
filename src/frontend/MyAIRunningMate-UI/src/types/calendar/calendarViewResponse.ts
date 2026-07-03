@@ -4,5 +4,5 @@ export interface CalendarViewResponse {
   exercise_type: string;
   duration_seconds: number;
   distance_metres: number;
-  training_effect: number;
+  training_effect_status: string;
 }

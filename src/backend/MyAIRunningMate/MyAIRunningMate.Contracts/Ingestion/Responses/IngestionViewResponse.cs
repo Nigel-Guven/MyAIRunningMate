@@ -4,8 +4,8 @@ public record IngestionViewResponse(
     string GarminActivityId,
     DateTime StartTime,
     string ExerciseType,
-    int EndingBodyBattery,
-    int EndingPotential,
+    double DistanceMetres,
+    double DurationSeconds,
     double RecoveryTime,
     int NumberOfLaps,
     string ActivityStatus

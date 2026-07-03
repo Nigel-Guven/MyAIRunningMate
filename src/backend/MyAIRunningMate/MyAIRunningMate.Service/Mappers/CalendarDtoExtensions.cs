@@ -12,6 +12,6 @@ public static class CalendarDtoExtensions
             StartTime: model.GarminActivity.StartTime,
             DurationSeconds: model.GarminActivity.TotalTime,
             DistanceMetres: model.GarminActivity.DistanceMetres,
-            TrainingEffectStatus: model.GarminActivityMetrics.AerobicTrainingEffect.ToString()
+            TrainingEffectStatus: "NEEDS CALC..."
         );
 }

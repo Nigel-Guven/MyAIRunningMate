@@ -1,5 +1,4 @@
-import type { IngestionViewDto } from '../../../types/views/ingestionView';
-
+import type { IngestionViewResponse } from '../../../types/ingestion/ingestionViewResponse';
 import { API_ENDPOINTS } from '../config/endpoints';
 import { http } from '../config/http';
 
@@ -7,12 +6,12 @@ export const ingestionApi = {
   uploadFitFile: (
     file: File,
     onProgress?: (percent: number) => void
-  ): Promise<IngestionViewDto> => {
+  ): Promise<IngestionViewResponse> => {
 
     const formData = new FormData();
     formData.append('file', file);
 
-    return http.post<IngestionViewDto>(
+    return http.post<IngestionViewResponse>(
       API_ENDPOINTS.ingestion.upload,
       formData,
       {

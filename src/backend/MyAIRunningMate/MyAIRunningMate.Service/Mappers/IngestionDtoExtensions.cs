@@ -10,8 +10,8 @@ public static class IngestionDtoExtensions
             GarminActivityId: model.GarminActivityId,
             StartTime: model.StartTime,
             ExerciseType: model.ExerciseType,
-            EndingBodyBattery: model.EndingBodyBattery,
-            EndingPotential: model.EndingPotential,
+            DistanceMetres: model.DistanceMetres,
+            DurationSeconds: model.TotalTime,
             RecoveryTime: model.RecoveryTime,
             NumberOfLaps: model.NumberOfLaps,
             ActivityStatus: status

@@ -1,11 +1,11 @@
+import type { IngestionViewResponse } from '../../../types/ingestion/ingestionViewResponse';
 import { ingestionApi } from './ingestion.api';
-import type { IngestionViewDto } from '../../../types/views/ingestionView';
 
 export const ingestionService = {
   uploadFitFile: (
     file: File,
     onProgress?: (p: number) => void
-  ): Promise<IngestionViewDto> => {
+  ): Promise<IngestionViewResponse> => {
     return ingestionApi.uploadFitFile(file, onProgress);
   },
 };

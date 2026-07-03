@@ -41,7 +41,7 @@ public class EventController : ControllerBase
     [HttpGet("primary")]
     public async Task<ActionResult<EventViewResponse>> GetPrimaryEvent()
     {
-        Guid mainEvent = Guid.Parse("a080be41-370f-4ba0-9d29-6fa1db55072e");
+        Guid mainEvent = Guid.Parse("81e416ea-39af-4480-a738-1ef24ca38ee8");
 
         try
         {

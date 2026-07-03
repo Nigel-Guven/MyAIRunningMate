@@ -1,4 +1,3 @@
-using System.Net;
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Database.Mappers;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
@@ -90,38 +89,50 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
         return result.Models.Select(entity => entity.ToDomain()).ToList();
     }
     
-    public async Task<Activity> InsertAsync(Activity activity)
+    public async Task<Guid> InsertAsync(Activity activity)
     {
-        var activityPayload = new Dictionary<string, object?> {
-            { "id", activity.ActivityId },
-            { "user_id", activity.UserId },
-            { "garmin_activity_id", activity.GarminActivityId },
-            { "start_time", activity.StartTime },
-            { "elapsed_time", activity.TotalTime },
-            { "moving_time", activity.MovingTime },
-            { "distance_metres",  activity.DistanceMetres },
-            { "beginning_body_battery", activity.BeginningBodyBattery },
-            { "beginning_body_potential", activity.BeginningBodyPotential },
-            { "ending_body_battery", activity.EndingBodyBattery },
-            { "ending_potential", activity.EndingPotential },
-            { "total_ascent", activity.TotalAscent },
-            { "total_descent", activity.TotalDescent },
-            { "recovery_time", activity.RecoveryTime },
-            { "exercise_type", activity.ExerciseType },
-            { "exercise_subtype", activity.ExerciseSubType },
-            { "exercise_name", activity.ExerciseName },
-            { "user_volumetric_oxygen_max", activity.UserVolumetricOxygenMax },
-            { "user_max_heart_rate", activity.UserMaxHeartRate },
-            { "user_lactate_threshold_heart_rate", activity.UserLactateThresholdHeartRate },
-            { "user_lactate_threshold_power", activity.UserLactateThresholdPower },
-            { "user_lactate_threshold_speed", activity.UserLactateThresholdSpeed },
-            { "number_of_laps", activity.NumberOfLaps },
-            { "location", activity.Location },
-            { "map_polyline", activity.MapPolyline }
-        };
+        var entity = activity.ToEntity();
         
-        var response = await _supabase.Rpc("save_activity", new {  activity_metadata = activityPayload });
-    
-        return response.ResponseMessage?.StatusCode != HttpStatusCode.OK ? throw new Exception($"RPC Error: {response.ResponseMessage} | Content: {response.Content}") : activity;
+        var activityData = new Dictionary<string, object?>
+        {
+            { "id", entity.ActivityId },
+            { "user_id", entity.UserId },
+            { "garmin_activity_id", entity.GarminActivityId },
+            { "start_time", entity.StartTime },
+            { "elapsed_time", entity.TotalTime },
+            { "moving_time", entity.MovingTime },
+            { "distance_metres", entity.DistanceMetres },
+            { "beginning_body_battery", entity.BeginningBodyBattery },
+            { "beginning_body_potential", entity.BeginningBodyPotential },
+            { "ending_body_battery", entity.EndingBodyBattery },
+            { "ending_potential", entity.EndingPotential },
+            { "total_ascent", entity.TotalAscent },
+            { "total_descent", entity.TotalDescent },
+            { "recovery_time", entity.RecoveryTime },
+            { "exercise_type", entity.ExerciseType },
+            { "exercise_subtype", entity.ExerciseSubType },
+            { "exercise_name", entity.ExerciseName },
+            { "user_volumetric_oxygen_max", entity.UserVolumetricOxygenMax },
+            { "user_max_heart_rate", entity.UserMaxHeartRate },
+            { "user_lactate_threshold_heart_rate", entity.UserLactateThresholdHeartRate },
+            { "user_lactate_threshold_power", entity.UserLactateThresholdPower },
+            { "user_lactate_threshold_speed", entity.UserLactateThresholdSpeed },
+            { "number_of_laps", entity.NumberOfLaps },
+            { "location", entity.Location },
+            { "map_polyline", entity.MapPolyline }
+        };
+
+        var parameters = new Dictionary<string, object>
+        {
+            { "activity_data", activityData }
+        };
+
+        var response = await _supabase.Rpc("insert_activity", parameters);
+
+        if (response?.Content == null)
+            throw new InvalidOperationException("Failed to insert activity via RPC or parse returned ID.");
+
+        var trimmedId = response.Content.Trim('"');
+        return Guid.TryParse(trimmedId, out var insertedId) ? insertedId : throw new InvalidOperationException("Failed to insert activity via RPC or parse returned ID.");
     }
 }

@@ -93,11 +93,9 @@ public static class DependencyInjection
                 AutoConnectRealtime = false
             };
 
-            if (!string.IsNullOrEmpty(token))
-            {
-                options.Headers ??= new Dictionary<string, string>();
-                options.Headers["Authorization"] = $"Bearer {token}";
-            }
+            if (string.IsNullOrEmpty(token)) return new Supabase.Client(url, anonKey, options);
+            options.Headers ??= new Dictionary<string, string>();
+            options.Headers["Authorization"] = $"Bearer {token}";
 
             return new Supabase.Client(url, anonKey, options);
         });

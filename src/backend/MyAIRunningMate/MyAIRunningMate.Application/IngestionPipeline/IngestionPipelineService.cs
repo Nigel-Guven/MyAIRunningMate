@@ -22,6 +22,7 @@ public class IngestionPipelineService(
         }
         
         await activityService.SaveActivity(aggregateArtifact.GarminActivity);
+        
         await activityService.SaveLaps(aggregateArtifact.Laps);
         await activityService.SaveActivityMetrics(aggregateArtifact.GarminActivityMetrics);
 
@@ -32,10 +33,10 @@ public class IngestionPipelineService(
         
         if (aggregateArtifact.TimeSeriesRecords != null)
         {
-            await activityService.SaveTimeSeriesRecords(aggregateArtifact.TimeSeriesRecords, aggregateArtifact.GarminActivity.ActivityId);
+            var insertedActivity = activityService.GetByActivityIdAndUserIdAsync(aggregateArtifact.GarminActivity.ActivityId, userId);
+            await activityService.SaveTimeSeriesRecords(aggregateArtifact.TimeSeriesRecords, insertedActivity.Result.ActivityId);
         }
         
         return (aggregateArtifact.GarminActivity, IngestionStatus.ActivityIngested);
-        
     }
 }

@@ -1,5 +1,5 @@
+import type { AnalyticsDashboardView } from '../../../types/analytics/analyticsView';
 import { analyticsApi } from './analytics.api';
-import type { AnalyticsDashboardView } from '../../../types/views/analyticsView';
 
 export const analyticsService = {
   async getDashboardData(year: number): Promise<AnalyticsDashboardView> {

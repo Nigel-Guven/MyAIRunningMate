@@ -1,4 +1,3 @@
-using System.Text.Json;
 using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Domain.Models;
 
@@ -35,11 +34,11 @@ public static class ActivityEntityMapper
             mapPolyline: entity.MapPolyline
         );
 
-    public static ActivityEntity ToEntity(this Activity domain, Guid userId, string timeSeriesJson) =>
+    public static ActivityEntity ToEntity(this Activity domain) =>
         new()
         {
             ActivityId = domain.ActivityId,
-            UserId = userId,
+            UserId = domain.UserId,
             GarminActivityId = domain.GarminActivityId,
             StartTime = domain.StartTime,
             TotalTime = domain.TotalTime,

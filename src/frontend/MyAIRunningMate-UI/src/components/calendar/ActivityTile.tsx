@@ -33,7 +33,7 @@ export const ActivityTile = ({ act }: { act: CalendarViewResponse }) => {
 
       {/* Footer: Training Effect */}
       <div className="text-[8px] opacity-75 mt-0.5 font-medium tracking-wide">
-        TE {act.training_effect.toFixed(1)}
+        TE {act.training_effect_status}
       </div>
     </button>
   );

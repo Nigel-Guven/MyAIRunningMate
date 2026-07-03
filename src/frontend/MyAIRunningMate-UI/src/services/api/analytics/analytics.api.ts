@@ -1,6 +1,6 @@
 import { http } from '../config/http';
 import { API_ENDPOINTS } from '../config/endpoints';
-import type { AnalyticsDashboardView } from '../../../types/views/analyticsView';
+import type { AnalyticsDashboardView } from '../../../types/analytics/analyticsView';
 
 export const analyticsApi = {
   getAnalytics: (year: number) =>

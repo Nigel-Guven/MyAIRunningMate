@@ -8,9 +8,11 @@ namespace MyAIRunningMate.Database.Repository;
 
 public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightEntity>(supabase), IWeightRepository
 {
+    private readonly Supabase.Client _supabase = supabase;
+
     public async Task<IEnumerable<Weight>> Get20LatestWeights(Guid userId)
     {
-        var result = await Supabase.From<WeightEntity>()
+        var result = await _supabase.From<WeightEntity>()
             .Filter("user_id", Constants.Operator.Equals, userId.ToString())
             .Order("created_at", Constants.Ordering.Descending) 
             .Limit(20)                                  
@@ -21,7 +23,7 @@ public class WeightRepository(Supabase.Client supabase) : BaseRepository<WeightE
     
     public async Task<Weight> GetLatestWeight(Guid userId)
     {
-        var result = await Supabase.From<WeightEntity>()
+        var result = await _supabase.From<WeightEntity>()
             .Filter("user_id", Constants.Operator.Equals, userId.ToString())
             .Order("created_at", Constants.Ordering.Descending) 
             .Limit(1)                                  

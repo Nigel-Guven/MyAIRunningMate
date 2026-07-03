@@ -7,23 +7,21 @@ namespace MyAIRunningMate.Database;
 public abstract class BaseRepository<T>(Supabase.Client supabase) : IBaseRepository<T>
     where T : BaseModel, new()
 {
-    protected readonly Supabase.Client Supabase = supabase;
-    
     public async Task<IEnumerable<T>> GetAllAsync()
     {
-        var result = await Supabase.From<T>().Get();
+        var result = await supabase.From<T>().Get();
         return result.Models;
     }
 
     public async Task<T?> GetByIdAsync(object id) =>
-        await Supabase.From<T>()
+        await supabase.From<T>()
             .Filter("id", Constants.Operator.Equals, id.ToString())
             .Single();
 
     public async Task<T> InsertAsync(T entity)
     {
 
-        var result = await Supabase
+        var result = await supabase
             .From<T>()
             .Insert(entity, new QueryOptions { Returning = QueryOptions.ReturnType.Representation });
 
@@ -34,7 +32,7 @@ public abstract class BaseRepository<T>(Supabase.Client supabase) : IBaseReposit
     {
         try
         {
-            var result = await Supabase.From<T>().Insert(entities);
+            var result = await supabase.From<T>().Insert(entities);
             return result.Models;
         }
         catch (PostgrestException ex)

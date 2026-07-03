@@ -18,10 +18,12 @@ public static class TimeSeriesRecordEntityMapper
         var json = JsonSerializer.Serialize(model, JsonSerializerOptions);
         var compressed = Compress(json);
 
+        var postgresHexFormat = "\\x" + Convert.ToHexString(compressed);
+
         return new TimeSeriesRecordEntity
         {
             ActivityId = activityId,
-            TimeSeriesRecordsJson = compressed
+            TimeSeriesRecordsJson = postgresHexFormat
         };
     }
 
@@ -30,7 +32,14 @@ public static class TimeSeriesRecordEntityMapper
         if (entity?.TimeSeriesRecordsJson == null || entity.TimeSeriesRecordsJson.Length == 0)
             return [];
 
-        var json = Decompress(entity.TimeSeriesRecordsJson);
+        var hex = entity.TimeSeriesRecordsJson;
+        
+        if (hex.StartsWith("\\x"))
+        {
+            hex = hex.Substring(2);
+        }
+        var compressedBytes = Convert.FromHexString(hex);
+        var json = Decompress(compressedBytes);
 
         return JsonSerializer.Deserialize<List<TimeSeriesRecord>>(json, JsonSerializerOptions)
                ?? [];
@@ -39,13 +48,11 @@ public static class TimeSeriesRecordEntityMapper
     private static byte[] Compress(string text)
     {
         var bytes = Encoding.UTF8.GetBytes(text);
-
         using var output = new MemoryStream();
         using (var gzip = new GZipStream(output, CompressionLevel.Optimal))
         {
             gzip.Write(bytes, 0, bytes.Length);
         }
-
         return output.ToArray();
     }
 
@@ -54,9 +61,7 @@ public static class TimeSeriesRecordEntityMapper
         using var input = new MemoryStream(bytes);
         using var gzip = new GZipStream(input, CompressionMode.Decompress);
         using var output = new MemoryStream();
-
         gzip.CopyTo(output);
-
         return Encoding.UTF8.GetString(output.ToArray());
     }
 }
