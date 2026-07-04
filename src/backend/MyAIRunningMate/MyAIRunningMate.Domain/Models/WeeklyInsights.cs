@@ -6,7 +6,6 @@ public class WeeklyInsights
     public double RunningTimeSeconds { get; init; }
     public double RunningMovingTimeSeconds { get; init; }
     public double RunningDistanceMetres { get; init; }
-    public double TotalRunningElevationGain { get; init; }
     
     /* --- Swimming Metrics --- */
     public double SwimmingTimeSeconds { get; init; }
@@ -14,10 +13,7 @@ public class WeeklyInsights
     
     /* --- Health & Training Scores --- */
     public int TotalCaloriesBurned { get; init; }
-    public int MeanAverageHeartRate { get; init; }
-    public int MeanMaxHeartRate { get; init; }
-    public double TotalTrainingEffect { get; init; }
-    public double MeanTrainingEffect { get; init; }
+    public double TotalTrainingScore { get; init; }
     public double TrainingConsistencyScore { get; init; }
     
     /* --- Activity Distribution --- */
@@ -32,20 +28,16 @@ public class WeeklyInsights
     
     /* --- Derived Insights --- */
     
-    //Running Break Time
-    public double RunningTimeBreakSeconds => RunningTimeSeconds - RunningMovingTimeSeconds; 
-    
-    // Elevation Gain per km (Standard measure of route difficulty)
-    public double ElevationIntensity => 
-        RunningDistanceMetres > 0 ? TotalRunningElevationGain / (RunningDistanceMetres / 1000.0) : 0;
-
-    // Calories per km (Metabolic efficiency)
-    public double CaloricIntensity => 
-        (RunningDistanceMetres + SwimmingDistanceMetres) > 0 
-            ? TotalCaloriesBurned / ((RunningDistanceMetres + SwimmingDistanceMetres) / 1000.0) 
-            : 0;
-
-    // Percentage of time spent moving vs total duration
     public double RunningMovingEfficiency => 
         RunningTimeSeconds > 0 ? (RunningMovingTimeSeconds / RunningTimeSeconds) * 100 : 0;
+    
+    public double PausedSeconds => RunningTimeSeconds - RunningMovingTimeSeconds; 
+    public double BodyBatteryDepletion { get; init; }
+    public double BodyBatteryEfficiency { get; init; }
+    public double RecoveryTimeGenerated { get; init; }
+    public double HeartRateIntensityScore { get; init; }
+    public double VolumetricOxygenMaxTrend { get; init; }
+    public double VolumetricOxygenMaxDiffPercent { get; init; }
+    public double RunningEconomyIndex { get; init; }
+    
 }

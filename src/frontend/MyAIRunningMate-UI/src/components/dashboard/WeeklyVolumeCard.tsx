@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { formatTime } from "../../services/helpers/formatTime";
 import type { DashboardTypes } from "../../types/dashboard/dashboard.types";
+import { getEconomyLevel } from "../../services/helpers/dashboardUtils";
 
 interface WeeklyVolumeCardProps {
   insights: NonNullable<DashboardTypes['weeklyInsights']>;
@@ -11,13 +11,20 @@ interface WeeklyVolumeCardProps {
 }
 
 export const WeeklyVolumeCard = ({ insights, onPreviousWeek, onNextWeek, canGoNext, weekLabel }: WeeklyVolumeCardProps) => {
-  const [weekOffset, setWeekOffset] = useState(0);
   const segments = [
     { label: "Morning", count: insights.morning_activities, color: "bg-red-400" },
     { label: "Afternoon", count: insights.afternoon_activities, color: "bg-amber-400" },
     { label: "Evening", count: insights.evening_activities, color: "bg-blue-400" },
     { label: "Night", count: insights.night_activities, color: "bg-purple-400" },
   ];
+
+  const eco = getEconomyLevel(insights.running_economy_index);
+
+  const vo2Trend = insights.volumetric_oxygen_max_trend;
+  const vo2Percent = insights.volumetric_oxygen_max_diff_percent;
+
+  const vo2Arrow =
+    vo2Percent > 0 ? "↑" : vo2Percent < 0 ? "↓" : "→";
 
   return (
     <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm flex flex-col justify-between">
@@ -81,54 +88,110 @@ export const WeeklyVolumeCard = ({ insights, onPreviousWeek, onNextWeek, canGoNe
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-3 text-left">
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Avg. Training Score</p>
-            <p className="text-sm font-black text-slate-400 font-mono">{insights.mean_training_effect ? insights.mean_training_effect.toFixed(1) : "--"}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+          <div className="flex flex-col gap-4">
+            <h3 className="text-xs uppercase text-slate-500 font-bold">Training Load</h3>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Total Training Score</p>
+              <p className="text-sm font-black text-slate-400 font-mono">
+                {insights.total_training_score ? insights.total_training_score.toFixed(1) : "0"}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Total Calories Burned</p>
+              <p className="text-sm font-black text-slate-400 font-mono">
+                {insights.total_calories_burned} kcals
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Heart Rate Intensity</p>
+              <p className="text-sm font-black text-slate-400 font-mono">
+                {insights.heart_rate_intensity_score
+                  ? `${insights.heart_rate_intensity_score.toFixed(1)}%`
+                  : "--"}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Recovery Time</p>
+              <p className="text-sm font-black text-slate-400 font-mono">
+                {(insights.recovery_time_generated / 60).toFixed(1)} hrs
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Total Training Score</p>
-            <p className="text-sm font-black text-white font-mono">{insights.total_training_effect ? insights.total_training_effect.toFixed(1) : "--"}</p>
+          <div className="flex flex-col gap-4">
+            <h3 className="text-xs uppercase text-slate-500 font-bold">Consistency</h3>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Training Consistency</p>
+              <p className="text-sm font-black text-white font-mono">
+                {insights.training_consistency_score
+                  ? insights.training_consistency_score.toFixed(3) + "%"
+                  : "--"}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Rest Days</p>
+              <p className="text-sm font-black text-orange-400 font-mono">
+                {insights.rest_days} days
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Body Batteries Used</p>
+              <p className="text-sm font-black text-emerald-400 font-mono">
+                🔋 {(insights.body_battery_depletion / 100)} BBs
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Body Battery Efficiency</p>
+              <p className="text-sm font-black text-orange-400 font-mono">
+                ⚡ {insights.body_battery_efficiency.toFixed(0)} sec/BB
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Consistency</p>
-            <p className="text-sm font-black text-orange-400 font-mono">{insights.training_consistency_score}</p>
-          </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Avg. Heart Rate</p>
-            <p className="text-sm font-black text-slate-400 font-mono">{insights.mean_average_heart_rate ? `${insights.mean_average_heart_rate} bpm` : "--"}</p>
-          </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Max Heart Rate</p>
-            <p className="text-sm font-black text-slate-400 font-mono">{insights.mean_max_heart_rate ? `${insights.mean_max_heart_rate} bpm` : "--"}</p>
-          </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Moving %</p>
-            <p className="text-sm font-black text-slate-400 font-mono">{insights.running_moving_efficiency.toFixed(0)}%</p>
-          </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Rest Days</p>
-            <p className="text-sm font-black text-emerald-400 font-mono">{insights.rest_days}</p>
-          </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Calories</p>
-            <p className="text-sm font-black text-orange-400 font-mono">{insights.total_calories_burned}</p>
-          </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Cal. Intensity</p>
-            <p className="text-sm font-black text-slate-400 font-mono">{insights.caloric_intensity.toFixed(0)}</p>
-          </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Elev. Gain</p>
-            <p className="text-sm font-black text-white font-mono">{insights.total_running_elevation_gain.toFixed(0)}m</p>
-          </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Elev. Intensity</p>
-            <p className="text-sm font-black text-slate-400 font-mono">{insights.elevation_intensity.toFixed(1)}</p>
-          </div>
-          <div>
-            <p className="text-[9px] font-bold text-slate-600 uppercase">Time on Pause</p>
-            <p className="text-sm font-black text-slate-500 font-mono">{(insights.running_time_break_seconds / 60).toFixed(0)}m</p>
+          <div className="flex flex-col gap-4">
+            <h3 className="text-xs uppercase text-slate-500 font-bold">Performance</h3>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">VO₂ Max</p>
+
+              <p className="text-sm font-black text-slate-400 font-mono">
+                {vo2Trend.toFixed(2)}{" "}
+                <span className={vo2Percent >= 0 ? "text-emerald-400" : "text-red-400"}>
+                  {vo2Arrow} {Math.abs(vo2Percent).toFixed(2)}%
+                </span>
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Running Economy</p>
+
+              <p className="text-sm font-black text-white font-mono flex items-center gap-2">
+                {insights.running_economy_index.toFixed(1)}%
+                <span className={`w-2 h-2 rounded-full ${eco.color}`} />
+                <span className="text-xs text-slate-400">{eco.label}</span>
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Moving Efficiency</p>
+              <p className="text-sm font-black text-slate-400 font-mono">
+                {insights.running_moving_efficiency.toFixed(1)}%
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[9px] font-bold text-slate-600 uppercase">Time on Pause</p>
+              <p className="text-sm font-black text-slate-500 font-mono">
+                {(insights.paused_seconds / 60).toFixed(0)} mins
+              </p>
+            </div>
           </div>
         </div>
       </div>

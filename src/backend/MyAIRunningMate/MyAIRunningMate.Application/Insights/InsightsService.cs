@@ -107,9 +107,6 @@ public class InsightsService(
             .Where(a => string.Equals(a.Activity.ExerciseType, "swimming", StringComparison.OrdinalIgnoreCase))
             .ToList();
         
-        var validHeartRates = activities.Where(a => a.ActivityMetrics.AverageHeartRate > 0).Select(a => (double)a.ActivityMetrics.AverageHeartRate).ToList();
-        var maxHeartRates = activities.Where(a => a.ActivityMetrics.MaxHeartRate > 0).Select(a => a.ActivityMetrics.MaxHeartRate).ToList();
-
         var locations = activities
             .Where(a => !string.IsNullOrEmpty(a.Activity.Location))
             .Select(a => a.Activity.Location!)
@@ -120,28 +117,95 @@ public class InsightsService(
         
         var dayConsistencyScore = activities.Count == 0 ? 0 : Math.Min(1.0, uniqueActiveDaysCount / 7.0);
         
+        var bodyBatteryDepletion = activities.Sum(a => 
+            Math.Max(0, a.Activity.BeginningBodyBattery - a.Activity.EndingBodyBattery));
+        
+        var bodyBatteryEfficiency = bodyBatteryDepletion > 0 
+            ? activities.Sum(a => a.Activity.MovingTime) / bodyBatteryDepletion 
+            : 0;
+
+        var cadenceActivities = activities
+            .Where(a => a.ActivityMetrics.AverageCadence > 0)
+            .ToList();
+
+        var averageCadence =
+            cadenceActivities.Sum(a =>
+                a.ActivityMetrics.AverageCadence * a.Activity.MovingTime)
+            /
+            Math.Max(1,
+                cadenceActivities.Sum(a => a.Activity.MovingTime));
+        
+        var ordered = activities
+            .OrderBy(a => a.Activity.StartTime)
+            .ToList();
+        
+        var firstVo2 = ordered.First().Activity.UserVolumetricOxygenMax;
+        var lastVo2 = ordered.Last().Activity.UserVolumetricOxygenMax;
+        
+        var vo2Diff = lastVo2 - firstVo2;
+
+        var vo2DiffPercent = firstVo2 > 0
+            ? (vo2Diff / firstVo2) * 100
+            : 0;
+        
+        var totalMovingTime = activities.Sum(a => a.Activity.MovingTime);
+
+        var heartRateIntensity = totalMovingTime > 0
+            ? activities.Sum(a =>
+                  (a.ActivityMetrics.AverageHeartRate / (double)a.Activity.UserMaxHeartRate)
+                  * a.Activity.MovingTime)
+              / totalMovingTime
+            : 0;
+        
+        var heartRateIntensityScore = Math.Round(heartRateIntensity * 100);
+        
+        var valid = runningActivities
+            .Where(r =>
+                r.ActivityMetrics is { StepLength: not null, AverageVerticalOscillation: not null, AverageStanceTime: not null, AverageVerticalRatio: not null })
+            .ToList();
+        
+        var economyScore =
+            valid.Any()
+                ? valid.Average(r =>
+                {
+                    var step = NormalizeRunningStatistics(r.ActivityMetrics.StepLength ?? 0, 0.8, 1.5);
+                    var osc  = NormalizeRunningStatistics(r.ActivityMetrics.AverageVerticalOscillation ?? 0, 6, 12, true);
+                    var stance = NormalizeRunningStatistics(r.ActivityMetrics.AverageStanceTime ?? 0, 200, 350, true);
+                    var ratio = NormalizeRunningStatistics(r.ActivityMetrics.AverageVerticalRatio ?? 0, 7, 12, true);
+
+                    return (step * 0.35) + (osc * 0.25) + (stance * 0.2) + (ratio * 0.2);
+                }) * 100
+                : 0;
+        
         return new WeeklyInsights
         {
             RunningTimeSeconds = runningActivities.Sum(a => a.Activity.TotalTime),
             RunningMovingTimeSeconds = runningActivities.Sum(a => a.Activity.MovingTime),
             RunningDistanceMetres = runningActivities.Sum(a => a.Activity.DistanceMetres),
-            TotalRunningElevationGain = runningActivities.Sum(a => a.Activity.TotalAscent ?? 0), //TODO
             
             SwimmingTimeSeconds = swimmingActivities.Sum(a => a.Activity.TotalTime),
             SwimmingDistanceMetres = swimmingActivities.Sum(a => a.Activity.DistanceMetres),
             
             TotalCaloriesBurned = activities.Sum(a => a.ActivityMetrics.TotalCalories),
-
-            MeanAverageHeartRate = validHeartRates.Count != 0 ? (int)validHeartRates.Average() : 0,
-            MeanMaxHeartRate = maxHeartRates.Count != 0 ? maxHeartRates.Max() : 0,
+            TotalTrainingScore = 
+                activities.Sum(a => a.ActivityMetrics.AerobicTrainingEffect) + 
+                activities.Sum(a=> a.ActivityMetrics.AnaerobicTrainingEffect),
             
-            TotalTrainingEffect = activities.Sum(a => a.ActivityMetrics.AerobicTrainingEffect),
-            MeanTrainingEffect = activities.Count != 0 ? activities.Average(a => a.ActivityMetrics.AerobicTrainingEffect) : 0,
             TrainingConsistencyScore = Math.Round(
                 (0.5 * dayConsistencyScore) + 
                 (0.3 * distributionScore) + 
                 (0.2 * timeOfDayScore),3),
-
+            
+            VolumetricOxygenMaxTrend = vo2Diff,
+            
+            VolumetricOxygenMaxDiffPercent = vo2DiffPercent,
+            
+            BodyBatteryDepletion = bodyBatteryDepletion,
+            BodyBatteryEfficiency = Math.Round(bodyBatteryEfficiency, 2),
+            RecoveryTimeGenerated = activities.Sum(a => a.Activity.RecoveryTime),
+            RunningEconomyIndex = economyScore,
+            HeartRateIntensityScore = heartRateIntensityScore,
+            
             MorningActivities = morningActivityCount,
             AfternoonActivities = afternoonActivityCount,
             EveningActivities = eveningActivityCount,
@@ -170,4 +234,11 @@ public class InsightsService(
         Locations = [],
         RestDays = 7
     };
+    
+    private static double NormalizeRunningStatistics(double value, double min, double max, bool inverse = false)
+    {
+        var t = (value - min) / (max - min);
+        t = Math.Clamp(t, 0, 1);
+        return inverse ? 1 - t : t;
+    }
 }

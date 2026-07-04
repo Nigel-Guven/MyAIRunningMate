@@ -10,14 +10,10 @@ public static class AnalyticsDtoExtensions
             RunningTimeSeconds: model.RunningTimeSeconds,
             RunningMovingTimeSeconds: model.RunningMovingTimeSeconds,
             RunningDistanceMetres: model.RunningDistanceMetres,
-            TotalRunningElevationGain: model.TotalRunningElevationGain,
             SwimmingTimeSeconds: model.SwimmingTimeSeconds,
             SwimmingDistanceMetres: model.SwimmingDistanceMetres,
             TotalCaloriesBurned: model.TotalCaloriesBurned,
-            MeanAverageHeartRate: model.MeanAverageHeartRate,
-            MeanMaxHeartRate: model.MeanMaxHeartRate,
-            TotalTrainingEffect: model.TotalTrainingEffect,
-            MeanTrainingEffect: model.MeanTrainingEffect,
+            TotalTrainingScore: model.TotalTrainingScore,
             TrainingConsistencyScore: model.TrainingConsistencyScore,
             MorningActivities: model.MorningActivities,
             AfternoonActivities: model.AfternoonActivities,
@@ -25,11 +21,15 @@ public static class AnalyticsDtoExtensions
             NightActivities: model.NightActivities,
             Locations: model.Locations,
             RestDays: model.RestDays,
-            RunningTimeBreakSeconds: model.RunningTimeBreakSeconds,
-            ElevationIntensity: model.ElevationIntensity,
-            CaloricIntensity: model.CaloricIntensity,
-            RunningMovingEfficiency: model.RunningMovingEfficiency
-        );
+            RunningMovingEfficiency: model.RunningMovingEfficiency,
+            PausedSeconds: model.PausedSeconds,
+            BodyBatteryEfficiency: model.BodyBatteryEfficiency,
+            BodyBatteryDepletion: model.BodyBatteryDepletion,
+            RecoveryTimeGenerated: model.RecoveryTimeGenerated,
+            HeartRateIntensityScore: model.HeartRateIntensityScore,
+            VolumetricOxygenMaxTrend: model.VolumetricOxygenMaxTrend,
+            VolumetricOxygenMaxDiffPercent: model.VolumetricOxygenMaxDiffPercent,
+            RunningEconomyIndex: model.RunningEconomyIndex);
 
     public static YearlyStatisticsResponse ToYearlyStatisticsDto(this YearlyStatistics model) =>
         new(
