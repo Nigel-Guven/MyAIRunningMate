@@ -1,24 +1,20 @@
+Dashboard - Show latest V02 Max beside weight on top of page
+Dashboard - Fix reload on each change of weekly volume
+Dashboard - Add more events
+Dashboard - Complete Rework according to Garmin Metrics
 
-Homepage	- Nexus Weekly Feedback
+Aggregate - Rework
 
-DeepDive	- Box to ask for feedback from Ollama regarding the activity
+Calendar - Calculate Training Effect on calendar item
 
-Analytics	- Yearly Running Distance, pace and time
-Analytics	- Yearly Swimming
-Analytics	- Yearly Elevation Gain
-Analytics	- Active Days v Rest Days
-Analytics	- Average Training Effect
-Analytics	- Pr counts from strava
-Analytics	- Donut chart of percentage of each type of exercise
-Analytics	- Running laps by weight
-Analytics	- Laps x Time chart where distance = 1000
-Analytics	- Activity count by month
-Analytics	- Possibility to store locations where I am running?
-Analytics	- Nexus AI Prediction of 5k based on feed of all above results
+Analytics - Recalculate all items according to data
 
-Backend - Program.cs modularised
+Nexus - Complete Rework
+
 Backend - Global Error Handler
-Backend - Remove unused files
+Backend - Fix Nulls and warnings
+
+Database - Process more of my .fit files
 
 Set Up Kubernetes
 
