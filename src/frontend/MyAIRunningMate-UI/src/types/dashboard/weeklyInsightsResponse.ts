@@ -4,6 +4,9 @@ export interface WeeklyInsightsResponse {
   running_distance_metres: number;
   swimming_time_seconds: number;
   swimming_distance_metres: number;
+  other_types: string[] | [];
+  other_types_distance_metres: number;
+  other_types_time_seconds: number;
   total_calories_burned: number;
   total_training_score: number;
   training_consistency_score: number;

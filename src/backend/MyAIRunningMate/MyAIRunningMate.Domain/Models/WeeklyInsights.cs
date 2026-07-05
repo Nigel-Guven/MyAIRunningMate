@@ -11,6 +11,11 @@ public class WeeklyInsights
     public double SwimmingTimeSeconds { get; init; }
     public double SwimmingDistanceMetres { get; init; }
     
+    /* --- Other Exercise Metrics --- */
+    public List<string> OtherTypes { get; init; }
+    public double OtherTypesDistanceMetres { get; init; }
+    public double OtherTypesTimeSeconds { get; init; }
+    
     /* --- Health & Training Scores --- */
     public int TotalCaloriesBurned { get; init; }
     public double TotalTrainingScore { get; init; }

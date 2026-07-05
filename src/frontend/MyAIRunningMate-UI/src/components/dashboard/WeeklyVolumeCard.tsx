@@ -46,6 +46,7 @@ export const WeeklyVolumeCard = ({ insights, onPreviousWeek, onNextWeek, canGoNe
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4 mb-6">
+          {/* Running Block */}
           <div>
             <p className="text-[9px] font-bold text-slate-500 uppercase">Running</p>
             <div className="flex items-end gap-1 mt-1">
@@ -58,6 +59,7 @@ export const WeeklyVolumeCard = ({ insights, onPreviousWeek, onNextWeek, canGoNe
             <p className="text-[10px] text-slate-600 mt-1 font-mono">Moving Time: {formatTime(insights.running_moving_time_seconds)}</p>
           </div>
 
+          {/* Swimming Block */}
           <div className="border-l border-slate-800/80 pl-4">
             <p className="text-[9px] font-bold text-slate-500 uppercase">Swimming</p>
             <div className="flex items-end gap-1 mt-1">
@@ -67,6 +69,18 @@ export const WeeklyVolumeCard = ({ insights, onPreviousWeek, onNextWeek, canGoNe
             <p className="text-[10px] text-slate-600 mt-1 font-mono">Swimming Time: {formatTime(insights.swimming_time_seconds)}</p>
           </div>
         </div>
+        {/* New Other Activities Block */}
+        {insights.other_types && insights.other_types.length > 0 && (
+          <div className="pt-4 border-t border-slate-800/80 mb-6">
+            <p className="text-[9px] font-bold text-slate-500 uppercase">
+              Other ({insights.other_types.join(', ')})
+            </p>
+              <span className="text-[12px] text-slate-600 mt-1 font-mono">
+                {(insights.other_types_distance_metres / 1000).toFixed(1)} KM
+              </span>
+            <p className="text-[10px] text-slate-600 mt-1 font-mono">Total Time: {formatTime(insights.other_types_time_seconds)}</p>
+          </div>
+        )}
 
         <hr className="border-slate-800/60 my-5" />
 

@@ -48,7 +48,7 @@ public class InsightsService(
     private static WeeklyInsights CalculateWeeklyMetrics(List<InsightsActivity> activities)
     {
         int morningActivityCount = 0, afternoonActivityCount = 0, eveningActivityCount =0, nightActivityCount = 0;
-        double entropy = 0;
+        
         foreach (var hour in activities.Select(a => a.Activity.StartTime.Hour))
         {
             switch (hour)
@@ -56,7 +56,7 @@ public class InsightsService(
                 case >= 6 and < 12:
                     morningActivityCount++;
                     break;
-                case >= 12 and < 17:
+                case >= 12 and < 16:
                     afternoonActivityCount++;
                     break;
                 case >= 16 and < 20:
@@ -68,37 +68,6 @@ public class InsightsService(
             }
         }
         
-        var activitiesPerDay = activities
-            .GroupBy(a => a.Activity.StartTime.Date)
-            .Select(g => g.Count())
-            .ToList();
-        
-        var averageActivitiesPerDay = activitiesPerDay.Average();
-        var variance = activitiesPerDay.Average(x => Math.Pow(x - averageActivitiesPerDay, 2));
-        var standardDeviationActivitiesPerDay = Math.Sqrt(variance);
-        
-        var coefficientOfVariation = averageActivitiesPerDay == 0 ? 0 : standardDeviationActivitiesPerDay / averageActivitiesPerDay;
-
-        var distributionScore = 1.0 / (1.0 + coefficientOfVariation);
-        
-        double total = morningActivityCount + afternoonActivityCount + eveningActivityCount + nightActivityCount;
-        
-        if (total > 0)
-        {
-            double[] probs =
-            [
-                morningActivityCount / total,
-                afternoonActivityCount / total,
-                eveningActivityCount / total,
-                nightActivityCount / total
-            ];
-
-            entropy = -probs.Where(p => p > 0)
-                .Sum(p => p * Math.Log(p));
-        }
-        
-        var timeOfDayScore = entropy / Math.Log(4);
-        
         var runningActivities = activities
             .Where(a => string.Equals(a.Activity.ExerciseType, "running", StringComparison.OrdinalIgnoreCase))
             .ToList();
@@ -106,6 +75,21 @@ public class InsightsService(
         var swimmingActivities = activities
             .Where(a => string.Equals(a.Activity.ExerciseType, "swimming", StringComparison.OrdinalIgnoreCase))
             .ToList();
+
+        var otherActivities = activities
+            .Where(a => !string.Equals(a.Activity.ExerciseType, "running", StringComparison.OrdinalIgnoreCase) && 
+                        !string.Equals(a.Activity.ExerciseType, "swimming", StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        
+        var otherActivityTypes = otherActivities
+            .Select(a => a.Activity.ExerciseName)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        var otherDistanceMetres = otherActivities
+            .Sum(a => a.Activity.DistanceMetres);
+        var otherTotalTimeSeconds = otherActivities
+            .Sum(a => a.Activity.TotalTime);
         
         var locations = activities
             .Where(a => !string.IsNullOrEmpty(a.Activity.Location))
@@ -114,26 +98,13 @@ public class InsightsService(
             .ToList();
         
         var uniqueActiveDaysCount = activities.Select(a => a.Activity.StartTime.Date).Distinct().Count();
-        
-        var dayConsistencyScore = activities.Count == 0 ? 0 : Math.Min(1.0, uniqueActiveDaysCount / 7.0);
-        
+
         var bodyBatteryDepletion = activities.Sum(a => 
             Math.Max(0, a.Activity.BeginningBodyBattery - a.Activity.EndingBodyBattery));
         
         var bodyBatteryEfficiency = bodyBatteryDepletion > 0 
             ? activities.Sum(a => a.Activity.MovingTime) / bodyBatteryDepletion 
             : 0;
-
-        var cadenceActivities = activities
-            .Where(a => a.ActivityMetrics.AverageCadence > 0)
-            .ToList();
-
-        var averageCadence =
-            cadenceActivities.Sum(a =>
-                a.ActivityMetrics.AverageCadence * a.Activity.MovingTime)
-            /
-            Math.Max(1,
-                cadenceActivities.Sum(a => a.Activity.MovingTime));
         
         var ordered = activities
             .OrderBy(a => a.Activity.StartTime)
@@ -186,15 +157,16 @@ public class InsightsService(
             SwimmingTimeSeconds = swimmingActivities.Sum(a => a.Activity.TotalTime),
             SwimmingDistanceMetres = swimmingActivities.Sum(a => a.Activity.DistanceMetres),
             
+            OtherTypes = otherActivityTypes,
+            OtherTypesDistanceMetres = otherDistanceMetres,
+            OtherTypesTimeSeconds = otherTotalTimeSeconds,
+            
             TotalCaloriesBurned = activities.Sum(a => a.ActivityMetrics.TotalCalories),
             TotalTrainingScore = 
                 activities.Sum(a => a.ActivityMetrics.AerobicTrainingEffect) + 
                 activities.Sum(a=> a.ActivityMetrics.AnaerobicTrainingEffect),
             
-            TrainingConsistencyScore = Math.Round(
-                (0.5 * dayConsistencyScore) + 
-                (0.3 * distributionScore) + 
-                (0.2 * timeOfDayScore),3),
+            TrainingConsistencyScore = CalculateTrainingConsistencyScore(activities),
             
             VolumetricOxygenMaxTrend = vo2Diff,
             
@@ -240,5 +212,49 @@ public class InsightsService(
         var t = (value - min) / (max - min);
         t = Math.Clamp(t, 0, 1);
         return inverse ? 1 - t : t;
+    }
+
+    private static double CalculateTrainingConsistencyScore(IEnumerable<InsightsActivity> activities)
+    {
+        var activeDates = activities
+            .Select(a => a.Activity.StartTime.Date)
+            .Distinct()
+            .OrderBy(d => d) 
+            .ToList();
+
+        var uniqueActiveDaysCount = activeDates.Count;
+        var dayConsistencyScore = activeDates.Count == 0 ? 0 : Math.Min(1.0, uniqueActiveDaysCount / 7.0);
+        
+        double distributionScore;
+
+        switch (activeDates.Count)
+        {
+            case > 1:
+            {
+                var gaps = new List<double>();
+                for (var i = 1; i < activeDates.Count; i++)
+                {
+                    gaps.Add((activeDates[i] - activeDates[i - 1]).TotalDays);
+                }
+
+                var avgGap = gaps.Average();
+                var gapVariance = gaps.Average(g => Math.Pow(g - avgGap, 2));
+                var gapStdDev = Math.Sqrt(gapVariance);
+    
+                var coefficientOfVariation = avgGap == 0 ? 0 : gapStdDev / avgGap;
+                distributionScore = 1.0 / (1.0 + coefficientOfVariation);
+                break;
+            }
+            case 1:
+                distributionScore = 0.5;
+                break;
+            default:
+                distributionScore = 0;
+                break;
+        }
+
+        return Math.Round(
+            (0.7 * dayConsistencyScore) + 
+            (0.3 * distributionScore), 3);
     }
 }
