@@ -33,22 +33,4 @@ public class BestEffortsController(IBestEffortService bestEffortService, IUserCo
             return StatusCode(500, $"Error retrieving best efforts: {ex.Message}");
         }
     }
-    
-    [HttpPost("update")]
-    public async Task<ActionResult> UpdateBestEffort([FromBody] BestEffortRequest request)
-    {
-        var userId = userContext.GetUserId();
-        if (userId == Guid.Empty) return Unauthorized();
-
-        try
-        {
-            await bestEffortService.UpdateBestEffort(request.DistanceLabel, request.NewPersonalRecordDate, request.NewPersonalRecordTime, userId);
-            
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Error updating best effort: {ex.Message}");
-        }
-    }
 }

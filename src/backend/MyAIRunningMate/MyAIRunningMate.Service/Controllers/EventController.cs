@@ -22,7 +22,7 @@ public class EventController : ControllerBase
     [HttpGet("upcoming")]
     public async Task<ActionResult<IEnumerable<EventViewResponse>>> GetRacingEvents()
     {
-        const int numberOfEvents = 5;
+        const int numberOfEvents = 6;
         
         try
         {

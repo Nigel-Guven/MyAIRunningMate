@@ -10,7 +10,6 @@ export const API_ENDPOINTS = {
 
     bestEfforts: {
         allEfforts: '/best-efforts/all-efforts',
-        updateEffort: '/best-efforts/update',
     },
 
     calendar: {

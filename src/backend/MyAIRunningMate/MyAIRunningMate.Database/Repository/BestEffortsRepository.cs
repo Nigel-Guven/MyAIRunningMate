@@ -14,14 +14,12 @@ public class BestEffortsRepository(Supabase.Client supabase) : BaseRepository<Be
     {
         var entities = await _supabase
             .From<BestEffortEntity>()
-            .Where(x => x.UserId == userId)
+            .Where(x => x.UserId == userId && x.IsPersonalRecord == true)
             .Order("distance_metres", Constants.Ordering.Ascending)
             .Get();
 
         return entities.Models.Select(entity => entity.ToDomain());
     }
-
-    public Task UpdateBestEffort(string distanceLabel, DateTime newDate, int newTime, Guid userId) => throw new NotImplementedException();
     
     public async Task InsertBestEfforts(IEnumerable<BestEffort> bestEfforts)
     {

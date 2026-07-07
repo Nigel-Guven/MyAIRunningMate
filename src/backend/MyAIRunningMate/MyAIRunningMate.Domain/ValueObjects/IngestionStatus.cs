@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace MyAIRunningMate.Domain.ValueObjects;
 
 public struct IngestionStatus

@@ -2,7 +2,6 @@ import { http } from '../config/http';
 import { API_ENDPOINTS } from '../config/endpoints';
 import type { EventViewResponse } from '../../../types/dashboard/eventViewResponse';
 import type { BestEffortResponse } from '../../../types/dashboard/bestEffortResponse';
-import type { BestEffortRequest } from '../../../types/dashboard/bestEffortRequest';
 import type { WeightResponse } from '../../../types/weight/weightResponse';
 import type { WeeklyInsightsResponse } from '../../../types/dashboard/weeklyInsightsResponse';
 
@@ -20,12 +19,6 @@ export const dashboardApi = {
   getBestEfforts: () =>
     http.get<BestEffortResponse[]>(
       API_ENDPOINTS.bestEfforts.allEfforts
-    ),
-
-  updateBestEffort: ( payload: BestEffortRequest ) =>
-    http.post<BestEffortRequest>(
-      API_ENDPOINTS.bestEfforts.updateEffort, 
-      payload
     ),
 
   getLatestWeight: () =>

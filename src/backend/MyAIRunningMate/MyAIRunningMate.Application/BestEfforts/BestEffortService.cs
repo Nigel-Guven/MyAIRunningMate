@@ -7,9 +7,16 @@ public class BestEffortService(
     IBestEffortsRepository bestEffortsRepository)
     : IBestEffortService
 {
-    public async Task<IEnumerable<BestEffort>> GetAllBestEfforts(Guid userId) => 
-        await bestEffortsRepository.GetBestEffortsByUserId(userId);
+    public async Task<IEnumerable<BestEffort>> GetAllBestEfforts(Guid userId)
+    {
+        var personalRecords = await bestEffortsRepository.GetBestEffortsByUserId(userId);
 
-    public async Task UpdateBestEffort(string distanceLabel, DateTime newDate, int newTime, Guid userId) => 
-        await bestEffortsRepository.UpdateBestEffort(distanceLabel, newDate, newTime, userId);
+        var bestEfforts = personalRecords
+            .GroupBy(x => new { x.ExerciseType, x.EffortDistanceMetres })
+            .Select(g => g.OrderBy(x => x.TimeAchievement).First())
+            .ToList();
+        
+        return bestEfforts;
+        
+    }
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { DashboardTypes } from '../types/dashboard/dashboard.types';
-import type { BestEffortRequest } from '../types/dashboard/bestEffortRequest';
+import type { DashboardTypes} from '../types/dashboard/dashboard.types';
 import { dashboardService } from '../services/api/dashboard/dashboard.service';
 import { authStorage } from '../services/api/config/authStorage';
 import { DashboardHeader } from '../components/dashboard/DashboardHeader';
@@ -22,22 +21,6 @@ export const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [weekOffset, setWeekOffset] = useState(0);
-
-  const handleUpdateEffort = async (label: string, seconds: number) => {
-    try {
-      const payload: BestEffortRequest = {
-        distance_label: label,
-        new_personal_record_time: seconds,
-        new_personal_record_date: new Date().toISOString()
-      };
-      await dashboardService.updateEffort(payload);
-      const data = await dashboardService.loadDashboard(weekOffset);
-      setDashboard(data);
-    } catch (err) {
-      console.error("Update failed", err);
-      alert("Failed to update Personal Record");
-    }
-  };
 
   const loadDashboard = async (offset: number) => {
     const localToken = authStorage.get();
@@ -121,7 +104,7 @@ export const DashboardPage = () => {
         </div>
       </div>
 
-      <PersonalRecordsCard bestEfforts={bestEfforts} onUpdateEffort={handleUpdateEffort} />
+      <PersonalRecordsCard bestEfforts={bestEfforts} />
     </div>
   );
 };

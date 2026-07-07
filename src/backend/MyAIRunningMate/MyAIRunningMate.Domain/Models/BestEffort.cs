@@ -50,6 +50,7 @@ public record BestEffort
             5000  => "5k",
             10000 => "10k",
             21098 => "Half Marathon",
+            42195 => "Marathon",
             _     => $"{distanceMetres}m" // Fallback for unmatched distances
         };
 }

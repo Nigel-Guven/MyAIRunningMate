@@ -1,8 +1,6 @@
 Dashboard - Show latest V02 Max beside weight on top of page
 Dashboard - Fix reload on each change of weekly volume
-Dashboard - Add more events
-Dashboard - Complete Rework according to Garmin Metrics
-
+Dashboard - Add more running events
 Aggregate - Rework
 
 Calendar - Calculate Training Effect on calendar item

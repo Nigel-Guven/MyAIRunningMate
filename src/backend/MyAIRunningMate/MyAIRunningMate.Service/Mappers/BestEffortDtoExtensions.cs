@@ -7,10 +7,10 @@ public static class BestEffortDtoExtensions
 {
     public static BestEffortResponse ToBestEffortResponse(this BestEffort model) => 
         new(
+            ActivityLinkedId: model.ActivityId,
             ExerciseType: model.ExerciseType,
             DistanceMetres: model.EffortDistanceMetres,
             DistanceLabel: model.EffortDistanceLabel,
-            TimeAchievement: model.TimeAchievement,
-            IsPersonalRecord: model.IsPersonalRecord
+            TimeAchievement: model.TimeAchievement
         );
 }
