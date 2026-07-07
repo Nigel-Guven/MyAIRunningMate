@@ -6,6 +6,7 @@ public record TimeSeriesRecord
     public double? DistanceMetres { get; init; }
     public int? HeartRate { get; init; }
     public int? Cadence { get; init; }
+    public int? Power { get; init; }
     public double? Latitude { get; init; }
     public double? Longitude { get; init; }
 
@@ -14,6 +15,7 @@ public record TimeSeriesRecord
         double? distanceMetres,
         int? heartRate,
         int? cadence,
+        int? power,
         double? latitude,
         double? longitude)
     {
@@ -36,6 +38,7 @@ public record TimeSeriesRecord
         DistanceMetres = distanceMetres;
         HeartRate = heartRate;
         Cadence = cadence;
+        Power = power;
         Latitude = latitude;
         Longitude = longitude;
     }

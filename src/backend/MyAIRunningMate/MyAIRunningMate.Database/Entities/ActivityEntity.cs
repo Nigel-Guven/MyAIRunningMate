@@ -46,7 +46,7 @@ public class ActivityEntity : BaseModel
     public int? TotalDescent { get; init; }
     
     [Column("recovery_time")]
-    public double RecoveryTime { get; init; }
+    public int RecoveryTime { get; init; }
     
     [Column("exercise_type")]
     public string ExerciseType { get; init; }
@@ -64,10 +64,10 @@ public class ActivityEntity : BaseModel
     public int UserMaxHeartRate { get; init; }
     
     [Column("user_lactate_threshold_heart_rate")]
-    public double UserLactateThresholdHeartRate { get; init; }
+    public int UserLactateThresholdHeartRate { get; init; }
     
     [Column("user_lactate_threshold_power")]
-    public double UserLactateThresholdPower { get; init; }
+    public int UserLactateThresholdPower { get; init; }
     
     [Column("user_lactate_threshold_speed")]
     public double UserLactateThresholdSpeed { get; init; }

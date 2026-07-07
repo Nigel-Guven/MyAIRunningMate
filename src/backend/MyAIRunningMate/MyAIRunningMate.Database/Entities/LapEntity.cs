@@ -34,7 +34,7 @@ public class LapEntity : BaseModel
     public double AverageSpeed { get; set; }
     
     [Column("avg_cadence")]
-    public int AverageCadence { get; set; }
+    public int? AverageCadence { get; set; }
     
     [Column("primary_stroke")]
     public string? PrimaryStroke { get; set; }

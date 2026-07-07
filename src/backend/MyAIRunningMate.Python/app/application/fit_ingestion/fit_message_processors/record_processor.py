@@ -6,24 +6,24 @@ SEMICIRCLE_TO_DEG = 180.0 / (2**31)
 
 def process_record_messages(fitfile):
     record_list = []
-    
     get_messages = fitfile.get_messages
     
-    for entity in get_messages(KEY):
+    # Use enumerate to track the loop count
+    for i, entity in enumerate(get_messages(KEY)):
+        # Only process every 10th record (indices 0, 10, 20, etc.)
+        if i % 10 != 0:
+            continue
+            
         get_val = entity.get_value
         
         timestamp = get_val("timestamp")
-        if not timestamp:
-            continue
-            
-        raw_lat = get_val("position_lat")
-        if not raw_lat:
-            continue
-            
-        raw_long = get_val("position_long")
-        if not raw_long:
-            continue
+        # ... (rest of your validation logic)
         
+        raw_lat = get_val("position_lat")
+        raw_long = get_val("position_long")
+        if not raw_lat or not raw_long:
+            continue
+            
         lat_deg = float(raw_lat) * SEMICIRCLE_TO_DEG
         long_deg = float(raw_long) * SEMICIRCLE_TO_DEG
         

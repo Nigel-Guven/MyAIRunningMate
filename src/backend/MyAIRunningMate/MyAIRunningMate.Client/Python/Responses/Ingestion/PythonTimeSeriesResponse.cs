@@ -16,7 +16,7 @@ public record PythonTimeSeriesResponse(
     int? TsrCadence,
     
     [property: JsonPropertyName("tsr_power")] 
-    double? TsrPower,
+    int? TsrPower,
     
     [property: JsonPropertyName("tsr_latitude")] 
     double? TsrLatitude,

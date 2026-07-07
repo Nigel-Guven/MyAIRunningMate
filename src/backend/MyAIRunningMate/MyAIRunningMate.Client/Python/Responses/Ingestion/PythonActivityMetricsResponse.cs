@@ -19,7 +19,7 @@ public record PythonActivityMetricsResponse(
     int? ActivityTotalDescent,
     
     [property: JsonPropertyName("activity_metrics_recovery_time")]
-    double ActivityRecoveryTime,
+    int ActivityRecoveryTime,
     
     [property: JsonPropertyName("activity_metrics_num_laps")]
     int ActivityNumLaps

@@ -4,10 +4,10 @@ namespace MyAIRunningMate.Client.Python.Responses.Ingestion;
 
 public record PythonBestEffortResponse(
     [property: JsonPropertyName("best_effort_distance_metres")] 
-    double EffortDistanceMetres,
+    int EffortDistanceMetres,
     
     [property: JsonPropertyName("best_effort_time_seconds")] 
-    double EffortAchievementTime,
+    double EffortAchievementTimeInSeconds,
     
     [property: JsonPropertyName("best_effort_is_personal_record")] 
     bool EffortIsPersonalRecord

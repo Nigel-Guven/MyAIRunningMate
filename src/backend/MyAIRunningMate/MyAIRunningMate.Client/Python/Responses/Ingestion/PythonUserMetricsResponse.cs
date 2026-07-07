@@ -10,10 +10,10 @@ public record PythonUserMetricsResponse(
     int UserMaxHeartRate,
     
     [property: JsonPropertyName("user_lactate_threshold_heart_rate")] 
-    double UserLactateThresholdHeartRate,
+    int UserLactateThresholdHeartRate,
     
     [property: JsonPropertyName("user_lactate_threshold_power")] 
-    double UserLactateThresholdPower,
+    int UserLactateThresholdPower,
     
     [property: JsonPropertyName("user_lactate_threshold_speed")] 
     double UserLactateThresholdSpeed,

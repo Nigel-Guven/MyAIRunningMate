@@ -47,6 +47,7 @@ public static class ClientToDomainMapperFactory
             distanceMetres: timeSeriesResponse.TsrDistanceMetres,
             heartRate: timeSeriesResponse.TsrHeartRate,
             cadence: timeSeriesResponse.TsrCadence,
+            power: timeSeriesResponse.TsrPower,
             latitude: timeSeriesResponse.TsrLatitude,
             longitude: timeSeriesResponse.TsrLongitude
         );
@@ -59,7 +60,7 @@ public static class ClientToDomainMapperFactory
             averageHeartRate: response.SessionAverageHeartRate,
             maxHeartRate: response.SessionMaxHeartRate,
             aerobicTrainingEffect: response.SessionAerobicTrainingEffect,
-            anaerobicTrainingEffect: response.SessionAerobicTrainingEffect,
+            anaerobicTrainingEffect: response.SessionAnaerobicTrainingEffect,
             estimatedSweatLoss: response.SessionEstimatedSweatLoss,
             averageTemperature: response.SessionAverageTemperature,
             maxTemperature: response.SessionMaxTemperature,
@@ -98,7 +99,7 @@ public static class ClientToDomainMapperFactory
             userId: userId,
             exerciseType: exerciseType,
             effortDistanceMetres: response.EffortDistanceMetres,
-            timeAchievement: response.EffortAchievementTime,
+            timeAchievement: response.EffortAchievementTimeInSeconds,
             isPersonalRecord: response.EffortIsPersonalRecord
         );
 }

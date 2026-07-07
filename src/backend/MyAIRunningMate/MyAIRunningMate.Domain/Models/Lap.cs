@@ -11,7 +11,7 @@ public record Lap
     public int AverageHeartRate { get; init; }
     public int MaxHeartRate { get; init; }
     public double AverageSpeed { get; init; }
-    public int AverageCadence { get; init; }
+    public int? AverageCadence { get; init; }
     public string? PrimaryStroke { get; init; }
     public int? NumberOfLengths { get; init; }
 
@@ -25,7 +25,7 @@ public record Lap
         int averageHeartRate,
         int maxHeartRate,
         double averageSpeed,
-        int averageCadence, 
+        int? averageCadence, 
         string? primaryStroke,
         int? numberOfLengths)
     {

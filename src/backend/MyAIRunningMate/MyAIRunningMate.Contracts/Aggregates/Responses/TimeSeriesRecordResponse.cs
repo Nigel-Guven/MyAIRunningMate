@@ -6,6 +6,7 @@ public record TimeSeriesRecordResponse
     public double? DistanceMetres { get; init; }
     public int? HeartRate { get; init; }
     public int? Cadence { get; init; }
+    public int? Power { get; init; }
     public double? Latitude { get; init; }
     public double? Longitude { get; init; }
 }

@@ -15,14 +15,14 @@ public record Activity
     public int EndingPotential { get; init; }
     public int? TotalAscent { get; init; }
     public int? TotalDescent { get; init; }
-    public double RecoveryTime { get; init; }
+    public int RecoveryTime { get; init; }
     public string ExerciseType { get; init; }
     public string ExerciseSubType { get; init; }
     public string ExerciseName { get; init; }
     public double UserVolumetricOxygenMax { get; init; }
     public int UserMaxHeartRate { get; init; }
-    public double UserLactateThresholdHeartRate { get; init; }
-    public double UserLactateThresholdPower { get; init; }
+    public int UserLactateThresholdHeartRate { get; init; }
+    public int UserLactateThresholdPower { get; init; }
     public double UserLactateThresholdSpeed { get; init; }
     public int NumberOfLaps { get; init; }
     public string? Location { get; init; }
@@ -40,14 +40,14 @@ public record Activity
         int beginningBodyPotential,
         int endingBodyBattery,
         int endingPotential,
-        double recoveryTime,
+        int recoveryTime,
         string exerciseType,
         string exerciseSubType,
         string exerciseName,
         double userVolumetricOxygenMax,
         int userMaxHeartRate,
-        double userLactateThresholdHeartRate,
-        double userLactateThresholdPower,
+        int userLactateThresholdHeartRate,
+        int userLactateThresholdPower,
         double userLactateThresholdSpeed,
         int numberOfLaps,
         int? totalAscent = null,

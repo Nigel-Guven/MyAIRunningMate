@@ -19,7 +19,7 @@ public class BestEffortEntity : BaseModel
     public string ExerciseType { get; set; }
 
     [Column("distance_metres")]
-    public double DistanceMetres { get; set; }
+    public int DistanceMetres { get; set; }
 
     [Column("distance_label")]
     public string DistanceLabel { get; set; }

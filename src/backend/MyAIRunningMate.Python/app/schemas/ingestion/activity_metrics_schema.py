@@ -8,7 +8,7 @@ class ActivityMetricsSchema(BaseModel):
     activity_metrics_ending_potential: Optional[int] = None
     activity_metrics_total_ascent: Optional[int] = None
     activity_metrics_total_descent: Optional[int] = None
-    activity_metrics_recovery_time: Optional[float] = None  
+    activity_metrics_recovery_time: Optional[int] = None  
     activity_metrics_num_laps: Optional[int] = None
     
     model_config = ConfigDict(from_attributes=True)

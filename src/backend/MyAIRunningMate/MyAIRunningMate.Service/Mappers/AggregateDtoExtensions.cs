@@ -32,6 +32,7 @@ public static class AggregateDtoExtensions
             DistanceMetres = model.DistanceMetres,
             HeartRate = model.HeartRate,
             Cadence = model.Cadence,
+            Power = model.Power,
             Latitude = model.Latitude,
             Longitude = model.Longitude
         };
@@ -39,11 +40,14 @@ public static class AggregateDtoExtensions
     private static LapViewResponse ToLapDto(this Lap model) => 
         new(
             LapNumber: model.LapNumber,
+            LapStartTime: model.LapStartTime,
             DistanceMetres: model.DistanceMetres,
             DurationSeconds: model.DurationSeconds,
             AverageHeartRate: model.AverageHeartRate,
+            MaxHeartRate: model.MaxHeartRate,
             AverageSpeed: model.AverageSpeed,
             AverageCadence: model.AverageCadence,
-            PrimaryStroke: model.PrimaryStroke
+            PrimaryStroke: model.PrimaryStroke,
+            NumberOfLengths: model.NumberOfLengths
         );
 }

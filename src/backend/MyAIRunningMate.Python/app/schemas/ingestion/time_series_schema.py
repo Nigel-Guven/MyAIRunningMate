@@ -10,6 +10,6 @@ class TimeSeriesSchema(BaseModel):
     tsr_heart_rate: Optional[int] = None
     tsr_cadence: Optional[int] = None
     tsr_distance_metres: Optional[float] = None
-    tsr_power: Optional[float] = None
+    tsr_power: Optional[int] = None
 
     model_config = ConfigDict(from_attributes=True)

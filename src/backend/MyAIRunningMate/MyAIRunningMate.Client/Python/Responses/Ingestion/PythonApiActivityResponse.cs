@@ -9,16 +9,16 @@ public record PythonApiActivityResponse(
     [property: JsonPropertyName("sport")] 
     PythonSportResponse ActivitySport,
     
-    [property: JsonPropertyName("activityMetrics")] 
+    [property: JsonPropertyName("activity_metrics")] 
     PythonActivityMetricsResponse ActivityMetricsResponse,
     
-    [property: JsonPropertyName("userMetrics")] 
+    [property: JsonPropertyName("user_metrics")] 
     PythonUserMetricsResponse ActivityUserMetricsResponse,
     
     [property: JsonPropertyName("session")] 
     PythonSessionResponse ActivitySession,
     
-    [property: JsonPropertyName("bestEfforts")] 
+    [property: JsonPropertyName("best_efforts")] 
     IEnumerable<PythonBestEffortResponse>? ActivityBestEfforts,
     
     [property: JsonPropertyName("laps")] 

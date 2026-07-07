@@ -18,6 +18,9 @@ def process_best_effort_messages(fitfile):
             best_effort_is_personal_record = (raw_pr == 1)
         )
         
+        if best_effort_data.best_effort_distance_metres is None:
+            continue
+        
         best_effort_list.append(best_effort_data)
         
     return best_effort_list

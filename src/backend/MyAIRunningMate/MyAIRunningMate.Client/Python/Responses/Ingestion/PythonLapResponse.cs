@@ -25,7 +25,7 @@ public record PythonLapResponse(
     double LapAverageSpeed,
     
     [property: JsonPropertyName("lap_average_cadence")] 
-    int LapAverageCadence,
+    int? LapAverageCadence,
     
     [property: JsonPropertyName("lap_swim_stroke")] 
     string? LapPrimaryStroke,

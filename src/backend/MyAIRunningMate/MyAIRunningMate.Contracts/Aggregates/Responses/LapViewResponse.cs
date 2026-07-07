@@ -2,10 +2,13 @@ namespace MyAIRunningMate.Contracts.Aggregates.Responses;
 
 public record LapViewResponse(
     int LapNumber,
-    double DistanceMetres,
+    DateTime LapStartTime,
     double DurationSeconds,
-    int AverageHeartRate,
+    double DistanceMetres,
     double AverageSpeed,
-    int AverageCadence,
-    string? PrimaryStroke
+    int AverageHeartRate,
+    int MaxHeartRate,
+    int? AverageCadence,
+    string? PrimaryStroke,
+    int? NumberOfLengths
 );
