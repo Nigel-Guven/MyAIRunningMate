@@ -11,10 +11,10 @@ from app.domain.models.ingestion.user_metrics import UserMetrics
 class IngestionAggregate(BaseModel):
     garmin_id: Optional[str] = None
     sport: Optional[Sport] = None
-    activityMetrics: Optional[ActivityMetrics] = None
-    userMetrics: Optional[UserMetrics] = None
+    activity_metrics: Optional[ActivityMetrics] = None
+    user_metrics: Optional[UserMetrics] = None
     session: Optional[Session] = None
-    bestEfforts: List[BestEffort] = Field(default_factory=list)
+    best_efforts: List[BestEffort] = Field(default_factory=list)
     laps: List[Lap] = Field(default_factory=list)
     time_series: List[TimeSeriesRecord] = Field(default_factory=list)
     

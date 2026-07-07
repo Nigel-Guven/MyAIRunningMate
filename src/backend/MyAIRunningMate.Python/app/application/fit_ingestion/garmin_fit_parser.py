@@ -27,14 +27,14 @@ def clean_fit_file(fitfile, filename: str) -> IngestionAggregate:
     aggregateObject.garmin_id = extract_activity_id(filename)
     
     aggregateObject.sport = sport_proc.process_sport_messages(fitfile)
-    aggregateObject.activityMetrics = activity_proc.process_activity_metrics_messages(fitfile)
-    aggregateObject.userMetrics = user_proc.process_user_metrics_messages(fitfile)
+    aggregateObject.activity_metrics = activity_proc.process_activity_metrics_messages(fitfile)
+    aggregateObject.user_metrics = user_proc.process_user_metrics_messages(fitfile)
     aggregateObject.session = session_proc.process_session_messages(fitfile)
-    aggregateObject.bestEfforts = best_eff_proc.process_best_effort_messages(fitfile)
+    aggregateObject.best_efforts = best_eff_proc.process_best_effort_messages(fitfile)
     aggregateObject.laps = lap_proc.process_lap_messages(fitfile)
     aggregateObject.time_series = record_proc.process_record_messages(fitfile)
     
-    aggregateObject.activityMetrics.activity_metrics_num_laps = len(aggregateObject.laps)
+    aggregateObject.activity_metrics.activity_metrics_num_laps = len(aggregateObject.laps)
     
 
     return aggregateObject

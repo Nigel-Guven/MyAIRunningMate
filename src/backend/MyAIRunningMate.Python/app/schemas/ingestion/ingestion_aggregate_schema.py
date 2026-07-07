@@ -13,10 +13,10 @@ from app.schemas.ingestion.user_metrics_schema import UserMetricsSchema
 class IngestionAggregateSchema(BaseModel):
     garmin_id: Optional[str] = None
     sport: Optional[SportSchema] = None
-    activityMetrics: Optional[ActivityMetricsSchema] = None
-    userMetrics: Optional[UserMetricsSchema] = None
+    activity_metrics: Optional[ActivityMetricsSchema] = None
+    user_metrics: Optional[UserMetricsSchema] = None
     session: Optional[SessionSchema] = None
-    bestEfforts: List[BestEffortSchema] = Field(default_factory=list)
+    best_efforts: List[BestEffortSchema] = Field(default_factory=list)
     laps: List[LapSchema] = Field(default_factory=list)
     time_series: List[TimeSeriesSchema] = Field(default_factory=list)
     
