@@ -37,24 +37,25 @@ public class PythonApiClient(HttpClient httpClient, IGeocodeClient geocodeClient
         string? mapPolyline = null;
         string? resolvedLocation = null;
         
-        if (result.ActivityTimeSeries != null)
+        var timeseries = result.ActivityTimeSeries ?? Enumerable.Empty<PythonTimeSeriesResponse>();
+        var validCoordinates = timeseries
+            .Where(ts => ts is { TsrLatitude: not null, TsrLongitude: not null })
+            .Select(ts => (ts.TsrLatitude!.Value, ts.TsrLongitude!.Value))
+            .ToList();
+        
+        if (validCoordinates.Count > 0)
         {
-            var validCoordinates = result.ActivityTimeSeries
-                .Where(ts => ts is { TsrLatitude: not null, TsrLongitude: not null })
-                .Select(ts => (ts.TsrLatitude!.Value, ts.TsrLongitude!.Value))
-                .ToList();
-
-            if (validCoordinates.Count > 0)
-            {
-                mapPolyline = PolylineFactory.Encode(validCoordinates);
-
-                var (firstLat, firstLng) = validCoordinates.First();
-                resolvedLocation = await geocodeClient.GetReadableLocationAsync(firstLat, firstLng);
-            }
+            mapPolyline = PolylineFactory.Encode(validCoordinates);
+            var (firstLat, firstLng) = validCoordinates.First();
+            resolvedLocation = await geocodeClient.GetReadableLocationAsync(firstLat, firstLng);
         }
-        else if (result.ActivitySession.SessionPoolLength != null)
+        else if (result.ActivitySession?.SessionPoolLength != null)
         {
             resolvedLocation = $"Indoor Pool ({result.ActivitySession.SessionPoolLength}m)";
+        }
+        else
+        {
+            resolvedLocation = null;
         }
         
         return result?.ToAggregateArtifact(userId, mapPolyline, resolvedLocation) ?? throw new InvalidOperationException("Python Ingestion Service returned an empty or invalid payload response.");
