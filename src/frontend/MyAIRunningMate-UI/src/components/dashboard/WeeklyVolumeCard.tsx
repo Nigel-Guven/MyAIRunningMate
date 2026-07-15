@@ -1,16 +1,23 @@
 import { formatTime } from "../../services/helpers/formatTime";
-import type { DashboardTypes } from "../../types/dashboard/dashboard.types";
 import { getEconomyLevel } from "../../services/helpers/dashboardUtils";
+import type { WeeklyInsightsResponse } from "../../types/dashboard/weeklyInsightsResponse";
 
 interface WeeklyVolumeCardProps {
-  insights: NonNullable<DashboardTypes['weeklyInsights']>;
+  // Use the explicit API response type directly instead of referencing the DashboardTypes union
+  insights: WeeklyInsightsResponse;
   onPreviousWeek: () => void;
   onNextWeek: () => void;
   canGoNext?: boolean;
   weekLabel: string;
 }
 
-export const WeeklyVolumeCard = ({ insights, onPreviousWeek, onNextWeek, canGoNext, weekLabel }: WeeklyVolumeCardProps) => {
+export const WeeklyVolumeCard = ({ 
+  insights, 
+  onPreviousWeek, 
+  onNextWeek, 
+  canGoNext, 
+  weekLabel 
+}: WeeklyVolumeCardProps) => {
   const segments = [
     { label: "Morning", count: insights.morning_activities, color: "bg-red-400" },
     { label: "Afternoon", count: insights.afternoon_activities, color: "bg-amber-400" },
