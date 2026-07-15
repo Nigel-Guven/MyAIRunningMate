@@ -10,12 +10,13 @@ import UpcomingSchedule from '../components/dashboard/UpcomingEventsCard';
 import AIMateCard from '../components/dashboard/AIMateCard';
 import type { EventViewResponse } from '../types/dashboard/eventViewResponse';
 import type { BestEffortResponse } from '../types/dashboard/bestEffortResponse';
+import UserMetricsCard from '../components/dashboard/UserMetricsCard';
 
 const initialStaticState: InitialDashboardData = {
+  userMetrics: null,
   primaryEvent: null,
   upcomingEvents: [] as EventViewResponse[],
-  bestEfforts: [] as BestEffortResponse[],
-  latestWeight: null,
+  bestEfforts: [] as BestEffortResponse[]
 };
 
 export const DashboardPage = () => {
@@ -81,13 +82,15 @@ export const DashboardPage = () => {
 
   if (error) return <div className="p-12 text-red-400">{error}</div>;
 
-  const { primaryEvent, upcomingEvents, bestEfforts, latestWeight } = staticData;
+  const { userMetrics, primaryEvent, upcomingEvents, bestEfforts} = staticData;
   const insights = weeklyInsights || DEFAULT_WEEKLY_INSIGHTS;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700 pb-12">
-      <DashboardHeader latestWeight={latestWeight} />
+      <DashboardHeader/>
       
+      <UserMetricsCard metrics={userMetrics} />
+
       <PrimaryEventHero primaryEvent={primaryEvent} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

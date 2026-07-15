@@ -64,7 +64,7 @@ public class InsightsService(
             
             //DerivedMetrics
             UserVolumetricOxygenMaxRating = fitnessMetricsCalculator.GetVo2MaxRating(v02Max),
-            FitnessPercentile = fitnessMetricsCalculator.GetFitnessPercentile(v02Max, 30),
+            FitnessPercentile = fitnessMetricsCalculator.GetFitnessPercentile(v02Max),
             PowerToWeightRatio = powerToWeightRatio,
             PowerRating = fitnessMetricsCalculator.GetPowerRating(powerToWeightRatio),
             ThresholdPercentagePower = fitnessMetricsCalculator.CalculateThresholdPercentageOfMaxHr(latestActivity.UserLactateThresholdHeartRate,  latestActivity.UserMaxHeartRate),

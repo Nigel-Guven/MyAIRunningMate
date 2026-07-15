@@ -34,23 +34,16 @@ public class FitnessMetricsCalculator : IFitnessMetricsCalculator
             _    => "#991b1b"  // Field Marshal - Prestige Crimson Red
         };
 
-    public int GetFitnessPercentile(double vo2Max, int age)
-    {
-        if (age is >= 30 and < 40)
+    public int GetFitnessPercentile(double vo2Max) =>
+        vo2Max switch
         {
-            return vo2Max switch
-            {
-                < 35 => 10,
-                < 40 => 25,
-                < 45 => 50,
-                < 50 => 70,
-                < 55 => 85,
-                _ => 95
-            };
-        }
-
-        return 50;
-    }
+            < 35 => 10,
+            < 40 => 25,
+            < 45 => 50,
+            < 50 => 70,
+            < 55 => 85,
+            _ => 95
+        };
 
     public double CalculatePowerToWeight(
         int power,

@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
 
     dashboard: {
         insights: '/dashboard/insights',
+        fitnessProfile: '/dashboard/fitness-profile',
     },
 
     events: {

@@ -1,7 +1,6 @@
 namespace MyAIRunningMate.Contracts.Analytics.Responses;
 
 public record UserMetricsResponse(
-    int Age,
     double WeightKg,
     double UserVolumetricOxygenMax,
     int UserMaxHeartRate,

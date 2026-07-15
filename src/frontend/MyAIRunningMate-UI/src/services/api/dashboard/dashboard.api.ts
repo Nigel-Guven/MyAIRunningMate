@@ -4,8 +4,15 @@ import type { EventViewResponse } from '../../../types/dashboard/eventViewRespon
 import type { BestEffortResponse } from '../../../types/dashboard/bestEffortResponse';
 import type { WeightResponse } from '../../../types/weight/weightResponse';
 import type { WeeklyInsightsResponse } from '../../../types/dashboard/weeklyInsightsResponse';
+import type { UserMetricsResponse } from '../../../types/dashboard/userMetricsResponse';
 
 export const dashboardApi = {
+
+  getUserMetrics: () =>
+    http.get<UserMetricsResponse>(
+      API_ENDPOINTS.dashboard.fitnessProfile
+    ),
+
   getPrimaryEvent: () =>
     http.get<EventViewResponse>(
       API_ENDPOINTS.events.primaryEvent
@@ -35,5 +42,4 @@ export const dashboardApi = {
         },
       }
     ),
-
 };
