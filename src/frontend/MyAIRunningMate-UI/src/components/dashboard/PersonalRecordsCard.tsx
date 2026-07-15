@@ -3,7 +3,7 @@ import { formatTime } from '../../services/helpers/formatTime';
 
 // Define the order and labels for the UI
 const SWIMMING_CATEGORIES = ["100 Metre", "400 Metre", "750 Metre", "1km", "1500 Metre"];
-const RUNNING_CATEGORIES = ["1km", "1 mile", "5K", "10K", "Half Marathon", "Marathon"];
+const RUNNING_CATEGORIES = ["1km", "1 mile", "5k", "10k", "Half Marathon", "Marathon"];
 
 interface PersonalRecordsCardProps {
   bestEfforts: DashboardTypes['bestEfforts'];

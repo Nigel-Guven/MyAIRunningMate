@@ -25,12 +25,12 @@ echo "Starting Python API..."
 ) &
 PYTHON_PID=$!
 
-#echo "Starting C# API..."
-#(
-#    cd "$ROOT/src/backend/MyAIRunningMate" || exit 1
-#    dotnet run --project MyAIRunningMate.Service
-#) &
-#DOTNET_PID=$!
+echo "Starting C# API..."
+(
+    cd "$ROOT/src/backend/MyAIRunningMate" || exit 1
+    dotnet run --project MyAIRunningMate.Service
+) &
+DOTNET_PID=$!
 
 echo ""
 echo "Services started:"

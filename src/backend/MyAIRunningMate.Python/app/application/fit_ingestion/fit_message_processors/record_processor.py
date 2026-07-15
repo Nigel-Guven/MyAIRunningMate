@@ -10,7 +10,6 @@ def process_record_messages(fitfile):
     
     # Use enumerate to track the loop count
     for i, entity in enumerate(get_messages(KEY)):
-        # Only process every 10th record (indices 0, 10, 20, etc.)
         if i % 10 != 0:
             continue
             
