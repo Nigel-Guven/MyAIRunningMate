@@ -51,6 +51,8 @@ public static class DependencyInjection
         services.AddScoped<ICalendarService, CalendarService>();
         services.AddScoped<IIngestionPipelineService, IngestionPipelineService>();
         services.AddScoped<ITrainingPlanService, TrainingPlanService>();
+        
+        services.AddTransient<IFitnessMetricsCalculator, FitnessMetricsCalculator>();
 
         return services;
     }

@@ -24,4 +24,17 @@ public class DashboardInsightsController(IUserContext userContext, IInsightsServ
         
         return Ok(dto);
     }
+    
+    [HttpGet("fitness-profile")]
+    public async Task<ActionResult<WeeklyInsightsResponse>> GetUserFitnessMetrics()
+    {
+        var userId = userContext.GetUserId();
+        if (userId == Guid.Empty) return Unauthorized();
+        
+        var userMetrics = await insightsService.GetUserMetrics(userId);
+
+        var dto = userMetrics.ToUserMetricsDto();
+        
+        return Ok(dto);
+    }
 }

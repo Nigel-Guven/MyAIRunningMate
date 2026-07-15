@@ -42,4 +42,21 @@ public static class AnalyticsDtoExtensions
             YearlyAverageTrainingEffect: model.YearlyAverageTrainingEffect,
             YearlyTotalTrainingEffect: model.YearlyTotalTrainingEffect
         );
+
+    public static UserMetricsResponse ToUserMetricsDto(this UserMetrics model) =>
+        new(Age: model.Age,
+            WeightKg: model.WeightKg,
+            UserVolumetricOxygenMax: model.UserVolumetricOxygenMax,
+            UserMaxHeartRate: model.UserMaxHeartRate,
+            UserLactateThresholdHeartRate: model.UserLactateThresholdHeartRate,
+            UserLactateThresholdPower: model.UserLactateThresholdPower,
+            UserLactateThresholdSpeed: model.UserLactateThresholdSpeed,
+            UserVolumetricOxygenMaxRating: model.UserVolumetricOxygenMaxRating,
+            FitnessPercentile: model.FitnessPercentile,
+            PowerToWeightRatio: model.PowerToWeightRatio,
+            PowerRating: model.PowerRating,
+            ThresholdPercentagePower: model.ThresholdPercentagePower,
+            TrainingLevel: model.TrainingLevel,
+            FitnessRankColor: model.FitnessRankColor
+        );
 }

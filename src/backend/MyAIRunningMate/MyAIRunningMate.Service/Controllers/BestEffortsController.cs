@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAIRunningMate.Application.BestEfforts;
 using MyAIRunningMate.Application.User;
-using MyAIRunningMate.Contracts.BestEfforts.Requests;
 using MyAIRunningMate.Contracts.BestEfforts.Responses;
 using MyAIRunningMate.Service.Mappers;
 

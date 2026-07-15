@@ -88,7 +88,31 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
 
         return result.Models.Select(entity => entity.ToDomain()).ToList();
     }
+
+    public async Task<Activity> GetLatestActivity(Guid userId)
+    {
+        var result = await _supabase.From<ActivityEntity>()
+            .Filter("user_id", Constants.Operator.Equals, userId.ToString())
+            .Order("start_time", Constants.Ordering.Descending) 
+            .Limit(1)                                  
+            .Get();
+        
+        var latestEntity = result.Models.FirstOrDefault();
+
+        return latestEntity?.ToDomain();
+    }
     
+    public async Task<Weight> GetLatestWeight(Guid userId)
+    {
+        var result = await _supabase.From<WeightEntity>()
+            .Filter("user_id", Constants.Operator.Equals, userId.ToString())
+            .Order("created_at", Constants.Ordering.Descending) 
+            .Limit(1)                                  
+            .Get();
+        
+        return result.Models.FirstOrDefault().ToDomain();
+    }
+
     public async Task<Guid> InsertAsync(Activity activity)
     {
         var entity = activity.ToEntity();

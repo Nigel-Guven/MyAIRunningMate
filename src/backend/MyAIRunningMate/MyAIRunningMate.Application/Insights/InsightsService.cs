@@ -4,7 +4,7 @@ using MyAIRunningMate.Domain.Models;
 namespace MyAIRunningMate.Application.Insights;
 
 public class InsightsService(
-    IActivityRepository activityRepository, IActivityMetricsRepository activityMetricsRepository)
+    IActivityRepository activityRepository, IActivityMetricsRepository activityMetricsRepository, IWeightRepository weightRepository, IFitnessMetricsCalculator fitnessMetricsCalculator)
     : IInsightsService
 {
     public async Task<WeeklyInsights> GetWeeklyInsights(Guid userId, int weekOffset)
@@ -41,6 +41,36 @@ public class InsightsService(
         return validInsights.Count == 0 
             ? GetEmptyWeeklyInsights() 
             : CalculateWeeklyMetrics(validInsights);
+    }
+
+    public async Task<UserMetrics> GetUserMetrics(Guid userId)
+    {
+        var latestWeight = await weightRepository.GetLatestWeight(userId);
+        var latestActivity = await activityRepository.GetLatestActivity(userId);
+
+        var v02Max = latestActivity.UserVolumetricOxygenMax;
+        var weightKg = Math.Round(latestWeight.WeightInPounds * 0.4539, 1);
+        
+        var powerToWeightRatio = fitnessMetricsCalculator.CalculatePowerToWeight(latestActivity.UserLactateThresholdPower, weightKg);
+        
+        return new UserMetrics
+        {
+            WeightKg = weightKg,
+            UserVolumetricOxygenMax = v02Max,
+            UserMaxHeartRate = latestActivity.UserMaxHeartRate,
+            UserLactateThresholdHeartRate = latestActivity.UserLactateThresholdHeartRate,
+            UserLactateThresholdPower = latestActivity.UserLactateThresholdPower,
+            UserLactateThresholdSpeed = latestActivity.UserLactateThresholdSpeed,
+            
+            //DerivedMetrics
+            UserVolumetricOxygenMaxRating = fitnessMetricsCalculator.GetVo2MaxRating(v02Max),
+            FitnessPercentile = fitnessMetricsCalculator.GetFitnessPercentile(v02Max, 30),
+            PowerToWeightRatio = powerToWeightRatio,
+            PowerRating = fitnessMetricsCalculator.GetPowerRating(powerToWeightRatio),
+            ThresholdPercentagePower = fitnessMetricsCalculator.CalculateThresholdPercentageOfMaxHr(latestActivity.UserLactateThresholdHeartRate,  latestActivity.UserMaxHeartRate),
+            TrainingLevel = fitnessMetricsCalculator.GetTrainingLevel(v02Max, powerToWeightRatio),
+            FitnessRankColor = fitnessMetricsCalculator.GetFitnessRankColor(v02Max)
+        };
     }
 
     public Task<(YearlyStatistics Summary, IEnumerable<WeeklyInsights> WeeklyVolumes)> GetAnalyticsStatistics(Guid userId, int year) => throw new NotImplementedException();
