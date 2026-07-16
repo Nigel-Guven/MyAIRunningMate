@@ -1,5 +1,5 @@
 export interface TimeSeriesRecordResponse {
-  time_stamp: string;
+  timestamp: string;
   distance_metres: number | null;
   heart_rate: number | null;
   cadence: number | null;

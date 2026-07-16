@@ -5,6 +5,10 @@ import { ActivityHeader } from '../components/activity/ActivityHeader';
 import { ActivityMap } from '../components/activity/ActivityMap';
 import { UserSpecificDetails } from '../components/activity/UserSpecificDetails';
 import { useParams } from 'react-router';
+import { ActivityMetrics } from '../components/activity/ActivityMetrics';
+import { LapTable } from '../components/activity/LapTable';
+import { BestEfforts } from '../components/activity/BestEfforts';
+import { TimeSeriesGraph } from '../components/activity/TimeSeriesGraph';
 
 export const ActivityDeepDivePage: React.FC = () => {
   const { activityId } = useParams() as { activityId: string };
@@ -87,36 +91,43 @@ export const ActivityDeepDivePage: React.FC = () => {
   const { activity_details } = data;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="min-h-screen bg-slate-950 text-slate-100 md:px-4 py-4 md:py-8">
+      <div className="w-full mx-auto space-y-6">
         
-        {/* Component 1: Header */}
-        <ActivityHeader 
-          exerciseName={activity_details.exercise_name}
-          startTime={activity_details.start_time}
-          location={activity_details.location || "Unknown Location"} 
-          distanceMetres={activity_details.distance_metres}
-          totalTime={activity_details.total_time}
-          numberOfLaps={activity_details.number_of_laps}
-        />
+          {/* Component 1: Header */}
+          <ActivityHeader 
+            garminActivityId={activity_details.garmin_activity_id}
+            exerciseName={activity_details.exercise_name}
+            startTime={activity_details.start_time}
+            location={activity_details.location || "Unknown Location"} 
+            distanceMetres={activity_details.distance_metres}
+            movingTime={activity_details.moving_time}
+            totalTime={activity_details.total_time}
+            totalAscent={activity_details.total_ascent || null}
+            totalDescent={activity_details.total_descent || null}
+            numberOfLaps={activity_details.number_of_laps}
+          />
 
-        {/* Dynamic Responsive Grid Layout */}
-        <div className={`grid grid-cols-1 gap-6 items-start ${
-          activity_details.map_polyline ? 'lg:grid-cols-3' : 'max-w-3xl mx-auto'
-        }`}>
+          {/* Responsive Grid Layout */}
+          <div className={`grid grid-cols-1 gap-4 items-start 
+          ${
+            activity_details.map_polyline 
+              ? 'lg:grid-cols-[3fr_2fr]' 
+              : 'max-w-3xl mx-auto'
+          }`}>
           
-          {/* Component 2: Map (renders conditionally only if polyline exists) */}
+          {/* Component 2: Map */}
           {activity_details.map_polyline && (
-            <div className="lg:col-span-2">
-              <ActivityMap 
-                mapPolyline={activity_details.map_polyline}
-                locationName={activity_details.location || "Unknown Location"}
-              />
-            </div>
+          <div>
+            <ActivityMap 
+              mapPolyline={activity_details.map_polyline}
+              locationName={activity_details.location || "Unknown Location"}
+            />
+          </div>
           )}
 
           {/* Component 3: User Biometric Thresholds */}
-          <div className={activity_details.map_polyline ? 'lg:col-span-1' : 'w-full'}>
+          <div>
             <UserSpecificDetails 
               beginningBodyBattery={activity_details.beginning_body_battery}
               beginningBodyPotential={activity_details.beginning_body_potential}
@@ -130,9 +141,30 @@ export const ActivityDeepDivePage: React.FC = () => {
               recoveryTimeMinutes={activity_details.recovery_time}
             />
           </div>
-
         </div>
 
+        {/* Components 4, 5 & 6: Metrics + Laps + Best Efforts */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+
+          <ActivityMetrics 
+            metrics={data.activity_metrics}
+          />
+
+          <LapTable 
+            laps={data.laps}
+          />
+
+          {data.best_efforts && (
+          <BestEfforts 
+            efforts={data.best_efforts}
+          />
+          )}
+        </div>
+        {/* Component 7: Time Series */}
+        <TimeSeriesGraph
+          records={data.time_series_records}
+          averageHeartRate={data.activity_metrics.average_heart_rate}
+        />
       </div>
     </div>
   );

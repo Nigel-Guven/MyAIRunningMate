@@ -1,27 +1,35 @@
 import React from 'react';
 import { Calendar, MapPin, Activity} from 'lucide-react';
+import GarminLogo from "../../assets/garmin-connect.png";
+import StravaLogo from "../../assets/strava.png";
 
 interface ActivityHeaderProps {
+  garminActivityId: string;
   exerciseName: string;
   startTime: string;
   location: string;
   distanceMetres: number;
+  movingTime: number;
   totalTime: number;
+  totalAscent: number | null;
+  totalDescent: number | null;
   numberOfLaps: number;
 }
 
 export const ActivityHeader: React.FC<ActivityHeaderProps> = ({
+  garminActivityId,
   exerciseName,
   startTime,
   location,
   distanceMetres,
+  movingTime,
   totalTime,
+  totalAscent,
+  totalDescent,
   numberOfLaps,
 }) => {
-  // Convert meters to kilometers
   const distanceKm = (distanceMetres / 1000).toFixed(2);
 
-  // Format total seconds into MM:SS or HH:MM:SS
   const formatTime = (seconds: number) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -33,7 +41,6 @@ export const ActivityHeader: React.FC<ActivityHeaderProps> = ({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Calculate Average Pace (Min/Km)
   const calculatePace = (seconds: number, meters: number) => {
     if (meters === 0) return '0:00';
     const km = meters / 1000;
@@ -68,10 +75,31 @@ export const ActivityHeader: React.FC<ActivityHeaderProps> = ({
               <Calendar className="h-4 w-4" />
               {formattedDate}
             </span>
+
             <span className="flex items-center gap-1">
               <MapPin className="h-4 w-4" />
               {location}
             </span>
+
+            <a
+              href={`https://connect.garmin.com/app/activity/${garminActivityId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
+            >
+              <img src={GarminLogo} className="h-4 w-4" alt="Garmin" />
+              Garmin
+            </a>
+
+            <a
+              href="https://www.strava.com/athlete/training"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-orange-400 hover:text-orange-300"
+            >
+              <img src={StravaLogo} className="h-4 w-4" alt="Strava" />
+              Strava
+            </a>
           </div>
         </div>
 
@@ -82,8 +110,12 @@ export const ActivityHeader: React.FC<ActivityHeaderProps> = ({
             <span className="text-xl font-bold">{distanceKm} <span className="text-xs text-emerald-400">km</span></span>
           </div>
           <div className="px-2 border-l border-slate-800">
-            <span className="text-xs text-slate-400 block mb-1">Time</span>
+            <span className="text-xs text-slate-400 block mb-1">Elapsed Time</span>
             <span className="text-xl font-bold">{formatTime(totalTime)}</span>
+          </div>
+          <div className="px-2 border-l border-slate-800">
+            <span className="text-xs text-slate-400 block mb-1">Moving Time</span>
+            <span className="text-xl font-bold">{formatTime(movingTime)}</span>
           </div>
           <div className="px-2 border-l border-slate-800">
             <span className="text-xs text-slate-400 block mb-1">Avg Pace</span>
@@ -92,6 +124,14 @@ export const ActivityHeader: React.FC<ActivityHeaderProps> = ({
           <div className="px-2 border-l border-slate-800">
             <span className="text-xs text-slate-400 block mb-1">Laps</span>
             <span className="text-xl font-bold">{numberOfLaps}</span>
+          </div>
+          <div className="px-2 border-l border-slate-800">
+            <span className="text-xs text-slate-400 block mb-1">Elevation Gain</span>
+            <span className="text-xl font-bold">{totalAscent} m</span>
+          </div>
+          <div className="px-2 border-l border-slate-800">
+            <span className="text-xs text-slate-400 block mb-1">Elevation Loss</span>
+            <span className="text-xl font-bold">{totalDescent} m</span>
           </div>
         </div>
       </div>

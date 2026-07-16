@@ -9,8 +9,8 @@ export interface ActivityDetailsResponse {
   beginning_body_potential: number;
   ending_body_battery: number;
   ending_potential: number;
-  total_ascent: number;
-  total_descent: number;
+  total_ascent: number | null;
+  total_descent: number | null;
   recovery_time: number;
   exercise_type: string;
   exercise_subtype: string;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Battery, Zap, Clock, TrendingDown } from 'lucide-react';
+import { Battery, Zap, Clock, TrendingDown, Wind } from 'lucide-react';
 
 interface UserSpecificDetailsProps {
   beginningBodyBattery: number;
@@ -38,7 +38,7 @@ export const UserSpecificDetails: React.FC<UserSpecificDetailsProps> = ({
   const bodyBatteryDrain = beginningBodyBattery - endingBodyBattery;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-1 gap-6 w-full">
       
       {/* Card 1: Garmin Body Battery & Stress Impact */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
@@ -102,34 +102,38 @@ export const UserSpecificDetails: React.FC<UserSpecificDetailsProps> = ({
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
             <span className="text-xs text-slate-500 block">VO2 Max</span>
-            <span className="text-lg font-bold text-white">{userVolumetricOxygenMax}</span>
-            <span className="text-[10px] text-emerald-400 block mt-0.5">Excellent</span>
+            <span className="text-lg font-bold text-white">
+              <Wind className="h-4 w-4 text-amber-400 inline mr-2" />
+              {userVolumetricOxygenMax}
+              </span>
           </div>
 
           <div className="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
-            <span className="text-xs text-slate-500 block">Recovery Time Needed</span>
+            <span className="text-xs text-slate-500 block">
+              <p>Recovery Time</p>
+            </span>
             <span className="text-lg font-bold text-white flex items-center gap-1">
-              <Clock className="h-4 w-4 text-sky-400 inline" />
+              <Clock className="h-4 w-4 text-sky-400 inline mr-2" />
               {formatRecoveryTime(recoveryTimeMinutes)}
             </span>
           </div>
 
           <div className="bg-slate-950 p-3 rounded-xl border border-slate-800/80 col-span-2">
             <span className="text-xs text-slate-500 block mb-2">Lactate Threshold Markers</span>
-            <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="grid grid-cols-2 gap-2 text-center">
               <div className="border-r border-slate-800/80">
                 <span className="text-[10px] text-slate-400 block">Max Heart Rate</span>
                 <span className="text-sm font-semibold text-rose-400">{userMaxHeartRate} bpm</span>
               </div>
               <div className="border-r border-slate-800/80">
-                <span className="text-[10px] text-slate-400 block">Lactate Threshold Heart Rate</span>
+                <span className="text-[10px] text-slate-400 block">Threshold Heart Rate</span>
                 <span className="text-sm font-semibold text-rose-400">{userLactateThresholdHeartRate} bpm</span>
               </div>
               <div className="border-r border-slate-800/80">
-                <span className="text-[10px] text-slate-400 block">Power Threshold</span>
+                <span className="text-[10px] text-slate-400 block">Threshold Power</span>
                 <span className="text-sm font-semibold text-amber-400">{userLactateThresholdPower} W</span>
               </div>
-              <div>
+              <div className="border-r border-slate-800/80">
                 <span className="text-[10px] text-slate-400 block">Threshold Speed</span>
                 <span className="text-sm font-semibold text-emerald-400">{userLactateThresholdSpeed} km/h</span>
               </div>

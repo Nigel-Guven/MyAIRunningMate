@@ -11,7 +11,7 @@ export interface ActivityMetricsResponse {
   average_cadence: number;
   max_cadence: number | null;
   average_vertical_oscillation: number | null;
-  average_step_length: number | null;
+  step_length: number | null;
   average_vertical_ratio: number | null;
   average_stance_time: number | null;
   aerobic_training_effect: number;
