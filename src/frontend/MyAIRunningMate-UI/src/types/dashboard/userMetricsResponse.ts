@@ -1,4 +1,5 @@
 export interface  UserMetricsResponse {
+    last_recorded_time: string;
     age: number;
     weight_kg: number;
     user_volumetric_oxygen_max: number;

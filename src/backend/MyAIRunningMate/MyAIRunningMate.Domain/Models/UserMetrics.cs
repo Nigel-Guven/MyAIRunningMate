@@ -2,6 +2,7 @@ namespace MyAIRunningMate.Domain.Models;
 
 public class UserMetrics
 {
+    public DateTime LastRecordedTime { get; init; }
     public double WeightKg { get; init; }
     public double UserVolumetricOxygenMax { get; init; }
     public int UserMaxHeartRate { get; init; }

@@ -1,22 +1,11 @@
-using System.Text.Json.Serialization;
+using MyAIRunningMate.Contracts.BestEfforts.Responses;
 
 namespace MyAIRunningMate.Contracts.Aggregates.Responses;
 
 public record AggregateArtifactResponse(
-    Guid? ActivityId,
-    string GarminActivityId,
-    DateTime StartTime,
-    string ExerciseType,
-    double DurationSeconds,
-    double MovingTimeSeconds,
-    double DistanceMetres,
-    int Calories,
-    int? AverageHeartRate,
-    int? MaxHeartRate,
-    double? TotalElevationGain,
-    double TrainingEffect,
-    int? PoolLength,
-    string? MapPolyline,
+    ActivityDetailsResponse ActivityDetails,
+    ActivityMetricsResponse? ActivityMetrics,
     IEnumerable<TimeSeriesRecordResponse>? TimeSeriesRecords,
-    IEnumerable<LapViewResponse> Laps
+    IEnumerable<LapViewResponse> Laps,
+    IEnumerable<BestEffortResponse>? BestEfforts
 );

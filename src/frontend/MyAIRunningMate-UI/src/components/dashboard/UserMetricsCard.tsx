@@ -1,3 +1,4 @@
+import { formatDateLong } from "../../services/helpers/dateFormatter";
 import type { UserMetricsResponse } from "../../types/dashboard/userMetricsResponse";
 
 interface UserMetricsCardProps {
@@ -5,9 +6,9 @@ interface UserMetricsCardProps {
 }
 
 interface MetricProps {
-  icon: string; // Changed to string for emoji support
+  icon: string; 
   title: string;
-  value: string | number | undefined; // Safeguard if metrics is null
+  value: string | number | undefined;
   unit?: string;
   children?: React.ReactNode;
 }
@@ -55,7 +56,7 @@ export default function UserMetricsCard({ metrics }: UserMetricsCardProps) {
           </h2>
 
           <p className="text-slate-400 text-sm mt-1">
-            Updated from your latest Garmin activity
+            Updated to {formatDateLong(metrics?.last_recorded_time || new Date().toISOString())}
           </p>
         </div>
 
@@ -93,7 +94,7 @@ export default function UserMetricsCard({ metrics }: UserMetricsCardProps) {
           unit="bpm"
         >
           <div className="text-slate-400 text-xs">
-            Maximum recorded heart rate
+            Maximum possible heart rate
           </div>
         </Metric>
 

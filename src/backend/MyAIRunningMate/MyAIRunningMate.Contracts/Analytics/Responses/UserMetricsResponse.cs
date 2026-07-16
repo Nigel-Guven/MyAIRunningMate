@@ -1,6 +1,7 @@
 namespace MyAIRunningMate.Contracts.Analytics.Responses;
 
 public record UserMetricsResponse(
+    DateTime LastRecordedTime,
     double WeightKg,
     double UserVolumetricOxygenMax,
     int UserMaxHeartRate,

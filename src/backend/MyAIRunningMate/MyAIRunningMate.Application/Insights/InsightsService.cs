@@ -55,6 +55,7 @@ public class InsightsService(
         
         return new UserMetrics
         {
+            LastRecordedTime = latestActivity.StartTime,
             WeightKg = weightKg,
             UserVolumetricOxygenMax = v02Max,
             UserMaxHeartRate = latestActivity.UserMaxHeartRate,

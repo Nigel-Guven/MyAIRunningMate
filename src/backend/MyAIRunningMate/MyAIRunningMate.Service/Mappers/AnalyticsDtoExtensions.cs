@@ -45,6 +45,7 @@ public static class AnalyticsDtoExtensions
 
     public static UserMetricsResponse ToUserMetricsDto(this UserMetrics model) =>
         new(
+            LastRecordedTime: model.LastRecordedTime,
             WeightKg: model.WeightKg,
             UserVolumetricOxygenMax: model.UserVolumetricOxygenMax,
             UserMaxHeartRate: model.UserMaxHeartRate,

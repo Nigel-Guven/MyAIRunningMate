@@ -20,7 +20,18 @@ public class BestEffortsRepository(Supabase.Client supabase) : BaseRepository<Be
 
         return entities.Models.Select(entity => entity.ToDomain());
     }
-    
+
+    public async Task<IEnumerable<BestEffort>> GetBestEffortsByActivityId(Guid activityId)
+    {
+        var entities = await _supabase
+            .From<BestEffortEntity>()
+            .Where(x => x.ActivityId == activityId)
+            .Order("distance_metres", Constants.Ordering.Ascending)
+            .Get();
+
+        return entities.Models.Select(entity => entity.ToDomain());
+    }
+
     public async Task InsertBestEfforts(IEnumerable<BestEffort> bestEfforts)
     {
         var entities = bestEfforts.Select(am => am.ToEntity());
