@@ -1,10 +1,12 @@
 export interface LapResponse {
   lap_number: number;
-  distance_metres: number;
+  lap_start_time: string;
   duration_seconds: number;
-  average_heart_rate: number;
+  distance_metres: number;
   average_speed: number;
-  average_cadence: number;
+  average_heart_rate: number;
+  max_heart_rate: number;
+  average_cadence: number | null;
   primary_stroke: string | null;
   average_swolf: number | null;
 }

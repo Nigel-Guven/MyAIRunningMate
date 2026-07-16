@@ -1,23 +1,14 @@
+import type { BestEffortResponse } from "../dashboard/bestEffortResponse";
+import type { ActivityDetailsResponse } from "./activityDetailsResponse";
+import type { ActivityMetricsResponse } from "./activityMetricsResponse";
 import type { LapResponse } from "./lapResponse";
 import type { TimeSeriesRecordResponse } from "./timeSeriesRecordResponse";
 
 
 export interface AggregateArtifactResponse {
-  activity_id: string;
-  garmin_activity_id: string;
-  start_time: string;
-  exercise_type: string;
-  duration_seconds: number;
-  moving_time_seconds: number;
-  distance_metres: number;
-  calories: number;
-  average_heart_rate: number | null;
-  max_heart_rate: number | null;
-  total_elevation_gain: number | null;
-  raw_pace_seconds_per_metre: number;
-  training_effect: number;
-  pool_length: number | null;
-  map_polyline: string | null;
+  activity_details: ActivityDetailsResponse;
+  activity_metrics: ActivityMetricsResponse;
   time_series_records: TimeSeriesRecordResponse[];
   laps: LapResponse[];
+  best_efforts: BestEffortResponse[] | null;
 }
