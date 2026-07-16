@@ -2,6 +2,7 @@ using MyAIRunningMate.Database.Entities;
 using MyAIRunningMate.Database.Mappers;
 using MyAIRunningMate.Domain.Interfaces.Repositories;
 using MyAIRunningMate.Domain.Models;
+using Supabase.Postgrest;
 
 namespace MyAIRunningMate.Database.Repository;
 
@@ -21,6 +22,7 @@ public class LapRepository(Supabase.Client supabase) : BaseRepository<LapEntity>
         var result = await _supabase
             .From<LapEntity>()
             .Where(x => x.ActivityId == activityId)
+            .Order(x => x.LapNumber, Constants.Ordering.Ascending)
             .Get();
         
         return result.Models.Select(entity => entity.ToDomain());
