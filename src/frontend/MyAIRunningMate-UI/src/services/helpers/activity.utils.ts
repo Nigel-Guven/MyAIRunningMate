@@ -1,3 +1,7 @@
+import L from "leaflet";
+import { useEffect } from "react";
+import { useMap } from "react-leaflet/hooks";
+
 export const formatDuration = (
   seconds: number
 ): string => {
@@ -24,4 +28,49 @@ export const formatDistanceKm = (
     metres / 1000
   ).toFixed(2)} km`;
 };
+
+export function FitBounds({
+  coordinates,
+}: {
+  coordinates: [number, number][];
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (coordinates.length < 2) return;
+
+    const bounds = L.latLngBounds(coordinates);
+
+    map.fitBounds(bounds, {
+      padding: [40, 40],
+      maxZoom: 16,
+      animate: false,
+    });
+  }, [coordinates, map]);
+
+  return null;
+}
+
+export function MapResizeFix() {
+  const map = useMap();
+
+  useEffect(() => {
+    const resize = () => {
+      map.invalidateSize();
+    };
+
+    resize();
+
+    const timer = setTimeout(resize, 300);
+
+    window.addEventListener("resize", resize);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", resize);
+    };
+  }, [map]);
+
+  return null;
+}
 

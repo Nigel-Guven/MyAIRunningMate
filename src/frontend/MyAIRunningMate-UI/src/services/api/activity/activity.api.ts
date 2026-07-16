@@ -1,14 +1,13 @@
 import { http } from '../config/http';
 
 import { API_ENDPOINTS } from '../config/endpoints';
-
-import type { AggregateArtifactViewDto, } from '../../../types/views/aggregateArtifactView';
+import type { AggregateArtifactResponse } from '../../../types/aggregates/aggregateArtifactResponse';
 
 export const activityApi = {
   getDetail: (
     activityId: string
   ) =>
-    http.get<AggregateArtifactViewDto>(
+    http.get<AggregateArtifactResponse>(
       API_ENDPOINTS.activityView.activityAggregate,
       {
         params: {

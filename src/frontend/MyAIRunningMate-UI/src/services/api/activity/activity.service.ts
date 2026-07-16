@@ -1,7 +1,7 @@
 import { activityApi } from './activity.api';
 
 export const activityService = {
-  getDetail: async (
+getDetail: async (
     activityId: string
   ) => {
 

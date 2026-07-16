@@ -54,7 +54,7 @@ function App() {
           
           <Route path="/home" element={<DashboardPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
-          <Route path="/activity/:id" element={<ActivityDeepDivePage />} />
+          <Route path="/activity/:activityId" element={<ActivityDeepDivePage />} />
           <Route path="/upload" element={<UploadPage />} />
           <Route path="/goals" element={<AnalyticsPage />} />
           <Route path="/nexus" element={<NexusPage />} />
