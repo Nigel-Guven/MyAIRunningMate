@@ -1,5 +1,5 @@
-import React from "react";
-import { HeartPulse, Zap, Thermometer, Footprints } from "lucide-react";
+import React, { type ReactNode } from "react";
+import { HeartPulse, Zap, Thermometer, Footprints, ChessKing, ChessQueen, Utensils, Droplet, RefreshCw, ArrowUpDown, ArrowRightLeft, ArrowDownFromLine, LandPlot, WavesHorizontal, WavesLadder } from "lucide-react";
 import type { ActivityMetricsResponse } from "../../types/aggregates/activityMetricsResponse";
 
 interface ActivityMetricsProps {
@@ -33,6 +33,19 @@ export const ActivityMetrics: React.FC<ActivityMetricsProps> = ({ metrics }) => 
       icon: Thermometer,
     },
   ];
+
+  function sweatLossInfo(estimated_sweat_loss: number | null): string {
+    
+    if(estimated_sweat_loss != null)
+    {
+      const litres  = estimated_sweat_loss/1000;
+
+      return `Sweat Loss - About ${litres.toFixed(1)} bottles of water.`;
+    }
+
+      return "Sweat Loss"
+    
+  }
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
@@ -73,25 +86,29 @@ export const ActivityMetrics: React.FC<ActivityMetricsProps> = ({ metrics }) => 
             <Metric 
             label="Aerobic" 
             value={metrics.aerobic_training_effect} 
+            icon=<ChessKing color="#ff0000" />
             />
 
             <Metric 
             label="Anaerobic" 
             value={metrics.anaerobic_training_effect} 
+            icon=<ChessQueen color="#ff0000" />
             />
 
             <Metric 
             label="Calories" 
             value={`${metrics.total_calories} kcal`} 
+            icon=<Utensils color="#e1ff00" />
             />
 
             <Metric 
-            label="Sweat Loss" 
+            label={sweatLossInfo(metrics.estimated_sweat_loss)}
             value={
                 metrics.estimated_sweat_loss
                 ? `${metrics.estimated_sweat_loss} ml`
                 : "Not Recorded"
             } 
+            icon=<Droplet color="#1f77ea" />
             />
         </div>
 
@@ -110,6 +127,7 @@ export const ActivityMetrics: React.FC<ActivityMetricsProps> = ({ metrics }) => 
                 <Metric
                     label="Total Cycles"
                     value={metrics.total_cycles}
+                    icon=<RefreshCw color="#34f941" />
                 />
 
                 <Metric
@@ -119,6 +137,7 @@ export const ActivityMetrics: React.FC<ActivityMetricsProps> = ({ metrics }) => 
                         ? `${metrics.average_vertical_oscillation} mm`
                         : "—"
                     }
+                    icon=<ArrowUpDown color="#34f941" />
                 />
 
                 <Metric
@@ -128,6 +147,7 @@ export const ActivityMetrics: React.FC<ActivityMetricsProps> = ({ metrics }) => 
                         ? `${metrics.step_length} mm`
                         : "—"
                     }
+                    icon=<ArrowRightLeft color="#34f941" />
                 />
 
                 <Metric
@@ -137,6 +157,7 @@ export const ActivityMetrics: React.FC<ActivityMetricsProps> = ({ metrics }) => 
                         ? `${metrics.average_vertical_ratio}%`
                         : "—"
                     }
+                    icon=<ArrowDownFromLine color="#34f941" />
                 />
 
                 <Metric
@@ -146,6 +167,7 @@ export const ActivityMetrics: React.FC<ActivityMetricsProps> = ({ metrics }) => 
                         ? `${metrics.average_stance_time} ms`
                         : "—"
                     }
+                    icon=<LandPlot color="#27ece9" />
                 />
 
                 </div>
@@ -182,6 +204,7 @@ export const ActivityMetrics: React.FC<ActivityMetricsProps> = ({ metrics }) => 
                 <Metric
                     label="SWOLF"
                     value={metrics.average_swolf}
+                    icon=<WavesHorizontal color="#4f27ec" />
                 />
 
                 <Metric
@@ -191,6 +214,7 @@ export const ActivityMetrics: React.FC<ActivityMetricsProps> = ({ metrics }) => 
                         ? `${metrics.pool_length} m`
                         : "—"
                     }
+                    icon=<WavesLadder color="#4f27ec" />
                 />
 
                 </div>
@@ -217,14 +241,20 @@ export const ActivityMetrics: React.FC<ActivityMetricsProps> = ({ metrics }) => 
   );
 };
 
-
-const Metric = ({label,value}: {label:string,value:any}) => (
+const Metric = ({ label, value, icon }: { label: string, value: any, icon: ReactNode }) => (
   <div>
-    <div className="text-xs text-slate-500">
+    <div className="text-xs text-slate-500 mb-0.5">
       {label}
     </div>
-    <div className="font-bold">
-      {value}
+    <div className="flex items-center gap-1.5 text-lg font-bold text-white">
+      {/* 
+        Using [&>svg] ensures that whatever SVG you pass in 
+        is forced to remain h-4 w-4 so it doesn't break your layout.
+      */}
+      <span className="shrink-0 flex items-center justify-center [&>svg]:h-4 [&>svg]:w-4">
+        {icon}
+      </span>
+      <span>{value}</span>
     </div>
   </div>
 );
