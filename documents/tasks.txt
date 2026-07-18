@@ -1,8 +1,6 @@
 Dashboard - Add more running events
 Aggregate - Laps more data points and aligned table fix
 
-Calendar - Calculate Training Effect on calendar item
-
 Analytics - Recalculate all items according to data
 
 Nexus - Complete Rework using Ollama

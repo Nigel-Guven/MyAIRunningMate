@@ -9,7 +9,7 @@ public class CalendarService(IActivityRepository activityRepo, IActivityMetricsR
     public async Task<IEnumerable<CalendarActivity>> GetMonthlyCalendarViews(DateTime byMonth, Guid userId)
     {
         var activities = await activityRepo.GetAllActivitiesByMonth(byMonth, userId);
-
+        
         var aggregates = await Task.WhenAll(
             activities.Select(async activity =>
             {
@@ -28,7 +28,7 @@ public class CalendarService(IActivityRepository activityRepo, IActivityMetricsR
                 };
             }));
 
-        return aggregates;
+        return aggregates.OrderBy(activity => activity.StartTime);
     }
 
     private static TrainingEffectStatus SetTrainingEffectStatus(double aerobicTrainingEffect, double anaerobicTrainingEffect)
