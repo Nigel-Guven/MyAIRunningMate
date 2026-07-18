@@ -14,7 +14,7 @@ public static class ActivityMetricsEntityMapper
             maxHeartRate: entity.MaxHeartRate,
             averageCadence: entity.AverageCadence,
             aerobicTrainingEffect: entity.AerobicTrainingEffect,
-            anaerobicTrainingEffect: entity.AerobicTrainingEffect,
+            anaerobicTrainingEffect: entity.AnaerobicTrainingEffect,
             estimatedSweatLoss: entity.EstimatedSweatLoss,
             averageTemperature: entity.AverageTemperature,
             maxTemperature: entity.MaxTemperature,

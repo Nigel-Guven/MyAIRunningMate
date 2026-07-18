@@ -4,6 +4,6 @@ namespace MyAIRunningMate.Application.Calendar;
 
 public interface ICalendarService
 {
-    Task<IEnumerable<AggregateArtifact>> GetMonthlyCalendarViews(DateTime byMonth, Guid userId);
+    Task<IEnumerable<CalendarActivity>> GetMonthlyCalendarViews(DateTime byMonth, Guid userId);
 
 }

@@ -5,13 +5,15 @@ namespace MyAIRunningMate.Service.Mappers;
 
 public static class CalendarDtoExtensions
 {
-    public static CalendarViewResponse ToCalendarViewResponse(this AggregateArtifact model) =>
+    public static CalendarViewResponse ToCalendarViewResponse(this CalendarActivity model) =>
         new(
-            ActivityId: model.GarminActivity.ActivityId,
-            ExerciseType: model.GarminActivity.ExerciseType,
-            StartTime: model.GarminActivity.StartTime,
-            DurationSeconds: model.GarminActivity.TotalTime,
-            DistanceMetres: model.GarminActivity.DistanceMetres,
-            TrainingEffectStatus: "NEEDS CALC..."
+            ActivityId: model.ActivityId,
+            ExerciseType: model.ExerciseType,
+            StartTime: model.StartTime,
+            DurationSeconds: model.DurationSeconds,
+            DistanceMetres: model.DistanceMetres,
+            AerobicTrainingEffect: model.AerobicTrainingEffect,
+            AnaerobicTrainingEffect: model.AnaerobicTrainingEffect,
+            TrainingEffectStatus: model.TrainingEffectStatus.ToString()
         );
 }

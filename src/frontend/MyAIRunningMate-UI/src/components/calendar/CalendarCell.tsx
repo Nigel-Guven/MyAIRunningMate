@@ -1,9 +1,9 @@
 import type { CalendarViewResponse } from "../../types/calendar/calendarViewResponse";
 import type { TrainingPlanEventResponse } from "../../types/nexus/trainingPlanEventResponse";
-import { ActivityTile } from "./ActivityTile";
+import { CalendarActivityTile } from "./CalendarActivityTile";
 import { TrainingPlanTarget } from "./TrainingPlanTarget";
 
-interface DayCellProps {
+interface CalendarCellProps {
   day: number;
   activities: CalendarViewResponse[];
   trainingEvent?: TrainingPlanEventResponse;
@@ -47,7 +47,7 @@ const getDayNumberStyles = (isToday: boolean, hasActivities: boolean, hasTarget:
   return 'text-slate-700';
 };
 
-export const DayCell = ({ day, activities, trainingEvent, isToday = false }: DayCellProps) => {
+export const CalendarCell = ({ day, activities, trainingEvent, isToday = false }: CalendarCellProps) => {
   const hasCompletedActivities = activities.length > 0;
   const isRestDay = trainingEvent?.exercise_type === 'Rest';
   const hasActiveTarget = trainingEvent && !isRestDay;
@@ -77,7 +77,7 @@ export const DayCell = ({ day, activities, trainingEvent, isToday = false }: Day
         {/* Logged/Completed Real Actions List */}
         <div className="space-y-1">
           {activities.map(act => (
-            <ActivityTile key={act.activity_id} act={act} />
+            <CalendarActivityTile key={act.activity_id} act={act} />
           ))}
         </div>
       </div>

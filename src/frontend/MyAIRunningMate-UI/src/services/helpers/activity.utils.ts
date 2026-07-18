@@ -2,29 +2,32 @@ import L from "leaflet";
 import { useEffect } from "react";
 import { useMap } from "react-leaflet/hooks";
 
-export const formatDuration = (
-  seconds: number
-): string => {
+export const formatDuration = (seconds: number): string => {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
 
-  const h =
-    Math.floor(seconds / 3600);
+  // Always pad seconds to ensure it looks like :05 or :07
+  const paddedS = s.toString().padStart(2, '0');
 
-  const m =
-    Math.floor((seconds % 3600) / 60);
+  if (h > 0) {
+    // If there are hours, minutes must also be padded (e.g., 1:05:07)
+    const paddedM = m.toString().padStart(2, '0');
+    return `${h}:${paddedM}:${paddedS}`;
+  }
 
-  const s =
-    Math.floor(seconds % 60);
-
-  return h > 0
-    ? `${h}h ${m}m ${s}s`
-    : `${m}m ${s}s`;
+  // If no hours, minutes don't need padding (e.g., 45:07 or 5:07)
+  return `${m}:${paddedS}`;
 };
 
 export const formatDistanceKm = (
   metres: number
 ): string => {
 
-  return `${(
+  if( metres < 1000)
+    return `${( metres).toFixed(0)} m`;
+
+  else return `${(
     metres / 1000
   ).toFixed(2)} km`;
 };

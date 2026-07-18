@@ -1,6 +1,6 @@
 import type { CalendarViewResponse } from "../../types/calendar/calendarViewResponse";
 import type { TrainingPlanEventResponse } from "../../types/nexus/trainingPlanEventResponse";
-import { DayCell } from "./Daycell";
+import { CalendarCell } from "./CalendarCell";
 
 interface CalendarGridProps {
   days: number[];
@@ -49,7 +49,7 @@ export function CalendarGrid({
           currentYear === today.getFullYear();
 
         return (
-          <DayCell
+          <CalendarCell
             key={day}
             day={day}
             activities={groupedActivities.get(day) || []}
