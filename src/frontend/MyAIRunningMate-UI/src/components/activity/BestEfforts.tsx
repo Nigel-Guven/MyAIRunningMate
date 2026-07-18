@@ -1,3 +1,4 @@
+import { Trophy } from "lucide-react";
 import type { BestEffortResponse } from "../../types/dashboard/bestEffortResponse";
 
 
@@ -37,7 +38,8 @@ export const BestEfforts = ({
             className="flex justify-between items-center"
           >
 
-            <span className="text-slate-400">
+            <span className="text-lg font-bold text-white">
+              <Trophy className="text-amber-400 inline mr-2" />
               {effort.distance_label}
             </span>
 

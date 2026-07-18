@@ -105,7 +105,7 @@ export const UserSpecificDetails: React.FC<UserSpecificDetailsProps> = ({
             <span className="text-lg font-bold text-white">
               <Wind className="h-4 w-4 text-amber-400 inline mr-2" />
               {userVolumetricOxygenMax}
-              </span>
+            </span>
           </div>
 
           <div className="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
