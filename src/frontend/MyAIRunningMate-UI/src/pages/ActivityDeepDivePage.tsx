@@ -143,21 +143,24 @@ export const ActivityDeepDivePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Components 4, 5 & 6: Metrics + Laps + Best Efforts */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+        {/* Dynamic grid setup: 4 columns if best_efforts exists, 3 columns if it doesn't */}
+        <div className={`grid grid-cols-1 ${data.best_efforts ? "lg:grid-cols-4" : "lg:grid-cols-3"} gap-4 items-start`}>
+          
+          {/* Takes 1 column */}
+          <div className="lg:col-span-1">
+            <ActivityMetrics metrics={data.activity_metrics} />
+          </div>
 
-          <ActivityMetrics 
-            metrics={data.activity_metrics}
-          />
+          {/* Takes 2 columns, giving it double the space of the others */}
+          <div className="lg:col-span-2">
+            <LapTable laps={data.laps} />
+          </div>
 
-          <LapTable 
-            laps={data.laps}
-          />
-
+          {/* Takes 1 column if it exists */}
           {data.best_efforts && (
-          <BestEfforts 
-            efforts={data.best_efforts}
-          />
+            <div className="lg:col-span-1">
+              <BestEfforts efforts={data.best_efforts} />
+            </div>
           )}
         </div>
         {/* Component 7: Time Series */}

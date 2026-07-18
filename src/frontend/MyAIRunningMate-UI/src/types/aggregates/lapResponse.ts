@@ -8,5 +8,5 @@ export interface LapResponse {
   max_heart_rate: number;
   average_cadence: number | null;
   primary_stroke: string | null;
-  average_swolf: number | null;
+  number_of_lengths: number | null;
 }
