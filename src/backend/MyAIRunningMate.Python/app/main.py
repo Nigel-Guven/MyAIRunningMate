@@ -2,8 +2,8 @@ import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 from app.api.routes import ingestion
-from app.api.routes import training_plan
 
 app = FastAPI(
     title="My AI Running Mate Python API",
@@ -26,4 +26,11 @@ app.add_middleware(
 )
 
 app.include_router(ingestion.router, prefix="/api")
-app.include_router(training_plan.router, prefix="/api")
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "main:app", 
+        host="127.0.0.1", 
+        port=8000, 
+        reload=True
+    )

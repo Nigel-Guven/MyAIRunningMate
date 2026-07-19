@@ -80,5 +80,5 @@ export const normalizeTrainingPlanEvent = (
 
 export const normalizeTrainingPlan = (plan: TrainingPlanViewResponse): TrainingPlanViewResponse => ({
   ...plan,
-  trainingPlanEvents: plan.trainingPlanEvents.map(normalizeTrainingPlanEvent),
+  events: plan.events.map(normalizeTrainingPlanEvent),
 });

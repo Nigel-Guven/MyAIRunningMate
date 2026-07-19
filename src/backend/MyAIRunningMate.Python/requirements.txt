@@ -3,6 +3,5 @@ uvicorn
 python-fitparse
 python-multipart
 pydantic
-google-genai
-google-generativeai
 python-dotenv
+mypy

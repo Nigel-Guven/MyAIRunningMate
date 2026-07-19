@@ -1,5 +1,5 @@
 from pathlib import Path
-from fitparse import FitFile
+from fitparse import FitFile # type: ignore[import-untyped]
 from app.domain.models.ingestion.session import Session
 from app.domain.models.ingestion.user_metrics import UserMetrics
 from app.domain.models.ingestion.ingestion_aggregate import IngestionAggregate
