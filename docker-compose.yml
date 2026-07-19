@@ -27,7 +27,6 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:7002
-      Strava__CallbackUrl: http://localhost:7002/api/strava/callback
       Frontend__DashboardUrl: http://localhost:5173/upload
       PythonApi__BaseUrl: http://python-api:8000/
       Cors__AllowedOrigins__0: http://localhost:5173
@@ -44,7 +43,6 @@ services:
       - "8000:8000"
     environment:
       CORS_ORIGINS: http://localhost:5173,http://localhost:7002,http://127.0.0.1:5173
-      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       OLLAMA_HOST: http://ollama:11434
     healthcheck:
       test:
