@@ -10,19 +10,19 @@ public class EventEntity : BaseModel
     public Guid EventId { get; set; }
 
     [Column("name")]
-    public string EventName { get; set; }
+    public string EventName { get; set; } = null!;
 
     [Column("event_date")]
     public DateTime EventDate { get; set; }
 
     [Column("location")]
-    public string EventLocation { get; set; }
+    public string EventLocation { get; set; } = null!;
     
     [Column("distance_metres")]
     public int DistanceMetres { get; set; }
 
     [Column("event_type")]
-    public string EventType { get; set; }
+    public string EventType { get; set; } = null!;
     
     [Column("event_url")]
     public string? EventUrl { get; set; }

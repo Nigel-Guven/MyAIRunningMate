@@ -13,7 +13,7 @@ public class ActivityEntity : BaseModel
     public Guid UserId { get; set; }
 
     [Column("garmin_activity_id")]
-    public string GarminActivityId { get; set; }
+    public string GarminActivityId { get; set; } = null!;
 
     [Column("start_time")]
     public DateTime StartTime { get; set; }
@@ -49,13 +49,13 @@ public class ActivityEntity : BaseModel
     public int RecoveryTime { get; init; }
     
     [Column("exercise_type")]
-    public string ExerciseType { get; init; }
+    public string ExerciseType { get; init; } = null!;
     
     [Column("exercise_subtype")]
-    public string ExerciseSubType { get; init; }
-    
+    public string ExerciseSubType { get; init; } = null!;
+     
     [Column("exercise_name")]
-    public string ExerciseName { get; init; }
+    public string ExerciseName { get; init; } = null!;
 
     [Column("user_volumetric_oxygen_max")] 
     public double UserVolumetricOxygenMax { get; init; }

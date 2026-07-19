@@ -16,13 +16,13 @@ public class BestEffortEntity : BaseModel
     public Guid UserId { get; set; }
     
     [Column("exercise_type")]
-    public string ExerciseType { get; set; }
+    public string ExerciseType { get; set; } = null!;
 
     [Column("distance_metres")]
     public int DistanceMetres { get; set; }
 
     [Column("distance_label")]
-    public string DistanceLabel { get; set; }
+    public string DistanceLabel { get; set; } = null!;
     
     [Column("time_seconds")]
     public double? TimeAchievement { get; set; }
