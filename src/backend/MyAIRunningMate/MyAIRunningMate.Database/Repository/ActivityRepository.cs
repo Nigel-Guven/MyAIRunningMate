@@ -37,7 +37,7 @@ public class ActivityRepository(Supabase.Client supabase) : BaseRepository<Activ
             .Where(x => x.UserId == userId)
             .Get();
 
-        return result.Models.Select(entity => entity.ToDomain());
+        return result.Models.Select(entity => entity.ToDomain()).OrderBy(x => x.StartTime);
     }
 
     public async Task<IEnumerable<Guid>> GetCurrentWeekActivityIds(Guid userId, DateTime firstDateOfWeek,  DateTime lastDateOfWeek)

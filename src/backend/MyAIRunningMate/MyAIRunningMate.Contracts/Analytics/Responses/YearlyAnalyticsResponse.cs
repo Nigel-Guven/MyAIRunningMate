@@ -1,6 +1,9 @@
 namespace MyAIRunningMate.Contracts.Analytics.Responses;
 
 public record YearlyAnalyticsResponse(
-    YearlyStatisticsResponse Summary,
-    IEnumerable<WeeklyInsightsResponse> WeeklyVolumes
+    IEnumerable<double> OxygenMaxTrends,
+    IEnumerable<double> LactateThresholdHeartRateTrends,
+    IEnumerable<double> LactateThresholdPowerTrends,
+    IEnumerable<double> LactateThresholdSpeedTrends,
+    IEnumerable<double> LactateThresholdPercentageRates
 );

@@ -39,8 +39,17 @@ public static class AnalyticsDtoExtensions
             YearlyRunningDistance: model.YearlyRunningDistance,
             YearlySwimmingDistance: model.YearlySwimmingDistance,
             YearlyActiveDays: model.YearlyActiveDays,
-            YearlyAverageTrainingEffect: model.YearlyAverageTrainingEffect,
-            YearlyTotalTrainingEffect: model.YearlyTotalTrainingEffect
+            YearlyTimeSpentActive: model.YearlyTimeSpentActive,
+            YearlyBodyBatteriesUsed: model.YearlyBodyBatteriesUsed
+        );
+    
+    public static YearlyAnalyticsResponse ToYearlyAnalyticsDto(this YearlyAnalytics model) =>
+        new(
+            OxygenMaxTrends: model.OxygenMaxTrends,
+            LactateThresholdHeartRateTrends: model.LactateThresholdHeartRateTrends,
+            LactateThresholdPowerTrends: model.LactateThresholdPowerTrends,
+            LactateThresholdSpeedTrends: model.LactateThresholdSpeedTrends,
+            LactateThresholdPercentageRates: model.LactateThresholdPercentageRates
         );
 
     public static UserMetricsResponse ToUserMetricsDto(this UserMetrics model) =>

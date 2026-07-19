@@ -18,11 +18,13 @@ public class AnalyticsController(IUserContext userContext, IInsightsService insi
         var userId = userContext.GetUserId();
         if (userId == Guid.Empty) return Unauthorized();
         
-        var (summary, weeklyVolumes) = await insightsService.GetAnalyticsStatistics(userId, year);
+        var queryDate = new DateTime(year, 1, 1);
+        
+        var (yearlyStats, yearlyAnalytics) = await insightsService.GetAnalyticsStatistics(userId, queryDate);
 
-        var dashboardDto = new YearlyAnalyticsResponse(
-            Summary: summary.ToYearlyStatisticsDto(),
-            WeeklyVolumes: weeklyVolumes.Select(v => v.ToWeeklyInsightsDto()).ToList()
+        var dashboardDto = new AnalyticsCombinedResponse(
+            YearlyStatistics: yearlyStats.ToYearlyStatisticsDto(),
+            YearlyAnalytics: yearlyAnalytics.ToYearlyAnalyticsDto()
         );
         
         return Ok(dashboardDto);

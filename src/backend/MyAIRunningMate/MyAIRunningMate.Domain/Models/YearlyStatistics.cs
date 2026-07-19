@@ -2,9 +2,9 @@ namespace MyAIRunningMate.Domain.Models;
 
 public class YearlyStatistics
 {
-        public int YearlyRunningDistance { get; set; }
-        public int YearlySwimmingDistance { get; set; }
+        public double YearlyRunningDistance { get; set; }
+        public double YearlySwimmingDistance { get; set; }
+        public double YearlyTimeSpentActive { get; set; }
         public int YearlyActiveDays { get; set; }
-        public double? YearlyAverageTrainingEffect { get; set; }
-        public double? YearlyTotalTrainingEffect { get; set; }
+        public double YearlyBodyBatteriesUsed { get; set; }
 }

@@ -8,7 +8,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import type { TimeSeriesRecordResponse } from "../../types/aggregates/timeSeriesRecordResponse";
-import { WeightTooltip } from "../weight/WeightTooltip";
 import { TimeSeriesRecordTooltip } from "./TimeSeriesRecordTooltip";
 
 interface TimeSeriesChartProps {

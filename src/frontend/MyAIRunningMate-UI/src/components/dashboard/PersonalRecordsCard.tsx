@@ -10,11 +10,9 @@ interface PersonalRecordsCardProps {
 }
 
 export const PersonalRecordsCard = ({ bestEfforts }: PersonalRecordsCardProps) => {
-  
-  // Helper to merge API data with the master list
   const getEffortsForCategory = (categories: string[], type: string) => {
     return categories.map((label) => {
-      const record = bestEfforts.find(e => e.distance_label === label && e.exercise_type === type);
+      const record = bestEfforts?.find(e => e.distance_label === label && e.exercise_type === type);
       return { label, time: record?.time_achievement || null };
     });
   };

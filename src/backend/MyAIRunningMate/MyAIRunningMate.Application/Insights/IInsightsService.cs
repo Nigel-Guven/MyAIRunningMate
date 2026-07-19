@@ -6,5 +6,5 @@ public interface IInsightsService
 {
     Task<WeeklyInsights> GetWeeklyInsights(Guid userId, int weekOffset);
     Task<UserMetrics> GetUserMetrics(Guid userId);
-    Task<(YearlyStatistics Summary, IEnumerable<WeeklyInsights> WeeklyVolumes)> GetAnalyticsStatistics(Guid userId, int year);
+    Task<(YearlyStatistics Summary, YearlyAnalytics yearlyAnalytics)> GetAnalyticsStatistics(Guid userId, DateTime year);
 }

@@ -11,9 +11,9 @@ public class InsightsService(
     {
         var weekDates = GetFirstAndLastDatesOfWeek(weekOffset); 
         
-        var activityIdsThisWeek = await activityRepository.GetCurrentWeekActivityIds(userId, weekDates.Item1, weekDates.Item2);
+        var activityIdsThisWeek = (await activityRepository.GetCurrentWeekActivityIds(userId, weekDates.Item1, weekDates.Item2)).ToList();
 
-        if (!activityIdsThisWeek.Any())
+        if (activityIdsThisWeek.Count == 0)
         {
             return GetEmptyWeeklyInsights();
         }
@@ -35,7 +35,6 @@ public class InsightsService(
         var insightsActivities = await Task.WhenAll(fetchTasks);
         
         var validInsights = insightsActivities
-            .Where(ia => true)
             .ToList();
 
         return validInsights.Count == 0 
@@ -74,7 +73,66 @@ public class InsightsService(
         };
     }
 
-    public Task<(YearlyStatistics Summary, IEnumerable<WeeklyInsights> WeeklyVolumes)> GetAnalyticsStatistics(Guid userId, int year) => throw new NotImplementedException();
+    public async Task<(YearlyStatistics Summary, YearlyAnalytics yearlyAnalytics)> GetAnalyticsStatistics(
+        Guid userId, DateTime year)
+    {
+        var activities = (await activityRepository.GetAllActivitiesByYear(year, userId)).ToList();
+
+        double totalRunningDistance = 0;
+        double totalSwimmingDistance = 0;
+        double totalTimeSpentActive = 0;
+        double bodyBatteriesUsed = 0;
+        
+        var activeDays = new HashSet<DateTime>();
+        
+        var oxygenMaxTrends = new List<double>();
+        var lactateThresholdHeartRates = new List<double>();
+        var lactateThresholdPowerTrends = new List<double>();
+        var lactateThresholdSpeedTrends = new List<double>();
+        var lactateThresholdPercentageRates = new List<double>();
+        
+        foreach (var activity in activities)
+        {
+            totalTimeSpentActive += activity.MovingTime;
+            bodyBatteriesUsed += Math.Max(0, activity.BeginningBodyBattery - activity.EndingBodyBattery);
+            activeDays.Add(activity.StartTime.Date);
+
+            if (string.Equals(activity.ExerciseType, "running", StringComparison.OrdinalIgnoreCase))
+                totalRunningDistance += activity.DistanceMetres;
+
+            if (string.Equals(activity.ExerciseType, "swimming", StringComparison.OrdinalIgnoreCase))
+                totalSwimmingDistance += activity.DistanceMetres;
+
+            oxygenMaxTrends.Add(activity.UserVolumetricOxygenMax);
+            lactateThresholdHeartRates.Add(activity.UserLactateThresholdHeartRate);
+            lactateThresholdPowerTrends.Add(activity.UserLactateThresholdPower);
+            lactateThresholdSpeedTrends.Add(activity.UserLactateThresholdSpeed);
+            lactateThresholdPercentageRates.Add(
+                Math.Round(
+                    ((double) activity.UserLactateThresholdHeartRate / activity.UserMaxHeartRate), 2)
+                );
+        }
+
+        var yearlyAnalytics = new YearlyStatistics()
+        {
+            YearlyRunningDistance = totalRunningDistance,
+            YearlySwimmingDistance = Math.Round(totalSwimmingDistance, 2),
+            YearlyActiveDays = activeDays.Count,
+            YearlyBodyBatteriesUsed = bodyBatteriesUsed,
+            YearlyTimeSpentActive = Math.Round(totalTimeSpentActive, 2),
+        };
+
+        var yearlyStatistics = new YearlyAnalytics()
+        {
+            OxygenMaxTrends = oxygenMaxTrends,
+            LactateThresholdHeartRateTrends = lactateThresholdHeartRates,
+            LactateThresholdPercentageRates = lactateThresholdPercentageRates,
+            LactateThresholdPowerTrends = lactateThresholdPowerTrends,
+            LactateThresholdSpeedTrends = lactateThresholdSpeedTrends
+        };
+
+        return (yearlyAnalytics, yearlyStatistics);
+    }
 
     private static WeeklyInsights CalculateWeeklyMetrics(List<InsightsActivity> activities)
     {
@@ -167,7 +225,7 @@ public class InsightsService(
             .ToList();
         
         var economyScore =
-            valid.Any()
+            valid.Count != 0
                 ? valid.Average(r =>
                 {
                     var step = NormalizeRunningStatistics(r.ActivityMetrics.StepLength ?? 0, 0.8, 1.5);
